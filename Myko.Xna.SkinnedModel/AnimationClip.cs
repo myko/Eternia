@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Content;
 #endregion
 
-namespace SkinnedModel
+namespace Myko.Xna.SkinnedModel
 {
     /// <summary>
     /// An animation clip is the runtime equivalent of the

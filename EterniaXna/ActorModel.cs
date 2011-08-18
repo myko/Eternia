@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using EterniaGame;
 using Microsoft.Xna.Framework.Graphics;
-using SkinnedModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Myko.Xna.SkinnedModel;
 
 namespace EterniaXna
 {

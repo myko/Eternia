@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 #endregion
 
-namespace SkinnedModel
+namespace Myko.Xna.SkinnedModel
 {
     /// <summary>
     /// The animation player is in charge of decoding bone position

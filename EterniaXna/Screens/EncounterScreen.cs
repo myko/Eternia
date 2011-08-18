@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Myko.Xna.Ui;
-using SkinnedModel;
+using Myko.Xna.SkinnedModel;
 
 namespace EterniaXna.Screens
 {
