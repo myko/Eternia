@@ -1,0 +1,226 @@
+<?xml version="1.0"?>
+<XnaContent>
+  <Asset Type="EterniaGame.Actor">
+    <Id>heman</Id>
+    <Name>He-Man</Name>
+    
+    <Abilities>
+
+      <Item>
+        <Name>Shield Block</Name>
+        <Description>Reduces damage taken by 20% for 10 seconds.</Description>
+        <TextureName>Ability_defend</TextureName>
+        <Cooldown>
+          <Duration>30</Duration>
+        </Cooldown>
+        <TargettingType>Self</TargettingType>
+        <CanMiss>false</CanMiss>
+        <CanBeDodged>false</CanBeDodged>
+        <CanCrit>false</CanCrit>
+        <AurasApplied>
+          <Item>
+            <Name>Shield Block</Name>
+            <Duration>10</Duration>
+            <Statistics>
+              <DamageTaken>0.8</DamageTaken>
+            </Statistics>
+          </Item>
+        </AurasApplied>
+      </Item>
+
+      <Item>
+        <Name>Heroic Strike</Name>
+        <Description>A powerful melee attack. Causes a high amount of threat.</Description>
+        <TextureName>Ability_meleedamage</TextureName>
+        <Damage>
+          <Value>5</Value>
+          <AttackPowerScale>0.8</AttackPowerScale>
+        </Damage>
+        <Cooldown>
+          <Duration>2</Duration>
+        </Cooldown>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>1</Maximum>
+        </Range>
+        <ThreatModifier>2.5</ThreatModifier>
+      </Item>
+
+      <Item>
+        <Name>Thunderclap</Name>
+        <Description>He-Man stomps the ground and damages all nearby targets. Causes a high amount of threat.</Description>
+        <TextureName>Ability_thunderclap</TextureName>
+        <Damage>
+          <Value>10</Value>
+          <AttackPowerScale>1.3</AttackPowerScale>
+        </Damage>
+        <Cooldown>
+          <Duration>6</Duration>
+        </Cooldown>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>2</Maximum>
+        </Range>
+        <DamageType>PointBlankArea</DamageType>
+        <ThreatModifier>2.5</ThreatModifier>
+      </Item>
+      
+      <Item>
+        <Name>Power Punch</Name>
+        <Description>A powerful melee attack.</Description>
+        <TextureName>Ability_Warrior_SecondWind</TextureName>
+        <Damage>
+          <Value>15</Value>
+          <AttackPowerScale>2.5</AttackPowerScale>
+        </Damage>
+        <Cooldown>
+          <Duration>3</Duration>
+        </Cooldown>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>1</Maximum>
+        </Range>
+        <ThreatModifier>0.5</ThreatModifier>
+      </Item>
+      
+      <Item>
+        <Name>Uppercut</Name>
+        <Description>A powerful melee attack.</Description>
+        <TextureName>Ability_Warrior_bloodfrenzy</TextureName>
+        <Damage>
+          <Value>25</Value>
+          <AttackPowerScale>3.5</AttackPowerScale>
+        </Damage>
+        <Cooldown>
+          <Duration>5</Duration>
+        </Cooldown>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>1</Maximum>
+        </Range>
+      </Item>
+
+      <Item>
+        <Name>Whirlwind</Name>
+        <Description>Hits all nearby enemy targets.</Description>
+        <TextureName>Ability_whirlwind</TextureName>
+        <Damage>
+          <Value>20</Value>
+          <AttackPowerScale>1.8</AttackPowerScale>
+        </Damage>
+        <Cooldown>
+          <Duration>9</Duration>
+        </Cooldown>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>1.5</Maximum>
+        </Range>
+        <DamageType>PointBlankArea</DamageType>
+        <ThreatModifier>0.5</ThreatModifier>
+      </Item>
+      
+    </Abilities>
+    
+    <Equipment>
+      <!--
+        Total stats from equipment: 375 health, 1500 armor, 38 attack power, 38 hit rating, 38 dodge rating
+      -->
+      
+      <Item>
+        <Name>Barbaric Loincloth</Name>
+        <Level>5</Level>
+        <Rarity>Uncommon</Rarity>
+        <Quality>Crude</Quality>
+        <Slot>Legs</Slot>
+        <ArmorClass>Plate</ArmorClass>
+        <Statistics>
+          <Health>80</Health>
+          <AttackPower>0</AttackPower>
+          <ArmorRating>300</ArmorRating>
+          <DodgeRating>14</DodgeRating>
+          <HitRating>0</HitRating>
+        </Statistics>
+      </Item>
+      
+      <Item>
+        <Name>Barbaric Boots</Name>
+        <Level>5</Level>
+        <Rarity>Uncommon</Rarity>
+        <Quality>Crude</Quality>
+        <Slot>Boots</Slot>
+        <ArmorClass>Plate</ArmorClass>
+        <Statistics>
+          <Health>55</Health>
+          <AttackPower>0</AttackPower>
+          <ArmorRating>200</ArmorRating>
+          <DodgeRating>24</DodgeRating>
+          <HitRating>0</HitRating>
+        </Statistics>
+      </Item>
+      
+      <Item>
+        <Name>Barbaric Harness</Name>
+        <Level>5</Level>
+        <Rarity>Uncommon</Rarity>
+        <Quality>Crude</Quality>
+        <Slot>Chest</Slot>
+        <ArmorClass>Plate</ArmorClass>
+        <Statistics>
+          <Health>110</Health>
+          <AttackPower>14</AttackPower>
+          <ArmorRating>400</ArmorRating>
+          <DodgeRating>0</DodgeRating>
+          <HitRating>24</HitRating>
+        </Statistics>
+      </Item>
+      
+      <Item>
+        <Name>Battle Shield</Name>
+        <Level>5</Level>
+        <Rarity>Uncommon</Rarity>
+        <Quality>Crude</Quality>
+        <Slot>Offhand</Slot>
+        <ArmorClass>Plate</ArmorClass>
+        <Statistics>
+          <Health>110</Health>
+          <AttackPower>0</AttackPower>
+          <ArmorRating>500</ArmorRating>
+          <DodgeRating>0</DodgeRating>
+          <HitRating>14</HitRating>
+        </Statistics>
+      </Item>
+      
+      <Item>
+        <Name>Battle Axe</Name>
+        <Level>5</Level>
+        <Rarity>Uncommon</Rarity>
+        <Quality>Crude</Quality>
+        <Slot>Weapon</Slot>
+        <ArmorClass>Plate</ArmorClass>
+        <Statistics>
+          <Health>20</Health>
+          <AttackPower>24</AttackPower>
+          <ArmorRating>100</ArmorRating>
+          <DodgeRating>0</DodgeRating>
+          <HitRating>0</HitRating>
+        </Statistics>
+      </Item>
+      
+    </Equipment>
+    
+    <Faction>Friend</Faction>
+    <Diameter>1</Diameter>
+    <PlayerControlled>true</PlayerControlled>
+    <TextureName>heman</TextureName>
+    <ThreatModifier>2</ThreatModifier>
+    <Swing>
+      <Duration>1.6</Duration>
+    </Swing>
+    
+    <BaseStatistics>
+      <Health>125</Health>
+      <Mana>0</Mana>
+      <MissRating>100</MissRating>
+    </BaseStatistics>
+  </Asset>
+</XnaContent>

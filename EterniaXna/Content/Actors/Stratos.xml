@@ -1,0 +1,227 @@
+<?xml version="1.0"?>
+<XnaContent>
+  <Asset Type="EterniaGame.Actor">
+    <Id>stratos</Id>
+    <Name>Stratos</Name>
+    <Abilities>
+
+      <Item>
+        <Name>Wing Shield</Name>
+        <Description>Reduces damage taken by 30% for 5 seconds.</Description>
+        <TextureName>Ability_warrior_shieldwall</TextureName>
+        <Cooldown>
+          <Duration>24</Duration>
+        </Cooldown>
+        <TargettingType>Self</TargettingType>
+        <CanMiss>false</CanMiss>
+        <CanBeDodged>false</CanBeDodged>
+        <CanCrit>false</CanCrit>
+        <AurasApplied>
+          <Item>
+            <Name>Wing Shield</Name>
+            <Duration>5</Duration>
+            <Statistics>
+              <DamageTaken>0.7</DamageTaken>
+            </Statistics>
+          </Item>
+        </AurasApplied>
+      </Item>
+
+      <Item>
+        <Name>Dive Strike</Name>
+        <Description>A powerful ranged attack. Causes a high amount of threat.</Description>
+        <TextureName>Ability_hunter_silenthunter</TextureName>
+        <Damage>
+          <Value>15</Value>
+          <AttackPowerScale>1.6</AttackPowerScale>
+        </Damage>
+        <CastTime>2</CastTime>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>20</Maximum>
+        </Range>
+        <ThreatModifier>2</ThreatModifier>
+      </Item>
+
+      <Item>
+        <Name>Wing Sweep</Name>
+        <Description>Stratos sweeps at his target, damaging all nearby enemies. Causes a high amount of threat.</Description>
+        <TextureName>Ability_druid_livingspirit</TextureName>
+        <Damage>
+          <Value>20</Value>
+          <AttackPowerScale>1.9</AttackPowerScale>
+        </Damage>
+        <Cooldown>
+          <Duration>5</Duration>
+        </Cooldown>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>20</Maximum>
+        </Range>
+        <DamageType>Cleave</DamageType>
+        <ThreatModifier>2</ThreatModifier>
+      </Item>
+
+      <Item>
+        <Name>Rocket</Name>
+        <Description>A powerful ranged attack.</Description>
+        <TextureName>INV_Ammo_Bullet_01</TextureName>
+        <Damage>
+          <Value>30</Value>
+          <AttackPowerScale>2.8</AttackPowerScale>
+        </Damage>
+        <CastTime>2.5</CastTime>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>20</Maximum>
+        </Range>
+        <ThreatModifier>0.5</ThreatModifier>
+        <SpawnsProjectile>
+          <ModelName>rocket1</ModelName>
+          <TextureName>rocket1_diffuse</TextureName>
+        </SpawnsProjectile>
+      </Item>
+
+      <Item>
+        <Name>Furious Dive</Name>
+        <Description>A powerful ranged attack.</Description>
+        <TextureName>Ability_hunter_pet_owl</TextureName>
+        <Damage>
+          <Value>35</Value>
+          <AttackPowerScale>3.5</AttackPowerScale>
+        </Damage>
+        <Cooldown>
+          <Duration>5</Duration>
+        </Cooldown>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>20</Maximum>
+        </Range>
+      </Item>
+
+      <Item>
+        <Name>Rocket Barrage</Name>
+        <Description>Stratos blasts his target with rockets, damaging all nearby enemies.</Description>
+        <TextureName>Inv_ammo_bullet_05</TextureName>
+        <Damage>
+          <Value>30</Value>
+          <AttackPowerScale>1.8</AttackPowerScale>
+        </Damage>
+        <Cooldown>
+          <Duration>9</Duration>
+        </Cooldown>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>20</Maximum>
+        </Range>
+        <DamageType>Cleave</DamageType>
+        <ThreatModifier>0.5</ThreatModifier>
+        <SpawnsProjectile>
+          <ModelName>rocket1</ModelName>
+          <TextureName>bluerocket_diffuse</TextureName>
+        </SpawnsProjectile>
+      </Item>
+      
+    </Abilities>
+
+    <Equipment>
+      <!--
+        Total stats from equipment: 125 health, 500 armor, 38 attack power, 38 hit rating, 38 crit rating
+      -->
+
+      <Item>
+        <Name>Avion Leggings</Name>
+        <Level>5</Level>
+        <Rarity>Uncommon</Rarity>
+        <Quality>Crude</Quality>
+        <Slot>Legs</Slot>
+        <ArmorClass>Leather</ArmorClass>
+        <Statistics>
+          <Health>30</Health>
+          <AttackPower>0</AttackPower>
+          <ArmorRating>140</ArmorRating>
+          <HitRating>0</HitRating>
+          <CritRating>24</CritRating>
+        </Statistics>
+      </Item>
+
+      <Item>
+        <Name>Avion Treads</Name>
+        <Level>5</Level>
+        <Rarity>Uncommon</Rarity>
+        <Quality>Crude</Quality>
+        <Slot>Boots</Slot>
+        <ArmorClass>Leather</ArmorClass>
+        <Statistics>
+          <Health>20</Health>
+          <AttackPower>0</AttackPower>
+          <ArmorRating>100</ArmorRating>
+          <HitRating>14</HitRating>
+          <CritRating>0</CritRating>
+        </Statistics>
+      </Item>
+
+      <Item>
+        <Name>Avion Chestguard</Name>
+        <Level>5</Level>
+        <Rarity>Uncommon</Rarity>
+        <Quality>Crude</Quality>
+        <Slot>Chest</Slot>
+        <ArmorClass>Leather</ArmorClass>
+        <Statistics>
+          <Health>40</Health>
+          <AttackPower>14</AttackPower>
+          <ArmorRating>180</ArmorRating>
+          <HitRating>0</HitRating>
+          <CritRating>0</CritRating>
+        </Statistics>
+      </Item>
+
+      <Item>
+        <Name>Avion Dagger</Name>
+        <Level>5</Level>
+        <Rarity>Uncommon</Rarity>
+        <Quality>Crude</Quality>
+        <Slot>Offhand</Slot>
+        <ArmorClass>Leather</ArmorClass>
+        <Statistics>
+          <Health>15</Health>
+          <AttackPower>0</AttackPower>
+          <ArmorRating>15</ArmorRating>
+          <HitRating>24</HitRating>
+          <CritRating>0</CritRating>
+        </Statistics>
+      </Item>
+
+      <Item>
+        <Name>Avion Sword</Name>
+        <Level>5</Level>
+        <Rarity>Uncommon</Rarity>
+        <Quality>Crude</Quality>
+        <Slot>Weapon</Slot>
+        <ArmorClass>Leather</ArmorClass>
+        <Statistics>
+          <Health>20</Health>
+          <AttackPower>24</AttackPower>
+          <ArmorRating>25</ArmorRating>
+          <HitRating>0</HitRating>
+          <CritRating>14</CritRating>
+        </Statistics>
+      </Item>
+
+    </Equipment>
+    
+    <Faction>Friend</Faction>
+    <Diameter>1</Diameter>
+    <PlayerControlled>true</PlayerControlled>
+    <TextureName>stratos</TextureName>
+    <ThreatModifier>2</ThreatModifier>
+    <Swing>
+      <Duration>1.5</Duration>
+    </Swing>
+    <BaseStatistics>
+      <Health>125</Health>
+      <MissRating>100</MissRating>
+    </BaseStatistics>
+  </Asset>
+</XnaContent>

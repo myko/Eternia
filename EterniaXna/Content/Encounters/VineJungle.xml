@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="EterniaGame.EncounterDefinition">
+    <Name>Vine Jungle</Name>
+    <ItemLevel>10</ItemLevel>
+    <Actors>
+      
+      <Item>
+        <Id>beastman</Id>
+        <Name>Beastman</Name>
+        <Faction>Enemy</Faction>
+        <Diameter>2</Diameter>
+        <TextureName>beastman</TextureName>
+        <Swing>
+          <Duration>2</Duration>
+        </Swing>
+        <BaseStatistics>
+          <Health>6800</Health>
+          <Mana>0</Mana>
+          <AttackPower>125</AttackPower>
+          <ArmorRating>175</ArmorRating>
+          <MissRating>11</MissRating>
+          <DodgeRating>14</DodgeRating>
+          <HitRating>2000</HitRating>
+          <CritRating>8</CritRating>
+        </BaseStatistics>
+
+        <Abilities>
+          <Item>
+            <Name>Frenzy</Name>
+            <Description>Increase Attack Power by 50 for 10 seconds.</Description>
+            <TextureName>Ability_physical_taunt</TextureName>
+            <Cooldown>
+              <Duration>45</Duration>
+              <Current>45</Current>
+            </Cooldown>
+            <TargettingType>Self</TargettingType>
+            <CanMiss>false</CanMiss>
+            <CanBeDodged>false</CanBeDodged>
+            <CanCrit>false</CanCrit>
+            <AurasApplied>
+              <Item>
+                <Name>Frenzy</Name>
+                <Duration>10</Duration>
+                <Statistics>
+                  <AttackPower>50</AttackPower>
+                </Statistics>
+              </Item>
+            </AurasApplied>
+          </Item>
+
+          <Item>
+            <Name>Whip</Name>
+            <Description>Whips the target, causing damage and decreasing hit and crit ratings by 5.</Description>
+            <TextureName>INV_Misc_Crop_01</TextureName>
+            <Damage>
+              <Value>10</Value>
+              <AttackPowerScale>2</AttackPowerScale>
+            </Damage>
+            <Cooldown>
+              <Duration>10</Duration>
+            </Cooldown>
+            <Range>
+              <Minimum>0</Minimum>
+              <Maximum>2</Maximum>
+            </Range>
+            <AurasApplied>
+              <Item>
+                <Name>Whipped</Name>
+                <Duration>10</Duration>
+                <Statistics>
+                  <HitRating>-5</HitRating>
+                  <CritRating>-5</CritRating>
+                </Statistics>
+              </Item>
+            </AurasApplied>
+          </Item>
+        </Abilities>
+      </Item>
+
+      <Item>
+        <Id>shadowbeast</Id>
+        <Name>Shadow Beast</Name>
+        <Faction>Enemy</Faction>
+        <Diameter>1</Diameter>
+        <TextureName>shadowbeast</TextureName>
+        <Swing>
+          <Duration>1.5</Duration>
+        </Swing>
+        <BaseStatistics>
+          <Health>1000</Health>
+          <Mana>0</Mana>
+          <AttackPower>125</AttackPower>
+          <ArmorRating>175</ArmorRating>
+          <MissRating>9</MissRating>
+          <DodgeRating>11</DodgeRating>
+          <HitRating>1500</HitRating>
+          <CritRating>5</CritRating>
+        </BaseStatistics>
+        <Abilities>
+          <Item>
+            <Name>Rend</Name>
+            <Description>Rends the target, doing a small amount of damage over time.</Description>
+            <TextureName>Ability_ghoulfrenzy</TextureName>
+            <Cooldown>
+              <Duration>5</Duration>
+            </Cooldown>
+            <CanCrit>false</CanCrit>
+            <AurasApplied>
+              <Item>
+                <Name>Rend</Name>
+                <Duration>10</Duration>
+                <Damage>
+                  <Value>5</Value>
+                </Damage>
+                <Cooldown>
+                  <Duration>2</Duration>
+                </Cooldown>
+              </Item>
+            </AurasApplied>
+          </Item>
+        </Abilities>
+      </Item>
+      
+    </Actors>
+    
+    <Triggers>
+      <Item>
+        <Conditions />
+        <Actions>
+          <Item Type="EterniaGame.Triggers.Actions.SpawnActor">
+            <ActorId>beastman</ActorId>
+            <Position>8 0</Position>
+          </Item>
+        </Actions>
+      </Item>
+      <Item>
+        <Conditions>
+          <Item Type="EterniaGame.Triggers.Conditions.ActorHealth">
+            <ActorId>beastman</ActorId>
+            <Health>3400</Health>
+          </Item>
+        </Conditions>
+        <Actions>
+          <Item Type="EterniaGame.Triggers.Actions.SpawnActor">
+            <ActorId>shadowbeast</ActorId>
+            <Position>10 -2</Position>
+          </Item>
+          <Item Type="EterniaGame.Triggers.Actions.SpawnActor">
+            <ActorId>shadowbeast</ActorId>
+            <Position>10 2</Position>
+          </Item>
+        </Actions>
+      </Item>
+    </Triggers>
+  </Asset>
+</XnaContent>

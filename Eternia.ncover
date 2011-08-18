@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<NCover3ProjectSetting xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="307">
+  <CoverageDataURL>C:\Users\Christer\Documents\Visual Studio 2008\Projects\EterniaWpf\EterniaGame\bin\Debug\coverage.xml</CoverageDataURL>
+  <ShowExcludedNodes>false</ShowExcludedNodes>
+  <DefaultViewSetting SatisfactoryBranchThreshold="95" SatisfactoryCoverageThreshold="95" SatisfactoryCyclomaticComplexityThreshold="20" SatisfactoryFunctionThreshold="80" SatisfactoryUnvisitedSequencePoints="0" WidgetType="TreeView" FilterStyle="None" ReportStyle="SequencePointCoveragePercentage" SortStyle="Name">
+    <DelayFilters>false</DelayFilters>
+    <filters />
+  </DefaultViewSetting>
+  <NCoverRunSettings>
+    <AutoExclude>true</AutoExclude>
+    <CommandLineArgs>"C:\Users\Christer\Documents\Visual Studio 2008\Projects\EterniaWpf\EterniaTests\bin\Debug\EterniaTests.dll"</CommandLineArgs>
+    <CommandLineExe>C:\Program Files (x86)\NUnit 2.4.8\bin\nunit-console-x86.exe</CommandLineExe>
+    <CoverageType>Symbol Branch CyclomaticComplexity MethodVisits</CoverageType>
+    <CoverageXml>coverage.xml</CoverageXml>
+    <LogFile>coverage.log</LogFile>
+    <LoggingLevel>None</LoggingLevel>
+    <NCoverExe>C:\Program Files (x86)\NCover\ncover.console.exe</NCoverExe>
+    <ProfileIIS>false</ProfileIIS>
+    <ProfileWindowsApplication>true</ProfileWindowsApplication>
+    <ProfileWindowsService>false</ProfileWindowsService>
+    <ProjectName>Eternia</ProjectName>
+    <RegisterForUser>false</RegisterForUser>
+    <ServiceTimeout>0</ServiceTimeout>
+    <SymbolSearchPolicy>15</SymbolSearchPolicy>
+    <VersionNumber>314</VersionNumber>
+    <WaitForAppLoad>1</WaitForAppLoad>
+    <WorkingDirectory>C:\Users\Christer\Documents\Visual Studio 2008\Projects\EterniaWpf\EterniaGame\bin\Debug</WorkingDirectory>
+  </NCoverRunSettings>
+  <ProjectGuid>818c7154-add3-4172-99b1-4fbb6feaf714</ProjectGuid>
+  <ProjectName>Eternia</ProjectName>
+  <RebasedPaths />
+  <ReportPath />
+  <SyncPathWithWorkingDirectory>false</SyncPathWithWorkingDirectory>
+</NCover3ProjectSetting>

@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="EterniaGame.EncounterDefinition">
+    <Name>Snake Mountain</Name>
+    <ItemLevel>15</ItemLevel>
+    <Actors>
+      <Item>
+        <Id>skeletor</Id>
+        <Name>Skeletor</Name>
+        <Faction>Enemy</Faction>
+        <Diameter>1.5</Diameter>
+        <TextureName>skeletor</TextureName>
+        <Swing>
+          <Duration>1.4</Duration>
+        </Swing>
+        <BaseStatistics>
+          <Health>8400</Health>
+          <Mana>0</Mana>
+          <AttackPower>125</AttackPower>
+          <SpellPower>125</SpellPower>
+          <ArmorRating>175</ArmorRating>
+          <MissRating>11</MissRating>
+          <DodgeRating>14</DodgeRating>
+          <HitRating>2000</HitRating>
+          <CritRating>8</CritRating>
+        </BaseStatistics>
+        <Abilities>
+          <Item>
+            <Name>Shadowbolt</Name>
+            <Description>Hurls a bolt of shadow magic at the enemy.</Description>
+            <TextureName>Spell_Shadow_ShadowBolt</TextureName>
+            <Damage>
+              <Value>70</Value>
+              <SpellPowerScale>0.9</SpellPowerScale>
+            </Damage>
+            <CastTime>3</CastTime>
+            <Range>
+              <Minimum>0</Minimum>
+              <Maximum>10</Maximum>
+            </Range>
+            <TargettingType>Hostile</TargettingType>
+            <CanMiss>true</CanMiss>
+            <CanBeDodged>true</CanBeDodged>
+            <CanCrit>true</CanCrit>
+            <SpawnsProjectile>
+              <ModelName>projectile1</ModelName>
+              <TextureName>shadowbolt_diffuse</TextureName>
+            </SpawnsProjectile>
+            <AurasApplied>
+              <Item>
+                <Name>Shadow Drain</Name>
+                <Duration>3</Duration>
+                <Damage>
+                  <Value>16</Value>
+                  <SpellPowerScale>0.2</SpellPowerScale>
+                </Damage>
+                <Cooldown>
+                  <Duration>1.5</Duration>
+                </Cooldown>
+                <Statistics>
+                  <AttackPower>-8</AttackPower>
+                  <SpellPower>-8</SpellPower>
+                </Statistics>
+              </Item>
+            </AurasApplied>
+          </Item>
+        </Abilities>
+      </Item>
+      <Item>
+        <Id>beastman</Id>
+        <Name>Beastman</Name>
+        <Faction>Enemy</Faction>
+        <Diameter>2</Diameter>
+        <TextureName>beastman</TextureName>
+        <Swing>
+          <Duration>2</Duration>
+        </Swing>
+        <BaseStatistics>
+          <Health>5600</Health>
+          <Mana>0</Mana>
+          <AttackPower>125</AttackPower>
+          <ArmorRating>175</ArmorRating>
+          <MissRating>11</MissRating>
+          <DodgeRating>14</DodgeRating>
+          <HitRating>2000</HitRating>
+          <CritRating>8</CritRating>
+        </BaseStatistics>
+        <Abilities>
+          <Item>
+            <Name>Frenzy</Name>
+            <Description>Increase Attack Power by 50 for 10 seconds.</Description>
+            <TextureName>Ability_physical_taunt</TextureName>
+            <Cooldown>
+              <Duration>45</Duration>
+              <Current>45</Current>
+            </Cooldown>
+            <TargettingType>Self</TargettingType>
+            <CanMiss>false</CanMiss>
+            <CanBeDodged>false</CanBeDodged>
+            <CanCrit>false</CanCrit>
+            <AurasApplied>
+              <Item>
+                <Name>Frenzy</Name>
+                <Duration>10</Duration>
+                <Statistics>
+                  <AttackPower>50</AttackPower>
+                </Statistics>
+              </Item>
+            </AurasApplied>
+          </Item>
+          <Item>
+            <Name>Beast Cleave</Name>
+            <Description>A powerful attack hitting all nearby enemies in front of Beastman.</Description>
+            <TextureName>Ability_druid_maul</TextureName>
+            <Damage>
+              <Value>30</Value>
+              <AttackPowerScale>0.9</AttackPowerScale>
+            </Damage>
+            <ManaCost>0</ManaCost>
+            <Cooldown>
+              <Duration>5</Duration>
+            </Cooldown>
+            <CastTime>0</CastTime>
+            <Range>
+              <Minimum>0</Minimum>
+              <Maximum>2</Maximum>
+            </Range>
+            <DamageType>Cleave</DamageType>
+            <TargettingType>Hostile</TargettingType>
+            <CanMiss>true</CanMiss>
+            <CanBeDodged>true</CanBeDodged>
+            <CanCrit>true</CanCrit>
+          </Item>
+        </Abilities>
+      </Item>
+    </Actors>
+    <Triggers>
+      <Item>
+        <Conditions />
+        <Actions>
+          <Item Type="EterniaGame.Triggers.Actions.SpawnActor">
+            <ActorId>skeletor</ActorId>
+            <Position>10 -1</Position>
+          </Item>
+          <Item Type="EterniaGame.Triggers.Actions.SpawnActor">
+            <ActorId>beastman</ActorId>
+            <Position>8 2</Position>
+          </Item>
+        </Actions>
+      </Item>
+    </Triggers>
+  </Asset>
+</XnaContent>
