@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="EterniaGame.EncounterDefinition">
+    <Name>Benchmark</Name>
+    <HeroLimit>1</HeroLimit>
+    <ItemLevel>1</ItemLevel>
+    <Actors>
+      <Item>
+        <Id>t1dummy</Id>
+        <Name>Tier 1 Dummy</Name>
+        <Faction>Enemy</Faction>
+        <TextureName>zodac</TextureName>
+        <Swing>
+          <Duration>3.0</Duration>
+        </Swing>
+        <BaseStatistics>
+          <Health>500000</Health>
+          <Mana>0</Mana>
+          <AttackPower>0</AttackPower>
+          <SpellPower>0</SpellPower>
+          <ArmorRating>175</ArmorRating>
+          <MissRating>2</MissRating>
+          <DodgeRating>3</DodgeRating>
+          <HitRating>0</HitRating>
+          <CritRating>8</CritRating>
+          <PrecisionRating>0</PrecisionRating>
+        </BaseStatistics>
+      </Item>
+    </Actors>
+    <Triggers>
+      <Item>
+        <Conditions />
+        <Actions>
+          <Item Type="EterniaGame.Triggers.Actions.SpawnActor">
+            <ActorId>t1dummy</ActorId>
+            <Position>10 -1</Position>
+          </Item>
+          <Item Type="EterniaGame.Triggers.Actions.SpawnActor">
+            <ActorId>t1dummy</ActorId>
+            <Position>10 0</Position>
+          </Item>
+          <Item Type="EterniaGame.Triggers.Actions.SpawnActor">
+            <ActorId>t1dummy</ActorId>
+            <Position>10 1</Position>
+          </Item>
+        </Actions>
+      </Item>
+    </Triggers>
+  </Asset>
+</XnaContent>

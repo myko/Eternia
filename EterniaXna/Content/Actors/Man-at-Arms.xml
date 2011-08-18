@@ -1,0 +1,251 @@
+<?xml version="1.0"?>
+<XnaContent>
+  <Asset Type="EterniaGame.Actor">
+    <Id>manatarms</Id>
+    <Name>Man-at-Arms</Name>
+    <Abilities>
+      
+      <Item>
+        <Name>Medi-bot Injection</Name>
+        <Description>Administer an injection of Medi-bots, healing one friendly target.</Description>
+        <TextureName>Spell_Holy_FlashHeal</TextureName>
+        <Healing>
+          <Value>22</Value>
+          <SpellPowerScale>2.8</SpellPowerScale>
+        </Healing>
+        <ManaCost>8</ManaCost>
+        <CastTime>3</CastTime>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>20</Maximum>
+        </Range>
+        <TargettingType>Heal</TargettingType>
+        <CanMiss>false</CanMiss>
+        <CanBeDodged>false</CanBeDodged>
+        <CanCrit>true</CanCrit>
+      </Item>
+
+      <Item>
+        <Name>Resident Medi-bot</Name>
+        <Description>Inject a friendly target with a resident Medi-bot, healing them over time.</Description>
+        <TextureName>Ability_paladin_blessedmending</TextureName>
+        <ManaCost>4</ManaCost>
+        <Cooldown>
+          <Duration>10</Duration>
+        </Cooldown>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>20</Maximum>
+        </Range>
+        <TargettingType>Heal</TargettingType>
+        <CanMiss>false</CanMiss>
+        <CanBeDodged>false</CanBeDodged>
+        <CanCrit>true</CanCrit>
+        <AurasApplied>
+          <Item>
+            <Name>Resident Medi-bot</Name>
+            <Duration>10</Duration>
+            <Healing>
+              <Value>16</Value>
+              <SpellPowerScale>1.2</SpellPowerScale>
+            </Healing>
+            <Cooldown>
+              <Duration>2</Duration>
+            </Cooldown>
+          </Item>
+        </AurasApplied>
+      </Item>
+
+      <Item>
+        <Name>Reproductive Medi-bots</Name>
+        <Description>Inject a friendly target with reproductive Medi-bots which multiply and spread to nearby allies.</Description>
+        <TextureName>Ability_paladin_sacredcleansing</TextureName>
+        <Healing>
+          <Value>22</Value>
+          <SpellPowerScale>2.8</SpellPowerScale>
+        </Healing>
+        <ManaCost>24</ManaCost>
+        <Cooldown>
+          <Duration>8</Duration>
+        </Cooldown>
+        <CastTime>2</CastTime>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>20</Maximum>
+        </Range>
+        <DamageType>Cleave</DamageType>
+        <TargettingType>Heal</TargettingType>
+        <CanMiss>false</CanMiss>
+        <CanBeDodged>false</CanBeDodged>
+        <CanCrit>true</CanCrit>
+      </Item>
+
+      <Item>
+        <Name>Mace Bash</Name>
+        <Description>A strong melee attack.</Description>
+        <TextureName>Ability_warrior_decisivestrike</TextureName>
+        <Damage>
+          <Value>15</Value>
+          <AttackPowerScale>2.5</AttackPowerScale>
+          <SpellPowerScale>2.5</SpellPowerScale>
+        </Damage>
+        <Cooldown>
+          <Duration>3</Duration>
+        </Cooldown>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>1</Maximum>
+        </Range>
+      </Item>
+
+      <Item>
+        <Name>Wrist Shooters</Name>
+        <Description>Blast the target with a high energy laser.</Description>
+        <TextureName>Inv_ammo_bullet_06</TextureName>
+        <Damage>
+          <Value>25</Value>
+          <AttackPowerScale>3.5</AttackPowerScale>
+          <SpellPowerScale>3.5</SpellPowerScale>
+        </Damage>
+        <Cooldown>
+          <Duration>5</Duration>
+        </Cooldown>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>10</Maximum>
+        </Range>
+        <SpawnsProjectile>
+          <ModelName>rocket1</ModelName>
+          <TextureName>rocket1_diffuse</TextureName>
+        </SpawnsProjectile>
+      </Item>
+
+      <Item>
+        <Name>Rocket Barrage</Name>
+        <Description>Man-at-Arms blasts his target with rockets, damaging all nearby enemies.</Description>
+        <TextureName>Inv_ammo_bullet_05</TextureName>
+        <Damage>
+          <Value>20</Value>
+          <AttackPowerScale>1.8</AttackPowerScale>
+          <SpellPowerScale>1.8</SpellPowerScale>
+        </Damage>
+        <Cooldown>
+          <Duration>9</Duration>
+        </Cooldown>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>10</Maximum>
+        </Range>
+        <DamageType>Cleave</DamageType>
+        <SpawnsProjectile>
+          <ModelName>rocket1</ModelName>
+          <TextureName>bluerocket_diffuse</TextureName>
+        </SpawnsProjectile>
+      </Item>
+      
+    </Abilities>
+    
+    <Equipment>
+      <!--
+        Total stats from equipment: 125 health, 250 armor, 250 mana, 38 spell power, 38 crit rating
+      -->
+      
+      <Item>
+        <Name>Technician's Pants</Name>
+        <Level>5</Level>
+        <Rarity>Uncommon</Rarity>
+        <Quality>Crude</Quality>
+        <Slot>Legs</Slot>
+        <ArmorClass>Cloth</ArmorClass>
+        <Statistics>
+          <Health>30</Health>
+          <Mana>60</Mana>
+          <SpellPower>0</SpellPower>
+          <ArmorRating>70</ArmorRating>
+          <CritRating>24</CritRating>
+        </Statistics>
+      </Item>
+      
+      <Item>
+        <Name>Technician's Boots</Name>
+        <Level>5</Level>
+        <Rarity>Uncommon</Rarity>
+        <Quality>Crude</Quality>
+        <Slot>Boots</Slot>
+        <ArmorClass>Cloth</ArmorClass>
+        <Statistics>
+          <Health>20</Health>
+          <Mana>40</Mana>
+          <SpellPower>0</SpellPower>
+          <ArmorRating>50</ArmorRating>
+          <CritRating>0</CritRating>
+        </Statistics>
+      </Item>
+      
+      <Item>
+        <Name>Technician's Shirt</Name>
+        <Level>5</Level>
+        <Rarity>Uncommon</Rarity>
+        <Quality>Crude</Quality>
+        <Slot>Chest</Slot>
+        <ArmorClass>Cloth</ArmorClass>
+        <Statistics>
+          <Health>40</Health>
+          <Mana>70</Mana>
+          <SpellPower>14</SpellPower>
+          <ArmorRating>90</ArmorRating>
+          <CritRating>0</CritRating>
+        </Statistics>
+      </Item>
+      
+      <Item>
+        <Name>Medi-bot Instruction Manual</Name>
+        <Level>5</Level>
+        <Rarity>Uncommon</Rarity>
+        <Quality>Crude</Quality>
+        <Slot>Offhand</Slot>
+        <ArmorClass>Cloth</ArmorClass>
+        <Statistics>
+          <Health>15</Health>
+          <Mana>40</Mana>
+          <SpellPower>24</SpellPower>
+          <ArmorRating>0</ArmorRating>
+          <CritRating>0</CritRating>
+        </Statistics>
+      </Item>
+      
+      <Item>
+        <Name>Technician's Sceptre</Name>
+        <Level>5</Level>
+        <Rarity>Uncommon</Rarity>
+        <Quality>Crude</Quality>
+        <Slot>Weapon</Slot>
+        <ArmorClass>Cloth</ArmorClass>
+        <Statistics>
+          <Health>20</Health>
+          <Mana>40</Mana>
+          <SpellPower>0</SpellPower>
+          <ArmorRating>40</ArmorRating>
+          <CritRating>14</CritRating>
+        </Statistics>
+      </Item>
+      
+    </Equipment>
+    
+    <Faction>Friend</Faction>
+    <Diameter>1</Diameter>
+    <PlayerControlled>true</PlayerControlled>
+    <TextureName>manatarms</TextureName>
+    <ThreatModifier>1</ThreatModifier>
+    
+    <Swing>
+      <Duration>1.5</Duration>
+    </Swing>
+    
+    <BaseStatistics>
+      <Health>125</Health>
+      <Mana>0</Mana>
+      <MissRating>100</MissRating>
+    </BaseStatistics>
+  </Asset>
+</XnaContent>

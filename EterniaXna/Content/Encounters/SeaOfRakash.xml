@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="EterniaGame.EncounterDefinition">
+    <Name>Sea of Rakash</Name>
+    <HeroLimit>4</HeroLimit>
+    <ItemLevel>10</ItemLevel>
+    <Actors>
+      <Item>
+        <Id>merman</Id>
+        <Name>Mer-Man</Name>
+        <Faction>Enemy</Faction>
+        <Diameter>1</Diameter>
+        <TextureName>merman</TextureName>
+        <ThreatModifier>1</ThreatModifier>
+        <Swing>
+          <Duration>1.2</Duration>
+        </Swing>
+        <BaseStatistics>
+          <Health>5000</Health>
+          <Mana>0</Mana>
+          <AttackPower>120</AttackPower>
+          <SpellPower>60</SpellPower>
+          <ArmorRating>175</ArmorRating>
+          <MissRating>11</MissRating>
+          <DodgeRating>14</DodgeRating>
+          <HitRating>1800</HitRating>
+          <CritRating>7</CritRating>
+        </BaseStatistics>
+        <Abilities>
+          <Item>
+            <Name>Water Bolt</Name>
+            <Description>Hurls a watery bolt at the enemy.</Description>
+            <TextureName>Spell_nature_acid_01</TextureName>
+            <Damage>
+              <Value>80</Value>
+              <SpellPowerScale>1</SpellPowerScale>
+            </Damage>
+            <CastTime>2</CastTime>
+            <Range>
+              <Minimum>0</Minimum>
+              <Maximum>10</Maximum>
+            </Range>
+            <TargettingType>Hostile</TargettingType>
+            <CanMiss>true</CanMiss>
+            <CanBeDodged>true</CanBeDodged>
+            <CanCrit>true</CanCrit>
+            <SpawnsProjectile>
+              <ModelName>projectile1</ModelName>
+              <TextureName>waterbolt_diffuse</TextureName>
+            </SpawnsProjectile>
+          </Item>
+          <Item>
+            <Name>Scalding Splash</Name>
+            <Description>Soak all nearby targets with scalding hot water.</Description>
+            <TextureName>Spell_shaman_tidalwaves</TextureName>
+            <Damage>
+              <Value>50</Value>
+              <SpellPowerScale>1</SpellPowerScale>
+            </Damage>
+            <ManaCost>0</ManaCost>
+            <Cooldown>
+              <Duration>15</Duration>
+            </Cooldown>
+            <CastTime>1.5</CastTime>
+            <Range>
+              <Minimum>0</Minimum>
+              <Maximum>4</Maximum>
+            </Range>
+            <DamageType>PointBlankArea</DamageType>
+            <TargettingType>Hostile</TargettingType>
+            <CanMiss>true</CanMiss>
+            <CanBeDodged>false</CanBeDodged>
+            <CanCrit>true</CanCrit>
+          </Item>
+        </Abilities>
+      </Item>
+    </Actors>
+    <Triggers>
+      <Item>
+        <Conditions />
+        <Actions>
+          <Item Type="EterniaGame.Triggers.Actions.SpawnActor">
+            <ActorId>merman</ActorId>
+            <Position>10 0</Position>
+          </Item>
+        </Actions>
+      </Item>
+    </Triggers>
+  </Asset>
+</XnaContent>

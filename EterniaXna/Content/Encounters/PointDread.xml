@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="EterniaGame.EncounterDefinition">
+    <Name>Point Dread</Name>
+    <HeroLimit>2</HeroLimit>
+    <ItemLevel>10</ItemLevel>
+    <Actors>
+      <Item>
+        <Id>zodac</Id>
+        <Name>Zodac</Name>
+        <Faction>Enemy</Faction>
+        <TextureName>zodac</TextureName>
+        <Swing>
+          <Duration>1.8</Duration>
+        </Swing>
+        <BaseStatistics>
+          <Health>4500</Health>
+          <AttackPower>120</AttackPower>
+          <ArmorRating>135</ArmorRating>
+          <MissRating>7</MissRating>
+          <DodgeRating>9</DodgeRating>
+          <HitRating>1800</HitRating>
+          <CritRating>8</CritRating>
+        </BaseStatistics>
+      </Item>
+    </Actors>
+    <Triggers>
+      <Item>
+        <Conditions />
+        <Actions>
+          <Item Type="EterniaGame.Triggers.Actions.SpawnActor">
+            <ActorId>zodac</ActorId>
+            <Position>10 4</Position>
+          </Item>
+        </Actions>
+      </Item>
+    </Triggers>
+  </Asset>
+</XnaContent>
