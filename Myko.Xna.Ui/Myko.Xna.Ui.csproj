@@ -82,6 +82,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Binding.cs" />
     <Compile Include="Border.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="ContentControl.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="ControlContainer.cs" />
     <Compile Include="GameScreen.cs" />
     <Compile Include="Grid.cs" />
+    <Compile Include="Label.cs" />
     <Compile Include="ListBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenManager.cs" />

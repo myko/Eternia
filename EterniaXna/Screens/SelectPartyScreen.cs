@@ -34,30 +34,49 @@ namespace EterniaXna.Screens
             var grid = new Grid();
             grid.Width = Width;
             grid.Height = Height;
-            grid.Rows.Add(GridSize.Fill);
+            grid.Rows.Add(GridSize.Fill());
+            grid.Rows.Add(GridSize.Fixed(30));
+            grid.Rows.Add(GridSize.Fill(4));
+            grid.Rows.Add(GridSize.Fixed(40));
             grid.Rows.Add(GridSize.Fixed(80));
             grid.Rows.Add(GridSize.Fixed(80));
-            grid.Columns.Add(GridSize.Fill);
+            grid.Columns.Add(GridSize.Fill());
             grid.Columns.Add(GridSize.Fixed(120));
-            grid.Columns.Add(GridSize.Fill);
+            grid.Columns.Add(GridSize.Fill());
             Controls.Add(grid);
 
-            memberListBox = AddListBox<Actor>(grid.Cells[0,0], new Vector2(Width / 2 - 400, 200), 300, 200);
+            grid.Cells[1, 0].Add(new Label { Text = "Select Party Members" });
+            grid.Cells[1, 2].Add(new Label { Text = "Recruit Party Members" });
+
+            memberListBox = AddListBox<Actor>(grid.Cells[2,0], Vector2.Zero, 300, 250);
             memberListBox.EnableCheckBoxes = true;
             
-            recruitListBox = AddListBox<Actor>(grid.Cells[0,2], new Vector2(Width / 2 + 100, 200), 300, 200);
-            
-            var deleteButton = CreateButton("Delete", new Vector2(Width / 2 - 325, Height - 420));
+            recruitListBox = AddListBox<Actor>(grid.Cells[2,2], Vector2.Zero, 300, 250);
+
+            grid.Cells[3, 0].Add(new Label { Font = smallFont, Text = Bind(() => {
+                if (memberListBox.CheckedItems.Any())
+                {
+                    if (memberListBox.CheckedItems.SelectMany(x => x.Equipment).Any())
+                    {
+                        var averageItemLevel = Math.Round(memberListBox.CheckedItems.SelectMany(x => x.Equipment).Average(x => x.Level));
+                        return "Average item level: " + averageItemLevel.ToString();
+                    }
+                }
+                return "";
+            })
+            });
+
+            var deleteButton = CreateButton("Delete", Vector2.Zero);
             deleteButton.Click += deleteButton_Click;
-            grid.Cells[1,0].Add(deleteButton);
+            grid.Cells[4,0].Add(deleteButton);
 
-            var recruitButton = CreateButton("Recruit", new Vector2(Width / 2 + 175, Height - 420));
+            var recruitButton = CreateButton("Recruit", Vector2.Zero);
             recruitButton.Click += recruitButton_Click;
-            grid.Cells[1,2].Add(recruitButton);
+            grid.Cells[4,2].Add(recruitButton);
 
-            var startButton = CreateButton("Start", new Vector2(Width / 2 - 75, Height - 220));
+            var startButton = CreateButton("Start", Vector2.Zero);
             startButton.Click += okButton_Click;
-            grid.Cells[2,1].Add(startButton);
+            grid.Cells[5,1].Add(startButton);
 
             memberListBox.Items.AddRange(player.Heroes);
             GenerateRecruits();
@@ -110,23 +129,6 @@ namespace EterniaXna.Screens
 
         public override void Update(GameTime gameTime)
         {
-        }
-
-        public override void Draw(GameTime gameTime)
-        {
-            base.Draw(gameTime);
-
-            SpriteBatch.DrawString(Font, "Select Party Members", new Vector2(Width / 2 - 400, 100), Color.White, 0.1f);
-            SpriteBatch.DrawString(Font, "Recruit Party Members", new Vector2(Width / 2 + 200, 100), Color.White, 0.1f);
-
-            if (memberListBox.CheckedItems.Any())
-            {
-                if (memberListBox.CheckedItems.SelectMany(x => x.Equipment).Any())
-                {
-                    var averageItemLevel = Math.Round(memberListBox.CheckedItems.SelectMany(x => x.Equipment).Average(x => x.Level));
-                    SpriteBatch.DrawString(smallFont, "Average item level: " + averageItemLevel.ToString(), new Vector2(Width / 2 - 400, Height - 440), Color.White, 0.1f);
-                }
-            }
         }
 
         void okButton_Click(object sender, System.EventArgs e)
