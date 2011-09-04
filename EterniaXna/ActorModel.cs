@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using EterniaGame;
 using Microsoft.Xna.Framework.Graphics;
-using SkinnedModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Myko.Xna.SkinnedModel;
 
 namespace EterniaXna
 {
@@ -114,7 +114,7 @@ namespace EterniaXna
             if (offhand != null)
             {
                 var leftGripBone = Model.Bones.Single(x => x.Name == "Grip_L");
-                var offhandModel = contentManager.Load<Model>(@"Models\Objects\test");
+                var offhandModel = contentManager.Load<Model>(@"Models\Objects\shield1");
                 if (offhand.ArmorClass == ItemArmorClasses.Leather)
                     offhandModel = contentManager.Load<Model>(@"Models\Objects\dagger1");
 

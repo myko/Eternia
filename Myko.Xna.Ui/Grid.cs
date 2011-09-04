@@ -23,9 +23,14 @@ namespace Myko.Xna.Ui
             this.size = size;
         }
 
-        public static GridSize Fill
+        public static GridSize Fill()
         {
-            get { return new GridSize(GridSizeTypes.Fill, 0); }
+            return new GridSize(GridSizeTypes.Fill, 1);
+        }
+
+        public static GridSize Fill(float factor)
+        {
+            return new GridSize(GridSizeTypes.Fill, factor);
         }
 
         public static GridSize Fixed(float size)
@@ -118,26 +123,28 @@ namespace Myko.Xna.Ui
             var fixedHeight = Rows.Where(x => x.type == GridSizeTypes.Fixed).Sum(x => x.size);
             var fillHeight = Height - fixedHeight;
             if (Rows.Count(x => x.type == GridSizeTypes.Fill) > 0)
-                fillHeight /= Rows.Count(x => x.type == GridSizeTypes.Fill);
+                fillHeight /= Rows.Where(x => x.type == GridSizeTypes.Fill).Sum(x => x.size);
 
             var fixedWidth = Columns.Where(x => x.type == GridSizeTypes.Fixed).Sum(x => x.size);
             var fillWidth = Width - fixedWidth;
             if (Columns.Count(x => x.type == GridSizeTypes.Fill) > 0)
-                fillWidth /= Columns.Count(x => x.type == GridSizeTypes.Fill);
+                fillWidth /= Columns.Where(x => x.type == GridSizeTypes.Fill).Sum(x => x.size);
 
             float fy = position.Y;
             for (int row = 0; row < Rows.Count; row++)
             {
-                var rowHeight = Rows[row].type == GridSizeTypes.Fixed ? Rows[row].size : fillHeight;
+                var rowHeight = Rows[row].type == GridSizeTypes.Fixed ? Rows[row].size : fillHeight * Rows[row].size;
                 float fx = position.X;
 
                 for (int column = 0; column < Columns.Count; column++)
                 {
-                    var columnWidth = Columns[column].type == GridSizeTypes.Fixed ? Columns[column].size : fillWidth;
+                    var columnWidth = Columns[column].type == GridSizeTypes.Fixed ? Columns[column].size : fillWidth * Columns[column].size;
 
                     foreach (var control in Cells.Controls(row, column))
                     {
-                        var controlPosition = new Vector2(fx + columnWidth / 2 - control.Width / 2, fy + rowHeight / 2 - control.Height / 2);
+                        var controlPosition = new Vector2(
+                            (float)Math.Round(fx + columnWidth / 2f - control.Width / 2f), 
+                            (float)Math.Round(fy + rowHeight / 2f - control.Height / 2f));
                         action(control, controlPosition);
                     }
 

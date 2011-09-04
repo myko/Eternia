@@ -114,6 +114,11 @@ namespace Myko.Xna.Ui
             Background = Color.Black;
         }
 
+        public Binding<T> Bind<T>(Func<T> f)
+        {
+            return new Binding<T>(f);
+        }
+
         public virtual void HandleInput(Vector2 position, GameTime gameTime)
         {
             var bounds = new Rectangle((int)position.X, (int)position.Y, (int)Width, (int)Height);

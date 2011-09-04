@@ -144,13 +144,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\EterniaWpf\EterniaGame\EterniaGame.csproj">
+    <ProjectReference Include="..\EterniaGame\EterniaGame.csproj">
       <Project>{EF7E2BA2-96E3-46FE-8AF7-782D044E6F9C}</Project>
       <Name>EterniaGame</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SkinningSample\SkinnedModel\SkinnedModelWindows.csproj">
-      <Project>{0D41E29B-829F-4255-BCA5-64DC2677DA6D}</Project>
-      <Name>SkinnedModelWindows</Name>
+    <ProjectReference Include="..\Myko.Xna.SkinnedModel\Myko.Xna.SkinnedModel.csproj">
+      <Project>{86AE86D6-F898-47FD-A56E-272C63FD7B82}</Project>
+      <Name>Myko.Xna.SkinnedModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\Myko.Xna.Ui\Myko.Xna.Ui.csproj">
       <Project>{8B765BA8-7563-4E2B-B58D-DE0DA5338B92}</Project>

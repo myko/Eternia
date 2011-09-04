@@ -146,13 +146,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\EterniaWpf\EterniaGame\EterniaGame.csproj">
+    <ProjectReference Include="..\..\Eternia.Xna.Pipeline\Eternia.Xna.Pipeline.csproj">
+      <Project>{417E8014-2DA6-4FB1-A695-469A34A6DB3A}</Project>
+      <Name>Eternia.Xna.Pipeline</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\EterniaGame\EterniaGame.csproj">
       <Project>{EF7E2BA2-96E3-46FE-8AF7-782D044E6F9C}</Project>
       <Name>EterniaGame</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\SkinningSample\SkinnedModelPipeline\SkinnedModelPipeline.csproj">
-      <Project>{007DFB20-8DAF-4088-BB0A-C5EB0282E679}</Project>
-      <Name>SkinnedModelPipeline</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
