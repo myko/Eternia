@@ -1,11 +1,8 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
-using System.Xml.Serialization;
 using EterniaGame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Storage;
 using Myko.Xna.Ui;
 
 namespace EterniaXna.Screens
@@ -123,14 +120,6 @@ namespace EterniaXna.Screens
             }
         }
 
-        public override void HandleInput(GameTime gameTime)
-        {
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-        }
-
         void okButton_Click(object sender, System.EventArgs e)
         {
             var count = memberListBox.CheckedItems.Count();
@@ -141,7 +130,6 @@ namespace EterniaXna.Screens
                 var x = (float)Math.Cos(i * a) * 3f;
                 var y = (float)Math.Sin(i * a) * 3f;
 
-                // new Vector2(-10f, (memberListBox.CheckedItems.Count() / 2f * 5f - 2.5f) - i * 5f);
                 actor.Position = new Vector2(-10f, 0f) + new Vector2(x, y);
                 actor.Direction = Vector2.Normalize(new Vector2(1, -1));
                 actor.Destination = null;

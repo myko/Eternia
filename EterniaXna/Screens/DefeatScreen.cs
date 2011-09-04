@@ -20,17 +20,19 @@ namespace EterniaXna.Screens
         {
             base.LoadContent();
 
+            var grid = new Grid();
+            grid.Width = Width;
+            grid.Height = Height;
+            grid.Rows.Add(GridSize.Fill());
+            grid.Rows.Add(GridSize.Fill());
+            grid.Columns.Add(GridSize.Fill());
+
+            grid.Cells[0, 0].Add(new Label { Text = "You were defeated!" });
+
             var okButton = CreateButton("New Encounter", new Vector2(Width / 2 - 100, Height - 300));
             okButton.Width = 200;
             okButton.Click += okButton_Click;
-            Controls.Add(okButton);
-        }
-
-        public override void Draw(GameTime gameTime)
-        {
-            base.Draw(gameTime);
-
-            SpriteBatch.DrawString(Font, "You were defeated!", new Vector2(Width/2 - 100, 400), Color.White, 0.2f);
+            grid.Cells[1, 0].Add(okButton);
         }
 
         void okButton_Click(object sender, System.EventArgs e)

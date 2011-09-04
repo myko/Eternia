@@ -29,55 +29,65 @@ namespace EterniaXna.Screens
 
             smallFont = ContentManager.Load<SpriteFont>(@"Fonts\KootenaySmall");
 
-            equipmentListBox = AddListBox<Item>(Controls, new Vector2(Width / 2 - 350, 250), 300, 200);
+            var grid = new Grid();
+            grid.Width = Width;
+            grid.Height = Height;
+            grid.Rows.Add(GridSize.Fixed(80));
+            grid.Rows.Add(GridSize.Fill());
+            grid.Rows.Add(GridSize.Fixed(60));
+            grid.Rows.Add(GridSize.Fixed(60));
+            grid.Rows.Add(GridSize.Fixed(120));
+            grid.Columns.Add(GridSize.Fill());
+            grid.Columns.Add(GridSize.Fill());
+            grid.Columns.Add(GridSize.Fill());
+            Controls.Add(grid);
+
+            grid.Cells[0, 1].Add(new Label { Text = Bind(() => currentActor.Name) });
+            grid.Cells[1, 0].Add(new Label { Font = smallFont, Foreground = Color.LightGreen, Text = Bind(() => VictoryScreen.GetStatisticsString(currentActor.CurrentStatistics, false)) });
+
+            equipmentListBox = AddListBox<Item>(grid.Cells[1, 1], Vector2.Zero, 300, 250);
             equipmentListBox.ZIndex = 0.2f;
             equipmentListBox.Font = smallFont;
             UpdateEquipmentList();
 
-            inventoryListBox = AddListBox<Item>(Controls, new Vector2(Width / 2 + 50, 250), 300, 200);
+            inventoryListBox = AddListBox<Item>(grid.Cells[1, 2], Vector2.Zero, 300, 250);
             inventoryListBox.ZIndex = 0.2f;
             inventoryListBox.Font = smallFont;
             UpdateInventoryList();
-            Controls.Add(inventoryListBox);
 
-            var nextActorButton = CreateButton(">", new Vector2(100, 20));
+            var prevActorButton = CreateButton("<", Vector2.Zero);
+            prevActorButton.Click += prevActorButton_Click;
+            grid.Cells[0, 0].Add(prevActorButton);
+
+            var nextActorButton = CreateButton(">", Vector2.Zero);
             nextActorButton.Click += nextActorButton_Click;
-            Controls.Add(nextActorButton);
+            grid.Cells[0, 2].Add(nextActorButton);
 
-            var unequipButton = CreateButton("Unequip", new Vector2(Width / 2 - 275, 500));
+            var unequipButton = CreateButton("Unequip", Vector2.Zero);
             unequipButton.Click += unequipButton_Click;
-            Controls.Add(unequipButton);
+            grid.Cells[2, 1].Add(unequipButton);
 
-            var equipButton = CreateButton("Equip", new Vector2(Width / 2 + 125, 500));
+            var equipButton = CreateButton("Equip", Vector2.Zero);
             equipButton.Click += equipButton_Click;
-            Controls.Add(equipButton);
+            grid.Cells[2, 2].Add(equipButton);
 
-            var deleteButton = CreateButton("Delete", new Vector2(Width / 2 + 125, 550));
+            var deleteButton = CreateButton("Delete", Vector2.Zero);
             deleteButton.Click += deleteButton_Click;
-            Controls.Add(deleteButton);
+            grid.Cells[3, 2].Add(deleteButton);
 
-            var okButton = CreateButton("Close", new Vector2(Width / 2 - 75, Height - 200));
+            var okButton = CreateButton("Close", Vector2.Zero);
             okButton.Click += okButton_Click;
-            Controls.Add(okButton);
+            grid.Cells[4, 2].Add(okButton);
         }
 
-        public override void HandleInput(GameTime gameTime)
+        private void prevActorButton_Click(object sender, System.EventArgs e)
         {
-            base.HandleInput(gameTime);
-        }
+            var index = actors.IndexOf(currentActor);
+            index = (index - 1 + actors.Count) % actors.Count;
+            currentActor = actors[index];
 
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-        }
-
-        public override void Draw(GameTime gameTime)
-        {
-            base.Draw(gameTime);
-
-            SpriteBatch.DrawString(Font, currentActor.Name, new Vector2(100, 100), Color.White, 0.1f);
-
-            VictoryScreen.DrawStatistics(SpriteBatch, smallFont, currentActor.CurrentStatistics, 100, 250, false);
+            UpdateEquipmentList();
+            UpdateInventoryList();
         }
 
         private void nextActorButton_Click(object sender, System.EventArgs e)
