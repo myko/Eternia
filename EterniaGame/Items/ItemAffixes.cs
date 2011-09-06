@@ -27,6 +27,7 @@ namespace EterniaGame
         Serpent,
         Spider,
         Cat,
+        Rabbit,
 
         Vitalized,
         Unyielding,
@@ -56,7 +57,9 @@ namespace EterniaGame
         Physician,
         Guardian,
         Ravager,
-        Magi
+        Magi,
+
+        Lucky
     }
 
     public class ItemAffix
@@ -82,19 +85,19 @@ namespace EterniaGame
         public static readonly ItemAffixes[,][] Prefixes = new ItemAffixes[,][] {
         // UNCOMMON (1-way prefix)
         {   // CLOTH 
-            new ItemAffixes[] { ItemAffixes.Vigorous, ItemAffixes.Energized, ItemAffixes.Arcane, ItemAffixes.Vicious, ItemAffixes.Deadly, ItemAffixes.Precise }, 
+            new ItemAffixes[] { ItemAffixes.Vigorous, ItemAffixes.Energized, ItemAffixes.Arcane, ItemAffixes.Vicious, ItemAffixes.Deadly, ItemAffixes.Precise, ItemAffixes.Lucky }, 
             // LEATHER
-            new ItemAffixes[] { ItemAffixes.Vigorous, ItemAffixes.Jagged, ItemAffixes.Vicious, ItemAffixes.Deadly, ItemAffixes.Precise }, 
+            new ItemAffixes[] { ItemAffixes.Vigorous, ItemAffixes.Jagged, ItemAffixes.Vicious, ItemAffixes.Deadly, ItemAffixes.Precise, ItemAffixes.Lucky }, 
             // PLATE
-            new ItemAffixes[] { ItemAffixes.Vigorous, ItemAffixes.Sturdy, ItemAffixes.Vicious, ItemAffixes.Agile } 
+            new ItemAffixes[] { ItemAffixes.Vigorous, ItemAffixes.Sturdy, ItemAffixes.Vicious, ItemAffixes.Agile, ItemAffixes.Lucky } 
         },
         // RARE (1-way prefix + 1-way suffix)
         {   // CLOTH 
-            new ItemAffixes[] { ItemAffixes.Vigorous, ItemAffixes.Energized, ItemAffixes.Arcane, ItemAffixes.Vicious, ItemAffixes.Deadly, ItemAffixes.Precise }, 
+            new ItemAffixes[] { ItemAffixes.Vigorous, ItemAffixes.Energized, ItemAffixes.Arcane, ItemAffixes.Vicious, ItemAffixes.Deadly, ItemAffixes.Precise, ItemAffixes.Lucky }, 
             // LEATHER
-            new ItemAffixes[] { ItemAffixes.Vigorous, ItemAffixes.Jagged, ItemAffixes.Vicious, ItemAffixes.Deadly, ItemAffixes.Precise }, 
+            new ItemAffixes[] { ItemAffixes.Vigorous, ItemAffixes.Jagged, ItemAffixes.Vicious, ItemAffixes.Deadly, ItemAffixes.Precise, ItemAffixes.Lucky }, 
             // PLATE
-            new ItemAffixes[] { ItemAffixes.Vigorous, ItemAffixes.Sturdy, ItemAffixes.Vicious, ItemAffixes.Agile } 
+            new ItemAffixes[] { ItemAffixes.Vigorous, ItemAffixes.Sturdy, ItemAffixes.Vicious, ItemAffixes.Agile, ItemAffixes.Lucky } 
         },
         // HEROIC (2-way prefix + 1-way suffix)
         {   // CLOTH 
@@ -133,19 +136,19 @@ namespace EterniaGame
         },
         // RARE (1-way prefix + 1-way suffix)
         {   // CLOTH 
-            new ItemAffixes[] { ItemAffixes.Owl, ItemAffixes.Lizard, ItemAffixes.Hawk, ItemAffixes.Serpent, ItemAffixes.Spider }, 
+            new ItemAffixes[] { ItemAffixes.Owl, ItemAffixes.Lizard, ItemAffixes.Hawk, ItemAffixes.Serpent, ItemAffixes.Spider, ItemAffixes.Rabbit }, 
             // LEATHER
-            new ItemAffixes[] { ItemAffixes.Lion, ItemAffixes.Hawk, ItemAffixes.Serpent, ItemAffixes.Spider }, 
+            new ItemAffixes[] { ItemAffixes.Lion, ItemAffixes.Hawk, ItemAffixes.Serpent, ItemAffixes.Spider, ItemAffixes.Rabbit }, 
             // PLATE
-            new ItemAffixes[] { ItemAffixes.Bear, ItemAffixes.Lion, ItemAffixes.Hawk, ItemAffixes.Cat } 
+            new ItemAffixes[] { ItemAffixes.Bear, ItemAffixes.Lion, ItemAffixes.Hawk, ItemAffixes.Cat, ItemAffixes.Rabbit } 
         },
         // HEROIC (2-way prefix + 1-way suffix)
         {   // CLOTH 
-            new ItemAffixes[] { ItemAffixes.Owl, ItemAffixes.Lizard, ItemAffixes.Hawk, ItemAffixes.Serpent, ItemAffixes.Spider }, 
+            new ItemAffixes[] { ItemAffixes.Owl, ItemAffixes.Lizard, ItemAffixes.Hawk, ItemAffixes.Serpent, ItemAffixes.Spider, ItemAffixes.Rabbit }, 
             // LEATHER
-            new ItemAffixes[] { ItemAffixes.Lion, ItemAffixes.Hawk, ItemAffixes.Serpent, ItemAffixes.Spider }, 
+            new ItemAffixes[] { ItemAffixes.Lion, ItemAffixes.Hawk, ItemAffixes.Serpent, ItemAffixes.Spider, ItemAffixes.Rabbit }, 
             // PLATE
-            new ItemAffixes[] { ItemAffixes.Bear, ItemAffixes.Lion, ItemAffixes.Hawk, ItemAffixes.Cat } 
+            new ItemAffixes[] { ItemAffixes.Bear, ItemAffixes.Lion, ItemAffixes.Hawk, ItemAffixes.Cat, ItemAffixes.Rabbit } 
         },
         // EPIC (2-way prefix + 2-way suffix)
         {   // CLOTH 
@@ -175,6 +178,7 @@ namespace EterniaGame
         private static readonly Statistics Deadly = new Statistics() { CritRating = 1 };
         private static readonly Statistics Precise = new Statistics() { PrecisionRating = 1 };
         private static readonly Statistics Agile = new Statistics() { DodgeRating = 1 };
+        private static readonly Statistics Lucky = new Statistics() { ExtraRewards = 1 };
         
         // 1-way suffixes
         private static readonly Statistics Owl = new Statistics() { Mana = 1 };
@@ -185,6 +189,7 @@ namespace EterniaGame
         private static readonly Statistics Serpent = new Statistics() { CritRating = 1 };
         private static readonly Statistics Spider = new Statistics() { PrecisionRating = 1 };
         private static readonly Statistics Cat = new Statistics() { DodgeRating = 1 };
+        private static readonly Statistics Rabbit = new Statistics() { ExtraRewards = 1 };
 
         // 2-way prefixes
         private static readonly Statistics Vitalized = new Statistics() { Health = 1, Mana = 1 };
@@ -238,6 +243,7 @@ namespace EterniaGame
                     affixes.Add(ItemAffixes.Deadly, new ItemAffix("Deadly ", Deadly));
                     affixes.Add(ItemAffixes.Precise, new ItemAffix("Precise ", Precise));
                     affixes.Add(ItemAffixes.Agile, new ItemAffix("Agile ", Agile));
+                    affixes.Add(ItemAffixes.Lucky, new ItemAffix("Lucky ", Lucky));
 
                     affixes.Add(ItemAffixes.Owl, new ItemAffix(" of the Owl", Owl));
                     affixes.Add(ItemAffixes.Bear, new ItemAffix(" of the Bear", Bear));
@@ -247,6 +253,7 @@ namespace EterniaGame
                     affixes.Add(ItemAffixes.Serpent, new ItemAffix(" of the Serpent", Serpent));
                     affixes.Add(ItemAffixes.Spider, new ItemAffix(" of the Spider", Spider));
                     affixes.Add(ItemAffixes.Cat, new ItemAffix(" of the Cat", Cat));
+                    affixes.Add(ItemAffixes.Rabbit, new ItemAffix(" of the Rabbit", Rabbit));
 
                     affixes.Add(ItemAffixes.Vitalized, new ItemAffix("Vitalized ", Vitalized));
                     affixes.Add(ItemAffixes.Unyielding, new ItemAffix("Unyielding ", Unyielding));

@@ -43,5 +43,14 @@ namespace EterniaGame
 
             System.Diagnostics.Debug.Assert(this.All(t => this.Count(t2 => t2.Actor == t.Actor) == 1));
         }
+
+        public int ThreatOf(Actor actor)
+        {
+            var threat = base.Find(t => t.Actor == actor);
+            if (threat == null)
+                return 0;
+            else
+                return threat.Value;
+        }
     }
 }

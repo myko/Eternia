@@ -63,7 +63,7 @@ namespace EterniaXna.Screens
                 BorderSize = 16,
                 BorderColor = new Color(120, 160, 140),
                 BorderTexture = borderTexture,
-                Background = Color.DarkBlue,
+                Background = new Color(40, 40, 149),
                 BackgroundTexture = cloudsBackground
             };
 

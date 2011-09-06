@@ -59,6 +59,7 @@ namespace EterniaXna
             y = DrawStatistic("Crit rating", statistics.CritRating, x, y, hideZero);
             y = DrawStatistic("Precision rating", statistics.PrecisionRating, x, y, hideZero);
             y = DrawStatistic("Dodge rating", statistics.DodgeRating, x, y, hideZero);
+            y = DrawStatistic("Extra rewards", statistics.ExtraRewards, x, y, hideZero);
 
             return y;
         }
@@ -74,6 +75,7 @@ namespace EterniaXna
             y = DrawUpgradeStatistic("Crit rating", statistics.CritRating, x, y);
             y = DrawUpgradeStatistic("Precision rating", statistics.PrecisionRating, x, y);
             y = DrawUpgradeStatistic("Dodge rating", statistics.DodgeRating, x, y);
+            y = DrawUpgradeStatistic("Extra rewards", statistics.ExtraRewards, x, y);
 
             return y;
         }
@@ -104,7 +106,7 @@ namespace EterniaXna
             return y + Font.LineSpacing;
         }
 
-        private Color GetItemColor(ItemRarities rarity)
+        public static Color GetItemColor(ItemRarities rarity)
         {
             switch (rarity)
             {

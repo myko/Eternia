@@ -50,10 +50,10 @@ namespace EterniaXna.Screens
             rewardsListBox = AddListBox<Item>(grid.Cells[1, 0], Vector2.Zero, 450, 250);
             rewardsListBox.ZIndex = 0.2f;
             rewardsListBox.EnableCheckBoxes = true;
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 5 + battle.Actors.Sum(x => x.CurrentStatistics.ExtraRewards); i++)
             {
                 var item = generator.Generate(encounterDefinition.ItemLevel);
-                rewardsListBox.Items.Add(item, new ItemTooltip(item) { Font = smallFont });
+                rewardsListBox.Items.Add(item, new ItemTooltip(item) { Font = smallFont }, ItemTooltip.GetItemColor(item.Rarity));
             }
 
             var okButton = CreateButton("OK", Vector2.Zero);

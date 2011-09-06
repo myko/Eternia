@@ -79,7 +79,7 @@
           <Minimum>0</Minimum>
           <Maximum>1</Maximum>
         </Range>
-        <ThreatModifier>0.5</ThreatModifier>
+        <ThreatModifier>0.25</ThreatModifier>
       </Item>
 
       <Item>
@@ -97,7 +97,7 @@
           <Minimum>0</Minimum>
           <Maximum>1</Maximum>
         </Range>
-        <ThreatModifier>0.5</ThreatModifier>
+        <ThreatModifier>0.25</ThreatModifier>
       </Item>
 
       <Item>
@@ -116,7 +116,7 @@
           <Maximum>1.5</Maximum>
         </Range>
         <DamageType>PointBlankArea</DamageType>
-        <ThreatModifier>0.5</ThreatModifier>
+        <ThreatModifier>0.25</ThreatModifier>
       </Item>
       
     </Abilities>

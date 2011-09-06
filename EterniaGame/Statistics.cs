@@ -42,6 +42,10 @@ namespace EterniaGame
         [ContentSerializer(Optional = true)]
         public float HealingTaken { get; set; }
 
+        // Other
+        [ContentSerializer(Optional = true)]
+        public int ExtraRewards { get; set; }
+
         // Calculated
         public float ArmorReduction
         {
@@ -95,6 +99,8 @@ namespace EterniaGame
                 DamageTaken = s1.DamageTaken * s2.DamageTaken,
                 HealingDone = s1.HealingDone * s2.HealingDone,
                 HealingTaken = s1.HealingTaken * s2.HealingTaken,
+
+                ExtraRewards = s1.ExtraRewards + s2.ExtraRewards
             };
         }
 
@@ -119,6 +125,8 @@ namespace EterniaGame
                 DamageTaken = s1.DamageTaken - s2.DamageTaken,
                 HealingDone = s1.HealingDone - s2.HealingDone,
                 HealingTaken = s1.HealingTaken - s2.HealingTaken,
+
+                ExtraRewards = s1.ExtraRewards - s2.ExtraRewards
             };
         }
 
@@ -137,6 +145,13 @@ namespace EterniaGame
                 CritRating = (int)(s1.CritRating * f),
                 HitRating = (int)(s1.HitRating * f),
                 PrecisionRating = (int)(s1.PrecisionRating * f),
+
+                DamageDone = s1.DamageDone, 
+                DamageTaken = s1.DamageTaken, 
+                HealingDone = s1.HealingDone, 
+                HealingTaken = s1.HealingTaken,
+
+                ExtraRewards = s1.ExtraRewards
             };
         }
 

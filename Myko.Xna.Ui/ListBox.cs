@@ -13,14 +13,17 @@ namespace Myko.Xna.Ui
         public T Value { get; set; }
         public bool Checked { get; set; }
         public object Tooltip { get; set; }
+        public Binding<Color> Foreground { get; set; }
     }
 
     public class ListItemCollection<T> : IList<T> where T : class
     {
-        private List<ListItem<T>> items;
+        private readonly ListBox<T> listBox;
+        private readonly List<ListItem<T>> items;
 
-        public ListItemCollection(List<ListItem<T>> items)
+        public ListItemCollection(ListBox<T> listBox, List<ListItem<T>> items)
         {
+            this.listBox = listBox;
             this.items = items;
         }
 
@@ -28,13 +31,18 @@ namespace Myko.Xna.Ui
         {
             foreach (var item in range)
             {
-                items.Add(new ListItem<T>() { Value = item });
+                Add(item);
             }
         }
 
         public void Add(T item, object tooltip)
         {
-            items.Add(new ListItem<T>() { Value = item, Tooltip = tooltip });
+            Add(item, tooltip, new Binding<Color>(() => listBox.Foreground));
+        }
+
+        public void Add(T item, object tooltip, Binding<Color> foreground)
+        {
+            items.Add(new ListItem<T>() { Value = item, Tooltip = tooltip, Foreground = foreground });
         }
 
         #region IList<T> Members
@@ -72,7 +80,7 @@ namespace Myko.Xna.Ui
 
         public void Add(T item)
         {
-            items.Add(new ListItem<T>() { Value = item });
+            Add(item, null);
         }
 
         public void Clear()
@@ -126,16 +134,23 @@ namespace Myko.Xna.Ui
         #endregion
     }
 
+    public class ListBox<T, U>
+    {
+    }
+
     public class ListBox<T>: Control where T: class
     {
         private List<ListItem<T>> items;
         private ListItem<T> pressedItem;
         private ListItem<T> mouseOverItem;
 
-        public ListItemCollection<T> Items { get { return new ListItemCollection<T>(items); } }
+        public ListItemCollection<T> Items { get { return new ListItemCollection<T>(this, items); } }
         public IEnumerable<T> CheckedItems { get { return items.Where(li => li.Checked).Select(li => li.Value); } }
         public T SelectedItem { get; set; }
         public bool EnableCheckBoxes { get; set; }
+
+        private int scrollOffset;
+        private bool draggingScrollBar;
 
         public ListBox()
         {
@@ -150,38 +165,58 @@ namespace Myko.Xna.Ui
         {
             var mouseState = Mouse.GetState();
             mouseOverItem = null;
+            int visibleItems = Math.Min(items.Count, (int)Height / Font.LineSpacing);
 
-            if (mouseState.X > position.X && 
-                mouseState.X < position.X + Width && 
-                mouseState.Y > position.Y && 
-                mouseState.Y < position.Y + Font.LineSpacing * items.Count)
+            if (!draggingScrollBar)
             {
-                mouseOverItem = items[(int)((mouseState.Y - position.Y) / Font.LineSpacing)];
-            }
+                if (mouseState.X > position.X &&
+                    mouseState.X < position.X + Width - 10 &&
+                    mouseState.Y > position.Y &&
+                    mouseState.Y < position.Y + Font.LineSpacing * visibleItems)
+                {
+                    mouseOverItem = items[(int)((mouseState.Y - position.Y) / Font.LineSpacing) + scrollOffset];
+                }
 
-            if (mouseState.LeftButton == ButtonState.Pressed)
-            {
-                if (pressedItem == null)
-                    pressedItem = mouseOverItem;
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    if (pressedItem == null)
+                        pressedItem = mouseOverItem;
+
+                    if (mouseOverItem != null)
+                        SelectedItem = mouseOverItem.Value;
+                }
+
+                if (mouseState.LeftButton == ButtonState.Released)
+                {
+                    if (pressedItem != null && pressedItem == mouseOverItem)
+                    {
+                        mouseOverItem.Checked = !mouseOverItem.Checked;
+                    }
+
+                    pressedItem = null;
+                }
 
                 if (mouseOverItem != null)
-                    SelectedItem = mouseOverItem.Value;
+                    Tooltip = mouseOverItem.Tooltip;
+                else
+                    Tooltip = null;
+            }
+
+            if (mouseState.X > position.X + Width - 10 && mouseState.X < position.X + Width && mouseState.Y > position.Y && mouseState.Y < position.Y + Height)
+            {
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                    draggingScrollBar = true;
             }
 
             if (mouseState.LeftButton == ButtonState.Released)
+                draggingScrollBar = false;
+
+            if (draggingScrollBar)
             {
-                if (pressedItem != null && pressedItem == mouseOverItem)
-                {
-                    mouseOverItem.Checked = !mouseOverItem.Checked;
-                }
-
-                pressedItem = null;
+                var itemScrollBarHeight = Height / items.Count;
+                var pixelOffset = (mouseState.Y - position.Y - itemScrollBarHeight * visibleItems / 2) / Height;
+                scrollOffset = Math.Max(0, Math.Min((int)(pixelOffset * items.Count), items.Count - visibleItems));
             }
-
-            if (mouseOverItem != null)
-                Tooltip = mouseOverItem.Tooltip;
-            else
-                Tooltip = null;
 
             base.HandleInput(position, gameTime);
         }
@@ -191,6 +226,10 @@ namespace Myko.Xna.Ui
             if (items.Find(li => li.Value == SelectedItem) == null)
                 SelectedItem = null;
 
+            int visibleItems = Math.Min(items.Count, (int)Height / Font.LineSpacing);
+            if (scrollOffset + visibleItems > items.Count)
+                scrollOffset = items.Count - visibleItems;
+
             base.Update(gameTime);
         }
 
@@ -198,14 +237,16 @@ namespace Myko.Xna.Ui
         {
             DrawBackground(position);
 
-            for (int i = 0; i < items.Count; i++)
+            int visibleItems = (int)Height / Font.LineSpacing;
+
+            for (int i = scrollOffset; i < items.Count && i < scrollOffset + visibleItems; i++)
             {
                 var text = items[i].Value.ToString();
-                var itemPosition = new Vector2(position.X, position.Y + i * Font.LineSpacing);
+                var itemPosition = new Vector2(position.X, position.Y + (i - scrollOffset) * Font.LineSpacing);
 
-                var color = Foreground;
+                var color = items[i].Foreground;
                 if (items[i].Value == SelectedItem)
-                    color = Color.Red;
+                    color = Color.Yellow;
                 else if (items[i] == mouseOverItem)
                     color = Color.White;
 
@@ -220,6 +261,15 @@ namespace Myko.Xna.Ui
                 }
 
                 SpriteBatch.DrawString(Font, text, itemPosition, color, ZIndex + 0.01f);
+            }
+
+            if (visibleItems < items.Count)
+            {
+                var itemScrollBarHeight = Height / items.Count;
+                if (draggingScrollBar)
+                    SpriteBatch.Draw(BlankTexture, new Rectangle((int)(position.X + Width - 10), (int)(position.Y + scrollOffset * itemScrollBarHeight), 10, (int)(itemScrollBarHeight * visibleItems)), Color.White, ZIndex + 0.01f);
+                else
+                    SpriteBatch.Draw(BlankTexture, new Rectangle((int)(position.X + Width - 10), (int)(position.Y + scrollOffset * itemScrollBarHeight), 10, (int)(itemScrollBarHeight * visibleItems)), Color.Blue, ZIndex + 0.01f);
             }
 
             base.Draw(position, gameTime);

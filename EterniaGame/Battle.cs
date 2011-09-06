@@ -130,12 +130,9 @@ namespace EterniaGame
             // Drop dead actors from threat lists
             actor.ThreatList.RemoveAll(t => !t.Actor.IsAlive);
 
-            if (!actor.PlayerControlled && actor.IsAlive)
+            if (actor.IsAlive)
             {
-                actor.Targets.Clear();
-                var target = actor.SelectTarget(actor.ThreatList.Select(t => t.Actor), TargettingTypes.Hostile);
-                if (target != null)
-                    actor.Targets.Enqueue(target);
+                actor.SelectTarget(Actors.Where(x => x.IsAlive));
             }
 
             RunAbilities(deltaTime, turn, actor);
@@ -231,13 +228,10 @@ namespace EterniaGame
             }
             else if (actor.GlobalCooldown.IsReady)
             {
-                foreach (var ability in actor.Abilities.Where(x => x.Enabled && x.Cooldown.IsReady && x.ManaCost <= actor.CurrentMana).OrderByDescending(x => x.Cooldown.Duration))
+                var ability = actor.SelectAbility();
+                if (ability != null && UseAbility(turn, actor, ability))
                 {
-                    if (UseAbility(turn, actor, ability))
-                    {
-                        actor.GlobalCooldown.Incur();
-                        break;
-                    }
+                    actor.GlobalCooldown.Incur();
                 }
             }
         }
@@ -261,7 +255,7 @@ namespace EterniaGame
                     abilityTarget = actor;
 
                 if (!actor.PlayerControlled)
-                    abilityTarget = actor.SelectTarget(actor.ThreatList.Select(t => t.Actor), ability.TargettingType);
+                    abilityTarget = actor.GetAbilityTarget(ability.TargettingType);
 
                 if (abilityTarget != null && abilityTarget.IsAlive)
                 {
@@ -269,9 +263,6 @@ namespace EterniaGame
                         return false;
 
                     if (ability.TargettingType == TargettingTypes.Friendly && actor.Faction != abilityTarget.Faction)
-                        return false;
-
-                    if (ability.TargettingType == TargettingTypes.Heal && actor.Faction != abilityTarget.Faction)
                         return false;
 
                     if (abilityTarget.DistanceFrom(actor).In(ability.Range + actor.Radius + abilityTarget.Radius))
@@ -318,7 +309,7 @@ namespace EterniaGame
                 var primaryTarget = actor.Targets.FirstOrDefault();
 
                 if (!actor.PlayerControlled)
-                    primaryTarget = actor.SelectTarget(actor.ThreatList.Select(t => t.Actor), ability.TargettingType);
+                    primaryTarget = actor.GetAbilityTarget(ability.TargettingType);
 
                 if (primaryTarget != null && primaryTarget.IsAlive)
                 {
@@ -326,9 +317,6 @@ namespace EterniaGame
                         return false;
 
                     if (ability.TargettingType == TargettingTypes.Friendly && actor.Faction != primaryTarget.Faction)
-                        return false;
-
-                    if (ability.TargettingType == TargettingTypes.Heal && actor.Faction != primaryTarget.Faction)
                         return false;
 
                     if (primaryTarget.DistanceFrom(actor).In(ability.Range + actor.Radius + primaryTarget.Radius))
@@ -361,7 +349,7 @@ namespace EterniaGame
                 var abilityTarget = actor.Targets.FirstOrDefault();
 
                 if (!actor.PlayerControlled)
-                    abilityTarget = actor.SelectTarget(actor.ThreatList.Select(t => t.Actor), ability.TargettingType);
+                    abilityTarget = actor.GetAbilityTarget(ability.TargettingType);
 
                 if (abilityTarget != null && abilityTarget.IsAlive)
                 {
@@ -378,7 +366,7 @@ namespace EterniaGame
                 var primaryTarget = actor.Targets.FirstOrDefault();
 
                 if (!actor.PlayerControlled)
-                    primaryTarget = actor.SelectTarget(actor.ThreatList.Select(t => t.Actor), ability.TargettingType);
+                    primaryTarget = actor.GetAbilityTarget(ability.TargettingType);
 
                 if (primaryTarget != null && primaryTarget.IsAlive)
                 {
@@ -444,9 +432,6 @@ namespace EterniaGame
                     continue;
 
                 if (secondaryTarget.Faction != actor.Faction && ability.TargettingType == TargettingTypes.Friendly)
-                    continue;
-
-                if (secondaryTarget.Faction != actor.Faction && ability.TargettingType == TargettingTypes.Heal)
                     continue;
 
                 if (ability.SpawnsProjectile != null)

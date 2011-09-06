@@ -75,7 +75,14 @@ namespace EterniaXna
 
                         // Read the data from the file
                         XmlSerializer serializer = new XmlSerializer(typeof(Player));
-                        player = (Player)serializer.Deserialize(stream);
+                        try
+                        {
+                            player = (Player)serializer.Deserialize(stream);
+                        }
+                        catch
+                        {
+                            System.Diagnostics.Debug.WriteLine("Corrupt Player.xml file found.");
+                        }
 
                         // Close the file
                         stream.Close();

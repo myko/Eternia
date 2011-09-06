@@ -19,7 +19,7 @@
           <Minimum>0</Minimum>
           <Maximum>20</Maximum>
         </Range>
-        <TargettingType>Heal</TargettingType>
+        <TargettingType>Friendly</TargettingType>
         <CanMiss>false</CanMiss>
         <CanBeDodged>false</CanBeDodged>
         <CanCrit>true</CanCrit>
@@ -37,7 +37,7 @@
           <Minimum>0</Minimum>
           <Maximum>20</Maximum>
         </Range>
-        <TargettingType>Heal</TargettingType>
+        <TargettingType>Friendly</TargettingType>
         <CanMiss>false</CanMiss>
         <CanBeDodged>false</CanBeDodged>
         <CanCrit>true</CanCrit>
@@ -74,7 +74,7 @@
           <Maximum>20</Maximum>
         </Range>
         <DamageType>Cleave</DamageType>
-        <TargettingType>Heal</TargettingType>
+        <TargettingType>Friendly</TargettingType>
         <CanMiss>false</CanMiss>
         <CanBeDodged>false</CanBeDodged>
         <CanCrit>true</CanCrit>
@@ -159,7 +159,7 @@
         <ArmorClass>Cloth</ArmorClass>
         <Statistics>
           <Health>30</Health>
-          <Mana>60</Mana>
+          <Mana>5</Mana>
           <SpellPower>0</SpellPower>
           <ArmorRating>70</ArmorRating>
           <CritRating>24</CritRating>
@@ -175,7 +175,7 @@
         <ArmorClass>Cloth</ArmorClass>
         <Statistics>
           <Health>20</Health>
-          <Mana>40</Mana>
+          <Mana>5</Mana>
           <SpellPower>0</SpellPower>
           <ArmorRating>50</ArmorRating>
           <CritRating>0</CritRating>
@@ -191,7 +191,7 @@
         <ArmorClass>Cloth</ArmorClass>
         <Statistics>
           <Health>40</Health>
-          <Mana>70</Mana>
+          <Mana>5</Mana>
           <SpellPower>14</SpellPower>
           <ArmorRating>90</ArmorRating>
           <CritRating>0</CritRating>
@@ -207,7 +207,7 @@
         <ArmorClass>Cloth</ArmorClass>
         <Statistics>
           <Health>15</Health>
-          <Mana>40</Mana>
+          <Mana>5</Mana>
           <SpellPower>24</SpellPower>
           <ArmorRating>0</ArmorRating>
           <CritRating>0</CritRating>
@@ -223,7 +223,7 @@
         <ArmorClass>Cloth</ArmorClass>
         <Statistics>
           <Health>20</Health>
-          <Mana>40</Mana>
+          <Mana>5</Mana>
           <SpellPower>0</SpellPower>
           <ArmorRating>40</ArmorRating>
           <CritRating>14</CritRating>
@@ -244,7 +244,7 @@
     
     <BaseStatistics>
       <Health>125</Health>
-      <Mana>0</Mana>
+      <Mana>225</Mana>
       <MissRating>100</MissRating>
     </BaseStatistics>
   </Asset>

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Myko.Xna.Ui
 {
-    public class Binding<T>
+    public struct Binding<T>
     {
         private Func<T> func;
 

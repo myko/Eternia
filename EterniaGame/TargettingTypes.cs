@@ -10,6 +10,5 @@ namespace EterniaGame
         Self,
         Friendly,
         Hostile,
-        Heal
     }
 }

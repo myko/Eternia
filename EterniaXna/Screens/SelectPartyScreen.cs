@@ -136,6 +136,9 @@ namespace EterniaXna.Screens
                 actor.IsAlive = true;
                 actor.CurrentHealth = actor.MaximumHealth;
                 actor.CurrentMana = actor.MaximumMana;
+                actor.ThreatList.Clear();
+                actor.Targets.Clear();
+                actor.CastingAbility = null;
             }
 
             var battle = new Battle(encounterDefinition);

@@ -75,6 +75,7 @@
     <Compile Include="SortingList.cs" />
     <Compile Include="Stat.cs" />
     <Compile Include="Statistics.cs" />
+    <Compile Include="TargettingStrategy.cs" />
     <Compile Include="TargettingTypes.cs" />
     <Compile Include="ThreatList.cs" />
     <Compile Include="Triggers\Actions\SpawnActor.cs" />

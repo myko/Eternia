@@ -71,6 +71,7 @@ namespace EterniaXna.Screens
         Matrix projection;
 
         List<Button> abilityButtons;
+        List<Button> targettingStrategyButtons;
 
         Texture2D destinationTexture;
         bool isPaused = true;
@@ -89,6 +90,7 @@ namespace EterniaXna.Screens
             cameraPosition = new Vector2(-2, -5);
 
             abilityButtons = new List<Button>();
+            targettingStrategyButtons = new List<Button>();
             selectedActors = new List<Actor>();
             actorModels = new List<ActorModel>();
         }
@@ -103,6 +105,20 @@ namespace EterniaXna.Screens
                 {
                     var ability = abilityButton.Ability;
                     ability.Enabled = !ability.Enabled;
+                }
+            }
+        }
+
+        void targettingStrategyButton_Click(object sender, EventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                var strategyButton = button.Content as TargettingStrategyButton;
+                if (strategyButton != null)
+                {
+                    var actor = strategyButton.Actor;
+                    actor.TargettingStrategy = strategyButton.TargettingStrategy;
                 }
             }
         }
@@ -163,6 +179,19 @@ namespace EterniaXna.Screens
                 abilityButton.Click += abilityButton_Click;
                 abilityButtons.Add(abilityButton);
                 Controls.Add(abilityButton);
+            }
+
+            var strategies = System.Enum.GetValues(typeof(TargettingStrategies));
+            for (int i = 0; i < strategies.Length; i++)
+            {
+                var targettingStrategyButton = new Button();
+                targettingStrategyButton.Position = new Vector2((Width / 2) - 200 + i * 40, Height - 100);
+                targettingStrategyButton.Width = 32;
+                targettingStrategyButton.Height = 32;
+                targettingStrategyButton.Background = Color.TransparentBlack;
+                targettingStrategyButton.Click += targettingStrategyButton_Click;
+                targettingStrategyButtons.Add(targettingStrategyButton);
+                Controls.Add(targettingStrategyButton);
             }
 
             base.LoadContent();
@@ -284,6 +313,7 @@ namespace EterniaXna.Screens
             graphicEffects.ForEach(ge => ge.Update(gameTime));
 
             UpdateAbilityButtons();
+            UpdateStrategyButtons();
 
             if (battle.Actors.Count(a => a.IsAlive && a.Faction == Factions.Friend) == 0)
             {
@@ -385,6 +415,24 @@ namespace EterniaXna.Screens
             }
         }
 
+        private void UpdateStrategyButtons()
+        {
+            targettingStrategyButtons.ForEach(button => { button.Content = null; button.Tooltip = null; });
+
+            if (selectedActors.Any())
+            {
+                var texture = ContentManager.Load<Texture2D>("Icons\\Ability_thunderbolt");
+                var selectedActor = selectedActors.First();
+
+                var strategies = (TargettingStrategies[])System.Enum.GetValues(typeof(TargettingStrategies));
+                for (int i = 0; i < strategies.Length; i++)
+                {
+                    targettingStrategyButtons[i].Content = new TargettingStrategyButton(targettingStrategyButtons[i], selectedActor, strategies[i], texture);
+                    targettingStrategyButtons[i].Tooltip = new Border(strategies[i].ToString()) { Width = 150, Height = 40 };
+                }
+            }
+        }
+        
         private void DrawThreatList()
         {
             if (selectedActors.Any())

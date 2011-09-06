@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="ActorModel.cs" />
     <Compile Include="Controls\AbilityTooltip.cs" />
+    <Compile Include="Controls\TargettingStrategyButton.cs" />
     <Compile Include="ParticleSystem.cs" />
     <Compile Include="Screens\MenuScreen.cs" />
     <Compile Include="XnaExtensions.cs" />

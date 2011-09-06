@@ -26,6 +26,7 @@ namespace EterniaXna.Screens
             grid.Rows.Add(GridSize.Fill());
             grid.Rows.Add(GridSize.Fill());
             grid.Columns.Add(GridSize.Fill());
+            Controls.Add(grid);
 
             grid.Cells[0, 0].Add(new Label { Text = "You were defeated!" });
 

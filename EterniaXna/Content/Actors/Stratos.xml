@@ -75,7 +75,7 @@
           <Minimum>0</Minimum>
           <Maximum>20</Maximum>
         </Range>
-        <ThreatModifier>0.5</ThreatModifier>
+        <ThreatModifier>0.25</ThreatModifier>
         <SpawnsProjectile>
           <ModelName>rocket1</ModelName>
           <TextureName>rocket1_diffuse</TextureName>
@@ -115,7 +115,7 @@
           <Maximum>20</Maximum>
         </Range>
         <DamageType>Cleave</DamageType>
-        <ThreatModifier>0.5</ThreatModifier>
+        <ThreatModifier>0.25</ThreatModifier>
         <SpawnsProjectile>
           <ModelName>rocket1</ModelName>
           <TextureName>bluerocket_diffuse</TextureName>

@@ -21,6 +21,8 @@ namespace EterniaXna.Screens
             this.player = player;
             this.actors = new List<Actor>(actors);
             this.currentActor = actor;
+
+            player.Inventory.Sort((i1, i2) => i1.ArmorClass.CompareTo(i2.ArmorClass));
         }
 
         public override void LoadContent()
@@ -137,7 +139,10 @@ namespace EterniaXna.Screens
             inventoryListBox.Items.Clear();
             player.Inventory.ForEach(item =>
             {
-                inventoryListBox.Items.Add(item, new ItemTooltip(item) { ShowZeroValues = false, ShowUpgrade = true, Upgrade = currentActor.GetItemUpgrade(item) });
+                inventoryListBox.Items.Add(
+                    item, 
+                    new ItemTooltip(item) { ShowZeroValues = false, ShowUpgrade = true, Upgrade = currentActor.GetItemUpgrade(item) }, 
+                    ItemTooltip.GetItemColor(item.Rarity));
             });
         }
 
@@ -146,7 +151,10 @@ namespace EterniaXna.Screens
             equipmentListBox.Items.Clear();
             currentActor.Equipment.ForEach(item =>
             {
-                equipmentListBox.Items.Add(item, new ItemTooltip(item) { ShowZeroValues = false });
+                equipmentListBox.Items.Add(
+                    item, 
+                    new ItemTooltip(item) { ShowZeroValues = false }, 
+                    ItemTooltip.GetItemColor(item.Rarity));
             });
         }
     }

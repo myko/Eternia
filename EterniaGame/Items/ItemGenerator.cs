@@ -43,14 +43,19 @@ namespace EterniaGame
             var slotName = ItemSlotHelper.ItemSlotNames[(int)slot, (int)armorClass];
             var slotModifier = ItemSlotHelper.ItemSlotModifier[(int)slot];
 
+            var armorMultiplier = 3 * ((float)quality + 3) / 5f * ((int)armorClass + 1);
+
             Statistics baseStatistics = new Statistics();
             baseStatistics.Health = (int)(Math.Pow(2, (double)itemLevel / 10.0) * 15 * ((float)quality + 3) / 5f * (armorClass == ItemArmorClasses.Plate ? 2 : 1) * slotModifier);
-            baseStatistics.ArmorRating = (int)(Math.Pow(2, (double)itemLevel / 10.0) * 15 * ((float)quality + 3) / 5f * ((int)armorClass + 1) * slotModifier);
+            baseStatistics.ArmorRating = (int)(Math.Pow(2, (double)itemLevel / 10.0) * 5 * armorMultiplier * slotModifier);
 
             if (rarity > ItemRarities.Common)
             {
                 var prefix = ItemAffixConstants.Affixes[random.From(ItemAffixConstants.Prefixes[(int)rarity - 1, (int)armorClass])];
                 var suffix = ItemAffixConstants.Affixes[random.From(ItemAffixConstants.Suffixes[(int)rarity - 1, (int)armorClass])];
+
+                prefix.Statistics.ArmorRating = (int)(prefix.Statistics.ArmorRating * armorMultiplier * 0.25f);
+                suffix.Statistics.ArmorRating = (int)(suffix.Statistics.ArmorRating * armorMultiplier * 0.25f);
 
                 item.Name = string.Format("{0}{1}{2}", prefix.Name, slotName, suffix.Name);
                 item.Statistics = baseStatistics + (prefix.Statistics + suffix.Statistics) * (int)(Math.Pow(2, (double)itemLevel / 10.0) * 5 * slotModifier);

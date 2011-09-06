@@ -35,8 +35,6 @@ namespace EterniaGame
         [ContentSerializer(Optional=true)]
         public List<Aura> Auras { get; set; }
         public List<Item> Equipment { get; set; }
-        //[ContentSerializer(Optional = true)]
-        //public List<Item> Inventory { get; set; }
         public Factions Faction { get; set; }
         [ContentSerializer(Optional=true)]
         public Vector2 Position { get; set; }
@@ -61,6 +59,8 @@ namespace EterniaGame
         public BaseAnimationState BaseAnimationState { get; set; }
         [XmlIgnore, ContentSerializerIgnore]
         public Cooldown GlobalCooldown { get; set; }
+        [ContentSerializer(Optional=true)]
+        public TargettingStrategies TargettingStrategy { get; set; }
 
         private float currentHealth;
         [ContentSerializerIgnore]
@@ -113,9 +113,6 @@ namespace EterniaGame
             }
         }
 
-        //[XmlIgnore, ContentSerializerIgnore]
-        //public AnimationPlayer AnimationPlayer { get; set; }
-
         public Actor()
         {
             Abilities = new List<Ability>();
@@ -156,18 +153,88 @@ namespace EterniaGame
             ThreatList.Clear();
         }
 
-        public Actor SelectTarget(IEnumerable<Actor> availableTargets, TargettingTypes targettingType)
+        public void SelectTarget(IEnumerable<Actor> availableTargets)
+        {
+            var hostileTargets = availableTargets.Where(x => x.Faction != Faction);
+            var friendlyTargets = availableTargets.Where(x => x.Faction == Faction);
+
+            switch (TargettingStrategy)
+            {
+                case TargettingStrategies.Threat:
+                    {
+                        Targets.Clear();
+                        foreach (var target in ThreatList.Select(x => x.Actor).Where(x => x.Faction != Faction))
+                            Targets.Enqueue(target);
+                    }
+                    break;
+                case TargettingStrategies.ClosestEnemy:
+                    {
+                        Targets.Clear();
+                        foreach (var target in hostileTargets.OrderBy(x => this.DistanceFrom(x)))
+                            Targets.Enqueue(target);
+                    }
+                    break;
+                case TargettingStrategies.ClosestFriend:
+                    {
+                        Targets.Clear();
+                        foreach (var target in friendlyTargets.OrderBy(x => this.DistanceFrom(x)))
+                            Targets.Enqueue(target);
+                    }
+                    break;
+                case TargettingStrategies.LowestHealthEnemy:
+                    {
+                        Targets.Clear();
+                        foreach (var target in hostileTargets.OrderBy(x => x.CurrentHealth))
+                            Targets.Enqueue(target);
+                    }
+                    break;
+                case TargettingStrategies.LowestHealthFriend:
+                    {
+                        Targets.Clear();
+                        foreach (var target in friendlyTargets.OrderBy(x => x.HealthFraction))
+                            Targets.Enqueue(target);
+                    }
+                    break;
+                case TargettingStrategies.LowestThreat:
+                    {
+                        Targets.Clear();
+
+                        var enemiesNotTargettingMe = hostileTargets.Where(x => x.ThreatList.Any() &&  x.ThreatList.First().Actor != this);
+                        if (enemiesNotTargettingMe.Any())
+                            foreach (var target in enemiesNotTargettingMe)
+                                Targets.Enqueue(target);
+                        else
+                            foreach (var target in hostileTargets.OrderBy(x => x.ThreatList.ThreatOf(this)))
+                                Targets.Enqueue(target);
+                    }
+                    break;
+                case TargettingStrategies.Manual:
+                    {
+                    }
+                    break;
+            }
+        }
+
+        public Actor GetAbilityTarget(TargettingTypes targettingType)
         {
             if (targettingType == TargettingTypes.Self)
                 return this;
-
-            if (targettingType == TargettingTypes.Heal)
-                return availableTargets.Where(target => target.Faction == Faction && target.CurrentHealth < target.MaximumHealth).OrderBy(target => target.HealthFraction).FirstOrDefault();
-
-            if (targettingType == TargettingTypes.Hostile)
-                return availableTargets.FirstOrDefault(target => target.Faction != Faction);
             else
-                return availableTargets.FirstOrDefault(target => target.Faction == Faction);
+                return Targets.FirstOrDefault();
+        }
+
+        public Ability SelectAbility()
+        {
+            var abilityTarget = Targets.FirstOrDefault();
+
+            return Abilities
+                .Where(x => x.Enabled && x.Cooldown.IsReady && x.ManaCost <= CurrentMana)
+                .Where(x => 
+                    (x.TargettingType == TargettingTypes.Self) ||
+                    (x.TargettingType == TargettingTypes.Hostile && abilityTarget != null && abilityTarget.Faction != Faction) ||
+                    (x.TargettingType == TargettingTypes.Friendly && abilityTarget != null && abilityTarget.Faction == Faction))
+                .OrderByDescending(x => x.Cooldown.Duration)
+                .FirstOrDefault();
         }
 
         public bool Move(float deltaTime)
@@ -198,7 +265,7 @@ namespace EterniaGame
             else
             {
                 // Move actor towards enemy targets.
-                if (Targets.Any() && Faction != Targets.Peek().Faction)
+                if (Targets.Any()) // && Faction != Targets.Peek().Faction)
                 {
                     var target = Targets.Peek();
                     var direction = target.Position - Position;
@@ -207,7 +274,8 @@ namespace EterniaGame
                     Direction = direction;
 
                     float minimumRange;
-                    var availableAbilities = Abilities.Where(x => x.Cooldown.IsReady && x.Enabled && x.ManaCost <= CurrentMana && x.DamageType != DamageTypes.PointBlankArea);
+                    var availableAbilities = Abilities.Where(x => x.Cooldown.IsReady && x.Enabled && x.ManaCost <= CurrentMana && x.DamageType != DamageTypes.PointBlankArea &&
+                        ((x.TargettingType == TargettingTypes.Hostile && Faction != target.Faction) || (x.TargettingType == TargettingTypes.Friendly && Faction == target.Faction)));
                     if (availableAbilities.Any())
                         minimumRange = availableAbilities.Max(x => x.Range.Maximum + Radius + target.Radius - 0.2f);
                     else
