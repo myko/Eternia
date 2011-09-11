@@ -17,6 +17,9 @@ namespace EterniaGame
         public int ItemLevel { get; set; }
         
         [ContentSerializer(Optional = true)]
+        public List<string> PrerequisiteEncounters { get; private set; }
+
+        [ContentSerializer(Optional = true)]
         public List<ActorDefinition> Actors { get; private set; }
         
         [ContentSerializer(Optional = true)]
@@ -27,6 +30,7 @@ namespace EterniaGame
             Name = "Unnamed Encounter";
             HeroLimit = 4;
             ItemLevel = 10;
+            PrerequisiteEncounters = new List<string>();
             Actors = new List<ActorDefinition>();
             Triggers = new List<TriggerDefinition>();
         }

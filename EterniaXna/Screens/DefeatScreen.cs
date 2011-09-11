@@ -40,7 +40,7 @@ namespace EterniaXna.Screens
         {
             VictoryScreen.SaveActors(ScreenManager, player);
 
-            ScreenManager.AddScreen(new SelectEncounterScreen(player));
+            ScreenManager.AddScreen(new TitleScreen(player));
             ScreenManager.RemoveScreen(this);
         }
     }

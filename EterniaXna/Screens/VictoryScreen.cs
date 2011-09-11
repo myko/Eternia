@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Storage;
 using Myko.Xna.Ui;
+using System;
 
 namespace EterniaXna.Screens
 {
@@ -26,6 +27,9 @@ namespace EterniaXna.Screens
             this.battle = battle;
             this.encounterDefinition = encounterDefinition;
             this.turns = turns;
+
+            if (!player.CompletedEncounters.Contains(encounterDefinition.Name))
+                player.CompletedEncounters.Add(encounterDefinition.Name);
         }
 
         public override void LoadContent()
@@ -50,7 +54,7 @@ namespace EterniaXna.Screens
             rewardsListBox = AddListBox<Item>(grid.Cells[1, 0], Vector2.Zero, 450, 250);
             rewardsListBox.ZIndex = 0.2f;
             rewardsListBox.EnableCheckBoxes = true;
-            for (int i = 0; i < 5 + battle.Actors.Sum(x => x.CurrentStatistics.ExtraRewards); i++)
+            for (int i = 0; i < 5 + new Random().Between(0, battle.Actors.Sum(x => x.CurrentStatistics.ExtraRewards)); i++)
             {
                 var item = generator.Generate(encounterDefinition.ItemLevel);
                 rewardsListBox.Items.Add(item, new ItemTooltip(item) { Font = smallFont }, ItemTooltip.GetItemColor(item.Rarity));
@@ -150,10 +154,11 @@ namespace EterniaXna.Screens
             {
                 player.Inventory.Add(item);
             }
+            player.Gold += (int)(encounterDefinition.ItemLevel * new Random().Between(9f, 11f));
 
             SaveActors(ScreenManager, player);
 
-            ScreenManager.AddScreen(new SelectEncounterScreen(player));
+            ScreenManager.AddScreen(new TitleScreen(player));
             ScreenManager.RemoveScreen(this);
         }
 

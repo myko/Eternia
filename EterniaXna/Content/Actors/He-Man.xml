@@ -222,5 +222,7 @@
       <Mana>0</Mana>
       <MissRating>100</MissRating>
     </BaseStatistics>
+
+    <Cost>0</Cost>
   </Asset>
 </XnaContent>

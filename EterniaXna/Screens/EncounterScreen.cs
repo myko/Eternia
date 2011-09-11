@@ -51,7 +51,10 @@ namespace EterniaXna.Screens
         Actor mouseOverActor;
         List<ScrollingText> scrollingTexts = new List<ScrollingText>();
         List<GraphicEffect> graphicEffects = new List<GraphicEffect>();
+        List<ParticleSystem> particleSystems = new List<ParticleSystem>();
+
         List<ActorModel> actorModels;
+        List<ProjectileModel> projectileModels;
 
         Random random = new Random();
         SpriteFont kootenayFont;
@@ -93,6 +96,7 @@ namespace EterniaXna.Screens
             targettingStrategyButtons = new List<Button>();
             selectedActors = new List<Actor>();
             actorModels = new List<ActorModel>();
+            projectileModels = new List<ProjectileModel>();
         }
 
         void abilityButton_Click(object sender, EventArgs e)
@@ -114,11 +118,11 @@ namespace EterniaXna.Screens
             var button = sender as Button;
             if (button != null)
             {
-                var strategyButton = button.Content as TargettingStrategyButton;
+                var strategyButton = button.Content as TargetingStrategyButton;
                 if (strategyButton != null)
                 {
                     var actor = strategyButton.Actor;
-                    actor.TargettingStrategy = strategyButton.TargettingStrategy;
+                    actor.TargettingStrategy = strategyButton.TargetingStrategy.Value;
                 }
             }
         }
@@ -181,8 +185,7 @@ namespace EterniaXna.Screens
                 Controls.Add(abilityButton);
             }
 
-            var strategies = System.Enum.GetValues(typeof(TargettingStrategies));
-            for (int i = 0; i < strategies.Length; i++)
+            for (int i = 0; i < player.UnlockedTargetingStrategies.Count; i++)
             {
                 var targettingStrategyButton = new Button();
                 targettingStrategyButton.Position = new Vector2((Width / 2) - 200 + i * 40, Height - 100);
@@ -276,8 +279,22 @@ namespace EterniaXna.Screens
         {
             foreach (var actor in battle.Actors.Where(x => !actorModels.Any(y => y.Actor == x)))
             {
-                actorModels.Add(new ActorModel(actor, ContentManager.Load<Model>(@"Models\Actors\figure4")));
+                actorModels.Add(new ActorModel(actor, ContentManager.Load<Model>(@"Models\Actors\humantorso1")));
             }
+
+            foreach (var projectile in battle.Projectiles.Where(x => !projectileModels.Any(y => y.Projectile == x)))
+            {
+                var particleSystem = new ParticleSystem() { Position = projectile.Position, Texture = ContentManager.Load<Texture2D>(@"Sprites\smoke_particle") };
+
+                particleSystems.Add(particleSystem);
+
+                projectileModels.Add(new ProjectileModel() { 
+                    Projectile = projectile, 
+                    Model = ContentManager.Load<Model>(@"Models\Objects\" + projectile.ModelName), 
+                    Texture = ContentManager.Load<Texture2D>(@"Models\Objects\" + projectile.TextureName), 
+                    ParticleSystem = particleSystem });
+            }
+            projectileModels.RemoveAll(x => !x.Projectile.IsAlive);
 
             if (!isPaused)
             {
@@ -300,10 +317,18 @@ namespace EterniaXna.Screens
                     actorModel.Update(gameTime, turn);
                 }
 
+                foreach (var projectile in projectileModels)
+                {
+                    projectile.Update(gameTime);
+                }
+
                 while (battle.GraphicEffects.Any())
                 {
                     graphicEffects.Add(new GraphicEffect { Alpha = 1f, Scale = 1f, Position = battle.GraphicEffects.Dequeue().Position });
                 }
+
+                particleSystems.RemoveAll(ps => !ps.IsAlive && !ps.Particles.Any());
+                particleSystems.ForEach(ps => ps.Update(gameTime));
             }
 
             scrollingTexts.RemoveAll(st => st.Alpha <= 0f);
@@ -325,12 +350,6 @@ namespace EterniaXna.Screens
             {
                 ScreenManager.AddScreen(new VictoryScreen(player, encounterDefinition, battle, turns));
                 ScreenManager.RemoveScreen(this);
-            }
-                    
-            foreach (var projectile in battle.Projectiles)
-            {
-                if (projectile.AnimationPlayer != null)
-                    projectile.AnimationPlayer.Update(gameTime.ElapsedGameTime, true, Matrix.Identity);
             }
         }
 
@@ -419,16 +438,19 @@ namespace EterniaXna.Screens
         {
             targettingStrategyButtons.ForEach(button => { button.Content = null; button.Tooltip = null; });
 
-            if (selectedActors.Any())
+            if (selectedActors.Any(x => x.PlayerControlled))
             {
+                var selectedActor = selectedActors.First(x => x.PlayerControlled);
                 var texture = ContentManager.Load<Texture2D>("Icons\\Ability_thunderbolt");
-                var selectedActor = selectedActors.First();
-
-                var strategies = (TargettingStrategies[])System.Enum.GetValues(typeof(TargettingStrategies));
+                
+                var strategies = TargetingStrategy.All().Where(x => player.UnlockedTargetingStrategies.Contains(x.Value)).ToArray();
                 for (int i = 0; i < strategies.Length; i++)
                 {
-                    targettingStrategyButtons[i].Content = new TargettingStrategyButton(targettingStrategyButtons[i], selectedActor, strategies[i], texture);
-                    targettingStrategyButtons[i].Tooltip = new Border(strategies[i].ToString()) { Width = 150, Height = 40 };
+                    targettingStrategyButtons[i].Content = new TargetingStrategyButton(targettingStrategyButtons[i], selectedActor, strategies[i], texture);
+                    var smallFont = ContentManager.Load<SpriteFont>("Fonts\\kootenaySmall");
+                    var t = strategies[i].Name + "\n" + strategies[i].Description;
+                    var ts = smallFont.MeasureString(t);
+                    targettingStrategyButtons[i].Tooltip = new Border(t) { Font = smallFont, Width = ts.X + 20, Height = ts.Y + 20 };
                 }
             }
         }
@@ -533,36 +555,9 @@ namespace EterniaXna.Screens
                 actorModel.Draw(view, projection, color, ContentManager);
             }
 
-            foreach (var projectile in battle.Projectiles)
+            foreach (var projectile in projectileModels)
             {
-                var projectileModel = ContentManager.Load<Model>(@"Models\Objects\" + projectile.ModelName);
-                if (projectile.AnimationPlayer == null)
-                {
-                    var skinningData = projectileModel.Tag as SkinningData;
-                    
-                    projectile.AnimationPlayer = new AnimationPlayer(skinningData);
-                    projectile.AnimationPlayer.StartClip(skinningData.AnimationClips["Fly"], true);
-                }
-                Matrix[] bones = projectile.AnimationPlayer.GetSkinTransforms();
-                
-                var direction = -Vector3.Normalize(new Vector3(projectile.Target.Position, 1.5f) - projectile.Position);
-                world = Matrix.CreateScale(0.5f) * Matrix.CreateWorld(projectile.Position, new Vector3(0, 0, -1), direction);
-                
-
-                foreach (ModelMesh mesh in projectileModel.Meshes)
-                {
-                    foreach (Effect effect in mesh.Effects)
-                    {
-                        effect.Parameters["Texture"].SetValue(ContentManager.Load<Texture2D>(@"Models\Objects\" + projectile.TextureName));
-                        effect.Parameters["Bones"].SetValue(bones);
-                        //effect.Parameters["DiffuseColor"].SetValue(color.ToVector3());
-                        effect.Parameters["World"].SetValue(world);
-                        effect.Parameters["View"].SetValue(view);
-                        effect.Parameters["Projection"].SetValue(projection);
-                    }
-
-                    mesh.Draw();
-                }
+                projectile.Draw(view, projection);
             }
 
             foreach (var selectedActor in selectedActors)
@@ -648,6 +643,11 @@ namespace EterniaXna.Screens
                 ScreenManager.GraphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha;
                 ScreenManager.GraphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha;
                 ScreenManager.GraphicsDevice.RenderState.DepthBufferWriteEnable = true;
+            }
+
+            foreach (var particleSystem in particleSystems)
+            {
+                particleSystem.Draw(ContentManager.Load<Effect>(@"Shaders\Particle"), view, projection, ScreenManager.GraphicsDevice);
             }
         }
 

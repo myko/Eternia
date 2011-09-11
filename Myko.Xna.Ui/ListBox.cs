@@ -250,17 +250,20 @@ namespace Myko.Xna.Ui
                 else if (items[i] == mouseOverItem)
                     color = Color.White;
 
+                if (items[i].Value == SelectedItem)
+                    SpriteBatch.Draw(BlankTexture, new Rectangle((int)itemPosition.X, (int)itemPosition.Y, (int)Width, Font.LineSpacing), new Color(Color.CornflowerBlue, 0.25f), ZIndex + 0.01f);
+
                 if (EnableCheckBoxes)
                 {
                     if (items[i].Checked)
-                        SpriteBatch.DrawString(Font, "[X]", itemPosition, color, ZIndex + 0.01f);
+                        SpriteBatch.DrawString(Font, "[X]", itemPosition, color, ZIndex + 0.02f);
                     else
-                        SpriteBatch.DrawString(Font, "[ ]", itemPosition, color, ZIndex + 0.01f);
+                        SpriteBatch.DrawString(Font, "[ ]", itemPosition, color, ZIndex + 0.02f);
 
                     itemPosition = new Vector2(itemPosition.X + 24, itemPosition.Y);
                 }
 
-                SpriteBatch.DrawString(Font, text, itemPosition, color, ZIndex + 0.01f);
+                SpriteBatch.DrawString(Font, text, itemPosition, color, ZIndex + 0.02f);
             }
 
             if (visibleItems < items.Count)

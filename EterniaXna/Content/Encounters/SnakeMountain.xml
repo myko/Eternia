@@ -3,6 +3,10 @@
   <Asset Type="EterniaGame.EncounterDefinition">
     <Name>Snake Mountain</Name>
     <ItemLevel>15</ItemLevel>
+    <PrerequisiteEncounters>
+      <Item>Sea of Rakash</Item>
+      <Item>Vine Jungle</Item>
+    </PrerequisiteEncounters>
     <Actors>
       <Item>
         <Id>skeletor</Id>

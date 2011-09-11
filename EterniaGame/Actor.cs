@@ -61,6 +61,9 @@ namespace EterniaGame
         public Cooldown GlobalCooldown { get; set; }
         [ContentSerializer(Optional=true)]
         public TargettingStrategies TargettingStrategy { get; set; }
+        public int Cost { get; set; }
+        [ContentSerializer(Optional = true)]
+        public float MovementSpeed { get; set; }
 
         private float currentHealth;
         [ContentSerializerIgnore]
@@ -133,6 +136,7 @@ namespace EterniaGame
 
             Direction = new Vector2(0, -1);
             GlobalCooldown = new Cooldown(1f);
+            MovementSpeed = 5f;
         }
 
         public Actor(ActorDefinition actorDefinition)
@@ -143,6 +147,7 @@ namespace EterniaGame
             BaseStatistics = actorDefinition.BaseStatistics;
             Swing = actorDefinition.Swing;
             Diameter = actorDefinition.Diameter;
+            MovementSpeed = actorDefinition.MovementSpeed;
             Faction = actorDefinition.Faction;
             Name = actorDefinition.Name;
             TextureName = actorDefinition.TextureName;
@@ -191,7 +196,7 @@ namespace EterniaGame
                 case TargettingStrategies.LowestHealthFriend:
                     {
                         Targets.Clear();
-                        foreach (var target in friendlyTargets.OrderBy(x => x.HealthFraction))
+                        foreach (var target in friendlyTargets.Where(x => x.HealthFraction < 1f).OrderBy(x => x.HealthFraction))
                             Targets.Enqueue(target);
                     }
                     break;
@@ -204,7 +209,7 @@ namespace EterniaGame
                             foreach (var target in enemiesNotTargettingMe)
                                 Targets.Enqueue(target);
                         else
-                            foreach (var target in hostileTargets.OrderBy(x => x.ThreatList.ThreatOf(this)))
+                            foreach (var target in hostileTargets.OrderBy(x => (100 * x.ThreatList.ThreatOf(this)) / (1 + x.ThreatList.Sum(y => y.Value))))
                                 Targets.Enqueue(target);
                     }
                     break;
@@ -239,8 +244,6 @@ namespace EterniaGame
 
         public bool Move(float deltaTime)
         {
-            float movementSpeed = 5f;
-
             if (Destination.HasValue)
             {
                 var direction = Destination.Value - Position;
@@ -248,7 +251,7 @@ namespace EterniaGame
                 if (distance > 0.05f)
                 {
                     direction.Normalize();
-                    Position += direction * movementSpeed * deltaTime;
+                    Position += direction * MovementSpeed * deltaTime;
                     Direction = direction;
                     CastingAbility = null;
                     CastingProgress = null;
@@ -270,33 +273,40 @@ namespace EterniaGame
                     var target = Targets.Peek();
                     var direction = target.Position - Position;
                     var distance = direction.Length();
-                    direction.Normalize();
-                    Direction = direction;
-
-                    float minimumRange;
-                    var availableAbilities = Abilities.Where(x => x.Cooldown.IsReady && x.Enabled && x.ManaCost <= CurrentMana && x.DamageType != DamageTypes.PointBlankArea &&
-                        ((x.TargettingType == TargettingTypes.Hostile && Faction != target.Faction) || (x.TargettingType == TargettingTypes.Friendly && Faction == target.Faction)));
-                    if (availableAbilities.Any())
-                        minimumRange = availableAbilities.Max(x => x.Range.Maximum + Radius + target.Radius - 0.2f);
-                    else
-                        minimumRange = Radius + target.Radius + 0.8f;
-
-                    if (distance > minimumRange)
+                    if (distance > 0.05f)
                     {
-                        Position += direction * movementSpeed * deltaTime;
-                        CastingAbility = null;
-                        CastingProgress = null;
+                        direction.Normalize();
+                        Direction = direction;
 
-                        return true;
+                        float minimumRange;
+                        var availableAbilities = Abilities.Where(x => x.Cooldown.IsReady && x.Enabled && x.ManaCost <= CurrentMana && x.DamageType != DamageTypes.PointBlankArea &&
+                            ((x.TargettingType == TargettingTypes.Hostile && Faction != target.Faction) || (x.TargettingType == TargettingTypes.Friendly && Faction == target.Faction)));
+                        if (availableAbilities.Any())
+                            minimumRange = availableAbilities.Max(x => x.Range.Maximum + Radius + target.Radius - 0.2f);
+                        else
+                            minimumRange = Radius + target.Radius + 0.8f;
+
+                        if (distance > minimumRange)
+                        {
+                            Position += direction * MovementSpeed * deltaTime;
+                            CastingAbility = null;
+                            CastingProgress = null;
+
+                            return true;
+                        }
+                        else if (distance < (Radius + target.Radius) * 0.75f)
+                        {
+                            Position -= direction * MovementSpeed * deltaTime;
+                            Direction = -direction;
+                            CastingAbility = null;
+                            CastingProgress = null;
+
+                            return true;
+                        }
                     }
-                    else if (distance < (Radius + target.Radius) * 0.75f)
+                    else
                     {
-                        Position -= direction * movementSpeed * deltaTime;
-                        Direction = -direction;
-                        CastingAbility = null;
-                        CastingProgress = null;
-
-                        return true;
+                        return false;
                     }
                 }
             }

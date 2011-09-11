@@ -220,5 +220,7 @@
       <Health>125</Health>
       <MissRating>100</MissRating>
     </BaseStatistics>
+
+    <Cost>100</Cost>
   </Asset>
 </XnaContent>

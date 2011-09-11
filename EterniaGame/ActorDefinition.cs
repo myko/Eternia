@@ -14,7 +14,9 @@ namespace EterniaGame
 
         [ContentSerializer(Optional=true)]
         public float Diameter { get; set; }
-        
+        [ContentSerializer(Optional = true)]
+        public float MovementSpeed { get; set; }
+
         public string TextureName { get; set; }
         
         [ContentSerializer(Optional=true)]
@@ -31,6 +33,7 @@ namespace EterniaGame
             Abilities = new List<Ability>();
             Diameter = 1f;
             ThreatModifier = 1f;
+            MovementSpeed = 5f;
         }
     }
 }

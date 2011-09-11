@@ -9,6 +9,7 @@
         <Id>t1dummy</Id>
         <Name>Tier 1 Dummy</Name>
         <Faction>Enemy</Faction>
+        <MovementSpeed>0</MovementSpeed>
         <TextureName>zodac</TextureName>
         <Swing>
           <Duration>3.0</Duration>

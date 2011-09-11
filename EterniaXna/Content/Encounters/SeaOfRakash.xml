@@ -4,6 +4,9 @@
     <Name>Sea of Rakash</Name>
     <HeroLimit>4</HeroLimit>
     <ItemLevel>10</ItemLevel>
+    <PrerequisiteEncounters>
+      <Item>Point Dread</Item>
+    </PrerequisiteEncounters>
     <Actors>
       <Item>
         <Id>merman</Id>

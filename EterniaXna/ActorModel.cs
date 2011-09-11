@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Myko.Xna.SkinnedModel;
+using System.IO;
 
 namespace EterniaXna
 {
@@ -66,10 +67,23 @@ namespace EterniaXna
             if (!Actor.IsAlive)
                 world = Matrix.CreateRotationX(Microsoft.Xna.Framework.MathHelper.ToRadians(-90f)) * world * Matrix.CreateTranslation(0, 0, 1);
 
-            var actorTexture = contentManager.Load<Texture2D>(@"Models\Actors\" + Actor.TextureName + "_diffuse");
-
             foreach (ModelMesh mesh in Model.Meshes)
             {
+                if (mesh.Name.StartsWith("armor") && !Actor.Equipment.Any(x => x.Slot == ItemSlots.Chest))
+                    continue;
+
+                if (mesh.Name.StartsWith("boots") && !Actor.Equipment.Any(x => x.Slot == ItemSlots.Boots))
+                    continue;
+
+                if (mesh.Name.StartsWith("gloves") && !Actor.Equipment.Any(x => x.Slot == ItemSlots.Hands))
+                    continue;
+
+                var textureFileName = @"Models\Actors\" + Actor.TextureName + "_" + mesh.Name + "_diffuse";
+                var fullPath = Path.Combine(contentManager.RootDirectory, textureFileName + ".xnb");
+                Texture2D actorTexture = null;
+                if (File.Exists(fullPath))
+                    actorTexture = contentManager.Load<Texture2D>(textureFileName);
+                    
                 foreach (Effect effect in mesh.Effects)
                 {
                     effect.Parameters["Texture"].SetValue(actorTexture);
@@ -88,6 +102,7 @@ namespace EterniaXna
             {
                 var rightGripBone = Model.Bones.Single(x => x.Name == "Grip_R");
                 var swordModel = contentManager.Load<Model>(@"Models\Objects\sword1");
+                //var swordModel = contentManager.Load<Model>(@"Models\Actors\humantorso1");
 
                 foreach (ModelMesh mesh in swordModel.Meshes)
                 {
@@ -102,7 +117,7 @@ namespace EterniaXna
                         effect.LightingEnabled = true;
                         effect.View = view;
                         effect.Projection = projection;
-                        effect.World = bones2[rightGripBone.Index - 2] * world;
+                        effect.World = bones2[rightGripBone.Index - (Model.Bones.Count - bones2.Length)] * world;
                         effect.DiffuseColor = Color.Gray.ToVector3();
                     }
 
@@ -131,7 +146,7 @@ namespace EterniaXna
                         effect.LightingEnabled = true;
                         effect.View = view;
                         effect.Projection = projection;
-                        effect.World = bones2[leftGripBone.Index - 2] * world;
+                        effect.World = bones2[leftGripBone.Index - (Model.Bones.Count - bones2.Length)] * world;
                         effect.DiffuseColor = Color.Gray.ToVector3();
                     }
 

@@ -86,14 +86,20 @@ namespace EterniaXna
 
                         // Close the file
                         stream.Close();
+                        
+                        foreach (var hero in player.Heroes)
+                        {
+                            if (!player.UnlockedTargetingStrategies.Contains(hero.TargettingStrategy))
+                                hero.TargettingStrategy = player.UnlockedTargetingStrategies[0];
+                        }
                     }
                 }
             }
 
             if (player == null)
-                player = new Player();
+                player = Player.CreateWithDefaults();
 
-            screenManager.AddScreen(new SelectEncounterScreen(player));
+            screenManager.AddScreen(new TitleScreen(player));
         }
 
         /// <summary>

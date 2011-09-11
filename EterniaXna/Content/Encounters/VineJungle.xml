@@ -3,6 +3,9 @@
   <Asset Type="EterniaGame.EncounterDefinition">
     <Name>Vine Jungle</Name>
     <ItemLevel>10</ItemLevel>
+    <PrerequisiteEncounters>
+      <Item>Point Dread</Item>
+    </PrerequisiteEncounters>
     <Actors>
       
       <Item>
@@ -17,7 +20,7 @@
         <BaseStatistics>
           <Health>6800</Health>
           <Mana>0</Mana>
-          <AttackPower>125</AttackPower>
+          <AttackPower>115</AttackPower>
           <ArmorRating>175</ArmorRating>
           <MissRating>11</MissRating>
           <DodgeRating>14</DodgeRating>
@@ -55,7 +58,7 @@
             <TextureName>INV_Misc_Crop_01</TextureName>
             <Damage>
               <Value>10</Value>
-              <AttackPowerScale>2</AttackPowerScale>
+              <AttackPowerScale>1.5</AttackPowerScale>
             </Damage>
             <Cooldown>
               <Duration>10</Duration>
@@ -90,7 +93,7 @@
         <BaseStatistics>
           <Health>1000</Health>
           <Mana>0</Mana>
-          <AttackPower>125</AttackPower>
+          <AttackPower>115</AttackPower>
           <ArmorRating>175</ArmorRating>
           <MissRating>9</MissRating>
           <DodgeRating>11</DodgeRating>
@@ -111,7 +114,7 @@
                 <Name>Rend</Name>
                 <Duration>10</Duration>
                 <Damage>
-                  <Value>5</Value>
+                  <Value>4</Value>
                 </Damage>
                 <Cooldown>
                   <Duration>2</Duration>

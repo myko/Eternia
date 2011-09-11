@@ -13,7 +13,6 @@ namespace EterniaXna.Screens
         private readonly EncounterDefinition encounterDefinition;
         
         private ListBox<Actor> memberListBox;
-        private ListBox<Actor> recruitListBox;
         private SpriteFont smallFont;
 
         public SelectPartyScreen(Player player, EncounterDefinition encounterDefinition)
@@ -38,17 +37,12 @@ namespace EterniaXna.Screens
             grid.Rows.Add(GridSize.Fixed(80));
             grid.Rows.Add(GridSize.Fixed(80));
             grid.Columns.Add(GridSize.Fill());
-            grid.Columns.Add(GridSize.Fixed(120));
-            grid.Columns.Add(GridSize.Fill());
             Controls.Add(grid);
 
             grid.Cells[1, 0].Add(new Label { Text = "Select Party Members" });
-            grid.Cells[1, 2].Add(new Label { Text = "Recruit Party Members" });
 
             memberListBox = AddListBox<Actor>(grid.Cells[2,0], Vector2.Zero, 300, 250);
             memberListBox.EnableCheckBoxes = true;
-            
-            recruitListBox = AddListBox<Actor>(grid.Cells[2,2], Vector2.Zero, 300, 250);
 
             grid.Cells[3, 0].Add(new Label { Font = smallFont, Text = Bind(() => {
                 if (memberListBox.CheckedItems.Any())
@@ -67,16 +61,11 @@ namespace EterniaXna.Screens
             deleteButton.Click += deleteButton_Click;
             grid.Cells[4,0].Add(deleteButton);
 
-            var recruitButton = CreateButton("Recruit", Vector2.Zero);
-            recruitButton.Click += recruitButton_Click;
-            grid.Cells[4,2].Add(recruitButton);
-
             var startButton = CreateButton("Start", Vector2.Zero);
             startButton.Click += okButton_Click;
-            grid.Cells[5,1].Add(startButton);
+            grid.Cells[5,0].Add(startButton);
 
             memberListBox.Items.AddRange(player.Heroes);
-            GenerateRecruits();
         }
 
         private void deleteButton_Click(object sender, System.EventArgs e)
@@ -86,37 +75,6 @@ namespace EterniaXna.Screens
                 var actor = memberListBox.SelectedItem;
                 memberListBox.Items.Remove(actor);
                 player.Heroes.Remove(actor);
-                GenerateRecruits();
-            }
-        }
-
-        private void recruitButton_Click(object sender, System.EventArgs e)
-        {
-            if (recruitListBox.SelectedItem != null)
-            {
-                memberListBox.Items.Add(recruitListBox.SelectedItem);
-                recruitListBox.Items.Remove(recruitListBox.SelectedItem);
-                player.Heroes.Add(recruitListBox.SelectedItem);
-            }
-        }
-
-        private void GenerateRecruits()
-        {
-            recruitListBox.Items.Clear();
-
-            if (!memberListBox.Items.Any(x => x.Name == "He-Man"))
-                recruitListBox.Items.Add(ContentManager.Load<Actor>(@"Actors\He-Man"));
-            if (!memberListBox.Items.Any(x => x.Name == "Man-at-Arms"))
-                recruitListBox.Items.Add(ContentManager.Load<Actor>(@"Actors\Man-at-Arms"));
-            if (!memberListBox.Items.Any(x => x.Name == "Teela"))
-                recruitListBox.Items.Add(ContentManager.Load<Actor>(@"Actors\Teela"));
-            if (!memberListBox.Items.Any(x => x.Name == "Stratos"))
-                recruitListBox.Items.Add(ContentManager.Load<Actor>(@"Actors\Stratos"));
-
-            foreach (var recruit in recruitListBox.Items)
-            {
-                recruit.CurrentHealth = recruit.MaximumHealth;
-                recruit.CurrentMana = recruit.MaximumMana;
             }
         }
 
