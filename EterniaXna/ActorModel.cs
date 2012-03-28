@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 using EterniaGame;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using Myko.Xna.SkinnedModel;
-using System.IO;
+using EterniaGame.Actors;
 
 namespace EterniaXna
 {
@@ -35,23 +34,22 @@ namespace EterniaXna
             var skinningData = Model.Tag as SkinningData;
             var idleClip = skinningData.AnimationClips["Idle"];
             var walkClip = skinningData.AnimationClips["Walk"];
-            var swingClip = skinningData.AnimationClips["Swing"];
-            var castClip = skinningData.AnimationClips["Casting"];
 
-            if (AnimationPlayer.CurrentClip != swingClip || (AnimationPlayer.CurrentClip == swingClip && AnimationPlayer.CurrentTime >= swingClip.Duration))
+            if (Actor.CastingAbility != null)
             {
-                if (Actor.BaseAnimationState == BaseAnimationState.Casting && AnimationPlayer.CurrentClip != castClip)
-                    AnimationPlayer.StartClip(castClip, true);
-
-                if (Actor.BaseAnimationState == BaseAnimationState.Walking && AnimationPlayer.CurrentClip != walkClip)
-                    AnimationPlayer.StartClip(walkClip, true);
-
-                if (Actor.BaseAnimationState == BaseAnimationState.Idle && AnimationPlayer.CurrentClip != idleClip)
-                    AnimationPlayer.StartClip(idleClip, true);
+                var abilityClip = skinningData.AnimationClips["Ability1"];
+                if (skinningData.AnimationClips.ContainsKey(Actor.CastingAbility.AnimationName))
+                    abilityClip = skinningData.AnimationClips[Actor.CastingAbility.AnimationName];
+                
+                if (Actor.BaseAnimationState == BaseAnimationState.Casting && AnimationPlayer.CurrentClip != abilityClip)
+                    AnimationPlayer.StartClip(abilityClip, true, TimeSpan.FromSeconds(Actor.CastingAbility.Duration));
             }
 
-            if (turn.Events.Any(x => x.Actor == Actor && x.Type == EventTypes.Swing) && AnimationPlayer.CurrentClip != swingClip)
-                AnimationPlayer.StartClip(swingClip, false);
+            if (Actor.BaseAnimationState == BaseAnimationState.Walking && AnimationPlayer.CurrentClip != walkClip)
+                AnimationPlayer.StartClip(walkClip, true);
+
+            if (Actor.BaseAnimationState == BaseAnimationState.Idle && AnimationPlayer.CurrentClip != idleClip)
+                AnimationPlayer.StartClip(idleClip, true);
 
             if (!Actor.IsAlive)
                 AnimationPlayer.StartClip(idleClip, false);
@@ -81,6 +79,11 @@ namespace EterniaXna
                 var textureFileName = @"Models\Actors\" + Actor.TextureName + "_" + mesh.Name + "_diffuse";
                 var fullPath = Path.Combine(contentManager.RootDirectory, textureFileName + ".xnb");
                 Texture2D actorTexture = null;
+                if (!File.Exists(fullPath))
+                {
+                    textureFileName = @"Models\Actors\heman_" + mesh.Name + "_diffuse";
+                    fullPath = Path.Combine(contentManager.RootDirectory, textureFileName + ".xnb");
+                }
                 if (File.Exists(fullPath))
                     actorTexture = contentManager.Load<Texture2D>(textureFileName);
                     
@@ -102,7 +105,6 @@ namespace EterniaXna
             {
                 var rightGripBone = Model.Bones.Single(x => x.Name == "Grip_R");
                 var swordModel = contentManager.Load<Model>(@"Models\Objects\sword1");
-                //var swordModel = contentManager.Load<Model>(@"Models\Actors\humantorso1");
 
                 foreach (ModelMesh mesh in swordModel.Meshes)
                 {

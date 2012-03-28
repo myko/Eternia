@@ -1,8 +1,9 @@
-﻿using EterniaGame;
+﻿using System.Collections.Generic;
+using EterniaGame;
+using EterniaGame.Actors;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Myko.Xna.Ui;
-using System.Collections.Generic;
 
 namespace EterniaXna.Screens
 {
@@ -45,7 +46,7 @@ namespace EterniaXna.Screens
             Controls.Add(grid);
 
             grid.Cells[0, 1].Add(new Label { Text = Bind(() => currentActor.Name) });
-            grid.Cells[1, 0].Add(new Label { Font = smallFont, Foreground = Color.LightGreen, Text = Bind(() => VictoryScreen.GetStatisticsString(currentActor.CurrentStatistics, false)) });
+            grid.Cells[1, 0].Add(new Label { Font = smallFont, Foreground = Color.LightGreen, Text = Bind(() => VictoryScreen.GetStatisticsString(currentActor.CurrentStatistics, currentActor.ResourceType, false)) });
 
             equipmentListBox = AddListBox<Item>(grid.Cells[1, 1], Vector2.Zero, 300, 250);
             equipmentListBox.ZIndex = 0.2f;
@@ -79,10 +80,10 @@ namespace EterniaXna.Screens
 
             var okButton = CreateButton("Close", Vector2.Zero);
             okButton.Click += okButton_Click;
-            grid.Cells[4, 2].Add(okButton);
+            grid.Cells[4, 1].Add(okButton);
         }
 
-        private void prevActorButton_Click(object sender, System.EventArgs e)
+        private void prevActorButton_Click()
         {
             var index = actors.IndexOf(currentActor);
             index = (index - 1 + actors.Count) % actors.Count;
@@ -92,7 +93,7 @@ namespace EterniaXna.Screens
             UpdateInventoryList();
         }
 
-        private void nextActorButton_Click(object sender, System.EventArgs e)
+        private void nextActorButton_Click()
         {
             var index = actors.IndexOf(currentActor);
             index = (index + 1) % actors.Count;
@@ -102,7 +103,7 @@ namespace EterniaXna.Screens
             UpdateInventoryList();
         }
 
-        private void equipButton_Click(object sender, System.EventArgs e)
+        private void equipButton_Click()
         {
             if (inventoryListBox.SelectedItem != null)
                 currentActor.Equip(player, inventoryListBox.SelectedItem);
@@ -111,7 +112,7 @@ namespace EterniaXna.Screens
             UpdateInventoryList();
         }
 
-        private void unequipButton_Click(object sender, System.EventArgs e)
+        private void unequipButton_Click()
         {
             if (equipmentListBox.SelectedItem != null)
                 currentActor.Unequip(player, equipmentListBox.SelectedItem);
@@ -120,7 +121,7 @@ namespace EterniaXna.Screens
             UpdateInventoryList();
         }
 
-        private void deleteButton_Click(object sender, System.EventArgs e)
+        private void deleteButton_Click()
         {
             if (inventoryListBox.SelectedItem != null)
                 player.Inventory.Remove(inventoryListBox.SelectedItem);
@@ -129,13 +130,16 @@ namespace EterniaXna.Screens
             UpdateInventoryList();
         }
 
-        private void okButton_Click(object sender, System.EventArgs e)
+        private void okButton_Click()
         {
+            VictoryScreen.SaveActors(ScreenManager, player);
             ScreenManager.RemoveScreen(this);
         }
 
         private void UpdateInventoryList()
         {
+            var index = inventoryListBox.SelectedIndex;
+
             inventoryListBox.Items.Clear();
             player.Inventory.ForEach(item =>
             {
@@ -144,10 +148,14 @@ namespace EterniaXna.Screens
                     new ItemTooltip(item) { ShowZeroValues = false, ShowUpgrade = true, Upgrade = currentActor.GetItemUpgrade(item) }, 
                     ItemTooltip.GetItemColor(item.Rarity));
             });
+
+            inventoryListBox.SelectedIndex = index;
         }
 
         private void UpdateEquipmentList()
         {
+            var index = equipmentListBox.SelectedIndex;
+
             equipmentListBox.Items.Clear();
             currentActor.Equipment.ForEach(item =>
             {
@@ -156,6 +164,8 @@ namespace EterniaXna.Screens
                     new ItemTooltip(item) { ShowZeroValues = false }, 
                     ItemTooltip.GetItemColor(item.Rarity));
             });
+
+            equipmentListBox.SelectedIndex = index;
         }
     }
 }

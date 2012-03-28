@@ -9,5 +9,6 @@ namespace EterniaGame
     {
         public string ModelName { get; set; }
         public string TextureName { get; set; }
+        public float Speed { get; set; }
     }
 }

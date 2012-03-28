@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Content;
+using EterniaGame.Actors;
 
 namespace EterniaGame
 {

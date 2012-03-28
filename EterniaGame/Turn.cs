@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using EterniaGame.Abilities;
+using EterniaGame.Actors;
 
 namespace EterniaGame
 {
     public enum EventTypes
     {
-        Swing,
         Ability,
         ActorDeath,
         AuraApplied,
@@ -38,19 +39,6 @@ namespace EterniaGame
         {
             switch (Type)
             {
-                case EventTypes.Swing:
-                    switch (CombatOutcome)
-                    {
-                        case CombatOutcome.Miss:
-                            return string.Format("{0} missed {1}", Actor.Name, Target.Name);
-                        case CombatOutcome.Dodge:
-                            return string.Format("{0} attacked, {1} dodged", Actor.Name, Target.Name);
-                        case CombatOutcome.Crit:
-                            return string.Format("{0} did {2:0} damage to {1} (critical)", Actor.Name, Target.Name, Damage);
-                        case CombatOutcome.Hit:
-                            return string.Format("{0} did {2:0} damage to {1}", Actor.Name, Target.Name, Damage);
-                    }
-                    return string.Format("{0} swung at {1} with unknown outcome", Actor.Name, Target.Name);
                 case EventTypes.Ability:
                     switch (CombatOutcome)
                     {

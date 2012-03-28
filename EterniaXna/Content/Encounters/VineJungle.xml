@@ -14,9 +14,7 @@
         <Faction>Enemy</Faction>
         <Diameter>2</Diameter>
         <TextureName>beastman</TextureName>
-        <Swing>
-          <Duration>2</Duration>
-        </Swing>
+        
         <BaseStatistics>
           <Health>6800</Health>
           <Mana>0</Mana>
@@ -29,9 +27,35 @@
         </BaseStatistics>
 
         <Abilities>
+          
+          <Item>
+            <Name>Claw</Name>
+            <Description>A moderate single-target attack.</Description>
+            <AnimationName>Ability1</AnimationName>
+            <TextureName>Ability_druid_maul</TextureName>
+            <Damage>
+              <Value>10</Value>
+              <AttackPowerScale>0.7</AttackPowerScale>
+            </Damage>
+            <ManaCost>0</ManaCost>
+            <Cooldown>
+              <Duration>1</Duration>
+            </Cooldown>
+            <Duration>0</Duration>
+            <Range>
+              <Minimum>0</Minimum>
+              <Maximum>2</Maximum>
+            </Range>
+            <TargettingType>Hostile</TargettingType>
+            <CanMiss>true</CanMiss>
+            <CanBeDodged>true</CanBeDodged>
+            <CanCrit>true</CanCrit>
+          </Item>
+          
           <Item>
             <Name>Frenzy</Name>
             <Description>Increase Attack Power by 50 for 10 seconds.</Description>
+            <AnimationName>Spell2</AnimationName>
             <TextureName>Ability_physical_taunt</TextureName>
             <Cooldown>
               <Duration>45</Duration>
@@ -55,6 +79,7 @@
           <Item>
             <Name>Whip</Name>
             <Description>Whips the target, causing damage and decreasing hit and crit ratings by 5.</Description>
+            <AnimationName>Ability2</AnimationName>
             <TextureName>INV_Misc_Crop_01</TextureName>
             <Damage>
               <Value>10</Value>
@@ -87,9 +112,6 @@
         <Faction>Enemy</Faction>
         <Diameter>1</Diameter>
         <TextureName>shadowbeast</TextureName>
-        <Swing>
-          <Duration>1.5</Duration>
-        </Swing>
         <BaseStatistics>
           <Health>1000</Health>
           <Mana>0</Mana>
@@ -102,8 +124,32 @@
         </BaseStatistics>
         <Abilities>
           <Item>
+            <Name>Claw</Name>
+            <Description>A moderate single-target attack.</Description>
+            <AnimationName>Ability1</AnimationName>
+            <TextureName>Ability_druid_maul</TextureName>
+            <Damage>
+              <Value>8</Value>
+              <AttackPowerScale>0.5</AttackPowerScale>
+            </Damage>
+            <ManaCost>0</ManaCost>
+            <Cooldown>
+              <Duration>1</Duration>
+            </Cooldown>
+            <Duration>0</Duration>
+            <Range>
+              <Minimum>0</Minimum>
+              <Maximum>2</Maximum>
+            </Range>
+            <TargettingType>Hostile</TargettingType>
+            <CanMiss>true</CanMiss>
+            <CanBeDodged>true</CanBeDodged>
+            <CanCrit>true</CanCrit>
+          </Item>
+          <Item>
             <Name>Rend</Name>
             <Description>Rends the target, doing a small amount of damage over time.</Description>
+            <AnimationName>Ability2</AnimationName>
             <TextureName>Ability_ghoulfrenzy</TextureName>
             <Cooldown>
               <Duration>5</Duration>

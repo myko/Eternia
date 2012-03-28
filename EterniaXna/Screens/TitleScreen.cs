@@ -27,6 +27,7 @@ namespace EterniaXna.Screens
             grid.Rows.Add(GridSize.Fixed(80));
             grid.Rows.Add(GridSize.Fixed(80));
             grid.Rows.Add(GridSize.Fixed(80));
+            grid.Rows.Add(GridSize.Fixed(80));
             grid.Columns.Add(GridSize.Fill());
             Controls.Add(grid);
 
@@ -40,9 +41,13 @@ namespace EterniaXna.Screens
             storeButton.Click += storeButton_Click;
             grid.Cells[3, 0].Add(storeButton);
 
+            var equipmentButton = CreateButton("Equipment", Vector2.Zero);
+            equipmentButton.Click += equipmentButton_Click;
+            grid.Cells[4, 0].Add(equipmentButton);
+
             var exitButton = CreateButton("Exit", Vector2.Zero);
             exitButton.Click += quitButton_Click;
-            grid.Cells[4, 0].Add(exitButton);
+            grid.Cells[5, 0].Add(exitButton);
         }
 
         public override void HandleInput(GameTime gameTime)
@@ -53,18 +58,24 @@ namespace EterniaXna.Screens
         {
         }
 
-        private void encounterButton_Click(object sender, System.EventArgs e)
+        private void encounterButton_Click()
         {
             ScreenManager.AddScreen(new SelectEncounterScreen(player));
             ScreenManager.RemoveScreen(this);
         }
 
-        private void storeButton_Click(object sender, System.EventArgs e)
+        private void storeButton_Click()
         {
             ScreenManager.AddScreen(new StoreScreen(player));
         }
 
-        private void quitButton_Click(object sender, System.EventArgs e)
+        private void equipmentButton_Click()
+        {
+            if (player.Heroes.Count > 0)
+                ScreenManager.AddScreen(new EquipmentScreen(player, player.Heroes, player.Heroes[0]));
+        }
+
+        private void quitButton_Click()
         {
             ScreenManager.Game.Exit();
         }

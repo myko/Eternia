@@ -11,9 +11,7 @@
         <Faction>Enemy</Faction>
         <MovementSpeed>0</MovementSpeed>
         <TextureName>zodac</TextureName>
-        <Swing>
-          <Duration>3.0</Duration>
-        </Swing>
+        
         <BaseStatistics>
           <Health>500000</Health>
           <Mana>0</Mana>

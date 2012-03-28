@@ -4,6 +4,7 @@ using EterniaGame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Myko.Xna.Ui;
+using EterniaGame.Actors;
 
 namespace EterniaXna.Screens
 {
@@ -57,28 +58,18 @@ namespace EterniaXna.Screens
             })
             });
 
-            var deleteButton = CreateButton("Delete", Vector2.Zero);
-            deleteButton.Click += deleteButton_Click;
-            grid.Cells[4,0].Add(deleteButton);
-
             var startButton = CreateButton("Start", Vector2.Zero);
             startButton.Click += okButton_Click;
-            grid.Cells[5,0].Add(startButton);
+            grid.Cells[4,0].Add(startButton);
+
+            var backButton = CreateButton("Back", Vector2.Zero);
+            backButton.Click += backButton_Click;
+            grid.Cells[5, 0].Add(backButton);
 
             memberListBox.Items.AddRange(player.Heroes);
         }
 
-        private void deleteButton_Click(object sender, System.EventArgs e)
-        {
-            if (memberListBox.SelectedItem != null)
-            {
-                var actor = memberListBox.SelectedItem;
-                memberListBox.Items.Remove(actor);
-                player.Heroes.Remove(actor);
-            }
-        }
-
-        void okButton_Click(object sender, System.EventArgs e)
+        private void okButton_Click()
         {
             var count = memberListBox.CheckedItems.Count();
             for (int i = 0; i < count; i++)
@@ -97,6 +88,8 @@ namespace EterniaXna.Screens
                 actor.ThreatList.Clear();
                 actor.Targets.Clear();
                 actor.CastingAbility = null;
+                actor.CastingProgress = null;
+                actor.BaseAnimationState = BaseAnimationState.Idle;
             }
 
             var battle = new Battle(encounterDefinition);
@@ -106,6 +99,12 @@ namespace EterniaXna.Screens
             VictoryScreen.SaveActors(ScreenManager, player);
 
             ScreenManager.AddScreen(new EncounterScreen(player, encounterDefinition, battle));
+            ScreenManager.RemoveScreen(this);
+        }
+
+        private void backButton_Click()
+        {
+            ScreenManager.AddScreen(new SelectEncounterScreen(player));
             ScreenManager.RemoveScreen(this);
         }
     }

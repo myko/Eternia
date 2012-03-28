@@ -14,10 +14,7 @@
         <Faction>Enemy</Faction>
         <Diameter>1</Diameter>
         <TextureName>merman</TextureName>
-        <ThreatModifier>1</ThreatModifier>
-        <Swing>
-          <Duration>1.2</Duration>
-        </Swing>
+
         <BaseStatistics>
           <Health>5000</Health>
           <Mana>0</Mana>
@@ -31,14 +28,33 @@
         </BaseStatistics>
         <Abilities>
           <Item>
+            <Name>Slash</Name>
+            <Description>A moderate sword slash.</Description>
+            <AnimationName>Ability2</AnimationName>
+            <TextureName>Spell_nature_acid_01</TextureName>
+            <Damage>
+              <Value>10</Value>
+              <AttackPowerScale>0.5</AttackPowerScale>
+            </Damage>
+            <Range>
+              <Minimum>0</Minimum>
+              <Maximum>2</Maximum>
+            </Range>
+            <TargettingType>Hostile</TargettingType>
+            <CanMiss>true</CanMiss>
+            <CanBeDodged>true</CanBeDodged>
+            <CanCrit>true</CanCrit>
+          </Item>
+          <Item>
             <Name>Water Bolt</Name>
             <Description>Hurls a watery bolt at the enemy.</Description>
+            <AnimationName>Spell1</AnimationName>
             <TextureName>Spell_nature_acid_01</TextureName>
             <Damage>
               <Value>80</Value>
               <SpellPowerScale>1</SpellPowerScale>
             </Damage>
-            <CastTime>2</CastTime>
+            <Duration>2</Duration>
             <Range>
               <Minimum>0</Minimum>
               <Maximum>10</Maximum>
@@ -50,11 +66,13 @@
             <SpawnsProjectile>
               <ModelName>projectile1</ModelName>
               <TextureName>waterbolt_diffuse</TextureName>
+              <Speed>8</Speed>
             </SpawnsProjectile>
           </Item>
           <Item>
             <Name>Scalding Splash</Name>
             <Description>Soak all nearby targets with scalding hot water.</Description>
+            <AnimationName>Spell2</AnimationName>
             <TextureName>Spell_shaman_tidalwaves</TextureName>
             <Damage>
               <Value>50</Value>
@@ -64,7 +82,7 @@
             <Cooldown>
               <Duration>15</Duration>
             </Cooldown>
-            <CastTime>1.5</CastTime>
+            <Duration>1.5</Duration>
             <Range>
               <Minimum>0</Minimum>
               <Maximum>4</Maximum>

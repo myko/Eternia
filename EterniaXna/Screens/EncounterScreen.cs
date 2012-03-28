@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Myko.Xna.Ui;
 using Myko.Xna.SkinnedModel;
+using EterniaGame.Actors;
 
 namespace EterniaXna.Screens
 {
@@ -14,15 +15,18 @@ namespace EterniaXna.Screens
     {
         class ScrollingText
         {
+            public Actor Source { get; set; }
+            public Actor Target { get; set; }
             public string Text { get; set; }
             public Vector2 Position { get; set; }
             public float Alpha { get; set; }
             public SpriteFont Font { get; set; }
             public Color Color { get; set; }
+            public float Speed { get; set; }
 
             public void Update(GameTime time)
             {
-                Position = Position + new Vector2(0, (float)-time.ElapsedGameTime.TotalSeconds * 30f);
+                Position = Position + new Vector2(0, (float)-time.ElapsedGameTime.TotalSeconds * Speed);
                 Alpha -= (float)time.ElapsedGameTime.TotalSeconds * 0.8f;
             }
         }
@@ -99,9 +103,8 @@ namespace EterniaXna.Screens
             projectileModels = new List<ProjectileModel>();
         }
 
-        void abilityButton_Click(object sender, EventArgs e)
+        void abilityButton_Click(Button button)
         {
-            var button = sender as Button;
             if (button != null)
             {
                 var abilityButton = button.Content as AbilityButton;
@@ -113,9 +116,8 @@ namespace EterniaXna.Screens
             }
         }
 
-        void targettingStrategyButton_Click(object sender, EventArgs e)
+        void targettingStrategyButton_Click(Button button)
         {
-            var button = sender as Button;
             if (button != null)
             {
                 var strategyButton = button.Content as TargetingStrategyButton;
@@ -156,7 +158,7 @@ namespace EterniaXna.Screens
                 Height = 40,
                 ZIndex = 0.1f,
             };
-            pauseButton.Click += pauseButton_Click;
+            pauseButton.Click += () => pauseButton_Click(pauseButton);
             Controls.Add(pauseButton);
 
             var benchButton = new Button
@@ -170,7 +172,7 @@ namespace EterniaXna.Screens
                 Height = 40,
                 ZIndex = 0.1f,
             };
-            benchButton.Click += (o, e) => isBenchmarking = !isBenchmarking;
+            benchButton.Click += () => isBenchmarking = !isBenchmarking;
             Controls.Add(benchButton);
 
             for (int i = 0; i < 10; i++)
@@ -180,7 +182,7 @@ namespace EterniaXna.Screens
                 abilityButton.Width = 32;
                 abilityButton.Height = 32;
                 abilityButton.Background = Color.TransparentBlack;
-                abilityButton.Click += abilityButton_Click;
+                abilityButton.Click += () => abilityButton_Click(abilityButton);
                 abilityButtons.Add(abilityButton);
                 Controls.Add(abilityButton);
             }
@@ -192,7 +194,7 @@ namespace EterniaXna.Screens
                 targettingStrategyButton.Width = 32;
                 targettingStrategyButton.Height = 32;
                 targettingStrategyButton.Background = Color.TransparentBlack;
-                targettingStrategyButton.Click += targettingStrategyButton_Click;
+                targettingStrategyButton.Click += () => targettingStrategyButton_Click(targettingStrategyButton);
                 targettingStrategyButtons.Add(targettingStrategyButton);
                 Controls.Add(targettingStrategyButton);
             }
@@ -254,9 +256,6 @@ namespace EterniaXna.Screens
 
             if (keyboardState.IsKeyDown(Keys.Down))
                 cameraPosition.Y = Math.Max(-20, cameraPosition.Y - 20f * deltaTime);
-
-            if (selectedActors.Any() && keyboardState.IsKeyDown(Keys.F1))
-                ScreenManager.AddScreen(new EquipmentScreen(player, battle.Actors.Where(x => x.PlayerControlled), selectedActors.First()));
         }
 
         private Vector2 Unproject(MouseState mouseState)
@@ -279,7 +278,10 @@ namespace EterniaXna.Screens
         {
             foreach (var actor in battle.Actors.Where(x => !actorModels.Any(y => y.Actor == x)))
             {
-                actorModels.Add(new ActorModel(actor, ContentManager.Load<Model>(@"Models\Actors\humantorso1")));
+                var modelFileName = @"Models\Actors\" + actor.TextureName;
+                if (!System.IO.File.Exists(System.IO.Path.Combine(ContentManager.RootDirectory, modelFileName)))
+                    modelFileName = @"Models\Actors\heman";
+                actorModels.Add(new ActorModel(actor, ContentManager.Load<Model>(modelFileName)));
             }
 
             foreach (var projectile in battle.Projectiles.Where(x => !projectileModels.Any(y => y.Projectile == x)))
@@ -386,11 +388,14 @@ namespace EterniaXna.Screens
 
                 return new ScrollingText()
                 {
+                    Source = ev.Actor,
+                    Target = ev.Target,
                     Font = ev.CombatOutcome == CombatOutcome.Crit ? kootenayFont : kootenaySmallFont,
                     Text = text,
                     Color = ev.Healing > 0f ? Color.LightGreen : ev.Ability != null ? Color.Yellow : Color.White,
                     Alpha = 1f,
-                    Position = Project(ev.Target.Position) + new Vector2((float)random.NextDouble() * 40f - 30f, -(ev.Target.Radius + 20f))
+                    Position = Project(ev.Target.Position) + new Vector2((float)random.NextDouble() * 40f - 30f, -(ev.Target.Radius + 20f)),
+                    Speed = random.Between(30f, 60f),
                 };
             }
 
@@ -413,7 +418,13 @@ namespace EterniaXna.Screens
 
         private void DrawScrollingTexts()
         {
-            scrollingTexts.ForEach(st => SpriteBatch.DrawString(st.Font, st.Text, st.Position, new Color(st.Color, st.Alpha)));
+            scrollingTexts.ForEach(st =>
+            {
+                if (selectedActors.Any())
+                    if (!selectedActors.Contains(st.Source) && !selectedActors.Contains(st.Target))
+                        return;
+                SpriteBatch.DrawString(st.Font, st.Text, st.Position, new Color(st.Color, st.Alpha));
+            });
         }
 
         private void UpdateAbilityButtons()
@@ -522,12 +533,6 @@ namespace EterniaXna.Screens
                 mesh.Draw();
             }
 
-            foreach (var selectedActor in selectedActors.Where(x => x.Destination.HasValue))
-            {
-                var v = Project(selectedActor.Destination.Value);
-                SpriteBatch.Draw(destinationTexture, new Rectangle((int)(v.X - 16), (int)(v.Y - 16), (int)32, (int)32), Color.White);
-            }
-
             foreach (var actorModel in actorModels.OrderBy(a => a.Actor.Position.Y))
             {
                 var color = Color.LightGray;
@@ -562,33 +567,30 @@ namespace EterniaXna.Screens
 
             foreach (var selectedActor in selectedActors)
             {
-                var v = Project(selectedActor.Position);
-                float s = selectedActor.Radius * 1.4f;
-
-                var p = new Vector3(selectedActor.Position, 0.04f);
                 var vertices = new VertexPositionTexture[6];
-                vertices[0] = new VertexPositionTexture(p + new Vector3(-1, 1, 0) * s, new Vector2(0, 0));
-                vertices[1] = new VertexPositionTexture(p + new Vector3(1, 1, 0) * s, new Vector2(1, 0));
-                vertices[2] = new VertexPositionTexture(p + new Vector3(-1, -1, 0) * s, new Vector2(0, 1));
-                vertices[3] = new VertexPositionTexture(p + new Vector3(1, 1, 0) * s, new Vector2(1, 0));
-                vertices[4] = new VertexPositionTexture(p + new Vector3(1, -1, 0) * s, new Vector2(1, 1));
-                vertices[5] = new VertexPositionTexture(p + new Vector3(-1, -1, 0) * s, new Vector2(0, 1));
-
-                billboardEffect.Parameters["World"].SetValue(Matrix.Identity);
-                billboardEffect.Parameters["View"].SetValue(view);
-                billboardEffect.Parameters["Projection"].SetValue(projection);
-                billboardEffect.Parameters["Texture"].SetValue(selectionTexture);
-                billboardEffect.Parameters["Alpha"].SetValue(1f);
-                if (selectedActor.Faction == Factions.Friend)
-                    billboardEffect.Parameters["Diffuse"].SetValue(Color.Green.ToVector4());
-                else
-                    billboardEffect.Parameters["Diffuse"].SetValue(Color.Red.ToVector4());
+                vertices[0] = new VertexPositionTexture(new Vector3(-1, 1, 0), new Vector2(0, 0));
+                vertices[1] = new VertexPositionTexture(new Vector3(1, 1, 0), new Vector2(1, 0));
+                vertices[2] = new VertexPositionTexture(new Vector3(-1, -1, 0), new Vector2(0, 1));
+                vertices[3] = new VertexPositionTexture(new Vector3(1, 1, 0), new Vector2(1, 0));
+                vertices[4] = new VertexPositionTexture(new Vector3(1, -1, 0), new Vector2(1, 1));
+                vertices[5] = new VertexPositionTexture(new Vector3(-1, -1, 0), new Vector2(0, 1));
 
                 ScreenManager.GraphicsDevice.VertexDeclaration = new VertexDeclaration(ScreenManager.GraphicsDevice, VertexPositionTexture.VertexElements);
                 ScreenManager.GraphicsDevice.RenderState.AlphaBlendEnable = true;
                 ScreenManager.GraphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha;
                 ScreenManager.GraphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha;
                 ScreenManager.GraphicsDevice.RenderState.DepthBufferWriteEnable = false;
+
+                billboardEffect.Parameters["View"].SetValue(view);
+                billboardEffect.Parameters["Projection"].SetValue(projection);
+                billboardEffect.Parameters["Alpha"].SetValue(1f);
+
+                billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(selectedActor.Radius * 1.4f) * Matrix.CreateTranslation(new Vector3(selectedActor.Position, 0.04f)));
+                if (selectedActor.Faction == Factions.Friend)
+                    billboardEffect.Parameters["Diffuse"].SetValue(Color.Green.ToVector4());
+                else
+                    billboardEffect.Parameters["Diffuse"].SetValue(Color.Red.ToVector4());
+                billboardEffect.Parameters["Texture"].SetValue(selectionTexture);
 
                 billboardEffect.Begin();
                 foreach (var pass in billboardEffect.CurrentTechnique.Passes)
@@ -599,6 +601,22 @@ namespace EterniaXna.Screens
                 }
                 billboardEffect.End();
 
+                if (selectedActor.Destination.HasValue)
+                {
+                    billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(selectedActor.Radius * 1.4f) * Matrix.CreateTranslation(new Vector3(selectedActor.Destination.Value, 0.04f)));
+                    billboardEffect.Parameters["Diffuse"].SetValue(Color.White.ToVector4());
+                    billboardEffect.Parameters["Texture"].SetValue(destinationTexture);
+
+                    billboardEffect.Begin();
+                    foreach (var pass in billboardEffect.CurrentTechnique.Passes)
+                    {
+                        pass.Begin();
+                        ScreenManager.GraphicsDevice.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, vertices, 0, 2);
+                        pass.End();
+                    }
+                    billboardEffect.End();
+                }
+
                 ScreenManager.GraphicsDevice.RenderState.DepthBufferWriteEnable = true;
             }
 
@@ -606,7 +624,6 @@ namespace EterniaXna.Screens
             {
                 var v = Project(graphicEffect.Position);
                 float s = graphicEffect.Scale;
-                //SpriteBatch.Draw(splashTexture, new Rectangle((int)(v.X - s / 2), (int)(v.Y - s / 2), (int)s, (int)s), Color.White, 0.3f);
 
                 var p = new Vector3(graphicEffect.Position, 1f);
                 var vertices = new VertexPositionTexture[6];
@@ -676,7 +693,7 @@ namespace EterniaXna.Screens
                 if (actor.Targets.Any())
                     actorText += " > " + string.Join(", ", actor.Targets.Select(x => x.Name).ToArray());
 
-                SpriteBatch.Draw(ContentManager.Load<Texture2D>(@"Models\Actors\" + actor.TextureName), new Rectangle(0, i * 50, 50, 50), color);
+                SpriteBatch.Draw(ContentManager.Load<Texture2D>(@"Models\Actors\" + actor.TextureName + "_portrait"), new Rectangle(0, i * 50, 50, 50), color);
                 SpriteBatch.DrawString(kootenayFont, actorText, new Vector2(50, i * 50), color);
                 if (actor.Faction == Factions.Enemy)
                     DrawHealthBar(50, 25 + i * 50, 100, 15, actor.HealthFraction, Color.Red);
@@ -684,12 +701,15 @@ namespace EterniaXna.Screens
                     DrawHealthBar(50, 25 + i * 50, 100, 15, actor.HealthFraction, Color.GreenYellow);
                 else
                     DrawHealthBar(50, 25 + i * 50, 100, 15, actor.HealthFraction, Color.Yellow);
-                DrawHealthBar(50, 25 + i * 50 + 15, 100, 5, actor.ManaFraction, Color.CornflowerBlue);
+                if (actor.MaximumMana > 0)
+                    DrawHealthBar(50, 25 + i * 50 + 15, 100, 5, actor.ManaFraction, Color.CornflowerBlue);
+                else
+                    DrawHealthBar(50, 25 + i * 50 + 15, 100, 5, actor.EnergyFraction, Color.LightGoldenrodYellow);
                 if (actor.CastingProgress != null)
                 {
                     DrawHealthBar(50, 25 + i * 50 + 20, 100, 5, (actor.CastingProgress.Duration - actor.CastingProgress.Current) / actor.CastingProgress.Duration, Color.Yellow);
                     if (isFirstSelected)
-                        DrawHealthBar((int)Width / 2 - 100, (int)Height - 100, 200, 10, (actor.CastingProgress.Duration - actor.CastingProgress.Current) / actor.CastingProgress.Duration, Color.Yellow);
+                        DrawHealthBar((int)Width / 2 - 100, (int)Height - 140, 200, 10, (actor.CastingProgress.Duration - actor.CastingProgress.Current) / actor.CastingProgress.Duration, Color.Yellow);
                 }
                 SpriteBatch.DrawString(kootenaySmallFont, actor.CurrentHealth.ToString("0") + "/" + actor.MaximumHealth.ToString("0"), new Vector2(55, 25 + i * 50), Color.White, ZIndex + 0.003f);
             }
@@ -701,10 +721,10 @@ namespace EterniaXna.Screens
             SpriteBatch.Draw(healthBarTexture, new Rectangle(x, y, (int)(fraction * width), height), color, ZIndex + 0.002f);
         }
 
-        private void pauseButton_Click(object sender, System.EventArgs e)
+        private void pauseButton_Click(Button pauseButton)
         {
             isPaused = !isPaused;
-            ((Button)sender).Content = isPaused ? "Unpause" : "Pause";
+            pauseButton.Content = isPaused ? "Unpause" : "Pause";
         }
     }
 }

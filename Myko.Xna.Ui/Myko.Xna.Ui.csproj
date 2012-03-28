@@ -95,6 +95,7 @@
     <Compile Include="ListBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenManager.cs" />
+    <Compile Include="TabControl.cs" />
     <Compile Include="TextBox.cs" />
     <Compile Include="XnaExtensions.cs" />
   </ItemGroup>

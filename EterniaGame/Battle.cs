@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using EterniaGame.Triggers;
+using EterniaGame.Abilities;
+using EterniaGame.Actors;
 
 namespace EterniaGame
 {
@@ -103,10 +105,10 @@ namespace EterniaGame
 
         private void MoveProjectile(float deltaTime, Projectile projectile)
         {
-            var d = new Vector3(projectile.Target.Position, 1.5f) - projectile.Position;
+            var d = new Vector3(projectile.Target.Position, projectile.Target.Radius) - projectile.Position;
             if (d.Length() > 1)
                 d.Normalize();
-            projectile.Position += d * 8 * deltaTime;
+            projectile.Position += d * projectile.Speed * deltaTime;
         }
 
         private void RunActors(float deltaTime, Turn turn)
@@ -130,7 +132,7 @@ namespace EterniaGame
             // Drop dead actors from threat lists
             actor.ThreatList.RemoveAll(t => !t.Actor.IsAlive);
 
-            if (actor.IsAlive)
+            if (IsReadyToSelectNewTarget(actor))
             {
                 actor.SelectTarget(Actors.Where(x => x.IsAlive));
             }
@@ -138,35 +140,49 @@ namespace EterniaGame
             RunAbilities(deltaTime, turn, actor);
 
             if (actor.IsAlive)
-                if (actor.Move(deltaTime))
+                if (actor.Move(deltaTime, Actors.Where(x => x != actor)))
                     actor.BaseAnimationState = BaseAnimationState.Walking;
                 else
                     actor.BaseAnimationState = BaseAnimationState.Idle;
             else
                 actor.BaseAnimationState = BaseAnimationState.Dead;
 
-            MeleeSwing(deltaTime, turn, actor);
-
             RunActorAuras(deltaTime, turn, actor);
 
-            if (actor.CastingProgress != null && actor.CastingProgress.Current > 0f)
+            if (actor.CastingProgress != null && actor.CastingProgress.Current > 0f && actor.CastingAbility != null)
                 actor.BaseAnimationState = BaseAnimationState.Casting;
 
             if (actor.IsAlive && actor.CurrentHealth <= 0f)
             {
-                actor.IsAlive = false;
-                actor.Targets.Clear();
-                actor.Auras.Clear();
-                turn.Events.Add(new Event(EventTypes.ActorDeath)
-                {
-                    Actor = actor
-                });
+                KillActor(turn, actor);
+            }
+        }
 
-                foreach (var actorWithDeadTarget in Actors.Where(x => x.PlayerControlled))
-                {
-                    while (actorWithDeadTarget.Targets.Any() && !actorWithDeadTarget.Targets.Peek().IsAlive)
-                        actorWithDeadTarget.Targets.Dequeue();
-                }
+        private bool IsReadyToSelectNewTarget(Actor actor)
+        {
+            if (!actor.IsAlive)
+                return false;
+
+            if (actor.CastingProgress != null && actor.CastingProgress.Current > 0f && actor.CastingAbility != null)
+                return false;
+
+            return true;
+        }
+
+        private void KillActor(Turn turn, Actor actor)
+        {
+            actor.IsAlive = false;
+            actor.Targets.Clear();
+            actor.Auras.Clear();
+            turn.Events.Add(new Event(EventTypes.ActorDeath)
+            {
+                Actor = actor
+            });
+
+            foreach (var actorWithDeadTarget in Actors.Where(x => x.PlayerControlled))
+            {
+                while (actorWithDeadTarget.Targets.Any() && !actorWithDeadTarget.Targets.Peek().IsAlive)
+                    actorWithDeadTarget.Targets.Dequeue();
             }
         }
 
@@ -267,18 +283,9 @@ namespace EterniaGame
 
                     if (abilityTarget.DistanceFrom(actor).In(ability.Range + actor.Radius + abilityTarget.Radius))
                     {
-                        if (ability.CastTime > 0)
-                        {
-                            actor.CastingAbility = ability;
-                            actor.CastingProgress = new Cooldown(ability.CastTime);
-                            actor.CastingProgress.Incur();
-                        }
-                        else
-                        {
-                            actor.CastingAbility = null;
-
-                            ApplySingleTargetAbility(turn, actor, ability, abilityTarget);
-                        }
+                        actor.CastingAbility = ability;
+                        actor.CastingProgress = new Cooldown(ability.Duration);
+                        actor.CastingProgress.Incur();
 
                         return true;
                     }
@@ -286,20 +293,11 @@ namespace EterniaGame
             }
             else if (ability.DamageType == DamageTypes.PointBlankArea)
             {
-                if (Actors.Any(x => ValidPointBlankAreaTarget(actor, x, ability)))
+                //if (Actors.Any(x => ValidPointBlankAreaTarget(actor, x, ability)))
                 {
-                    if (ability.CastTime > 0)
-                    {
-                        actor.CastingAbility = ability;
-                        actor.CastingProgress = new Cooldown(ability.CastTime);
-                        actor.CastingProgress.Incur();
-                    }
-                    else
-                    {
-                        actor.CastingAbility = null;
-
-                        ApplyPointBlankAreaAbility(turn, actor, ability);
-                    }
+                    actor.CastingAbility = ability;
+                    actor.CastingProgress = new Cooldown(ability.Duration);
+                    actor.CastingProgress.Incur();
 
                     return true;
                 }
@@ -321,19 +319,10 @@ namespace EterniaGame
 
                     if (primaryTarget.DistanceFrom(actor).In(ability.Range + actor.Radius + primaryTarget.Radius))
                     {
-                        if (ability.CastTime > 0)
-                        {
-                            actor.CastingAbility = ability;
-                            actor.CastingProgress = new Cooldown(ability.CastTime);
-                            actor.CastingProgress.Incur();
-                        }
-                        else
-                        {
-                            actor.CastingAbility = null;
-
-                            ApplyCleaveAbility(turn, actor, ability, primaryTarget);
-                        }
-
+                        actor.CastingAbility = ability;
+                        actor.CastingProgress = new Cooldown(ability.Duration);
+                        actor.CastingProgress.Incur();
+                        
                         return true;
                     }
                 }
@@ -383,7 +372,7 @@ namespace EterniaGame
         {
             if (ability.SpawnsProjectile != null)
             {
-                Projectiles.Add(new Projectile { Ability = ability, Owner = actor, Target = abilityTarget, Position = new Vector3(actor.Position, 0), ModelName = ability.SpawnsProjectile.ModelName, TextureName = ability.SpawnsProjectile.TextureName });
+                SpawnProjectile(actor, abilityTarget, ability);
             }
             else
             {
@@ -436,7 +425,7 @@ namespace EterniaGame
 
                 if (ability.SpawnsProjectile != null)
                 {
-                    Projectiles.Add(new Projectile { Ability = ability, Owner = actor, Target = secondaryTarget, Position = new Vector3(actor.Position, 0), ModelName = ability.SpawnsProjectile.ModelName, TextureName = ability.SpawnsProjectile.TextureName });
+                    SpawnProjectile(actor, secondaryTarget, ability);
                 }
                 else
                 {
@@ -445,6 +434,11 @@ namespace EterniaGame
 
                 ability.Cooldown.Incur();
             }
+        }
+
+        private void SpawnProjectile(Actor actor, Actor target, Ability ability)
+        {
+            Projectiles.Add(new Projectile { Ability = ability, Owner = actor, Target = target, Position = new Vector3(actor.Position, 0), Speed = ability.SpawnsProjectile.Speed, ModelName = ability.SpawnsProjectile.ModelName, TextureName = ability.SpawnsProjectile.TextureName });
         }
 
         private void ApplyAbilityOutcome(Turn turn, Actor actor, Ability ability, Actor target)
@@ -472,6 +466,7 @@ namespace EterniaGame
             }
 
             actor.CurrentMana -= ability.ManaCost;
+            actor.CurrentEnergy -= ability.EnergyCost;
             target.CurrentHealth -= (damage);
             target.CurrentHealth += (healing);
 
@@ -498,64 +493,6 @@ namespace EterniaGame
                 Damage2 = damage2,
                 Healing = healing,
                 Ability = ability,
-                CombatOutcome = combatOutcome
-            });
-        }
-
-        private void MeleeSwing(float deltaTime, Turn turn, Actor actor)
-        {
-            if (!actor.IsAlive)
-                return;
-
-            actor.Swing.Cool(deltaTime);
-
-            if (!actor.Swing.IsReady || actor.CastingAbility != null)
-                return;
-
-            if (!actor.Targets.Any() || !actor.Targets.Peek().IsAlive)
-                return;
-
-            var target = actor.Targets.Peek();
-            var meleeRange = new Range(actor.Radius + target.Radius + 1);
-            if (!target.DistanceFrom(actor).In(meleeRange))
-                return;
-
-            if (target.Faction == actor.Faction)
-                return;
-
-            ApplyMeleeSwingOutcome(turn, actor);
-        }
-
-        private void ApplyMeleeSwingOutcome(Turn turn, Actor actor)
-        {
-            var target = actor.Targets.Peek();
-            var combatTable = new CombatTable(random, actor.CurrentStatistics, target.CurrentStatistics);
-            var combatOutcome = combatTable.Roll();
-            var damage = 0f;
-            var damage2 = 0f;
-
-            switch (combatOutcome)
-            {
-                case CombatOutcome.Crit:
-                    damage = random.Between(actor.CurrentStatistics.Precision * actor.CurrentStatistics.AttackPower, actor.CurrentStatistics.AttackPower) * 2 * (1f - target.CurrentStatistics.ArmorReduction);
-                    break;
-                case CombatOutcome.Hit:
-                    damage = random.Between(actor.CurrentStatistics.Precision * actor.CurrentStatistics.AttackPower, actor.CurrentStatistics.AttackPower) * (1f - target.CurrentStatistics.ArmorReduction);
-                    break;
-            }
-
-            damage = damage * actor.CurrentStatistics.DamageDone * target.CurrentStatistics.DamageTaken;
-
-            actor.Swing.Incur();
-            target.CurrentHealth -= damage;
-            target.ThreatList.Increase(actor, (int)damage);
-
-            turn.Events.Add(new Event(EventTypes.Swing)
-            {
-                Actor = actor,
-                Target = target,
-                Damage = damage,
-                Damage2 = damage2,
                 CombatOutcome = combatOutcome
             });
         }

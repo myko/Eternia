@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <XnaContent>
-  <Asset Type="EterniaGame.Actor">
+  <Asset Type="EterniaGame.Actors.Actor">
     <Id>heman</Id>
     <Name>He-Man</Name>
     
@@ -9,7 +9,9 @@
       <Item>
         <Name>Shield Block</Name>
         <Description>Reduces damage taken by 20% for 10 seconds.</Description>
+        <AnimationName>Defend1</AnimationName>
         <TextureName>Ability_defend</TextureName>
+        <EnergyCost>20</EnergyCost>
         <Cooldown>
           <Duration>30</Duration>
         </Cooldown>
@@ -31,14 +33,13 @@
       <Item>
         <Name>Heroic Strike</Name>
         <Description>A powerful melee attack. Causes a high amount of threat.</Description>
+        <AnimationName>Ability2</AnimationName>
         <TextureName>Ability_meleedamage</TextureName>
         <Damage>
           <Value>5</Value>
           <AttackPowerScale>0.8</AttackPowerScale>
         </Damage>
-        <Cooldown>
-          <Duration>2</Duration>
-        </Cooldown>
+        <EnergyCost>-10</EnergyCost>
         <Range>
           <Minimum>0</Minimum>
           <Maximum>1</Maximum>
@@ -49,11 +50,13 @@
       <Item>
         <Name>Thunderclap</Name>
         <Description>He-Man stomps the ground and damages all nearby targets. Causes a high amount of threat.</Description>
+        <AnimationName>Ability1</AnimationName>
         <TextureName>Ability_thunderclap</TextureName>
         <Damage>
           <Value>10</Value>
           <AttackPowerScale>1.3</AttackPowerScale>
         </Damage>
+        <EnergyCost>30</EnergyCost>
         <Cooldown>
           <Duration>6</Duration>
         </Cooldown>
@@ -68,11 +71,13 @@
       <Item>
         <Name>Power Punch</Name>
         <Description>A powerful melee attack.</Description>
+        <AnimationName>Ability1</AnimationName>
         <TextureName>Ability_Warrior_SecondWind</TextureName>
         <Damage>
           <Value>15</Value>
           <AttackPowerScale>2.5</AttackPowerScale>
         </Damage>
+        <EnergyCost>-10</EnergyCost>
         <Cooldown>
           <Duration>3</Duration>
         </Cooldown>
@@ -84,13 +89,15 @@
       </Item>
       
       <Item>
-        <Name>Uppercut</Name>
+        <Name>Slash</Name>
         <Description>A powerful melee attack.</Description>
+        <AnimationName>Ability2</AnimationName>
         <TextureName>Ability_Warrior_bloodfrenzy</TextureName>
         <Damage>
           <Value>25</Value>
           <AttackPowerScale>3.5</AttackPowerScale>
         </Damage>
+        <EnergyCost>20</EnergyCost>
         <Cooldown>
           <Duration>5</Duration>
         </Cooldown>
@@ -103,11 +110,13 @@
       <Item>
         <Name>Whirlwind</Name>
         <Description>Hits all nearby enemy targets.</Description>
+        <AnimationName>Ability1</AnimationName>
         <TextureName>Ability_whirlwind</TextureName>
         <Damage>
           <Value>20</Value>
           <AttackPowerScale>1.8</AttackPowerScale>
         </Damage>
+        <EnergyCost>50</EnergyCost>
         <Cooldown>
           <Duration>9</Duration>
         </Cooldown>
@@ -212,17 +221,20 @@
     <Diameter>1</Diameter>
     <PlayerControlled>true</PlayerControlled>
     <TextureName>heman</TextureName>
-    <ThreatModifier>2</ThreatModifier>
-    <Swing>
-      <Duration>1.6</Duration>
-    </Swing>
-    
+
     <BaseStatistics>
       <Health>125</Health>
-      <Mana>0</Mana>
+      <Energy>100</Energy>
       <MissRating>100</MissRating>
     </BaseStatistics>
 
+    <BaseModifiers>
+      <HealthModifier>1.0</HealthModifier>
+      <AttackPowerModifier>1.0</AttackPowerModifier>
+      <SpellPowerModifier>1.0</SpellPowerModifier>
+    </BaseModifiers>
+    
     <Cost>0</Cost>
+    <ResourceType>Energy</ResourceType>
   </Asset>
 </XnaContent>

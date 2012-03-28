@@ -11,8 +11,8 @@ namespace EterniaXna
         private Item item;
 
         public bool ShowZeroValues { get; set; }
-        public bool ShowUpgrade { get; set; }
-        public Statistics Upgrade { get; set; }
+        public Binding<bool> ShowUpgrade { get; set; }
+        public Binding<Statistics> Upgrade { get; set; }
 
         public ItemTooltip(Item item)
         {
@@ -25,14 +25,6 @@ namespace EterniaXna
 
         public override void Draw(Vector2 position, GameTime gameTime)
         {
-            var bounds = new Rectangle((int)position.X, (int)position.Y, (int)Width, (int)Height);
-            Width = Math.Max(Width, Font.MeasureString(item.Name).X + 20);
-
-            SpriteBatch.Draw(BlankTexture, bounds, Color.White, ZIndex);
-            var innerBounds = bounds;
-            innerBounds.Inflate(-1, -1);
-            SpriteBatch.Draw(BlankTexture, innerBounds, new Color(20, 20, 20), ZIndex + 0.001f);
-
             int x = (int)position.X + 10;
             int y = (int)position.Y + 10;
 
@@ -45,13 +37,22 @@ namespace EterniaXna
             if (ShowUpgrade)
                 y = DrawUpgradeStatistics(Upgrade, x, y + 10);
 
+            Width = Math.Max(Width, Font.MeasureString(item.Name).X + 20);
             Height = y - position.Y + 10;
+
+            var bounds = new Rectangle((int)position.X, (int)position.Y, (int)Width, (int)Height);
+            var innerBounds = bounds;
+            innerBounds.Inflate(-1, -1);
+
+            SpriteBatch.Draw(BlankTexture, bounds, Color.White, ZIndex);
+            SpriteBatch.Draw(BlankTexture, innerBounds, new Color(20, 20, 20), ZIndex + 0.001f);
         }
 
         public int DrawStatistics(Statistics statistics, int x, int y, bool hideZero)
         {
             y = DrawStatistic("Health", (int)statistics.Health, x, y, hideZero);
             y = DrawStatistic("Mana", (int)statistics.Mana, x, y, hideZero);
+            y = DrawStatistic("Energy", (int)statistics.Energy, x, y, hideZero);
             y = DrawStatistic("Armor rating", statistics.ArmorRating, x, y, hideZero);
             y = DrawStatistic("Attack power", (int)statistics.AttackPower, x, y, hideZero);
             y = DrawStatistic("Spell power", (int)statistics.SpellPower, x, y, hideZero);
@@ -68,6 +69,7 @@ namespace EterniaXna
         {
             y = DrawUpgradeStatistic("Health", (int)statistics.Health, x, y);
             y = DrawUpgradeStatistic("Mana", (int)statistics.Mana, x, y);
+            y = DrawUpgradeStatistic("Energy", (int)statistics.Energy, x, y);
             y = DrawUpgradeStatistic("Armor rating", statistics.ArmorRating, x, y);
             y = DrawUpgradeStatistic("Attack power", (int)statistics.AttackPower, x, y);
             y = DrawUpgradeStatistic("Spell power", (int)statistics.SpellPower, x, y);
@@ -115,9 +117,9 @@ namespace EterniaXna
                 case ItemRarities.Uncommon:
                     return Color.White;
                 case ItemRarities.Rare:
-                    return Color.CornflowerBlue;
-                case ItemRarities.Heroic:
                     return Color.MediumAquamarine;
+                case ItemRarities.Heroic:
+                    return Color.CornflowerBlue;
                 case ItemRarities.Epic:
                     return Color.MediumPurple;
                 case ItemRarities.Legendary:

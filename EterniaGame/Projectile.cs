@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Myko.Xna.SkinnedModel;
+using EterniaGame.Abilities;
+using EterniaGame.Actors;
 
 namespace EterniaGame
 {
@@ -16,6 +18,7 @@ namespace EterniaGame
         public bool IsAlive { get; set; }
         public string ModelName { get; set; }
         public string TextureName { get; set; }
+        public float Speed { get; set; }
 
         public Projectile()
         {

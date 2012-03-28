@@ -12,7 +12,7 @@ namespace Myko.Xna.Ui
     {
         private bool mousePressed = false;
 
-        public event EventHandler Click;
+        public event Action Click;
 
         public Button()
         {
@@ -25,7 +25,7 @@ namespace Myko.Xna.Ui
         protected void OnClick()
         {
             if (Click != null)
-                Click(this, new EventArgs());
+                Click();
         }
 
         public override void HandleInput(Vector2 position, GameTime gameTime)

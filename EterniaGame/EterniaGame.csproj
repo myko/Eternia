@@ -47,10 +47,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ability.cs" />
-    <Compile Include="AbilityDefinition.cs" />
-    <Compile Include="Actor.cs" />
-    <Compile Include="ActorDefinition.cs" />
+    <Compile Include="Abilities\Ability.cs" />
+    <Compile Include="Abilities\AbilityDefinition.cs" />
+    <Compile Include="Abilities\AbilityGenerator.cs" />
+    <Compile Include="Actors\Actor.cs" />
+    <Compile Include="Actors\ActorDefinition.cs" />
+    <Compile Include="Actors\ActorGenerator.cs" />
+    <Compile Include="Actors\ActorResourceTypes.cs" />
     <Compile Include="Aura.cs" />
     <Compile Include="Battle.cs" />
     <Compile Include="CombatTable.cs" />
@@ -67,10 +70,12 @@
     <Compile Include="Items\ItemRarity.cs" />
     <Compile Include="Items\ItemSlots.cs" />
     <Compile Include="Items\ItemAffixes.cs" />
+    <Compile Include="Modifiers.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Projectile.cs" />
     <Compile Include="ProjectileDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Randomizer.cs" />
     <Compile Include="Range.cs" />
     <Compile Include="SortingList.cs" />
     <Compile Include="Stat.cs" />

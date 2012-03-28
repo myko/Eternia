@@ -71,5 +71,34 @@ namespace EterniaXna.Screens
 
             return listbox;
         }
+
+        protected BoundListBox<T> AddBoundListBox<T>(ControlCollection controls, Vector2 position, float width, float height)
+            where T : class
+        {
+            var listbox = new BoundListBox<T>
+            {
+                Width = width - 32,
+                Height = height - 32,
+                ZIndex = 0.1f,
+                Background = Color.TransparentBlack
+            };
+
+            var border = new Border(listbox)
+            {
+                Position = position,
+                Width = width,
+                Height = height,
+                ZIndex = 0.1f,
+                BorderSize = 16,
+                BorderColor = new Color(120, 160, 140),
+                BorderTexture = borderTexture,
+                Background = new Color(40, 40, 149),
+                BackgroundTexture = cloudsBackground
+            };
+
+            controls.Add(border);
+
+            return listbox;
+        }
     }
 }

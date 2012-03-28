@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <XnaContent>
-  <Asset Type="EterniaGame.Actor">
+  <Asset Type="EterniaGame.Actors.Actor">
     <Id>manatarms</Id>
     <Name>Man-at-Arms</Name>
     <Abilities>
@@ -8,13 +8,14 @@
       <Item>
         <Name>Medi-bot Injection</Name>
         <Description>Administer an injection of Medi-bots, healing one friendly target.</Description>
+        <AnimationName>Spell1</AnimationName>
         <TextureName>Spell_Holy_FlashHeal</TextureName>
         <Healing>
           <Value>22</Value>
           <SpellPowerScale>2.8</SpellPowerScale>
         </Healing>
         <ManaCost>8</ManaCost>
-        <CastTime>3</CastTime>
+        <Duration>3</Duration>
         <Range>
           <Minimum>0</Minimum>
           <Maximum>20</Maximum>
@@ -28,6 +29,7 @@
       <Item>
         <Name>Resident Medi-bot</Name>
         <Description>Inject a friendly target with a resident Medi-bot, healing them over time.</Description>
+        <AnimationName>Spell2</AnimationName>
         <TextureName>Ability_paladin_blessedmending</TextureName>
         <ManaCost>4</ManaCost>
         <Cooldown>
@@ -59,6 +61,7 @@
       <Item>
         <Name>Reproductive Medi-bots</Name>
         <Description>Inject a friendly target with reproductive Medi-bots which multiply and spread to nearby allies.</Description>
+        <AnimationName>Spell1</AnimationName>
         <TextureName>Ability_paladin_sacredcleansing</TextureName>
         <Healing>
           <Value>22</Value>
@@ -68,7 +71,7 @@
         <Cooldown>
           <Duration>8</Duration>
         </Cooldown>
-        <CastTime>2</CastTime>
+        <Duration>2</Duration>
         <Range>
           <Minimum>0</Minimum>
           <Maximum>20</Maximum>
@@ -83,6 +86,7 @@
       <Item>
         <Name>Mace Bash</Name>
         <Description>A strong melee attack.</Description>
+        <AnimationName>Ability1</AnimationName>
         <TextureName>Ability_warrior_decisivestrike</TextureName>
         <Damage>
           <Value>15</Value>
@@ -101,6 +105,7 @@
       <Item>
         <Name>Wrist Shooters</Name>
         <Description>Blast the target with a high energy laser.</Description>
+        <AnimationName>Spell2</AnimationName>
         <TextureName>Inv_ammo_bullet_06</TextureName>
         <Damage>
           <Value>25</Value>
@@ -117,12 +122,14 @@
         <SpawnsProjectile>
           <ModelName>rocket1</ModelName>
           <TextureName>rocket1_diffuse</TextureName>
+          <Speed>16</Speed>
         </SpawnsProjectile>
       </Item>
 
       <Item>
         <Name>Rocket Barrage</Name>
         <Description>Man-at-Arms blasts his target with rockets, damaging all nearby enemies.</Description>
+        <AnimationName>Spell2</AnimationName>
         <TextureName>Inv_ammo_bullet_05</TextureName>
         <Damage>
           <Value>20</Value>
@@ -140,6 +147,7 @@
         <SpawnsProjectile>
           <ModelName>rocket1</ModelName>
           <TextureName>bluerocket_diffuse</TextureName>
+          <Speed>8</Speed>
         </SpawnsProjectile>
       </Item>
       
@@ -236,18 +244,20 @@
     <Diameter>1</Diameter>
     <PlayerControlled>true</PlayerControlled>
     <TextureName>manatarms</TextureName>
-    <ThreatModifier>1</ThreatModifier>
-    
-    <Swing>
-      <Duration>1.5</Duration>
-    </Swing>
-    
+
     <BaseStatistics>
       <Health>125</Health>
       <Mana>225</Mana>
       <MissRating>100</MissRating>
     </BaseStatistics>
 
+    <BaseModifiers>
+      <HealthModifier>1.0</HealthModifier>
+      <AttackPowerModifier>1.0</AttackPowerModifier>
+      <SpellPowerModifier>1.0</SpellPowerModifier>
+    </BaseModifiers>
+    
     <Cost>0</Cost>
+    <ResourceType>Mana</ResourceType>
   </Asset>
 </XnaContent>

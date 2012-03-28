@@ -96,7 +96,7 @@ namespace Myko.Xna.Ui
 
         public override void HandleInput(Vector2 position, GameTime gameTime)
         {
-            DoControlsWithLayout(position, gameTime, (c, p) => c.HandleInput(p, gameTime));
+            DoControlsWithLayout(position, gameTime, (c, p) => c.HandleInput(c.Position + p, gameTime));
 
             base.HandleInput(position, gameTime);
         }
@@ -113,7 +113,7 @@ namespace Myko.Xna.Ui
 
         public override void Draw(Vector2 position, GameTime gameTime)
         {
-            DoControlsWithLayout(position, gameTime, (c, p) => c.Draw(p, gameTime));
+            DoControlsWithLayout(position, gameTime, (c, p) => c.Draw(c.Position + p, gameTime));
 
             base.Draw(position, gameTime);
         }

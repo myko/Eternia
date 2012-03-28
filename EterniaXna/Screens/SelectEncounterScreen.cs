@@ -87,7 +87,7 @@ namespace EterniaXna.Screens
         {
         }
 
-        private void okButton_Click(object sender, System.EventArgs e)
+        private void okButton_Click()
         {
             if (encounterListBox.SelectedItem == null)
                 return;
@@ -99,7 +99,7 @@ namespace EterniaXna.Screens
             ScreenManager.RemoveScreen(this);
         }
 
-        private void backButton_Click(object sender, System.EventArgs e)
+        private void backButton_Click()
         {
             ScreenManager.AddScreen(new TitleScreen(player));
             ScreenManager.RemoveScreen(this);

@@ -3,6 +3,7 @@ using EterniaGame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Myko.Xna.Ui;
+using EterniaGame.Actors;
 
 namespace EterniaXna
 {

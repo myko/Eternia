@@ -14,6 +14,8 @@ namespace EterniaGame
         [ContentSerializer(Optional = true)]
         public float Mana { get; set; }
         [ContentSerializer(Optional = true)]
+        public float Energy { get; set; }
+        [ContentSerializer(Optional = true)]
         public float AttackPower { get; set; }
         [ContentSerializer(Optional = true)]
         public float SpellPower { get; set; }
@@ -85,6 +87,7 @@ namespace EterniaGame
             {
                 Health = s1.Health + s2.Health,
                 Mana = s1.Mana + s2.Mana,
+                Energy = s1.Energy + s2.Energy,
                 AttackPower = s1.AttackPower + s2.AttackPower,
                 SpellPower = s1.SpellPower + s2.SpellPower,
 
@@ -110,6 +113,7 @@ namespace EterniaGame
             {
                 Health = s1.Health - s2.Health,
                 Mana = s1.Mana - s2.Mana,
+                Energy = s1.Energy - s2.Energy,
                 AttackPower = s1.AttackPower - s2.AttackPower,
                 SpellPower = s1.SpellPower - s2.SpellPower,
 
@@ -136,6 +140,7 @@ namespace EterniaGame
             {
                 Health = s1.Health * f,
                 Mana = s1.Mana * f,
+                Energy = s1.Energy * f,
                 AttackPower = s1.AttackPower * f,
                 SpellPower = s1.SpellPower * f,
 
@@ -158,6 +163,32 @@ namespace EterniaGame
         public static Statistics operator *(float f, Statistics s1)
         {
             return s1 * f;
+        }
+
+        public static Statistics operator *(Statistics s1, Modifiers m)
+        {
+            return new Statistics()
+            {
+                Health = s1.Health * m.HealthModifier,
+                Mana = s1.Mana,
+                Energy = s1.Energy,
+                AttackPower = s1.AttackPower * m.AttackPowerModifier,
+                SpellPower = s1.SpellPower * m.SpellPowerModifier,
+
+                ArmorRating = s1.ArmorRating,
+                MissRating = s1.MissRating,
+                DodgeRating = s1.DodgeRating,
+                CritRating = s1.CritRating,
+                HitRating = s1.HitRating,
+                PrecisionRating = s1.PrecisionRating,
+
+                DamageDone = s1.DamageDone,
+                DamageTaken = s1.DamageTaken,
+                HealingDone = s1.HealingDone,
+                HealingTaken = s1.HealingTaken,
+
+                ExtraRewards = s1.ExtraRewards
+            };
         }
     }
 }

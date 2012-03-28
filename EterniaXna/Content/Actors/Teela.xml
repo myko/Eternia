@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <XnaContent>
-  <Asset Type="EterniaGame.Actor">
+  <Asset Type="EterniaGame.Actors.Actor">
     <Id>teela</Id>
     <Name>Teela</Name>
     <Abilities>
@@ -8,7 +8,9 @@
       <Item>
         <Name>Shield Block</Name>
         <Description>Reduces damage taken by 14% for 10 seconds.</Description>
+        <AnimationName>Defend1</AnimationName>
         <TextureName>Ability_defend</TextureName>
+        <EnergyCost>20</EnergyCost>
         <Cooldown>
           <Duration>20</Duration>
         </Cooldown>
@@ -30,14 +32,13 @@
       <Item>
         <Name>Cobra Strike</Name>
         <Description>A powerful melee attack. Causes a high amount of threat.</Description>
+        <AnimationName>Ability2</AnimationName>
         <TextureName>Ability_hunter_cobrastrikes</TextureName>
         <Damage>
           <Value>5</Value>
           <AttackPowerScale>0.8</AttackPowerScale>
         </Damage>
-        <Cooldown>
-          <Duration>2</Duration>
-        </Cooldown>
+        <EnergyCost>-10</EnergyCost>
         <Range>
           <Minimum>0</Minimum>
           <Maximum>1</Maximum>
@@ -48,11 +49,13 @@
       <Item>
         <Name>Cobra Sweep</Name>
         <Description>Teela sweeps her weapon across the battlefield and damages all nearby targets. Causes a high amount of threat.</Description>
+        <AnimationName>Ability1</AnimationName>
         <TextureName>Ability_hunter_serpentswiftness</TextureName>
         <Damage>
           <Value>10</Value>
           <AttackPowerScale>1.3</AttackPowerScale>
         </Damage>
+        <EnergyCost>50</EnergyCost>
         <Cooldown>
           <Duration>6</Duration>
         </Cooldown>
@@ -67,14 +70,13 @@
       <Item>
         <Name>Thrust</Name>
         <Description>A powerful melee attack.</Description>
+        <AnimationName>Ability1</AnimationName>
         <TextureName>Ability_warrior_warbringer</TextureName>
         <Damage>
           <Value>15</Value>
           <AttackPowerScale>2.5</AttackPowerScale>
         </Damage>
-        <Cooldown>
-          <Duration>3</Duration>
-        </Cooldown>
+        <EnergyCost>-10</EnergyCost>
         <Range>
           <Minimum>0</Minimum>
           <Maximum>1</Maximum>
@@ -85,11 +87,13 @@
       <Item>
         <Name>Slash</Name>
         <Description>A powerful melee attack.</Description>
+        <AnimationName>Ability2</AnimationName>
         <TextureName>Ability_gouge</TextureName>
         <Damage>
           <Value>25</Value>
           <AttackPowerScale>3.5</AttackPowerScale>
         </Damage>
+        <EnergyCost>20</EnergyCost>
         <Cooldown>
           <Duration>5</Duration>
         </Cooldown>
@@ -103,11 +107,13 @@
       <Item>
         <Name>Whirlwind</Name>
         <Description>Hits all nearby enemy targets.</Description>
+        <AnimationName>Ability1</AnimationName>
         <TextureName>Ability_whirlwind</TextureName>
         <Damage>
           <Value>20</Value>
           <AttackPowerScale>1.8</AttackPowerScale>
         </Damage>
+        <EnergyCost>50</EnergyCost>
         <Cooldown>
           <Duration>9</Duration>
         </Cooldown>
@@ -212,15 +218,20 @@
     <Diameter>1</Diameter>
     <PlayerControlled>true</PlayerControlled>
     <TextureName>teela</TextureName>
-    <ThreatModifier>2</ThreatModifier>
-    <Swing>
-      <Duration>1.6</Duration>
-    </Swing>
+
     <BaseStatistics>
       <Health>125</Health>
+      <Energy>100</Energy>
       <MissRating>100</MissRating>
     </BaseStatistics>
 
+    <BaseModifiers>
+      <HealthModifier>1.0</HealthModifier>
+      <AttackPowerModifier>1.0</AttackPowerModifier>
+      <SpellPowerModifier>1.0</SpellPowerModifier>
+    </BaseModifiers>
+    
     <Cost>100</Cost>
+    <ResourceType>Energy</ResourceType>
   </Asset>
 </XnaContent>

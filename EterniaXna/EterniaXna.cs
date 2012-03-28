@@ -1,19 +1,15 @@
+using System.IO;
+using System.Xml.Serialization;
+using EterniaGame;
+using EterniaXna.Screens;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Storage;
 using Myko.Xna.Ui;
-using EterniaXna.Screens;
-using EterniaGame;
-using System.IO;
-using System.Xml.Serialization;
 
 namespace EterniaXna
 {
-    /// <summary>
-    /// This is the main type for your game
-    /// </summary>
     public class EterniaXna : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
@@ -25,14 +21,15 @@ namespace EterniaXna
             Content.RootDirectory = "Content";
 
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 1000;
-            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = (GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width * 9) / 10;
+            graphics.PreferredBackBufferHeight = ((GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - 50) * 9) / 10;
             graphics.PreferMultiSampling = true;
 
+            
             screenManager = new ScreenManager(this);
 
             Components.Add(screenManager);
-            Components.Add(new GamerServicesComponent(this));
+            //Components.Add(new GamerServicesComponent(this));
         }
 
         /// <summary>
@@ -56,19 +53,22 @@ namespace EterniaXna
         {
             base.LoadContent();
 
-            if (storage == null && !Guide.IsVisible)
-                Guide.BeginShowStorageDeviceSelector(result =>
-                {
-                    storage = Guide.EndShowStorageDeviceSelector(result);
-                    Services.AddService(typeof(StorageDevice), storage);
-                }, null);
+            //if (storage == null && !Guide.IsVisible)
+            //    Guide.BeginShowStorageDeviceSelector(result =>
+            //    {
+            //        storage = Guide.EndShowStorageDeviceSelector(result);
+            //        Services.AddService(typeof(StorageDevice), storage);
+            //    }, null);
 
             Player player = null;
-            using (var container = storage.OpenContainer("Eternia"))
+            //using (var container = storage.OpenContainer("Eternia"))
             {
-                if (Directory.Exists(container.Path))
+                //var containerPath = container.Path;
+                var containerPath = @"C:\Users\Christer\Documents\SavedGames\Eternia\AllPlayers";
+
+                if (Directory.Exists(containerPath))
                 {
-                    var filename = Path.Combine(container.Path, "Player.xml");
+                    var filename = Path.Combine(containerPath, "Player.xml");
                     if (File.Exists(filename))
                     {
                         FileStream stream = File.Open(filename, FileMode.Open, FileAccess.Read);

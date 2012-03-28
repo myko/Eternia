@@ -14,9 +14,7 @@
         <Faction>Enemy</Faction>
         <Diameter>1.5</Diameter>
         <TextureName>skeletor</TextureName>
-        <Swing>
-          <Duration>1.4</Duration>
-        </Swing>
+
         <BaseStatistics>
           <Health>8400</Health>
           <Mana>0</Mana>
@@ -32,12 +30,13 @@
           <Item>
             <Name>Shadowbolt</Name>
             <Description>Hurls a bolt of shadow magic at the enemy.</Description>
+            <AnimationName>Spell1</AnimationName>
             <TextureName>Spell_Shadow_ShadowBolt</TextureName>
             <Damage>
               <Value>70</Value>
               <SpellPowerScale>0.9</SpellPowerScale>
             </Damage>
-            <CastTime>3</CastTime>
+            <Duration>3</Duration>
             <Range>
               <Minimum>0</Minimum>
               <Maximum>10</Maximum>
@@ -49,6 +48,7 @@
             <SpawnsProjectile>
               <ModelName>projectile1</ModelName>
               <TextureName>shadowbolt_diffuse</TextureName>
+              <Speed>6</Speed>
             </SpawnsProjectile>
             <AurasApplied>
               <Item>
@@ -76,9 +76,7 @@
         <Faction>Enemy</Faction>
         <Diameter>2</Diameter>
         <TextureName>beastman</TextureName>
-        <Swing>
-          <Duration>2</Duration>
-        </Swing>
+
         <BaseStatistics>
           <Health>5600</Health>
           <Mana>0</Mana>
@@ -91,8 +89,56 @@
         </BaseStatistics>
         <Abilities>
           <Item>
+            <Name>Claw</Name>
+            <Description>A moderate single-target attack.</Description>
+            <AnimationName>Ability1</AnimationName>
+            <TextureName>Ability_druid_maul</TextureName>
+            <Damage>
+              <Value>10</Value>
+              <AttackPowerScale>0.7</AttackPowerScale>
+            </Damage>
+            <ManaCost>0</ManaCost>
+            <Cooldown>
+              <Duration>1</Duration>
+            </Cooldown>
+            <Duration>0</Duration>
+            <Range>
+              <Minimum>0</Minimum>
+              <Maximum>2</Maximum>
+            </Range>
+            <TargettingType>Hostile</TargettingType>
+            <CanMiss>true</CanMiss>
+            <CanBeDodged>true</CanBeDodged>
+            <CanCrit>true</CanCrit>
+          </Item>
+          <Item>
+            <Name>Beast Cleave</Name>
+            <Description>A powerful attack hitting all nearby enemies in front of Beastman.</Description>
+            <AnimationName>Ability2</AnimationName>
+            <TextureName>Ability_druid_maul</TextureName>
+            <Damage>
+              <Value>30</Value>
+              <AttackPowerScale>0.9</AttackPowerScale>
+            </Damage>
+            <ManaCost>0</ManaCost>
+            <Cooldown>
+              <Duration>5</Duration>
+            </Cooldown>
+            <Duration>0</Duration>
+            <Range>
+              <Minimum>0</Minimum>
+              <Maximum>2</Maximum>
+            </Range>
+            <DamageType>Cleave</DamageType>
+            <TargettingType>Hostile</TargettingType>
+            <CanMiss>true</CanMiss>
+            <CanBeDodged>true</CanBeDodged>
+            <CanCrit>true</CanCrit>
+          </Item>
+          <Item>
             <Name>Frenzy</Name>
             <Description>Increase Attack Power by 50 for 10 seconds.</Description>
+            <AnimationName>Spell2</AnimationName>
             <TextureName>Ability_physical_taunt</TextureName>
             <Cooldown>
               <Duration>45</Duration>
@@ -111,29 +157,6 @@
                 </Statistics>
               </Item>
             </AurasApplied>
-          </Item>
-          <Item>
-            <Name>Beast Cleave</Name>
-            <Description>A powerful attack hitting all nearby enemies in front of Beastman.</Description>
-            <TextureName>Ability_druid_maul</TextureName>
-            <Damage>
-              <Value>30</Value>
-              <AttackPowerScale>0.9</AttackPowerScale>
-            </Damage>
-            <ManaCost>0</ManaCost>
-            <Cooldown>
-              <Duration>5</Duration>
-            </Cooldown>
-            <CastTime>0</CastTime>
-            <Range>
-              <Minimum>0</Minimum>
-              <Maximum>2</Maximum>
-            </Range>
-            <DamageType>Cleave</DamageType>
-            <TargettingType>Hostile</TargettingType>
-            <CanMiss>true</CanMiss>
-            <CanBeDodged>true</CanBeDodged>
-            <CanCrit>true</CanCrit>
           </Item>
         </Abilities>
       </Item>

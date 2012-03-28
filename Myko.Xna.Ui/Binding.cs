@@ -21,6 +21,9 @@ namespace Myko.Xna.Ui
 
         public T GetValue()
         {
+            if (func == null)
+                return default(T);
+
             return func();
         }
 

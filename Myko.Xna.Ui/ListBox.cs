@@ -49,7 +49,7 @@ namespace Myko.Xna.Ui
 
         public int IndexOf(T item)
         {
-            throw new NotImplementedException();
+            return items.FindIndex(x => x.Value == item);
         }
 
         public void Insert(int index, T item)
@@ -110,6 +110,28 @@ namespace Myko.Xna.Ui
 
         public bool Remove(T item)
         {
+            if (listBox.SelectedItem != null && listBox.SelectedItem == item)
+            {
+                var index = IndexOf(listBox.SelectedItem);
+
+                if (items.RemoveAll(li => li.Value == item) > 0)
+                {
+                    if (items.Any())
+                    {
+                        while (index >= items.Count)
+                            index--;
+
+                        listBox.SelectedItem = items[index].Value;
+                    }
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
             return items.RemoveAll(li => li.Value == item) > 0;
         }
 
@@ -134,25 +156,34 @@ namespace Myko.Xna.Ui
         #endregion
     }
 
-    public class ListBox<T, U>
+    public abstract class ListBoxBase<T>: Control where T: class
     {
-    }
-
-    public class ListBox<T>: Control where T: class
-    {
-        private List<ListItem<T>> items;
+        protected List<ListItem<T>> items;
         private ListItem<T> pressedItem;
         private ListItem<T> mouseOverItem;
 
-        public ListItemCollection<T> Items { get { return new ListItemCollection<T>(this, items); } }
         public IEnumerable<T> CheckedItems { get { return items.Where(li => li.Checked).Select(li => li.Value); } }
         public T SelectedItem { get; set; }
+
+        public int SelectedIndex
+        {
+            get { return items.FindIndex(x => x.Value == SelectedItem); }
+            set
+            {
+                var index = Math.Min(value, items.Count - 1);
+                if (index >= 0)
+                    SelectedItem = items[index].Value;
+                else
+                    SelectedItem = null;
+            }
+        }
+
         public bool EnableCheckBoxes { get; set; }
 
         private int scrollOffset;
         private bool draggingScrollBar;
 
-        public ListBox()
+        public ListBoxBase()
         {
             items = new List<ListItem<T>>();
             Width = 150;
@@ -281,6 +312,61 @@ namespace Myko.Xna.Ui
         public ListItem<T> GetItemContainer(T item)
         {
             return items.FirstOrDefault(x => x.Value == item);
+        }
+    }
+
+    public class ListBox<T>: ListBoxBase<T> where T: class
+    {
+        public ListItemCollection<T> Items { get { return new ListItemCollection<T>(this, items); } }
+
+        public ListBox()
+        {
+        }
+    }
+
+    public class BoundListBox<T> : ListBoxBase<T> where T: class
+    {
+        public Binding<IEnumerable<T>> Source { get; set; }
+        public Func<T, object> ToolTipBinder { get; set; }
+        public Func<T, Binding<Color>> ColorBinder { get; set; }
+
+        public BoundListBox()
+        {
+            ToolTipBinder = x => null;
+            ColorBinder = x => Color.White;
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            var source = Source.GetValue();
+            if (source != null)
+            {
+                var selectedIndex = SelectedIndex;
+
+                items.RemoveAll(x => !source.Contains(x.Value));
+                for (int i = 0; i < source.Count(); i++)
+                {
+                    if (i < items.Count && items[i].Value == source.ElementAt(i))
+                        continue;
+                    else
+                    {
+                        var sourceItem = source.ElementAt(i);
+                        items.Insert(i, new ListItem<T>() { Value = sourceItem, Tooltip = ToolTipBinder(sourceItem), Foreground = ColorBinder(sourceItem) });
+                    }
+                }
+
+                if (items.Any())
+                {
+                    while (selectedIndex >= items.Count)
+                        selectedIndex--;
+
+                    SelectedIndex = selectedIndex;
+                }
+            }
+            else
+                items.Clear();
+
+            base.Update(gameTime);
         }
     }
 }

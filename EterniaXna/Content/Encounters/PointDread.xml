@@ -10,11 +10,9 @@
         <Name>Zodac</Name>
         <Faction>Enemy</Faction>
         <TextureName>zodac</TextureName>
-        <Swing>
-          <Duration>1.8</Duration>
-        </Swing>
+
         <BaseStatistics>
-          <Health>4500</Health>
+          <Health>500</Health>
           <AttackPower>120</AttackPower>
           <ArmorRating>135</ArmorRating>
           <MissRating>7</MissRating>
@@ -22,6 +20,54 @@
           <HitRating>1800</HitRating>
           <CritRating>8</CritRating>
         </BaseStatistics>
+
+        <Abilities>
+          <Item>
+            <Name>Punch</Name>
+            <Description>A moderate punch.</Description>
+            <AnimationName>Ability1</AnimationName>
+            <TextureName>Spell_nature_acid_01</TextureName>
+            <Damage>
+              <Value>10</Value>
+              <AttackPowerScale>0.5</AttackPowerScale>
+            </Damage>
+            <Range>
+              <Minimum>0</Minimum>
+              <Maximum>2</Maximum>
+            </Range>
+            <TargettingType>Hostile</TargettingType>
+            <CanMiss>true</CanMiss>
+            <CanBeDodged>true</CanBeDodged>
+            <CanCrit>true</CanCrit>
+          </Item>
+          
+          <Item>
+            <Name>Bolt</Name>
+            <Description>Fires a laser bolt at the enemy.</Description>
+            <AnimationName>Spell1</AnimationName>
+            <TextureName>Spell_nature_acid_01</TextureName>
+            <Damage>
+              <Value>40</Value>
+              <SpellPowerScale>0.5</SpellPowerScale>
+            </Damage>
+            <Cooldown>
+              <Duration>5</Duration>
+            </Cooldown>
+            <Range>
+              <Minimum>0</Minimum>
+              <Maximum>10</Maximum>
+            </Range>
+            <TargettingType>Hostile</TargettingType>
+            <CanMiss>true</CanMiss>
+            <CanBeDodged>true</CanBeDodged>
+            <CanCrit>true</CanCrit>
+            <SpawnsProjectile>
+              <ModelName>projectile1</ModelName>
+              <TextureName>waterbolt_diffuse</TextureName>
+              <Speed>80</Speed>
+            </SpawnsProjectile>
+          </Item>
+        </Abilities>
       </Item>
     </Actors>
     <Triggers>

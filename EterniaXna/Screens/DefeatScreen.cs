@@ -30,13 +30,13 @@ namespace EterniaXna.Screens
 
             grid.Cells[0, 0].Add(new Label { Text = "You were defeated!" });
 
-            var okButton = CreateButton("New Encounter", new Vector2(Width / 2 - 100, Height - 300));
+            var okButton = CreateButton("New Encounter", new Vector2(0, 0));
             okButton.Width = 200;
             okButton.Click += okButton_Click;
             grid.Cells[1, 0].Add(okButton);
         }
 
-        void okButton_Click(object sender, System.EventArgs e)
+        void okButton_Click()
         {
             VictoryScreen.SaveActors(ScreenManager, player);
 

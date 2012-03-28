@@ -28,6 +28,7 @@ namespace Myko.Xna.SkinnedModel
         AnimationClip currentClipValue;
         TimeSpan currentTimeValue;
         int currentKeyframe;
+        float speed;
         bool repeatClip;
 
         // Current animation transform matrices.
@@ -70,12 +71,30 @@ namespace Myko.Xna.SkinnedModel
             currentClipValue = clip;
             currentTimeValue = TimeSpan.Zero;
             currentKeyframe = 0;
+            speed = 1;
             repeatClip = repeat;
 
             // Initialize bone transforms to the bind pose.
             skinningDataValue.BindPose.CopyTo(boneTransforms, 0);
         }
 
+        /// <summary>
+        /// Starts decoding the specified animation clip.
+        /// </summary>
+        public void StartClip(AnimationClip clip, bool repeat, TimeSpan duration)
+        {
+            if (clip == null)
+                throw new ArgumentNullException("clip");
+
+            currentClipValue = clip;
+            currentTimeValue = TimeSpan.Zero;
+            currentKeyframe = 0;
+            speed = (float)(clip.Duration.TotalSeconds / duration.TotalSeconds);
+            repeatClip = repeat;
+
+            // Initialize bone transforms to the bind pose.
+            skinningDataValue.BindPose.CopyTo(boneTransforms, 0);
+        }
 
         /// <summary>
         /// Advances the current animation position.
@@ -101,7 +120,7 @@ namespace Myko.Xna.SkinnedModel
             // Update the animation position.
             if (relativeToCurrentTime)
             {
-                time += currentTimeValue;
+                time = currentTimeValue + TimeSpan.FromSeconds(time.TotalSeconds * speed);
 
                 // If we reached the end, loop back to the start.
                 if (repeatClip)

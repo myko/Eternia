@@ -46,36 +46,36 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Actors\heman.png">
-      <Name>heman</Name>
+    <Compile Include="Models\Actors\heman_portrait.png">
+      <Name>heman_portrait</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Actors\skeletor.png">
-      <Name>skeletor</Name>
+    <Compile Include="Models\Actors\skeletor_portrait.png">
+      <Name>skeletor_portrait</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Actors\beastman.png">
-      <Name>beastman</Name>
+    <Compile Include="Models\Actors\beastman_portrait.png">
+      <Name>beastman_portrait</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Actors\sorceress.png">
-      <Name>sorceress</Name>
+    <Compile Include="Models\Actors\sorceress_portrait.png">
+      <Name>sorceress_portrait</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Actors\manatarms.png">
-      <Name>manatarms</Name>
+    <Compile Include="Models\Actors\manatarms_portrait.png">
+      <Name>manatarms_portrait</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -212,20 +212,20 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Actors\zodac.png">
-      <Name>zodac</Name>
+    <Compile Include="Models\Actors\zodac_portrait.png">
+      <Name>zodac_portrait</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Actors\merman.png">
-      <Name>merman</Name>
+    <Compile Include="Models\Actors\merman_portrait.png">
+      <Name>merman_portrait</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Models\Actors\teela.png">
-      <Name>teela</Name>
+    <Compile Include="Models\Actors\teela_portrait.png">
+      <Name>teela_portrait</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -273,13 +273,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Actors\figure4.fbx">
-      <Name>figure4</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>SkinnedModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Interface\purpleclouds.png">
       <Name>purpleclouds</Name>
       <Importer>TextureImporter</Importer>
@@ -306,13 +299,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Actors\heman_diffuse.png">
-      <Name>heman_diffuse</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Models\Actors\manatarms_diffuse.png">
       <Name>manatarms_diffuse</Name>
       <Importer>TextureImporter</Importer>
@@ -327,8 +313,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Actors\stratos.png">
-      <Name>stratos</Name>
+    <Compile Include="Models\Actors\stratos_portrait.png">
+      <Name>stratos_portrait</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -365,8 +351,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Actors\shadowbeast.png">
-      <Name>shadowbeast</Name>
+    <Compile Include="Models\Actors\shadowbeast_portrait.png">
+      <Name>shadowbeast_portrait</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -721,8 +707,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Actors\humantorso1.fbx">
-      <Name>humantorso1</Name>
+    <Compile Include="Models\Actors\heman.fbx">
+      <Name>heman</Name>
       <Importer>FbxImporter</Importer>
       <Processor>SkinnedModelProcessor</Processor>
     </Compile>
@@ -794,6 +780,64 @@
     </Compile>
     <Compile Include="Models\Actors\heman_gloves1_diffuse.png">
       <Name>heman_gloves1_diffuse</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Actors\manatarms.fbx">
+      <Name>manatarms</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Actors\manatarms_head_diffuse.png">
+      <Name>manatarms_head_diffuse</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Actors\manatarms_leftarm_diffuse.png">
+      <Name>manatarms_leftarm_diffuse</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Actors\manatarms_leftleg_diffuse.png">
+      <Name>manatarms_leftleg_diffuse</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Actors\manatarms_rightarm_diffuse.png">
+      <Name>manatarms_rightarm_diffuse</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Actors\manatarms_rightleg_diffuse.png">
+      <Name>manatarms_rightleg_diffuse</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Actors\manatarms_torso_diffuse.png">
+      <Name>manatarms_torso_diffuse</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Actors\manatarms_gloves1_diffuse.png">
+      <Name>manatarms_gloves1_diffuse</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Actors\manatarms_hips_diffuse.png">
+      <Name>manatarms_hips_diffuse</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Actors\manatarms_boots1_diffuse.png">
+      <Name>manatarms_boots1_diffuse</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

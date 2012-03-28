@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <XnaContent>
-  <Asset Type="EterniaGame.Actor">
+  <Asset Type="EterniaGame.Actors.Actor">
     <Id>stratos</Id>
     <Name>Stratos</Name>
     <Abilities>
@@ -8,7 +8,9 @@
       <Item>
         <Name>Wing Shield</Name>
         <Description>Reduces damage taken by 30% for 5 seconds.</Description>
+        <AnimationName>Defend1</AnimationName>
         <TextureName>Ability_warrior_shieldwall</TextureName>
+        <EnergyCost>20</EnergyCost>
         <Cooldown>
           <Duration>24</Duration>
         </Cooldown>
@@ -30,12 +32,14 @@
       <Item>
         <Name>Dive Strike</Name>
         <Description>A powerful ranged attack. Causes a high amount of threat.</Description>
+        <AnimationName>Ability1</AnimationName>
         <TextureName>Ability_hunter_silenthunter</TextureName>
         <Damage>
           <Value>15</Value>
           <AttackPowerScale>1.6</AttackPowerScale>
         </Damage>
-        <CastTime>2</CastTime>
+        <EnergyCost>-20</EnergyCost>
+        <Duration>2</Duration>
         <Range>
           <Minimum>0</Minimum>
           <Maximum>20</Maximum>
@@ -46,11 +50,13 @@
       <Item>
         <Name>Wing Sweep</Name>
         <Description>Stratos sweeps at his target, damaging all nearby enemies. Causes a high amount of threat.</Description>
+        <AnimationName>Ability2</AnimationName>
         <TextureName>Ability_druid_livingspirit</TextureName>
         <Damage>
           <Value>20</Value>
           <AttackPowerScale>1.9</AttackPowerScale>
         </Damage>
+        <EnergyCost>50</EnergyCost>
         <Cooldown>
           <Duration>5</Duration>
         </Cooldown>
@@ -65,12 +71,14 @@
       <Item>
         <Name>Rocket</Name>
         <Description>A powerful ranged attack.</Description>
+        <AnimationName>Spell1</AnimationName>
         <TextureName>INV_Ammo_Bullet_01</TextureName>
         <Damage>
           <Value>30</Value>
           <AttackPowerScale>2.8</AttackPowerScale>
         </Damage>
-        <CastTime>2.5</CastTime>
+        <EnergyCost>-25</EnergyCost>
+        <Duration>2.5</Duration>
         <Range>
           <Minimum>0</Minimum>
           <Maximum>20</Maximum>
@@ -79,17 +87,20 @@
         <SpawnsProjectile>
           <ModelName>rocket1</ModelName>
           <TextureName>rocket1_diffuse</TextureName>
+          <Speed>10</Speed>
         </SpawnsProjectile>
       </Item>
 
       <Item>
         <Name>Furious Dive</Name>
         <Description>A powerful ranged attack.</Description>
+        <AnimationName>Spell1</AnimationName>
         <TextureName>Ability_hunter_pet_owl</TextureName>
         <Damage>
           <Value>35</Value>
           <AttackPowerScale>3.5</AttackPowerScale>
         </Damage>
+        <EnergyCost>20</EnergyCost>
         <Cooldown>
           <Duration>5</Duration>
         </Cooldown>
@@ -102,11 +113,13 @@
       <Item>
         <Name>Rocket Barrage</Name>
         <Description>Stratos blasts his target with rockets, damaging all nearby enemies.</Description>
+        <AnimationName>Spell2</AnimationName>
         <TextureName>Inv_ammo_bullet_05</TextureName>
         <Damage>
           <Value>30</Value>
           <AttackPowerScale>1.8</AttackPowerScale>
         </Damage>
+        <EnergyCost>50</EnergyCost>
         <Cooldown>
           <Duration>9</Duration>
         </Cooldown>
@@ -119,6 +132,7 @@
         <SpawnsProjectile>
           <ModelName>rocket1</ModelName>
           <TextureName>bluerocket_diffuse</TextureName>
+          <Speed>14</Speed>
         </SpawnsProjectile>
       </Item>
       
@@ -215,15 +229,20 @@
     <Diameter>1</Diameter>
     <PlayerControlled>true</PlayerControlled>
     <TextureName>stratos</TextureName>
-    <ThreatModifier>2</ThreatModifier>
-    <Swing>
-      <Duration>1.5</Duration>
-    </Swing>
+
     <BaseStatistics>
       <Health>125</Health>
+      <Energy>100</Energy>
       <MissRating>100</MissRating>
     </BaseStatistics>
 
+    <BaseModifiers>
+      <HealthModifier>1.0</HealthModifier>
+      <AttackPowerModifier>1.0</AttackPowerModifier>
+      <SpellPowerModifier>1.0</SpellPowerModifier>
+    </BaseModifiers>
+    
     <Cost>100</Cost>
+    <ResourceType>Energy</ResourceType>
   </Asset>
 </XnaContent>

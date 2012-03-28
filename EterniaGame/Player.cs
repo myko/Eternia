@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using EterniaGame.Actors;
 
 namespace EterniaGame
 {
@@ -25,6 +26,7 @@ namespace EterniaGame
         {
             var player = new Player();
             player.UnlockedTargetingStrategies.Add(TargettingStrategies.Manual);
+            player.Gold = 100;
 
             return player;
         }

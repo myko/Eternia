@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Storage;
 using Myko.Xna.Ui;
 using System;
+using EterniaGame.Actors;
 
 namespace EterniaXna.Screens
 {
@@ -78,21 +79,21 @@ namespace EterniaXna.Screens
                 float y = Height - 200;
                 foreach (var actorEvents in events.GroupBy(x => x.Actor))
                 {
-                    var meleeSwings = actorEvents.Where(x => x.Type == EventTypes.Swing);
-                    var missSwings = meleeSwings.Where(x => x.CombatOutcome == CombatOutcome.Miss);
-                    var dodgeSwings = meleeSwings.Where(x => x.CombatOutcome == CombatOutcome.Dodge);
-                    var hitSwings = meleeSwings.Where(x => x.CombatOutcome == CombatOutcome.Hit);
-                    var critSwings = meleeSwings.Where(x => x.CombatOutcome == CombatOutcome.Crit);
+                    var abilitySwings = actorEvents.Where(x => x.Type == EventTypes.Ability);
+                    var missSwings = abilitySwings.Where(x => x.CombatOutcome == CombatOutcome.Miss);
+                    var dodgeSwings = abilitySwings.Where(x => x.CombatOutcome == CombatOutcome.Dodge);
+                    var hitSwings = abilitySwings.Where(x => x.CombatOutcome == CombatOutcome.Hit);
+                    var critSwings = abilitySwings.Where(x => x.CombatOutcome == CombatOutcome.Crit);
 
                     y += 16;
                     SpriteBatch.DrawString(smallFont, actorEvents.Key.Name, new Vector2(200, y), Color.White, 0.1f);
                     SpriteBatch.DrawString(smallFont, (actorEvents.Sum(x => x.Damage) / duration.TotalSeconds).ToString("0") + " DPS", new Vector2(350, y), Color.White, 0.1f);
-                    SpriteBatch.DrawString(smallFont, meleeSwings.Count().ToString() + " swings", new Vector2(450, y), Color.White, 0.1f);
-                    if (meleeSwings.Count() > 0)
+                    SpriteBatch.DrawString(smallFont, abilitySwings.Count().ToString(), new Vector2(450, y), Color.White, 0.1f);
+                    if (abilitySwings.Count() > 0)
                     {
-                        SpriteBatch.DrawString(smallFont, (100 * missSwings.Count() / meleeSwings.Count()).ToString() + "% m", new Vector2(550, y), Color.White, 0.1f);
-                        SpriteBatch.DrawString(smallFont, (100 * dodgeSwings.Count() / meleeSwings.Count()).ToString() + "% d", new Vector2(600, y), Color.White, 0.1f);
-                        SpriteBatch.DrawString(smallFont, (100 * hitSwings.Count() / meleeSwings.Count()).ToString() + "% h", new Vector2(650, y), Color.White, 0.1f);
+                        SpriteBatch.DrawString(smallFont, (100 * missSwings.Count() / abilitySwings.Count()).ToString() + "% m", new Vector2(550, y), Color.White, 0.1f);
+                        SpriteBatch.DrawString(smallFont, (100 * dodgeSwings.Count() / abilitySwings.Count()).ToString() + "% d", new Vector2(600, y), Color.White, 0.1f);
+                        SpriteBatch.DrawString(smallFont, (100 * hitSwings.Count() / abilitySwings.Count()).ToString() + "% h", new Vector2(650, y), Color.White, 0.1f);
                         if (hitSwings.Count() > 0)
                             SpriteBatch.DrawString(smallFont, (100 * critSwings.Count() / hitSwings.Count()).ToString() + "% c", new Vector2(700, y), Color.White, 0.1f);
                     }
@@ -103,15 +104,17 @@ namespace EterniaXna.Screens
         public static void DrawStatistics(SpriteBatch spriteBatch, SpriteFont font, Statistics statistics, int x, int y, bool hideZero)
         {
             if (!hideZero || statistics.Health != 0)
-                spriteBatch.DrawString(font, "Health: " + statistics.Health.ToString(), new Vector2(x, y += 20), Color.LightGreen, 0.1f);
+                spriteBatch.DrawString(font, "Health: " + statistics.Health.ToString("0"), new Vector2(x, y += 20), Color.LightGreen, 0.1f);
             if (!hideZero || statistics.Mana != 0)
-                spriteBatch.DrawString(font, "Mana: " + statistics.Mana.ToString(), new Vector2(x, y += 20), Color.LightGreen, 0.1f);
+                spriteBatch.DrawString(font, "Mana: " + statistics.Mana.ToString("0"), new Vector2(x, y += 20), Color.LightGreen, 0.1f);
+            if (!hideZero || statistics.Energy != 0)
+                spriteBatch.DrawString(font, "Energy: " + statistics.Energy.ToString("0"), new Vector2(x, y += 20), Color.LightGreen, 0.1f);
             if (!hideZero || statistics.ArmorRating != 0)
                 spriteBatch.DrawString(font, "Armor rating: " + statistics.ArmorRating.ToString() + " (" + (statistics.ArmorReduction * 100).ToString("0") + "%)", new Vector2(x, y += 20), Color.LightGreen, 0.1f);
             if (!hideZero || statistics.AttackPower != 0)
-                spriteBatch.DrawString(font, "Attack power: " + statistics.AttackPower.ToString(), new Vector2(x, y += 20), Color.LightGreen, 0.1f);
+                spriteBatch.DrawString(font, "Attack power: " + statistics.AttackPower.ToString("0"), new Vector2(x, y += 20), Color.LightGreen, 0.1f);
             if (!hideZero || statistics.SpellPower != 0)
-                spriteBatch.DrawString(font, "Spell power: " + statistics.SpellPower.ToString(), new Vector2(x, y += 20), Color.LightGreen, 0.1f);
+                spriteBatch.DrawString(font, "Spell power: " + statistics.SpellPower.ToString("0"), new Vector2(x, y += 20), Color.LightGreen, 0.1f);
             if (!hideZero || statistics.HitRating != 0)
                 spriteBatch.DrawString(font, "Hit rating: " + statistics.HitRating.ToString(), new Vector2(x, y += 20), Color.LightGreen, 0.1f);
             if (!hideZero || statistics.CritRating != 0)
@@ -122,20 +125,22 @@ namespace EterniaXna.Screens
                 spriteBatch.DrawString(font, "Dodge rating: " + statistics.DodgeRating.ToString(), new Vector2(x, y += 20), Color.LightGreen, 0.1f);
         }
 
-        public static string GetStatisticsString(Statistics statistics, bool hideZero)
+        public static string GetStatisticsString(Statistics statistics, ActorResourceTypes resourceType, bool hideZero)
         {
             StringBuilder sb = new StringBuilder();
 
             if (!hideZero || statistics.Health != 0)
-                sb.AppendLine("Health: " + statistics.Health.ToString());
-            if (!hideZero || statistics.Mana != 0)
-                sb.AppendLine("Mana: " + statistics.Mana.ToString());
+                sb.AppendLine("Health: " + statistics.Health.ToString("0"));
+            if (resourceType == ActorResourceTypes.Mana)
+                sb.AppendLine("Mana: " + statistics.Mana.ToString("0"));
+            if (resourceType == ActorResourceTypes.Energy)
+                sb.AppendLine("Energy: " + statistics.Energy.ToString("0"));
             if (!hideZero || statistics.ArmorRating != 0)
                 sb.AppendLine("Armor rating: " + statistics.ArmorRating.ToString() + " (" + (statistics.ArmorReduction * 100).ToString("0") + "%)");
             if (!hideZero || statistics.AttackPower != 0)
-                sb.AppendLine("Attack power: " + statistics.AttackPower.ToString());
+                sb.AppendLine("Attack power: " + statistics.AttackPower.ToString("0"));
             if (!hideZero || statistics.SpellPower != 0)
-                sb.AppendLine("Spell power: " + statistics.SpellPower.ToString());
+                sb.AppendLine("Spell power: " + statistics.SpellPower.ToString("0"));
             if (!hideZero || statistics.HitRating != 0)
                 sb.AppendLine("Hit rating: " + statistics.HitRating.ToString());
             if (!hideZero || statistics.CritRating != 0)
@@ -148,7 +153,7 @@ namespace EterniaXna.Screens
             return sb.ToString();
         }
 
-        void okButton_Click(object sender, System.EventArgs e)
+        void okButton_Click()
         {
             foreach (var item in rewardsListBox.CheckedItems)
             {
@@ -164,16 +169,19 @@ namespace EterniaXna.Screens
 
         public static void SaveActors(ScreenManager screenManager, Player player)
         {
-            StorageDevice storage = (StorageDevice)screenManager.Game.Services.GetService(typeof(StorageDevice));
+            //StorageDevice storage = (StorageDevice)screenManager.Game.Services.GetService(typeof(StorageDevice));
 
-            if (storage != null)
+            //if (storage != null)
             {
-                using (var container = storage.OpenContainer("Eternia"))
+                //using (var container = storage.OpenContainer("Eternia"))
                 {
+                    //var containerPath = container.Path;
+                    var containerPath = @"C:\Users\Christer\Documents\SavedGames\Eternia\AllPlayers";
+
                     player.Heroes.ForEach(x => x.Auras.Clear());
 
                     // Add the container path to our file name.
-                    string filename = Path.Combine(container.Path, "Player.xml");
+                    string filename = Path.Combine(containerPath, "Player.xml");
 
                     // Open the file, creating it if necessary
                     FileStream stream = File.Open(filename, FileMode.Create);
