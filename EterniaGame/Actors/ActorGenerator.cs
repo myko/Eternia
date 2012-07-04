@@ -21,9 +21,9 @@ namespace EterniaGame.Actors
             {
                 Id = Guid.NewGuid().ToString(),
                 Faction = Factions.Friend,
-                TextureName = randomizer.From(new[] { "heman", "manatarms" }),
+                TextureName = randomizer.From("heman", "manatarms"),
                 Name = GenerateName(),
-                Cost = randomizer.Between(5, 100),
+                Cost = 100,
                 PlayerControlled = true,
                 BaseStatistics = new Statistics
                 {
@@ -32,20 +32,42 @@ namespace EterniaGame.Actors
                 }
             };
 
-            actor.BaseModifiers.HealthModifier = randomizer.Between(1f, 20f);
-            actor.BaseModifiers.AttackPowerModifier = randomizer.Between(1f, 20f);
-            actor.BaseModifiers.SpellPowerModifier = randomizer.Between(1f, 20f);
-            var sum = actor.BaseModifiers.HealthModifier + actor.BaseModifiers.AttackPowerModifier + actor.BaseModifiers.SpellPowerModifier;
-            actor.BaseModifiers.HealthModifier = 0.5f + actor.BaseModifiers.HealthModifier / sum;
-            actor.BaseModifiers.AttackPowerModifier = 0.5f + actor.BaseModifiers.AttackPowerModifier / sum;
-            actor.BaseModifiers.SpellPowerModifier = 0.5f + actor.BaseModifiers.SpellPowerModifier / sum;
+            var role = randomizer.Next<ActorRoles>();
+            switch (role)
+            {
+                case ActorRoles.Tank:
+                    actor.BaseModifiers.HealthModifier = 1.5f;
+                    actor.BaseModifiers.AttackPowerModifier = 1f;
+                    actor.BaseModifiers.SpellPowerModifier = 0.5f;
+                    break;
+                case ActorRoles.Healer:
+                    actor.BaseModifiers.HealthModifier = 1f;
+                    actor.BaseModifiers.AttackPowerModifier = 0.5f;
+                    actor.BaseModifiers.SpellPowerModifier = 1.5f;
+                    break;
+                case ActorRoles.Fighter:
+                    actor.BaseModifiers.HealthModifier = 1f;
+                    actor.BaseModifiers.AttackPowerModifier = 1.5f;
+                    actor.BaseModifiers.SpellPowerModifier = 0.5f;
+                    break;
+                case ActorRoles.Caster:
+                    actor.BaseModifiers.HealthModifier = 1f;
+                    actor.BaseModifiers.AttackPowerModifier = 0.5f;
+                    actor.BaseModifiers.SpellPowerModifier = 1.5f;
+                    break;
+                case ActorRoles.Hybrid:
+                    actor.BaseModifiers.HealthModifier = 1f;
+                    actor.BaseModifiers.AttackPowerModifier = 1f;
+                    actor.BaseModifiers.SpellPowerModifier = 1f;
+                    break;
+            }
 
             actor.ResourceType = randomizer.Next<ActorResourceTypes>();
 
             switch (actor.ResourceType)
             {
                 case ActorResourceTypes.Mana:
-                    actor.BaseStatistics.Mana = randomizer.Between(475, 525);
+                    actor.BaseStatistics.Mana = 500;
                     break;
                 case ActorResourceTypes.Energy:
                     actor.BaseStatistics.Energy = 100;

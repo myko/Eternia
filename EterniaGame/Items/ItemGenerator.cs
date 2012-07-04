@@ -22,13 +22,13 @@ namespace EterniaGame
             var rarityRoll = randomizer.Next(100);
             if (rarityRoll < 60)
                 rarity = ItemRarities.Uncommon;
-            if (rarityRoll < 40)
+            if (rarityRoll < 35)
                 rarity = ItemRarities.Rare;
-            if (rarityRoll < 20)
+            if (rarityRoll < 15)
                 rarity = ItemRarities.Heroic;
-            if (rarityRoll < 10)
+            if (rarityRoll < 8)
                 rarity = ItemRarities.Epic;
-            if (rarityRoll < 5)
+            if (rarityRoll < 2)
                 rarity = ItemRarities.Legendary;
 
             return Generate(itemLevel, slot, rarity);
@@ -53,18 +53,29 @@ namespace EterniaGame
 
             var baseStatistics = new Statistics();
             baseStatistics.Health = (int)(Math.Pow(2, (double)itemLevel / 10.0) * 15 * ((float)quality + 3) / 5f * (armorClass == ItemArmorClasses.Plate ? 2 : 1) * slotModifier);
-            baseStatistics.ArmorRating = (int)(Math.Pow(2, (double)itemLevel / 10.0) * 5 * armorMultiplier * slotModifier);
+            baseStatistics.DamageReduction.ArmorRating = (int)(Math.Pow(2, (double)itemLevel / 10.0) * 5 * armorMultiplier * slotModifier);
+            item.Statistics = baseStatistics;
 
             if (rarity > ItemRarities.Common)
             {
-                var prefix = ItemAffixConstants.Affixes[randomizer.From(ItemAffixConstants.Prefixes[(int)rarity - 1, (int)armorClass])];
-                var suffix = ItemAffixConstants.Affixes[randomizer.From(ItemAffixConstants.Suffixes[(int)rarity - 1, (int)armorClass])];
+                string prefix = string.Empty;
+                string suffix = string.Empty;
+                for (int i = (int)rarity; i > 0;)
+                {
+                    var modifier = randomizer.From(ItemModifier.AllModifiers.Where(m => m.Rank <= i && (m.Slots == null || m.Slots.Contains(slot)) && (m.ArmorClasses == null || m.ArmorClasses.Contains(armorClass))).ToArray());
+                    modifier.Statistics.DamageReduction.ArmorRating = (int)(modifier.Statistics.DamageReduction.ArmorRating * armorMultiplier * 0.25f);
 
-                prefix.Statistics.ArmorRating = (int)(prefix.Statistics.ArmorRating * armorMultiplier * 0.25f);
-                suffix.Statistics.ArmorRating = (int)(suffix.Statistics.ArmorRating * armorMultiplier * 0.25f);
+                    if (string.IsNullOrEmpty(prefix))
+                        prefix = modifier.Prefix;
+                    else if (string.IsNullOrEmpty(suffix))
+                        suffix = modifier.Suffix;
 
-                item.Name = string.Format("{0}{1}{2}", prefix.Name, slotName, suffix.Name);
-                item.Statistics = baseStatistics + (prefix.Statistics + suffix.Statistics) * (int)(Math.Pow(2, (double)itemLevel / 10.0) * 5 * slotModifier);
+                    item.Statistics = item.Statistics + modifier.Statistics * (int)(Math.Pow(2, (double)itemLevel / 10.0) * 5 * slotModifier);
+
+                    i -= modifier.Rank;
+                }
+
+                item.Name = string.Format("{0} {1} {2}", prefix, slotName, suffix);
             }
             else
             {

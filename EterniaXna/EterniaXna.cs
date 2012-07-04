@@ -3,10 +3,10 @@ using System.Xml.Serialization;
 using EterniaGame;
 using EterniaXna.Screens;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Storage;
 using Myko.Xna.Ui;
+using Newtonsoft.Json;
+using System;
 
 namespace EterniaXna
 {
@@ -14,7 +14,6 @@ namespace EterniaXna
     {
         GraphicsDeviceManager graphics;
         ScreenManager screenManager;
-        StorageDevice storage;
 
         public EterniaXna()
         {
@@ -24,12 +23,14 @@ namespace EterniaXna
             graphics.PreferredBackBufferWidth = (GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width * 9) / 10;
             graphics.PreferredBackBufferHeight = ((GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - 50) * 9) / 10;
             graphics.PreferMultiSampling = true;
+            graphics.SynchronizeWithVerticalRetrace = false;
+
+            IsFixedTimeStep = false;
 
             
             screenManager = new ScreenManager(this);
 
             Components.Add(screenManager);
-            //Components.Add(new GamerServicesComponent(this));
         }
 
         /// <summary>
@@ -53,51 +54,43 @@ namespace EterniaXna
         {
             base.LoadContent();
 
-            //if (storage == null && !Guide.IsVisible)
-            //    Guide.BeginShowStorageDeviceSelector(result =>
-            //    {
-            //        storage = Guide.EndShowStorageDeviceSelector(result);
-            //        Services.AddService(typeof(StorageDevice), storage);
-            //    }, null);
-
             Player player = null;
-            //using (var container = storage.OpenContainer("Eternia"))
+            var containerPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Eternia");
+
+            if (Directory.Exists(containerPath))
             {
-                //var containerPath = container.Path;
-                var containerPath = @"C:\Users\Christer\Documents\SavedGames\Eternia\AllPlayers";
-
-                if (Directory.Exists(containerPath))
+                var filename = Path.Combine(containerPath, "Player.xml");
+                if (File.Exists(filename))
                 {
-                    var filename = Path.Combine(containerPath, "Player.xml");
-                    if (File.Exists(filename))
+                    FileStream stream = File.Open(filename, FileMode.Open, FileAccess.Read);
+                    StreamReader reader = new StreamReader(stream);
+
+                    // Read the data from the file
+                    //XmlSerializer serializer = new XmlSerializer(typeof(Player));
+                    try
                     {
-                        FileStream stream = File.Open(filename, FileMode.Open, FileAccess.Read);
-
-                        // Read the data from the file
-                        XmlSerializer serializer = new XmlSerializer(typeof(Player));
-                        try
-                        {
-                            player = (Player)serializer.Deserialize(stream);
-                        }
-                        catch
-                        {
-                            System.Diagnostics.Debug.WriteLine("Corrupt Player.xml file found.");
-                        }
-
-                        // Close the file
-                        stream.Close();
-                        
-                        foreach (var hero in player.Heroes)
-                        {
-                            if (!player.UnlockedTargetingStrategies.Contains(hero.TargettingStrategy))
-                                hero.TargettingStrategy = player.UnlockedTargetingStrategies[0];
-                        }
+                        var json = reader.ReadToEnd();
+                        player = JsonConvert.DeserializeObject<Player>(json);
+                        //player = (Player)serializer.Deserialize(stream);
                     }
+                    catch
+                    {
+                        System.Diagnostics.Debug.WriteLine("Corrupt Player.xml file found.");
+                    }
+
+                    // Close the file
+                    stream.Close();
                 }
             }
 
             if (player == null)
                 player = Player.CreateWithDefaults();
+
+            foreach (var hero in player.Heroes)
+            {
+                if (!player.UnlockedTargetingStrategies.Contains(hero.TargettingStrategy))
+                    hero.TargettingStrategy = player.UnlockedTargetingStrategies[0];
+            }
 
             screenManager.AddScreen(new TitleScreen(player));
         }

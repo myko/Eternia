@@ -46,14 +46,6 @@ namespace EterniaXna
             if (!Ability.Enabled)
                 container.SpriteBatch.Draw(texture, bounds, new Color(Color.TransparentBlack, 0.5f), container.ZIndex + 0.002f);
 
-            float globalCooldownFactor = (actor.GlobalCooldown.Current / actor.GlobalCooldown.Duration);
-            var w = (int)Math.Ceiling(globalCooldownFactor * bounds.Width);
-            var x = bounds.X + bounds.Width - w;
-
-            container.SpriteBatch.Draw(blankTexture,
-                new Rectangle(x, bounds.Y, w, bounds.Height),
-                new Color(Color.TransparentBlack, 0.5f), container.ZIndex + 0.02f);
-
             if (!Ability.Cooldown.IsReady)
             {
                 var cooldown = ((int)Ability.Cooldown.Current).ToString();

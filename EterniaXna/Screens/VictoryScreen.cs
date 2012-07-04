@@ -1,15 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Xml.Serialization;
 using EterniaGame;
+using EterniaGame.Actors;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Storage;
 using Myko.Xna.Ui;
-using System;
-using EterniaGame.Actors;
 
 namespace EterniaXna.Screens
 {
@@ -109,8 +107,8 @@ namespace EterniaXna.Screens
                 spriteBatch.DrawString(font, "Mana: " + statistics.Mana.ToString("0"), new Vector2(x, y += 20), Color.LightGreen, 0.1f);
             if (!hideZero || statistics.Energy != 0)
                 spriteBatch.DrawString(font, "Energy: " + statistics.Energy.ToString("0"), new Vector2(x, y += 20), Color.LightGreen, 0.1f);
-            if (!hideZero || statistics.ArmorRating != 0)
-                spriteBatch.DrawString(font, "Armor rating: " + statistics.ArmorRating.ToString() + " (" + (statistics.ArmorReduction * 100).ToString("0") + "%)", new Vector2(x, y += 20), Color.LightGreen, 0.1f);
+            if (!hideZero || statistics.DamageReduction.ArmorRating != 0)
+                spriteBatch.DrawString(font, "Armor rating: " + statistics.DamageReduction.ArmorRating.ToString() + " (" + (statistics.DamageReduction.GetReductionForSchool(DamageSchools.Physical) * 100).ToString("0") + "%)", new Vector2(x, y += 20), Color.LightGreen, 0.1f);
             if (!hideZero || statistics.AttackPower != 0)
                 spriteBatch.DrawString(font, "Attack power: " + statistics.AttackPower.ToString("0"), new Vector2(x, y += 20), Color.LightGreen, 0.1f);
             if (!hideZero || statistics.SpellPower != 0)
@@ -123,6 +121,18 @@ namespace EterniaXna.Screens
                 spriteBatch.DrawString(font, "Precision rating: " + statistics.PrecisionRating.ToString() + " (" + (statistics.Precision * 100).ToString("0") + "%)", new Vector2(x, y += 20), Color.LightGreen, 0.1f);
             if (!hideZero || statistics.DodgeRating != 0)
                 spriteBatch.DrawString(font, "Dodge rating: " + statistics.DodgeRating.ToString(), new Vector2(x, y += 20), Color.LightGreen, 0.1f);
+            if (!hideZero || statistics.DamageReduction.FireResistanceRating != 0)
+                spriteBatch.DrawString(font, "Fire resistance rating: " + statistics.DamageReduction.FireResistanceRating.ToString() + " (" + (statistics.DamageReduction.GetReductionForSchool(DamageSchools.Fire) * 100).ToString("0") + "%)", new Vector2(x, y += 20), Color.LightGreen, 0.1f);
+            if (!hideZero || statistics.DamageReduction.FrostResistanceRating != 0)
+                spriteBatch.DrawString(font, "Frost resistance rating: " + statistics.DamageReduction.FrostResistanceRating.ToString() + " (" + (statistics.DamageReduction.GetReductionForSchool(DamageSchools.Frost) * 100).ToString("0") + "%)", new Vector2(x, y += 20), Color.LightGreen, 0.1f);
+            if (!hideZero || statistics.DamageReduction.ArcaneResistanceRating != 0)
+                spriteBatch.DrawString(font, "Arcane resistance rating: " + statistics.DamageReduction.ArcaneResistanceRating.ToString() + " (" + (statistics.DamageReduction.GetReductionForSchool(DamageSchools.Arcane) * 100).ToString("0") + "%)", new Vector2(x, y += 20), Color.LightGreen, 0.1f);
+            if (!hideZero || statistics.DamageReduction.NatureResistanceRating != 0)
+                spriteBatch.DrawString(font, "Nature resistance rating: " + statistics.DamageReduction.NatureResistanceRating.ToString() + " (" + (statistics.DamageReduction.GetReductionForSchool(DamageSchools.Nature) * 100).ToString("0") + "%)", new Vector2(x, y += 20), Color.LightGreen, 0.1f);
+            if (!hideZero || statistics.DamageReduction.HolyResistanceRating != 0)
+                spriteBatch.DrawString(font, "Holy resistance rating: " + statistics.DamageReduction.HolyResistanceRating.ToString() + " (" + (statistics.DamageReduction.GetReductionForSchool(DamageSchools.Holy) * 100).ToString("0") + "%)", new Vector2(x, y += 20), Color.LightGreen, 0.1f);
+            if (!hideZero || statistics.DamageReduction.UnholyResistanceRating != 0)
+                spriteBatch.DrawString(font, "Unholy resistance rating: " + statistics.DamageReduction.UnholyResistanceRating.ToString() + " (" + (statistics.DamageReduction.GetReductionForSchool(DamageSchools.Unholy) * 100).ToString("0") + "%)", new Vector2(x, y += 20), Color.LightGreen, 0.1f);
         }
 
         public static string GetStatisticsString(Statistics statistics, ActorResourceTypes resourceType, bool hideZero)
@@ -135,8 +145,8 @@ namespace EterniaXna.Screens
                 sb.AppendLine("Mana: " + statistics.Mana.ToString("0"));
             if (resourceType == ActorResourceTypes.Energy)
                 sb.AppendLine("Energy: " + statistics.Energy.ToString("0"));
-            if (!hideZero || statistics.ArmorRating != 0)
-                sb.AppendLine("Armor rating: " + statistics.ArmorRating.ToString() + " (" + (statistics.ArmorReduction * 100).ToString("0") + "%)");
+            if (!hideZero || statistics.DamageReduction.ArmorRating != 0)
+                sb.AppendLine("Armor rating: " + statistics.DamageReduction.ArmorRating.ToString() + " (" + (statistics.DamageReduction.GetReductionForSchool(DamageSchools.Physical) * 100).ToString("0") + "%)");
             if (!hideZero || statistics.AttackPower != 0)
                 sb.AppendLine("Attack power: " + statistics.AttackPower.ToString("0"));
             if (!hideZero || statistics.SpellPower != 0)
@@ -149,6 +159,18 @@ namespace EterniaXna.Screens
                 sb.AppendLine("Precision rating: " + statistics.PrecisionRating.ToString() + " (" + (statistics.Precision * 100).ToString("0") + "%)");
             if (!hideZero || statistics.DodgeRating != 0)
                 sb.AppendLine("Dodge rating: " + statistics.DodgeRating.ToString());
+            if (!hideZero || statistics.DamageReduction.FireResistanceRating != 0)
+                sb.AppendLine("Fire resistance rating: " + statistics.DamageReduction.FireResistanceRating.ToString() + " (" + (statistics.DamageReduction.GetReductionForSchool(DamageSchools.Fire) * 100).ToString("0") + "%)");
+            if (!hideZero || statistics.DamageReduction.FrostResistanceRating != 0)
+                sb.AppendLine("Frost resistance rating: " + statistics.DamageReduction.FrostResistanceRating.ToString() + " (" + (statistics.DamageReduction.GetReductionForSchool(DamageSchools.Frost) * 100).ToString("0") + "%)");
+            if (!hideZero || statistics.DamageReduction.ArcaneResistanceRating != 0)
+                sb.AppendLine("Arcane resistance rating: " + statistics.DamageReduction.ArcaneResistanceRating.ToString() + " (" + (statistics.DamageReduction.GetReductionForSchool(DamageSchools.Arcane) * 100).ToString("0") + "%)");
+            if (!hideZero || statistics.DamageReduction.NatureResistanceRating != 0)
+                sb.AppendLine("Nature resistance rating: " + statistics.DamageReduction.NatureResistanceRating.ToString() + " (" + (statistics.DamageReduction.GetReductionForSchool(DamageSchools.Nature) * 100).ToString("0") + "%)");
+            if (!hideZero || statistics.DamageReduction.HolyResistanceRating != 0)
+                sb.AppendLine("Holy resistance rating: " + statistics.DamageReduction.HolyResistanceRating.ToString() + " (" + (statistics.DamageReduction.GetReductionForSchool(DamageSchools.Holy) * 100).ToString("0") + "%)");
+            if (!hideZero || statistics.DamageReduction.UnholyResistanceRating != 0)
+                sb.AppendLine("Unholy resistance rating: " + statistics.DamageReduction.UnholyResistanceRating.ToString() + " (" + (statistics.DamageReduction.GetReductionForSchool(DamageSchools.Unholy) * 100).ToString("0") + "%)");
 
             return sb.ToString();
         }
@@ -169,31 +191,27 @@ namespace EterniaXna.Screens
 
         public static void SaveActors(ScreenManager screenManager, Player player)
         {
-            //StorageDevice storage = (StorageDevice)screenManager.Game.Services.GetService(typeof(StorageDevice));
+            var containerPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Eternia");
+            //var containerPath = @"C:\Users\Christer\Documents\SavedGames\Eternia\AllPlayers";
 
-            //if (storage != null)
-            {
-                //using (var container = storage.OpenContainer("Eternia"))
-                {
-                    //var containerPath = container.Path;
-                    var containerPath = @"C:\Users\Christer\Documents\SavedGames\Eternia\AllPlayers";
+            if (!Directory.Exists(containerPath))
+                Directory.CreateDirectory(containerPath);
 
-                    player.Heroes.ForEach(x => x.Auras.Clear());
+            player.Heroes.ForEach(x => x.Auras.Clear());
 
-                    // Add the container path to our file name.
-                    string filename = Path.Combine(containerPath, "Player.xml");
+            // Add the container path to our file name.
+            string filename = Path.Combine(containerPath, "Player.xml");
 
-                    // Open the file, creating it if necessary
-                    FileStream stream = File.Open(filename, FileMode.Create);
+            // Open the file, creating it if necessary
+            FileStream stream = File.Open(filename, FileMode.Create);
+            var writer = new StreamWriter(stream);
 
-                    // Convert the object to XML data and put it in the stream
-                    XmlSerializer serializer = new XmlSerializer(typeof(Player));
-                    serializer.Serialize(stream, player);
+            // Convert the object to XML data and put it in the stream
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(player, Newtonsoft.Json.Formatting.Indented, new Newtonsoft.Json.JsonSerializerSettings { TypeNameHandling = Newtonsoft.Json.TypeNameHandling.All });
+            writer.Write(json);
 
-                    // Close the file
-                    stream.Close();
-                }
-            }
+            // Close the file
+            writer.Close();
         }
     }
 }

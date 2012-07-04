@@ -86,6 +86,9 @@ namespace Myko.Xna.SkinnedModel
             if (clip == null)
                 throw new ArgumentNullException("clip");
 
+            if (duration.TotalSeconds <= 0.0)
+                throw new ArgumentException("Duration must be positive");
+
             currentClipValue = clip;
             currentTimeValue = TimeSpan.Zero;
             currentKeyframe = 0;

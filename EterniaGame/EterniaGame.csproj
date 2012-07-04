@@ -33,6 +33,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=x86" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -50,15 +54,25 @@
     <Compile Include="Abilities\Ability.cs" />
     <Compile Include="Abilities\AbilityDefinition.cs" />
     <Compile Include="Abilities\AbilityGenerator.cs" />
+    <Compile Include="Abilities\FireballVolley.cs" />
+    <Compile Include="Abilities\HeroicCleave.cs" />
+    <Compile Include="Abilities\Slash.cs" />
+    <Compile Include="Abilities\FlashHeal.cs" />
+    <Compile Include="Abilities\HeroicStrike.cs" />
+    <Compile Include="Abilities\ShieldBlock.cs" />
+    <Compile Include="Abilities\Fireball.cs" />
+    <Compile Include="Abilities\GreaterHeal.cs" />
     <Compile Include="Actors\Actor.cs" />
     <Compile Include="Actors\ActorDefinition.cs" />
     <Compile Include="Actors\ActorGenerator.cs" />
     <Compile Include="Actors\ActorResourceTypes.cs" />
+    <Compile Include="Actors\ActorRoles.cs" />
     <Compile Include="Aura.cs" />
     <Compile Include="Battle.cs" />
     <Compile Include="CombatTable.cs" />
     <Compile Include="Cooldown.cs" />
     <Compile Include="Damage.cs" />
+    <Compile Include="DamageReduction.cs" />
     <Compile Include="DamageTypes.cs" />
     <Compile Include="Encounter.cs" />
     <Compile Include="EncounterDefinition.cs" />
@@ -70,6 +84,7 @@
     <Compile Include="Items\ItemRarity.cs" />
     <Compile Include="Items\ItemSlots.cs" />
     <Compile Include="Items\ItemAffixes.cs" />
+    <Compile Include="Map.cs" />
     <Compile Include="Modifiers.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Projectile.cs" />

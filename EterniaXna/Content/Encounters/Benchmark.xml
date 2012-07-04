@@ -17,7 +17,7 @@
           <Mana>0</Mana>
           <AttackPower>0</AttackPower>
           <SpellPower>0</SpellPower>
-          <ArmorRating>175</ArmorRating>
+          <DamageReduction><ArmorRating>175</ArmorRating></DamageReduction>
           <MissRating>2</MissRating>
           <DodgeRating>3</DodgeRating>
           <HitRating>0</HitRating>

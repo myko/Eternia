@@ -46,6 +46,9 @@ namespace EterniaXna.Screens
             encounterListBox = AddListBox<EncounterDefinition>(grid.Cells[1, 0], Vector2.Zero, 400, 250);
             foreach (var encounter in encounters)
             {
+                if (encounter.Map == null)
+                    encounter.Map = new Map(18, 16);
+                encounter.Map.UpdateTileReferences();
                 var e = encounter;
                 encounterListBox.Items.Add(e, null, Bind(() =>
                 {

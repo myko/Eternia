@@ -26,7 +26,7 @@ namespace EterniaGame
         {
             var player = new Player();
             player.UnlockedTargetingStrategies.Add(TargettingStrategies.Manual);
-            player.Gold = 100;
+            player.Gold = 5000000;
 
             return player;
         }

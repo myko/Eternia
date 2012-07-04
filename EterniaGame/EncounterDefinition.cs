@@ -26,6 +26,9 @@ namespace EterniaGame
         [ContentSerializer(Optional = true)]
         public List<TriggerDefinition> Triggers { get; private set; }
 
+        [ContentSerializer(Optional = true)]
+        public Map Map { get; set; }
+
         public EncounterDefinition()
         {
             Name = "Unnamed Encounter";
@@ -34,6 +37,7 @@ namespace EterniaGame
             PrerequisiteEncounters = new List<string>();
             Actors = new List<ActorDefinition>();
             Triggers = new List<TriggerDefinition>();
+            Map = new Map();
         }
 
         public override string ToString()

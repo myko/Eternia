@@ -28,6 +28,11 @@ namespace EterniaGame
             Maximum = maximum;
         }
 
+        public override string ToString()
+        {
+            return Minimum.ToString() + " - " + Maximum.ToString();
+        }
+
         public static bool operator <(float f, Range r)
         {
             return f < r.Maximum;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
 using System.Xml.Serialization;
+using EterniaGame.Actors;
 
 namespace EterniaGame.Abilities
 {
@@ -31,11 +32,15 @@ namespace EterniaGame.Abilities
         [ContentSerializer(Optional = true)] public ProjectileDefinition SpawnsProjectile { get; set; }
         [ContentSerializer(Optional = true)] public List<Aura> AurasApplied { get; set; }
 
+
         [ContentSerializerIgnore]
         public bool Enabled { get; set; }
 
         public Ability()
         {
+            Name = "!!! Unnamed Ability !!!";
+            Description = "";
+
             Damage = new Damage();
             Healing = new Damage();
             DamageType = DamageTypes.SingleTarget;
@@ -56,6 +61,44 @@ namespace EterniaGame.Abilities
         public override string ToString()
         {
             return Name;
+        }
+
+        internal virtual void Generate(Randomizer randomizer, ActorResourceTypes resourceType)
+        {
+        }
+
+        internal Damage GenerateDamage(AbilityPowerTypes powerType, Randomizer randomizer)
+        {
+            var multipleTargetsFactor = 1.0f;
+
+            switch (DamageType)
+            {
+                case DamageTypes.Cleave:
+                    multipleTargetsFactor = 0.5f;
+                    break;
+                case DamageTypes.PointBlankArea:
+                    multipleTargetsFactor = 0.3f;
+                    break;
+            }
+
+            var damage = new Damage();
+            damage.Value = randomizer.Between(1f, 5f) * multipleTargetsFactor;
+
+            switch (powerType)
+            {
+                case AbilityPowerTypes.AttackPower:
+                    damage.AttackPowerScale = randomizer.Between(0.5f, 2f) * multipleTargetsFactor;
+                    break;
+                case AbilityPowerTypes.SpellPower:
+                    damage.SpellPowerScale = randomizer.Between(0.5f, 2f) * multipleTargetsFactor;
+                    break;
+                case AbilityPowerTypes.Hybrid:
+                    damage.AttackPowerScale = randomizer.Between(0.25f, 1f) * multipleTargetsFactor;
+                    damage.SpellPowerScale = randomizer.Between(0.25f, 1f) * multipleTargetsFactor;
+                    break;
+            }
+
+            return damage;
         }
     }
 }

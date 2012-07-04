@@ -9,9 +9,22 @@ namespace EterniaXna
         /// </summary>
         static void Main(string[] args)
         {
-            using (EterniaXna game = new EterniaXna())
+            try
             {
-                game.Run();
+                using (EterniaXna game = new EterniaXna())
+                {
+                    game.Run();
+                }
+            }
+            catch (Exception ex)
+            {
+                var message = ex.Message;
+                if (ex.InnerException != null)
+                    message += Environment.NewLine + Environment.NewLine + ex.InnerException.Message;
+
+                message += Environment.NewLine + Environment.NewLine + ex.StackTrace;
+
+                System.Windows.Forms.MessageBox.Show(message);
             }
         }
     }

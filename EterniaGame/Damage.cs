@@ -4,6 +4,17 @@ using EterniaGame.Actors;
 
 namespace EterniaGame
 {
+    public enum DamageSchools
+    {
+        Physical,
+        Fire,
+        Frost,
+        Arcane,
+        Nature,
+        Holy,
+        Unholy,
+    }
+
     public class Damage
     {
         private static Random random = new Random();
@@ -14,6 +25,8 @@ namespace EterniaGame
         public float AttackPowerScale { get; set; }
         [ContentSerializer(Optional = true)]
         public float SpellPowerScale { get; set; }
+        [ContentSerializer(Optional = true)]
+        public DamageSchools School { get; set; }
 
         public float CalculateDamage(Actor actor, Actor target)
         {
@@ -21,7 +34,7 @@ namespace EterniaGame
             value = random.Between(value * actor.CurrentStatistics.Precision, value);
             value = value * actor.CurrentStatistics.DamageDone;
             value = value * target.CurrentStatistics.DamageTaken;
-            value = value * (1f - target.CurrentStatistics.ArmorReduction);
+            value = value * (1f - target.CurrentStatistics.DamageReduction.GetReductionForSchool(School));
 
             return value;
         }
@@ -34,6 +47,17 @@ namespace EterniaGame
             value = value * target.CurrentStatistics.HealingTaken;
 
             return value;
+        }
+
+        public static Damage operator *(Damage d1, float f)
+        {
+            return new Damage
+            {
+                AttackPowerScale = d1.AttackPowerScale * f,
+                SpellPowerScale = d1.SpellPowerScale * f,
+                Value = d1.Value * f,
+                School = d1.School,
+            };
         }
     }
 }

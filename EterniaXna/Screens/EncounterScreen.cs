@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Myko.Xna.Ui;
 using Myko.Xna.SkinnedModel;
 using EterniaGame.Actors;
+using EterniaXna.EditorForms;
 
 namespace EterniaXna.Screens
 {
@@ -59,6 +60,7 @@ namespace EterniaXna.Screens
 
         List<ActorModel> actorModels;
         List<ProjectileModel> projectileModels;
+        MapModel mapModel;
 
         Random random = new Random();
         SpriteFont kootenayFont;
@@ -69,11 +71,11 @@ namespace EterniaXna.Screens
         Texture2D levelTexture;
         Texture2D splashTexture;
         Effect billboardEffect;
+        Effect mapEffect;
         Texture2D selectionTexture;
         
         Vector2 cameraPosition;
         float cameraDistance = 10f;
-        Matrix world;
         Matrix view;
         Matrix projection;
 
@@ -84,11 +86,15 @@ namespace EterniaXna.Screens
         bool isPaused = true;
         bool isBenchmarking = false;
 
+        EncounterForm encounterForm;
+        float fps = 60.0f;
+
         public EncounterScreen(Player player, EncounterDefinition encounterDefinition, Battle battle)
         {
             this.player = player;
             this.encounterDefinition = encounterDefinition;
             this.battle = battle;
+            //encounterDefinition.Map = new Map(18, 16);
 
             battle.Start();
 
@@ -132,6 +138,7 @@ namespace EterniaXna.Screens
         public override void LoadContent()
         {
             billboardEffect = ContentManager.Load<Effect>(@"Shaders\Billboard");
+            mapEffect = ContentManager.Load<Effect>(@"Shaders\Map");
             kootenayFont = ContentManager.Load<SpriteFont>(@"Fonts\Kootenay");
             kootenaySmallFont = ContentManager.Load<SpriteFont>(@"Fonts\KootenaySmall");
             healthBarTexture = ContentManager.Load<Texture2D>(@"Interface\healthbar");
@@ -243,7 +250,7 @@ namespace EterniaXna.Screens
                 }
             }
 
-            cameraDistance = Math.Min(40f, Math.Max(5f, 25f - mouseState.ScrollWheelValue * 1f * deltaTime));
+            cameraDistance = Math.Min(40f, Math.Max(5f, 25f - mouseState.ScrollWheelValue * 0.01f));
 
             if (keyboardState.IsKeyDown(Keys.Left))
                 cameraPosition.X = Math.Max(-20, cameraPosition.X - 20f * deltaTime);
@@ -252,10 +259,20 @@ namespace EterniaXna.Screens
                 cameraPosition.X = Math.Min(20, cameraPosition.X + 20f * deltaTime);
 
             if (keyboardState.IsKeyDown(Keys.Up))
-                cameraPosition.Y = Math.Min(20, cameraPosition.Y + 20f * deltaTime);
+                cameraPosition.Y = Math.Min(18, cameraPosition.Y + 20f * deltaTime);
 
             if (keyboardState.IsKeyDown(Keys.Down))
-                cameraPosition.Y = Math.Max(-20, cameraPosition.Y - 20f * deltaTime);
+                cameraPosition.Y = Math.Max(-30, cameraPosition.Y - 20f * deltaTime);
+
+            if (keyboardState.IsKeyDown(Keys.F2))
+            {
+                if (encounterForm == null || !encounterForm.Visible)
+                {
+                    encounterForm = new EncounterForm();
+                    encounterForm.EncounterDefinition = encounterDefinition;
+                    encounterForm.Show();
+                }
+            }
         }
 
         private Vector2 Unproject(MouseState mouseState)
@@ -281,6 +298,8 @@ namespace EterniaXna.Screens
                 var modelFileName = @"Models\Actors\" + actor.TextureName;
                 if (!System.IO.File.Exists(System.IO.Path.Combine(ContentManager.RootDirectory, modelFileName)))
                     modelFileName = @"Models\Actors\heman";
+
+                modelFileName = @"Models\Actors\token";
                 actorModels.Add(new ActorModel(actor, ContentManager.Load<Model>(modelFileName)));
             }
 
@@ -364,7 +383,7 @@ namespace EterniaXna.Screens
 
             foreach (var actor in battle.Actors.Where(x => x.IsAlive))
             {
-                if ((actor.Position - Unproject(mouseState)).Length() < actor.Radius)
+                if ((actor.Position - Unproject(mouseState)).Length() < actor.Diameter)
                     mouseOverActor = actor;
             }
         }
@@ -414,6 +433,8 @@ namespace EterniaXna.Screens
             DrawNamePlates();
 
             DrawCombatLog();
+
+            fps = (float)((fps + (1000.0 / gameTime.ElapsedGameTime.TotalMilliseconds)) / 2.0);
         }
 
         private void DrawScrollingTexts()
@@ -518,27 +539,39 @@ namespace EterniaXna.Screens
 
             ScreenManager.GraphicsDevice.RenderState.DepthBufferEnable = true;
 
-            foreach (ModelMesh mesh in levelModel.Meshes)
-            {
-                foreach (Effect effect in mesh.Effects)
-                {
-                    (effect as BasicEffect).Texture = levelTexture;
-                    (effect as BasicEffect).TextureEnabled = true;
+            if (mapModel == null)
+                mapModel = new MapModel(encounterDefinition.Map);
 
-                    effect.Parameters["World"].SetValue(Matrix.Identity);
-                    effect.Parameters["View"].SetValue(view);
-                    effect.Parameters["Projection"].SetValue(projection);
-                }
+            mapModel.Draw(ScreenManager.GraphicsDevice, view, projection, mapEffect, ContentManager);
 
-                mesh.Draw();
-            }
+            //foreach (ModelMesh mesh in levelModel.Meshes)
+            //{
+            //    foreach (Effect effect in mesh.Effects)
+            //    {
+            //        (effect as BasicEffect).Texture = levelTexture;
+            //        (effect as BasicEffect).TextureEnabled = true;
+
+            //        effect.Parameters["World"].SetValue(Matrix.Identity);
+            //        effect.Parameters["View"].SetValue(view);
+            //        effect.Parameters["Projection"].SetValue(projection);
+            //    }
+
+            //    mesh.Draw();
+            //}
 
             foreach (var actorModel in actorModels.OrderBy(a => a.Actor.Position.Y))
             {
                 var color = Color.LightGray;
+                var outlineColor = Color.White;
 
                 if (actorModel.Actor == mouseOverActor)
+                {
                     color = Color.White;
+                    if (mouseOverActor.Faction == Factions.Friend)
+                        outlineColor = Color.Green;
+                    else
+                        outlineColor = Color.Red;
+                }
 
                 if (selectedActors.Any())
                 {
@@ -557,7 +590,7 @@ namespace EterniaXna.Screens
                     DrawHealthBar((int)(v.X - 25), (int)(v.Y - 50), 50, 10, actorModel.Actor.HealthFraction, Color.GreenYellow);
                 }
 
-                actorModel.Draw(view, projection, color, ContentManager);
+                actorModel.Draw(view, projection, color, ContentManager, ScreenManager.GraphicsDevice, actorModel.Actor == mouseOverActor, outlineColor);
             }
 
             foreach (var projectile in projectileModels)
@@ -666,6 +699,8 @@ namespace EterniaXna.Screens
             {
                 particleSystem.Draw(ContentManager.Load<Effect>(@"Shaders\Particle"), view, projection, ScreenManager.GraphicsDevice);
             }
+
+            SpriteBatch.DrawString(Font, fps.ToString("0"), new Vector2(Width - 50, Height - Font.LineSpacing), Color.White);
         }
 
         private void DrawNamePlates()
@@ -701,9 +736,9 @@ namespace EterniaXna.Screens
                     DrawHealthBar(50, 25 + i * 50, 100, 15, actor.HealthFraction, Color.GreenYellow);
                 else
                     DrawHealthBar(50, 25 + i * 50, 100, 15, actor.HealthFraction, Color.Yellow);
-                if (actor.MaximumMana > 0)
+                if (actor.ResourceType == ActorResourceTypes.Mana)
                     DrawHealthBar(50, 25 + i * 50 + 15, 100, 5, actor.ManaFraction, Color.CornflowerBlue);
-                else
+                else if (actor.ResourceType == ActorResourceTypes.Energy)
                     DrawHealthBar(50, 25 + i * 50 + 15, 100, 5, actor.EnergyFraction, Color.LightGoldenrodYellow);
                 if (actor.CastingProgress != null)
                 {

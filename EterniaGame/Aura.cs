@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Content;
 using System.Xml.Serialization;
 using EterniaGame.Actors;
+using Newtonsoft.Json;
 
 namespace EterniaGame
 {
@@ -20,7 +21,7 @@ namespace EterniaGame
         public Cooldown Cooldown { get; set; }
         [ContentSerializer(Optional = true)]
         public Statistics Statistics { get; set; }
-        [XmlIgnore, ContentSerializerIgnore]
+        [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
         public Actor Owner { get; set; }
 
         public Aura()

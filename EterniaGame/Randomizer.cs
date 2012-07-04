@@ -49,11 +49,11 @@ namespace EterniaGame
             return random.Next(maxValue);
         }
 
-        public virtual T From<T>(T[] array)
+        public virtual T From<T>(params T[] array)
         {
             return random.From<T>(array);
-        }
 
+        }
         public virtual int Between(int min, int max)
         {
             return random.Between(min, max);

@@ -153,7 +153,7 @@
         <Statistics>
           <Health>30</Health>
           <AttackPower>0</AttackPower>
-          <ArmorRating>140</ArmorRating>
+          <DamageReduction><ArmorRating>140</ArmorRating></DamageReduction>
           <HitRating>0</HitRating>
           <CritRating>24</CritRating>
         </Statistics>
@@ -169,7 +169,7 @@
         <Statistics>
           <Health>20</Health>
           <AttackPower>0</AttackPower>
-          <ArmorRating>100</ArmorRating>
+          <DamageReduction><ArmorRating>100</ArmorRating></DamageReduction>
           <HitRating>14</HitRating>
           <CritRating>0</CritRating>
         </Statistics>
@@ -185,7 +185,7 @@
         <Statistics>
           <Health>40</Health>
           <AttackPower>14</AttackPower>
-          <ArmorRating>180</ArmorRating>
+          <DamageReduction><ArmorRating>180</ArmorRating></DamageReduction>
           <HitRating>0</HitRating>
           <CritRating>0</CritRating>
         </Statistics>
@@ -201,7 +201,7 @@
         <Statistics>
           <Health>15</Health>
           <AttackPower>0</AttackPower>
-          <ArmorRating>15</ArmorRating>
+          <DamageReduction><ArmorRating>15</ArmorRating></DamageReduction>
           <HitRating>24</HitRating>
           <CritRating>0</CritRating>
         </Statistics>
@@ -217,7 +217,7 @@
         <Statistics>
           <Health>20</Health>
           <AttackPower>24</AttackPower>
-          <ArmorRating>25</ArmorRating>
+          <DamageReduction><ArmorRating>25</ArmorRating></DamageReduction>
           <HitRating>0</HitRating>
           <CritRating>14</CritRating>
         </Statistics>

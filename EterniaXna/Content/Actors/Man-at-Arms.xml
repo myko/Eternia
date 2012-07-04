@@ -169,7 +169,7 @@
           <Health>30</Health>
           <Mana>5</Mana>
           <SpellPower>0</SpellPower>
-          <ArmorRating>70</ArmorRating>
+          <DamageReduction><ArmorRating>70</ArmorRating></DamageReduction>
           <CritRating>24</CritRating>
         </Statistics>
       </Item>
@@ -185,7 +185,7 @@
           <Health>20</Health>
           <Mana>5</Mana>
           <SpellPower>0</SpellPower>
-          <ArmorRating>50</ArmorRating>
+          <DamageReduction><ArmorRating>50</ArmorRating></DamageReduction>
           <CritRating>0</CritRating>
         </Statistics>
       </Item>
@@ -201,7 +201,7 @@
           <Health>40</Health>
           <Mana>5</Mana>
           <SpellPower>14</SpellPower>
-          <ArmorRating>90</ArmorRating>
+          <DamageReduction><ArmorRating>90</ArmorRating></DamageReduction>
           <CritRating>0</CritRating>
         </Statistics>
       </Item>
@@ -217,7 +217,7 @@
           <Health>15</Health>
           <Mana>5</Mana>
           <SpellPower>24</SpellPower>
-          <ArmorRating>0</ArmorRating>
+          <DamageReduction><ArmorRating>0</ArmorRating></DamageReduction>
           <CritRating>0</CritRating>
         </Statistics>
       </Item>
@@ -233,7 +233,7 @@
           <Health>20</Health>
           <Mana>5</Mana>
           <SpellPower>0</SpellPower>
-          <ArmorRating>40</ArmorRating>
+          <DamageReduction><ArmorRating>40</ArmorRating></DamageReduction>
           <CritRating>14</CritRating>
         </Statistics>
       </Item>

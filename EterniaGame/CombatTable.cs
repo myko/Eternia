@@ -45,7 +45,7 @@ namespace EterniaGame
 
         public CombatOutcome Roll()
         {
-            int roll = random.Next(missRating + dodgeRating + hitRating);
+            int roll = random.Next(Math.Max(1, missRating + dodgeRating + hitRating));
 
             if (roll < missRating)
                 return CombatOutcome.Miss;

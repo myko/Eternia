@@ -48,7 +48,7 @@ namespace EterniaXna
                 int abilityHealingLower = (int)((abilityHealingUpper * actor.CurrentStatistics.Precision) * actor.CurrentStatistics.HealingDone);
                 float averageHealing = ((abilityHealingLower + abilityHealingUpper) / 2.0f) * (actor.CurrentStatistics.CritChance + 1.0f);
 
-                var damageString = ability.Damage.Value.ToString("0") + " damage";
+                var damageString = ability.Damage.Value.ToString("0") + " " + ability.Damage.School.ToString() + " damage";
                 if (ability.Damage.SpellPowerScale > 0f)
                     damageString = ability.Damage.SpellPowerScale.ToString("#0%") + " spell power + " + damageString;
                 if (ability.Damage.AttackPowerScale > 0f)
@@ -126,11 +126,10 @@ namespace EterniaXna
 
                 SpriteBatch.DrawString(Font, ability.Name, new Vector2(x, y), Color.Yellow, ZIndex + 0.003f);
                 SpriteBatch.DrawString(Font, lines[0].Text, new Vector2(x, y += Font.LineSpacing), lines[0].Color, ZIndex + 0.003f);
-                SpriteBatch.DrawString(
-                    Font,
-                    ability.Range.Minimum.ToString() + " - " + ability.Range.Maximum.ToString() + " meter range", new Vector2(x, y += Font.LineSpacing),
-                    GetRangeColor(actorBinding.GetValue()),
-                    ZIndex + 0.003f);
+                if (ability.TargettingType != TargettingTypes.Self)
+                    SpriteBatch.DrawString(Font, ability.Range.ToString() + " meter range", new Vector2(x, y += Font.LineSpacing), GetRangeColor(actorBinding.GetValue()), ZIndex + 0.003f);
+                else
+                    Height -= Font.LineSpacing;
 
                 foreach (var line in lines.Skip(1))
                 {

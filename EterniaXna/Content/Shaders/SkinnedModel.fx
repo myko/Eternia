@@ -27,6 +27,8 @@ float3 Light2Color = float3(1, 0.9, 0.7);
 float3 AmbientColor = 0.3;
 float3 DiffuseColor = 1;
 
+float Outline = 0;
+
 texture Texture;
 
 sampler Sampler = sampler_state
@@ -72,18 +74,18 @@ VS_OUTPUT VertexShader(VS_INPUT input)
     skinTransform += Bones[input.BoneIndices.z] * input.BoneWeights.z;
     skinTransform += Bones[input.BoneIndices.w] * input.BoneWeights.w;
     
-    // Skin the vertex position.
-    float4 position = mul(input.Position, skinTransform);
-    
-    output.Position = mul(mul(mul(position, World), View), Projection);
-
     // Skin the vertex normal, then compute lighting.
     float3 normal = normalize(mul(mul(input.Normal, skinTransform), World));
+    // Skin the vertex position.
+    float4 position = mul(input.Position, skinTransform);
+    position.xyz += normal * Outline;
+    
+    output.Position = mul(mul(mul(position, World), View), Projection);
     
     float3 light1 = max(dot(normal, -Light1Direction), 0) * Light1Color;
     float3 light2 = max(dot(normal, -Light2Direction), 0) * Light2Color;
 
-    output.Lighting = light1 + light2 + AmbientColor;
+    output.Lighting = light1 + light2;
     output.TexCoord = input.TexCoord;
     
     return output;
@@ -105,7 +107,7 @@ float4 PixelShader(PS_INPUT input) : COLOR0
 
     color.rgb *= DiffuseColor * input.Lighting;
     
-    return color;
+    return float4(AmbientColor, 0) + color;
 }
 
 

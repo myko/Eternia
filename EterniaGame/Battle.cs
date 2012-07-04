@@ -137,20 +137,39 @@ namespace EterniaGame
                 actor.SelectTarget(Actors.Where(x => x.IsAlive));
             }
 
-            RunAbilities(deltaTime, turn, actor);
+            actor.CurrentMana += 1f * deltaTime;
+            actor.CurrentEnergy += 10f * deltaTime;
 
-            if (actor.IsAlive)
-                if (actor.Move(deltaTime, Actors.Where(x => x != actor)))
-                    actor.BaseAnimationState = BaseAnimationState.Walking;
-                else
-                    actor.BaseAnimationState = BaseAnimationState.Idle;
-            else
-                actor.BaseAnimationState = BaseAnimationState.Dead;
-
+            CoolAbilities(deltaTime, actor);
             RunActorAuras(deltaTime, turn, actor);
 
-            if (actor.CastingProgress != null && actor.CastingProgress.Current > 0f && actor.CastingAbility != null)
+            if (actor.IsAlive)
+            {
                 actor.BaseAnimationState = BaseAnimationState.Casting;
+                if (actor.CastingAbility != null)
+                {
+                    RunAbilityCast(deltaTime, turn, actor);
+                }
+                else
+                {
+                    var ability = actor.SelectAbility();
+                    if (actor.Destination == null && ability != null)
+                    {
+                        UseAbility(turn, actor, ability);
+                    }
+                    else
+                    {
+                        if (actor.Move(deltaTime, Actors.Where(x => x != actor)))
+                            actor.BaseAnimationState = BaseAnimationState.Walking;
+                        else
+                            actor.BaseAnimationState = BaseAnimationState.Idle;
+                    }
+                }
+            }
+            else
+            {
+                actor.BaseAnimationState = BaseAnimationState.Dead;
+            }
 
             if (actor.IsAlive && actor.CurrentHealth <= 0f)
             {
@@ -223,32 +242,11 @@ namespace EterniaGame
             actor.Auras.RemoveAll(ba => ba.Duration <= 0f);
         }
 
-        private void RunAbilities(float deltaTime, Turn turn, Actor actor)
+        private void CoolAbilities(float deltaTime, Actor actor)
         {
-            if (!actor.IsAlive)
-                return;
-
-            if (!actor.PlayerControlled)
-                actor.Abilities.ForEach(x => x.Enabled = true);
-
             foreach (var ability in actor.Abilities)
             {
                 ability.Cooldown.Cool(deltaTime);
-            }
-
-            actor.GlobalCooldown.Cool(deltaTime);
-
-            if (actor.CastingAbility != null)
-            {
-                RunAbilityCast(deltaTime, turn, actor);
-            }
-            else if (actor.GlobalCooldown.IsReady)
-            {
-                var ability = actor.SelectAbility();
-                if (ability != null && UseAbility(turn, actor, ability))
-                {
-                    actor.GlobalCooldown.Incur();
-                }
             }
         }
 
@@ -335,10 +333,7 @@ namespace EterniaGame
         {
             if (ability.DamageType == DamageTypes.SingleTarget)
             {
-                var abilityTarget = actor.Targets.FirstOrDefault();
-
-                if (!actor.PlayerControlled)
-                    abilityTarget = actor.GetAbilityTarget(ability.TargettingType);
+                var abilityTarget = actor.GetAbilityTarget(ability.TargettingType);
 
                 if (abilityTarget != null && abilityTarget.IsAlive)
                 {
@@ -352,10 +347,7 @@ namespace EterniaGame
             }
             else if (ability.DamageType == DamageTypes.Cleave)
             {
-                var primaryTarget = actor.Targets.FirstOrDefault();
-
-                if (!actor.PlayerControlled)
-                    primaryTarget = actor.GetAbilityTarget(ability.TargettingType);
+                var primaryTarget = actor.GetAbilityTarget(ability.TargettingType);
 
                 if (primaryTarget != null && primaryTarget.IsAlive)
                 {
@@ -438,7 +430,16 @@ namespace EterniaGame
 
         private void SpawnProjectile(Actor actor, Actor target, Ability ability)
         {
-            Projectiles.Add(new Projectile { Ability = ability, Owner = actor, Target = target, Position = new Vector3(actor.Position, 0), Speed = ability.SpawnsProjectile.Speed, ModelName = ability.SpawnsProjectile.ModelName, TextureName = ability.SpawnsProjectile.TextureName });
+            Projectiles.Add(new Projectile
+            {
+                Ability = ability,
+                Owner = actor,
+                Target = target,
+                Position = new Vector3(actor.Position, 0),
+                Speed = ability.SpawnsProjectile.Speed,
+                ModelName = ability.SpawnsProjectile.ModelName,
+                TextureName = ability.SpawnsProjectile.TextureName
+            });
         }
 
         private void ApplyAbilityOutcome(Turn turn, Actor actor, Ability ability, Actor target)

@@ -22,7 +22,7 @@ namespace EterniaGame
 
         // Ratings
         [ContentSerializer(Optional = true)]
-        public int ArmorRating { get; set; }
+        public DamageReduction DamageReduction { get; set; }
         [ContentSerializer(Optional = true)]
         public int MissRating { get; set; }
         [ContentSerializer(Optional = true)]
@@ -48,15 +48,6 @@ namespace EterniaGame
         [ContentSerializer(Optional = true)]
         public int ExtraRewards { get; set; }
 
-        // Calculated
-        public float ArmorReduction
-        {
-            get
-            {
-                return 0.75f * ArmorRating / (ArmorRating + 1000f);
-            }
-        }
-
         public float CritChance
         {
             get
@@ -79,6 +70,7 @@ namespace EterniaGame
             DamageTaken = 1;
             HealingDone = 1;
             HealingTaken = 1;
+            DamageReduction = new DamageReduction();
         }
 
         public static Statistics operator +(Statistics s1, Statistics s2)
@@ -91,7 +83,7 @@ namespace EterniaGame
                 AttackPower = s1.AttackPower + s2.AttackPower,
                 SpellPower = s1.SpellPower + s2.SpellPower,
 
-                ArmorRating = s1.ArmorRating + s2.ArmorRating,
+                DamageReduction = s1.DamageReduction + s2.DamageReduction,
                 MissRating = s1.MissRating + s2.MissRating,
                 DodgeRating = s1.DodgeRating + s2.DodgeRating,
                 CritRating = s1.CritRating + s2.CritRating,
@@ -117,7 +109,7 @@ namespace EterniaGame
                 AttackPower = s1.AttackPower - s2.AttackPower,
                 SpellPower = s1.SpellPower - s2.SpellPower,
 
-                ArmorRating = s1.ArmorRating - s2.ArmorRating,
+                DamageReduction = s1.DamageReduction - s2.DamageReduction,
                 MissRating = s1.MissRating - s2.MissRating,
                 DodgeRating = s1.DodgeRating - s2.DodgeRating,
                 CritRating = s1.CritRating - s2.CritRating,
@@ -144,7 +136,7 @@ namespace EterniaGame
                 AttackPower = s1.AttackPower * f,
                 SpellPower = s1.SpellPower * f,
 
-                ArmorRating = (int)(s1.ArmorRating * f),
+                DamageReduction = s1.DamageReduction * f,
                 MissRating = (int)(s1.MissRating * f),
                 DodgeRating = (int)(s1.DodgeRating * f),
                 CritRating = (int)(s1.CritRating * f),
@@ -175,7 +167,7 @@ namespace EterniaGame
                 AttackPower = s1.AttackPower * m.AttackPowerModifier,
                 SpellPower = s1.SpellPower * m.SpellPowerModifier,
 
-                ArmorRating = s1.ArmorRating,
+                DamageReduction = new DamageReduction(s1.DamageReduction),
                 MissRating = s1.MissRating,
                 DodgeRating = s1.DodgeRating,
                 CritRating = s1.CritRating,

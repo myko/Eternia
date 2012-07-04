@@ -53,13 +53,19 @@ namespace EterniaXna
             y = DrawStatistic("Health", (int)statistics.Health, x, y, hideZero);
             y = DrawStatistic("Mana", (int)statistics.Mana, x, y, hideZero);
             y = DrawStatistic("Energy", (int)statistics.Energy, x, y, hideZero);
-            y = DrawStatistic("Armor rating", statistics.ArmorRating, x, y, hideZero);
+            y = DrawStatistic("Armor rating", statistics.DamageReduction.ArmorRating, x, y, hideZero);
             y = DrawStatistic("Attack power", (int)statistics.AttackPower, x, y, hideZero);
             y = DrawStatistic("Spell power", (int)statistics.SpellPower, x, y, hideZero);
             y = DrawStatistic("Hit rating", statistics.HitRating, x, y, hideZero);
             y = DrawStatistic("Crit rating", statistics.CritRating, x, y, hideZero);
             y = DrawStatistic("Precision rating", statistics.PrecisionRating, x, y, hideZero);
             y = DrawStatistic("Dodge rating", statistics.DodgeRating, x, y, hideZero);
+            y = DrawStatistic("Fire resistance rating", statistics.DamageReduction.FireResistanceRating, x, y, hideZero);
+            y = DrawStatistic("Frost resistance rating", statistics.DamageReduction.FrostResistanceRating, x, y, hideZero);
+            y = DrawStatistic("Arcane resistance rating", statistics.DamageReduction.ArcaneResistanceRating, x, y, hideZero);
+            y = DrawStatistic("Nature resistance rating", statistics.DamageReduction.NatureResistanceRating, x, y, hideZero);
+            y = DrawStatistic("Holy resistance rating", statistics.DamageReduction.HolyResistanceRating, x, y, hideZero);
+            y = DrawStatistic("Unholy resistance rating", statistics.DamageReduction.UnholyResistanceRating, x, y, hideZero);
             y = DrawStatistic("Chance of extra rewards", statistics.ExtraRewards, x, y, hideZero);
 
             return y;
@@ -70,13 +76,19 @@ namespace EterniaXna
             y = DrawUpgradeStatistic("Health", (int)statistics.Health, x, y);
             y = DrawUpgradeStatistic("Mana", (int)statistics.Mana, x, y);
             y = DrawUpgradeStatistic("Energy", (int)statistics.Energy, x, y);
-            y = DrawUpgradeStatistic("Armor rating", statistics.ArmorRating, x, y);
+            y = DrawUpgradeStatistic("Armor rating", statistics.DamageReduction.ArmorRating, x, y);
             y = DrawUpgradeStatistic("Attack power", (int)statistics.AttackPower, x, y);
             y = DrawUpgradeStatistic("Spell power", (int)statistics.SpellPower, x, y);
             y = DrawUpgradeStatistic("Hit rating", statistics.HitRating, x, y);
             y = DrawUpgradeStatistic("Crit rating", statistics.CritRating, x, y);
             y = DrawUpgradeStatistic("Precision rating", statistics.PrecisionRating, x, y);
             y = DrawUpgradeStatistic("Dodge rating", statistics.DodgeRating, x, y);
+            y = DrawUpgradeStatistic("Fire resistance rating", statistics.DamageReduction.FireResistanceRating, x, y);
+            y = DrawUpgradeStatistic("Frost resistance rating", statistics.DamageReduction.FrostResistanceRating, x, y);
+            y = DrawUpgradeStatistic("Arcane resistance rating", statistics.DamageReduction.ArcaneResistanceRating, x, y);
+            y = DrawUpgradeStatistic("Nature resistance rating", statistics.DamageReduction.NatureResistanceRating, x, y);
+            y = DrawUpgradeStatistic("Holy resistance rating", statistics.DamageReduction.HolyResistanceRating, x, y);
+            y = DrawUpgradeStatistic("Unholy resistance rating", statistics.DamageReduction.UnholyResistanceRating, x, y);
             y = DrawUpgradeStatistic("Chance of extra rewards", statistics.ExtraRewards, x, y);
 
             return y;

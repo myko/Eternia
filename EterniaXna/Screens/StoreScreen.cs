@@ -23,9 +23,9 @@ namespace EterniaXna.Screens
         {
             this.player = player;
 
-            availableHeroes = GenerateAvailableHeroes().ToList();
-            availableAbilities = GenerateAvailableAbilities().ToList();
-            availableItems = GenerateAvailableItems().ToList();
+            availableHeroes = GenerateAvailableHeroes().OrderBy(x => x.Name).ToList();
+            availableAbilities = GenerateAvailableAbilities().OrderBy(x => x.Name).ToList();
+            availableItems = GenerateAvailableItems().OrderBy(x => x.ArmorClass).OrderBy(x => x.Rarity).ToList();
         }
 
         public override void LoadContent()
@@ -53,7 +53,7 @@ namespace EterniaXna.Screens
             tabControl.AddPage("Heroes", BuildHeroesTabPage());
             tabControl.AddPage("Skills", BuildAbilitiesTabPage());
             tabControl.AddPage("Items", BuildItemsTabPage());
-            tabControl.AddPage("Tactics", new Button());
+            tabControl.AddPage("Tactics", BuildTacticsTabPage());
             grid.Cells[2, 0].Add(tabControl);
 
             //equipmentListBox = AddListBox<Item>(grid.Cells[3, 1], new Vector2(0, -160), 300, 120);
@@ -132,12 +132,14 @@ namespace EterniaXna.Screens
             currentHeroesListBox.Source = player.Heroes;
 
             var currentHeroAbilitiesListBox = AddBoundListBox<Ability>(grid.Cells[0, 1], Vector2.Zero, 300, 400);
+            currentHeroAbilitiesListBox.Font = smallFont;
             currentHeroAbilitiesListBox.ZIndex = 0.2f;
             currentHeroAbilitiesListBox.Source = Bind<IEnumerable<Ability>>(() => currentHeroesListBox.SelectedItem != null ? currentHeroesListBox.SelectedItem.Abilities : null);
             currentHeroAbilitiesListBox.ToolTipBinder = x => new AbilityTooltip(currentHeroesListBox.SelectedItem, x) { Font = smallFont };
             currentHeroAbilitiesListBox.ColorBinder = x => Bind(() => GetAbilityColor(currentHeroesListBox.SelectedItem, x));
 
             var availableAbilitiesListBox = AddBoundListBox<Ability>(grid.Cells[0, 2], Vector2.Zero, 300, 400);
+            availableAbilitiesListBox.Font = smallFont;
             availableAbilitiesListBox.ZIndex = 0.2f;
             availableAbilitiesListBox.Source = availableAbilities;
             availableAbilitiesListBox.ToolTipBinder = x => new AbilityTooltip(Bind(() => currentHeroesListBox.SelectedItem), x) { Font = smallFont };
@@ -187,6 +189,30 @@ namespace EterniaXna.Screens
 
             var buyItemButton = CreateButton("Buy Item", Vector2.Zero);
             buyItemButton.Click += () => BuyItem(availableItemsListBox.SelectedItem);
+            grid.Cells[1, 2].Add(buyItemButton);
+
+            return grid;
+        }
+
+        private Control BuildTacticsTabPage()
+        {
+            var grid = new Grid();
+            grid.Width = Width - 40;
+            grid.Height = Height - 80 - 40 - 120 - 40 - 20;
+            grid.Rows.Add(GridSize.Fill());
+            grid.Rows.Add(GridSize.Fixed(100));
+            grid.Columns.Add(GridSize.Fill());
+            grid.Columns.Add(GridSize.Fill());
+            grid.Columns.Add(GridSize.Fill());
+
+            var availableItemsListBox = AddBoundListBox<TargetingStrategy>(grid.Cells[0, 2], Vector2.Zero, 300, 400);
+            availableItemsListBox.ZIndex = 0.2f;
+            availableItemsListBox.Source = TargetingStrategy.All();
+            //availableItemsListBox.ToolTipBinder = x => new ItemTooltip(x) { Font = smallFont, ShowUpgrade = Bind(() => currentHeroesListBox.SelectedItem != null), Upgrade = Bind(() => currentHeroesListBox.SelectedItem.GetItemUpgrade(x)) };
+            availableItemsListBox.ColorBinder = x => Bind(() => GetTargetingStrategyColor(x));
+
+            var buyItemButton = CreateButton("Buy Tactic", Vector2.Zero);
+            buyItemButton.Click += () => BuyTargettingStrategy(availableItemsListBox.SelectedItem);
             grid.Cells[1, 2].Add(buyItemButton);
 
             return grid;
@@ -253,6 +279,15 @@ namespace EterniaXna.Screens
                 //player.Gold += actor.Cost / 4;
                 player.Inventory.Remove(item);
                 availableItems.Add(item);
+            }
+        }
+
+        private void BuyTargettingStrategy(TargetingStrategy item)
+        {
+            if (item != null)
+            {
+                //player.Gold -= item.Cost;
+                player.UnlockedTargetingStrategies.Add(item.Value);
             }
         }
 
