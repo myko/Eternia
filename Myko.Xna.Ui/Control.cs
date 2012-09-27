@@ -151,7 +151,9 @@ namespace Myko.Xna.Ui
                 SpriteBatch.Draw(BlankTexture, bounds, Background, ZIndex);
 
             if (MouseOverTexture != null && IsMouseOver)
-                SpriteBatch.Draw(MouseOverTexture, bounds, Color.White, ZIndex + 0.01f);
+            {
+                SpriteBatch.Draw(MouseOverTexture, bounds, Background, ZIndex + 0.01f);
+            }
         }
 
         public virtual void Draw(Vector2 position, GameTime gameTime)

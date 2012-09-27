@@ -313,6 +313,14 @@ namespace Myko.Xna.Ui
         {
             return items.FirstOrDefault(x => x.Value == item);
         }
+
+        public void CheckAllItems()
+        {
+            foreach (var item in items)
+            {
+                item.Checked = true;
+            }
+        }
     }
 
     public class ListBox<T>: ListBoxBase<T> where T: class
