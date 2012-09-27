@@ -57,6 +57,6 @@ namespace Myko.Xna.SkinnedModel
         /// Gets the bone transform for this keyframe.
         /// </summary>
         [ContentSerializer]
-        public Matrix Transform { get; private set; }
+        public Matrix Transform { get; set; }
     }
 }

@@ -222,6 +222,20 @@ namespace Myko.Xna.SkinnedModel
             return skinTransforms;
         }
 
+        public Quaternion[] GetSkinTransformDualQuaternions()
+        {
+            var dualQuaternions = new Quaternion[skinTransforms.Length * 2];
+
+            //Convert the matrices into dual quaternions.
+            for (int on = 0; on < skinTransforms.Length; on++)
+            {
+                var dualQuaternion = DualQuaternion.QuatTrans2UDQ(Quaternion.CreateFromRotationMatrix(skinTransforms[on]), skinTransforms[on].Translation);
+                dualQuaternions[on * 2] = dualQuaternion.Ordinary * 2;
+                dualQuaternions[on * 2 + 1] = dualQuaternion.Dual * 2;
+            }
+
+            return dualQuaternions;
+        }
 
         /// <summary>
         /// Gets the clip currently being decoded.
