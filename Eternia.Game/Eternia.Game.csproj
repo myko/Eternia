@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EF7E2BA2-96E3-46FE-8AF7-782D044E6F9C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Eternia.Game</RootNamespace>
+    <AssemblyName>Eternia.Game</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <XnaFrameworkVersion>v3.1</XnaFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Xna.Framework, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=x86" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Abilities\Ability.cs" />
+    <Compile Include="Abilities\AbilityDefinition.cs" />
+    <Compile Include="Abilities\AbilityGenerator.cs" />
+    <Compile Include="Abilities\FireballVolley.cs" />
+    <Compile Include="Abilities\HeroicCleave.cs" />
+    <Compile Include="Abilities\Slash.cs" />
+    <Compile Include="Abilities\FlashHeal.cs" />
+    <Compile Include="Abilities\HeroicStrike.cs" />
+    <Compile Include="Abilities\ShieldBlock.cs" />
+    <Compile Include="Abilities\Fireball.cs" />
+    <Compile Include="Abilities\GreaterHeal.cs" />
+    <Compile Include="Actors\Actor.cs" />
+    <Compile Include="Actors\ActorDefinition.cs" />
+    <Compile Include="Actors\ActorGenerator.cs" />
+    <Compile Include="Actors\ActorResourceTypes.cs" />
+    <Compile Include="Actors\ActorRoles.cs" />
+    <Compile Include="Aura.cs" />
+    <Compile Include="Battle.cs" />
+    <Compile Include="CombatTable.cs" />
+    <Compile Include="Cooldown.cs" />
+    <Compile Include="Damage.cs" />
+    <Compile Include="DamageReduction.cs" />
+    <Compile Include="DamageTypes.cs" />
+    <Compile Include="Encounter.cs" />
+    <Compile Include="EncounterDefinition.cs" />
+    <Compile Include="GraphicsEffectDefinition.cs" />
+    <Compile Include="Items\Item.cs" />
+    <Compile Include="Items\ItemArmorClasses.cs" />
+    <Compile Include="Items\ItemGenerator.cs" />
+    <Compile Include="Items\ItemQuality.cs" />
+    <Compile Include="Items\ItemRarity.cs" />
+    <Compile Include="Items\ItemSlots.cs" />
+    <Compile Include="Items\ItemAffixes.cs" />
+    <Compile Include="Map.cs" />
+    <Compile Include="Modifiers.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="Projectile.cs" />
+    <Compile Include="ProjectileDefinition.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Randomizer.cs" />
+    <Compile Include="Range.cs" />
+    <Compile Include="SortingList.cs" />
+    <Compile Include="Stat.cs" />
+    <Compile Include="Statistics.cs" />
+    <Compile Include="TargettingStrategy.cs" />
+    <Compile Include="TargettingTypes.cs" />
+    <Compile Include="ThreatList.cs" />
+    <Compile Include="Triggers\Actions\SpawnActor.cs" />
+    <Compile Include="Triggers\Conditions\ActorHealth.cs" />
+    <Compile Include="Triggers\Trigger.cs" />
+    <Compile Include="TriggerDefinition.cs" />
+    <Compile Include="Turn.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Eternia\Myko.Xna.SkinnedModel\Myko.Xna.SkinnedModel.csproj">
+      <Project>{86AE86D6-F898-47FD-A56E-272C63FD7B82}</Project>
+      <Name>Myko.Xna.SkinnedModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
