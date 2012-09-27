@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Actions="EterniaGame.Triggers.Actions">
+  <Asset Type="EterniaGame.EncounterDefinition">
+    <Name>Outer Courtyard</Name>
+    <HeroLimit>4</HeroLimit>
+    <ItemLevel>10</ItemLevel>
+    <PrerequisiteEncounters>
+      <Item>Gates</Item>
+    </PrerequisiteEncounters>
+    <Actors>
+      <Item>
+        <Id>guardcaptain</Id>
+        <Name>Guard Captain</Name>
+        <Faction>Enemy</Faction>
+        <Diameter>2</Diameter>
+        <MovementSpeed>5</MovementSpeed>
+        <TextureName>guardcaptain</TextureName>
+        <BaseStatistics>
+          <Health>5000</Health>
+          <Mana>0</Mana>
+          <Energy>0</Energy>
+          <AttackPower>120</AttackPower>
+          <SpellPower>60</SpellPower>
+          <DamageReduction>
+            <ArmorRating>175</ArmorRating>
+            <FireResistanceRating>0</FireResistanceRating>
+            <FrostResistanceRating>0</FrostResistanceRating>
+            <ArcaneResistanceRating>0</ArcaneResistanceRating>
+            <NatureResistanceRating>0</NatureResistanceRating>
+            <HolyResistanceRating>0</HolyResistanceRating>
+            <UnholyResistanceRating>0</UnholyResistanceRating>
+          </DamageReduction>
+          <MissRating>11</MissRating>
+          <DodgeRating>14</DodgeRating>
+          <HitRating>1800</HitRating>
+          <CritRating>7</CritRating>
+          <PrecisionRating>0</PrecisionRating>
+          <DamageDone>1</DamageDone>
+          <DamageTaken>1</DamageTaken>
+          <HealingDone>1</HealingDone>
+          <HealingTaken>1</HealingTaken>
+          <ExtraRewards>0</ExtraRewards>
+        </BaseStatistics>
+        <Abilities>
+          <Item>
+            <Name>Slash</Name>
+            <Description>A moderate sword slash.</Description>
+            <AnimationName>Ability2</AnimationName>
+            <TextureName>Spell_nature_acid_01</TextureName>
+            <Damage>
+              <Value>10</Value>
+              <AttackPowerScale>0.5</AttackPowerScale>
+              <SpellPowerScale>0</SpellPowerScale>
+              <School>Physical</School>
+            </Damage>
+            <Healing>
+              <Value>0</Value>
+              <AttackPowerScale>0</AttackPowerScale>
+              <SpellPowerScale>0</SpellPowerScale>
+              <School>Physical</School>
+            </Healing>
+            <ManaCost>0</ManaCost>
+            <EnergyCost>0</EnergyCost>
+            <Cooldown>
+              <Duration>0</Duration>
+              <Current>0</Current>
+            </Cooldown>
+            <Duration>1</Duration>
+            <Range>
+              <Minimum>0</Minimum>
+              <Maximum>2</Maximum>
+            </Range>
+            <DamageType>SingleTarget</DamageType>
+            <TargettingType>Hostile</TargettingType>
+            <ThreatModifier>1</ThreatModifier>
+            <CanMiss>true</CanMiss>
+            <CanBeDodged>true</CanBeDodged>
+            <CanCrit>true</CanCrit>
+            <AurasApplied />
+          </Item>
+          <Item>
+            <Name>Water Bolt</Name>
+            <Description>Hurls a watery bolt at the enemy.</Description>
+            <AnimationName>Spell1</AnimationName>
+            <TextureName>Spell_nature_acid_01</TextureName>
+            <Damage>
+              <Value>80</Value>
+              <AttackPowerScale>0</AttackPowerScale>
+              <SpellPowerScale>1</SpellPowerScale>
+              <School>Physical</School>
+            </Damage>
+            <Healing>
+              <Value>0</Value>
+              <AttackPowerScale>0</AttackPowerScale>
+              <SpellPowerScale>0</SpellPowerScale>
+              <School>Physical</School>
+            </Healing>
+            <ManaCost>0</ManaCost>
+            <EnergyCost>0</EnergyCost>
+            <Cooldown>
+              <Duration>0</Duration>
+              <Current>0</Current>
+            </Cooldown>
+            <Duration>2</Duration>
+            <Range>
+              <Minimum>0</Minimum>
+              <Maximum>10</Maximum>
+            </Range>
+            <DamageType>SingleTarget</DamageType>
+            <TargettingType>Hostile</TargettingType>
+            <ThreatModifier>1</ThreatModifier>
+            <CanMiss>true</CanMiss>
+            <CanBeDodged>true</CanBeDodged>
+            <CanCrit>true</CanCrit>
+            <SpawnsProjectile>
+              <ModelName>projectile1</ModelName>
+              <TextureName>waterbolt_diffuse</TextureName>
+              <Speed>8</Speed>
+            </SpawnsProjectile>
+            <AurasApplied />
+          </Item>
+          <Item>
+            <Name>Scalding Splash</Name>
+            <Description>Soak all nearby targets with scalding hot water.</Description>
+            <AnimationName>Spell2</AnimationName>
+            <TextureName>Spell_shaman_tidalwaves</TextureName>
+            <Damage>
+              <Value>50</Value>
+              <AttackPowerScale>0</AttackPowerScale>
+              <SpellPowerScale>1</SpellPowerScale>
+              <School>Physical</School>
+            </Damage>
+            <Healing>
+              <Value>0</Value>
+              <AttackPowerScale>0</AttackPowerScale>
+              <SpellPowerScale>0</SpellPowerScale>
+              <School>Physical</School>
+            </Healing>
+            <ManaCost>0</ManaCost>
+            <EnergyCost>0</EnergyCost>
+            <Cooldown>
+              <Duration>15</Duration>
+              <Current>0</Current>
+            </Cooldown>
+            <Duration>1.5</Duration>
+            <Range>
+              <Minimum>0</Minimum>
+              <Maximum>4</Maximum>
+            </Range>
+            <DamageType>PointBlankArea</DamageType>
+            <TargettingType>Hostile</TargettingType>
+            <ThreatModifier>1</ThreatModifier>
+            <CanMiss>true</CanMiss>
+            <CanBeDodged>false</CanBeDodged>
+            <CanCrit>true</CanCrit>
+            <AurasApplied />
+          </Item>
+        </Abilities>
+      </Item>
+    </Actors>
+    <Triggers>
+      <Item>
+        <Conditions />
+        <Actions>
+          <Item Type="Actions:SpawnActor">
+            <ActorId>guardcaptain</ActorId>
+            <Position>10 0</Position>
+          </Item>
+        </Actions>
+      </Item>
+    </Triggers>
+    <Map>
+      <Width>0</Width>
+      <Height>0</Height>
+      <Tiles Null="true" />
+    </Map>
+  </Asset>
+</XnaContent>
