@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EterniaGame.Abilities;
+using Eternia.Game.Stats;
 
 namespace EterniaGame
 {
@@ -27,20 +28,20 @@ namespace EterniaGame
         {
             this.random = random;
 
-            missRating = targetStatistics.MissRating;
-            dodgeRating = targetStatistics.DodgeRating;
-            critChance = actorStatistics.CritChance;
-            hitRating = actorStatistics.HitRating;
+            missRating = targetStatistics.For<Miss>().Rating;
+            dodgeRating = targetStatistics.For<Dodge>().Rating;
+            critChance = actorStatistics.For<CriticalStrike>().Chance;
+            hitRating = actorStatistics.For<Hit>().Rating;
         }
 
         public CombatTable(Random random, Statistics actorStatistics, Statistics targetStatistics, Ability ability)
         {
             this.random = random;
 
-            missRating = ability.CanMiss ? targetStatistics.MissRating : 0;
-            dodgeRating = ability.CanBeDodged ? targetStatistics.DodgeRating : 0;
-            critChance = ability.CanCrit ? actorStatistics.CritChance : 0;
-            hitRating = actorStatistics.HitRating;
+            missRating = ability.CanMiss ? targetStatistics.For<Miss>().Rating : 0;
+            dodgeRating = ability.CanBeDodged ? targetStatistics.For<Dodge>().Rating : 0;
+            critChance = ability.CanCrit ? actorStatistics.For<CriticalStrike>().Chance : 0;
+            hitRating = actorStatistics.For<Hit>().Rating;
         }
 
         public CombatOutcome Roll()

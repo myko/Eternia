@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using Eternia.Tools.Properties;
 
 namespace Eternia.Tools
 {
@@ -19,7 +20,7 @@ namespace Eternia.Tools
 
         private void ToolsForm_Load(object sender, EventArgs e)
         {
-            var files = Directory.GetFiles(@"F:\Projects\Eternia\Eternia.XnaClient\GameContent\Actors", "*.xml");
+            var files = Directory.GetFiles(Resources.SourcePath + @"Eternia.XnaClient\GameContent\Actors", "*.xml");
 
             foreach (var file in files)
             {
@@ -28,7 +29,7 @@ namespace Eternia.Tools
                 actorMenuItem.Click += (x, y) => new ActorForm(fileName) { Text = fileName, MdiParent = this }.Show();
             }
 
-            files = Directory.GetFiles(@"F:\Projects\Eternia\Eternia.XnaClient\GameContent\Encounters", "*.xml");
+            files = Directory.GetFiles(Resources.SourcePath + @"Eternia.XnaClient\GameContent\Encounters", "*.xml");
 
             foreach (var file in files)
             {

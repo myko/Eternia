@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 
 namespace EterniaGame
 {
-
     public static class RandomExtensions
     {
         public static T Next<T>(this Random rnd)
@@ -18,6 +17,11 @@ namespace EterniaGame
         public static T From<T>(this Random random, T[] array)
         {
             return array[random.Next(array.Length)];
+        }
+
+        public static T From<T>(this Random random, IEnumerable<T> values)
+        {
+            return values.Skip(random.Next(values.Count())).First();
         }
 
         public static int Between(this Random random, int min, int max)

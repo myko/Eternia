@@ -14,60 +14,32 @@ namespace Eternia.XnaClient
     public class ActorModel: SceneNode
     {
         private readonly ContentManager contentManager;
+        private readonly GraphicsDevice graphicsDevice;
+        private readonly Effect effect;
+
+        private readonly Texture2D texture;
 
         public Actor Actor { get; private set; }
-        private Model Model { get; set; }
-        private AnimationPlayer AnimationPlayer { get; set; }
 
         public bool IsMouseOver { get; set; }
         public bool IsSelected { get; set; }
         public bool IsTargeted { get; set; }
         public bool HasSelection { get; set; }
 
-        public ActorModel(Actor actor, Model model, ContentManager contentManager)
+        public ActorModel(Actor actor, Texture2D texture, ContentManager contentManager, GraphicsDevice graphicsDevice, Effect effect)
         {
             this.contentManager = contentManager;
-            this.Actor = actor;
-            this.Model = model;
+            this.graphicsDevice = graphicsDevice;
+            this.effect = effect;
+            this.texture = texture;
 
-            var skinningData = model.Tag as SkinningData;
-            AnimationPlayer = new AnimationPlayer(skinningData);
-            if (skinningData.AnimationClips.ContainsKey("Stand"))
-                AnimationPlayer.StartClip(skinningData.AnimationClips["Stand"], true);
-            else
-                AnimationPlayer.StartClip(skinningData.AnimationClips.First().Value, true);
-            AnimationPlayer.Update(TimeSpan.FromSeconds(0), true, Matrix.Identity);
+            this.Actor = actor;
         }
 
         public override void Update(GameTime gameTime, bool isPaused)
         {
             if (!isPaused)
             {
-                AnimationPlayer.Update(gameTime.ElapsedGameTime, true, Matrix.Identity);
-
-                var skinningData = Model.Tag as SkinningData;
-                var idleClip = skinningData.AnimationClips["Stand"];
-                var walkClip = skinningData.AnimationClips["Walk"];
-                var deathClip = skinningData.AnimationClips["Death"];
-
-                if (Actor.CastingAbility != null)
-                {
-                    var abilityClip = skinningData.AnimationClips["AttackUnarmed"];
-                    if (skinningData.AnimationClips.ContainsKey(Actor.CastingAbility.AnimationName))
-                        abilityClip = skinningData.AnimationClips[Actor.CastingAbility.AnimationName];
-
-                    if (Actor.BaseAnimationState == BaseAnimationState.Casting && AnimationPlayer.CurrentClip != abilityClip)
-                        AnimationPlayer.StartClip(abilityClip, true, TimeSpan.FromSeconds(Actor.CastingAbility.Duration));
-                }
-
-                if (Actor.BaseAnimationState == BaseAnimationState.Walking && AnimationPlayer.CurrentClip != walkClip)
-                    AnimationPlayer.StartClip(walkClip, true);
-
-                if (Actor.BaseAnimationState == BaseAnimationState.Idle && AnimationPlayer.CurrentClip != idleClip)
-                    AnimationPlayer.StartClip(idleClip, true);
-
-                if (!Actor.IsAlive && AnimationPlayer.CurrentClip != deathClip)
-                    AnimationPlayer.StartClip(deathClip, false);
             }
 
             base.Update(gameTime, isPaused);
@@ -98,97 +70,136 @@ namespace Eternia.XnaClient
                     color = Color.White;
             }
 
-            var bones = AnimationPlayer.GetSkinTransformDualQuaternions();
-            var worldTransforms = AnimationPlayer.GetWorldTransforms();
-
-            Matrix world = Matrix.CreateScale(Actor.Diameter * 1f / Model.Meshes.First().BoundingSphere.Radius) * Matrix.CreateWorld(new Vector3(Actor.Position.X, 0, Actor.Position.Y), new Vector3(Actor.Direction.Y, 0, -Actor.Direction.X), new Vector3(0, 1, 0));
+            Matrix world = Matrix.CreateScale(Actor.Diameter) * Matrix.CreateTranslation(new Vector3(Actor.Position.X, 0, Actor.Position.Y));
 
             //if (!Actor.IsAlive)
             //    world = Matrix.CreateRotationX(Microsoft.Xna.Framework.MathHelper.ToRadians(-90f)) * world * Matrix.CreateTranslation(0, 0, 1);
 
-            foreach (ModelMesh mesh in Model.Meshes)
+            var vertices = new VertexPositionColorTexture[6];
+
+            vertices[0] = new VertexPositionColorTexture(new Vector3(-1, 0.3f, -1),color, new Vector2(0, 0));
+            vertices[1] = new VertexPositionColorTexture(new Vector3(1, 0.3f, -1), color, new Vector2(1, 0));
+            vertices[2] = new VertexPositionColorTexture(new Vector3(-1, 0.2f, 1), color, new Vector2(0, 1));
+            vertices[3] = new VertexPositionColorTexture(new Vector3(1, 0.3f, -1), color, new Vector2(1, 0));
+            vertices[4] = new VertexPositionColorTexture(new Vector3(1, 0.2f, 1), color, new Vector2(1, 1));
+            vertices[5] = new VertexPositionColorTexture(new Vector3(-1, 0.2f, 1), color, new Vector2(0, 1));
+
+            effect.Parameters["World"].SetValue(world);
+            effect.Parameters["View"].SetValue(view);
+            effect.Parameters["Projection"].SetValue(projection);
+            effect.Parameters["Texture"].SetValue(texture);
+            effect.Parameters["Alpha"].SetValue(1);
+            effect.Parameters["Diffuse"].SetValue(Color.White.ToVector4());
+
+            graphicsDevice.VertexDeclaration = new VertexDeclaration(graphicsDevice, VertexPositionColorTexture.VertexElements);
+            graphicsDevice.SamplerStates[0].MagFilter = TextureFilter.Point;
+            graphicsDevice.SamplerStates[0].MaxMipLevel = 0;
+            graphicsDevice.SamplerStates[0].MinFilter = TextureFilter.Point;
+            graphicsDevice.SamplerStates[0].MipFilter = TextureFilter.Point;
+            graphicsDevice.RenderState.AlphaBlendEnable = true;
+            graphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha;
+            graphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha;
+            graphicsDevice.RenderState.DepthBufferWriteEnable = true;
+            //graphicsDevice.RenderState.CullMode = CullMode.None;
+
+
+            effect.Begin();
+            foreach (var pass in effect.CurrentTechnique.Passes)
             {
-                //var textureFileName = @"Models\Actors\" + Actor.TextureName + "_diffuse";
-                //var fullPath = Path.Combine(contentManager.RootDirectory, textureFileName + ".xnb");
-                //Texture2D actorTexture = null;
-                //if (File.Exists(fullPath))
-                //    actorTexture = contentManager.Load<Texture2D>(textureFileName);
+                pass.Begin();
+                graphicsDevice.DrawUserPrimitives<VertexPositionColorTexture>(PrimitiveType.TriangleList, vertices, 0, 2);
+                pass.End();
+            }
+            effect.End();
+
+            graphicsDevice.RenderState.AlphaBlendEnable = true;
+            graphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha;
+            graphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha;
+            graphicsDevice.RenderState.DepthBufferWriteEnable = true;
+
+            //foreach (ModelMesh mesh in Model.Meshes)
+            //{
+            //    //var textureFileName = @"Models\Actors\" + Actor.TextureName + "_diffuse";
+            //    //var fullPath = Path.Combine(contentManager.RootDirectory, textureFileName + ".xnb");
+            //    //Texture2D actorTexture = null;
+            //    //if (File.Exists(fullPath))
+            //    //    actorTexture = contentManager.Load<Texture2D>(textureFileName);
                 
-                foreach (Effect effect in mesh.Effects)
-                {                    
-                    //effect.Parameters["Texture"].SetValue(actorTexture);
-                    effect.Parameters["Bones"].SetValue(bones);
-                    effect.Parameters["AmbientColor"].SetValue(new Vector3(0.17f, 0.13f, 0.1f));
-                    effect.Parameters["DiffuseColor"].SetValue(color.ToVector3());
-                    effect.Parameters["World"].SetValue(world);
-                    effect.Parameters["View"].SetValue(view);
-                    effect.Parameters["Projection"].SetValue(projection);
-                }
+            //    foreach (Effect effect in mesh.Effects)
+            //    {                    
+            //        //effect.Parameters["Texture"].SetValue(actorTexture);
+            //        effect.Parameters["Bones"].SetValue(bones);
+            //        effect.Parameters["AmbientColor"].SetValue(new Vector3(0.17f, 0.13f, 0.1f));
+            //        effect.Parameters["DiffuseColor"].SetValue(color.ToVector3());
+            //        effect.Parameters["World"].SetValue(world);
+            //        effect.Parameters["View"].SetValue(view);
+            //        effect.Parameters["Projection"].SetValue(projection);
+            //    }
 
-                mesh.Draw();
-            }
+            //    mesh.Draw();
+            //}
 
-            var weapon = Actor.Equipment.SingleOrDefault(x => x.Slot == ItemSlots.Weapon);
-            if (weapon != null)
-            {
-                var rightGripBone = Model.Bones.SingleOrDefault(x => x.Name.EndsWith("ArmR"));
-                if (rightGripBone != null)
-                {
-                    var swordModel = contentManager.Load<Model>(@"Models\Objects\sword1");
+            //var weapon = Actor.Equipment.SingleOrDefault(x => x.Slot == ItemSlots.Weapon);
+            //if (weapon != null)
+            //{
+            //    var rightGripBone = Model.Bones.SingleOrDefault(x => x.Name.EndsWith("ArmR"));
+            //    if (rightGripBone != null)
+            //    {
+            //        var swordModel = contentManager.Load<Model>(@"Models\Objects\sword1");
 
-                    foreach (ModelMesh mesh in swordModel.Meshes)
-                    {
-                        foreach (BasicEffect effect in mesh.Effects)
-                        {
-                            effect.DirectionalLight0.Enabled = true;
-                            effect.DirectionalLight0.Direction = Vector3.Normalize(new Vector3(0.5f, -1f, -0.2f));
-                            effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 0.9f, 0.7f);
-                            effect.DirectionalLight1.Enabled = true;
-                            effect.DirectionalLight1.Direction = Vector3.Normalize(new Vector3(-0.3f, 1f, 0.1f));
-                            effect.DirectionalLight1.DiffuseColor = new Vector3(1f, 0.9f, 0.7f);
-                            effect.LightingEnabled = true;
-                            effect.View = view;
-                            effect.Projection = projection;
-                            effect.World = worldTransforms[rightGripBone.Index - (Model.Bones.Count - worldTransforms.Length)] * world;
-                            effect.DiffuseColor = Color.Gray.ToVector3();
-                        }
+            //        foreach (ModelMesh mesh in swordModel.Meshes)
+            //        {
+            //            foreach (BasicEffect effect in mesh.Effects)
+            //            {
+            //                effect.DirectionalLight0.Enabled = true;
+            //                effect.DirectionalLight0.Direction = Vector3.Normalize(new Vector3(0.5f, -1f, -0.2f));
+            //                effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 0.9f, 0.7f);
+            //                effect.DirectionalLight1.Enabled = true;
+            //                effect.DirectionalLight1.Direction = Vector3.Normalize(new Vector3(-0.3f, 1f, 0.1f));
+            //                effect.DirectionalLight1.DiffuseColor = new Vector3(1f, 0.9f, 0.7f);
+            //                effect.LightingEnabled = true;
+            //                effect.View = view;
+            //                effect.Projection = projection;
+            //                effect.World = worldTransforms[rightGripBone.Index - (Model.Bones.Count - worldTransforms.Length)] * world;
+            //                effect.DiffuseColor = Color.Gray.ToVector3();
+            //            }
 
-                        mesh.Draw();
-                    }
-                }
-            }
+            //            mesh.Draw();
+            //        }
+            //    }
+            //}
 
-            var offhand = Actor.Equipment.SingleOrDefault(x => x.Slot == ItemSlots.Offhand);
-            if (offhand != null)
-            {
-                var leftGripBone = Model.Bones.SingleOrDefault(x => x.Name.EndsWith("ArmL"));
-                if (leftGripBone != null)
-                {
-                    var offhandModel = contentManager.Load<Model>(@"Models\Objects\shield1");
-                    if (offhand.ArmorClass == ItemArmorClasses.Leather)
-                        offhandModel = contentManager.Load<Model>(@"Models\Objects\dagger1");
+            //var offhand = Actor.Equipment.SingleOrDefault(x => x.Slot == ItemSlots.Offhand);
+            //if (offhand != null)
+            //{
+            //    var leftGripBone = Model.Bones.SingleOrDefault(x => x.Name.EndsWith("ArmL"));
+            //    if (leftGripBone != null)
+            //    {
+            //        var offhandModel = contentManager.Load<Model>(@"Models\Objects\shield1");
+            //        if (offhand.ArmorClass == ItemArmorClasses.Leather)
+            //            offhandModel = contentManager.Load<Model>(@"Models\Objects\dagger1");
 
-                    foreach (ModelMesh mesh in offhandModel.Meshes)
-                    {
-                        foreach (BasicEffect effect in mesh.Effects)
-                        {
-                            effect.DirectionalLight0.Enabled = true;
-                            effect.DirectionalLight0.Direction = Vector3.Normalize(new Vector3(0.5f, -1f, -0.2f));
-                            effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 0.9f, 0.7f);
-                            effect.DirectionalLight1.Enabled = true;
-                            effect.DirectionalLight1.Direction = Vector3.Normalize(new Vector3(-0.3f, 1f, 0.1f));
-                            effect.DirectionalLight1.DiffuseColor = new Vector3(1f, 0.9f, 0.7f);
-                            effect.LightingEnabled = true;
-                            effect.View = view;
-                            effect.Projection = projection;
-                            effect.World = worldTransforms[leftGripBone.Index - (Model.Bones.Count - worldTransforms.Length)] * world;
-                            effect.DiffuseColor = Color.Gray.ToVector3();
-                        }
+            //        foreach (ModelMesh mesh in offhandModel.Meshes)
+            //        {
+            //            foreach (BasicEffect effect in mesh.Effects)
+            //            {
+            //                effect.DirectionalLight0.Enabled = true;
+            //                effect.DirectionalLight0.Direction = Vector3.Normalize(new Vector3(0.5f, -1f, -0.2f));
+            //                effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 0.9f, 0.7f);
+            //                effect.DirectionalLight1.Enabled = true;
+            //                effect.DirectionalLight1.Direction = Vector3.Normalize(new Vector3(-0.3f, 1f, 0.1f));
+            //                effect.DirectionalLight1.DiffuseColor = new Vector3(1f, 0.9f, 0.7f);
+            //                effect.LightingEnabled = true;
+            //                effect.View = view;
+            //                effect.Projection = projection;
+            //                effect.World = worldTransforms[leftGripBone.Index - (Model.Bones.Count - worldTransforms.Length)] * world;
+            //                effect.DiffuseColor = Color.Gray.ToVector3();
+            //            }
 
-                        mesh.Draw();
-                    }
-                }
-            }
+            //            mesh.Draw();
+            //        }
+            //    }
+            //}
         }
     }
 }

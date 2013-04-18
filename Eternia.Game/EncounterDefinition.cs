@@ -27,6 +27,9 @@ namespace EterniaGame
         public List<TriggerDefinition> Triggers { get; private set; }
 
         [ContentSerializer(Optional = true)]
+        public List<Item> Loot { get; private set; }
+
+        [ContentSerializer(Optional = true)]
         public Map Map { get; set; }
 
         public EncounterDefinition()
@@ -37,6 +40,7 @@ namespace EterniaGame
             PrerequisiteEncounters = new List<string>();
             Actors = new List<ActorDefinition>();
             Triggers = new List<TriggerDefinition>();
+            Loot = new List<Item>();
             Map = new Map();
         }
 

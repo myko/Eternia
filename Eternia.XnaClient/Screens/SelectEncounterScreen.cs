@@ -41,7 +41,6 @@ namespace EterniaXna.Screens
             encounters.Add(ContentManager.Load<EncounterDefinition>(@"Encounters\1_2_OuterCourtyard"));
             encounters.Add(ContentManager.Load<EncounterDefinition>(@"Encounters\1_3_InnerCourtyard"));
             encounters.Add(ContentManager.Load<EncounterDefinition>(@"Encounters\1_4_ThroneRoom"));
-            encounters.Add(ContentManager.Load<EncounterDefinition>(@"Encounters\Benchmark"));
 
             encounterListBox = AddListBox<EncounterDefinition>(grid.Cells[1, 0], Vector2.Zero, 400, 250);
             foreach (var encounter in encounters)

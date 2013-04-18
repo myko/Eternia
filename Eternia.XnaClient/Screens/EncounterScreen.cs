@@ -140,7 +140,7 @@ namespace EterniaXna.Screens
                 ZIndex = 0.1f,
             };
             benchButton.Click += () => isBenchmarking = !isBenchmarking;
-            Controls.Add(benchButton);
+            //Controls.Add(benchButton);
 
             for (int i = 0; i < 10; i++)
             {
@@ -301,11 +301,11 @@ namespace EterniaXna.Screens
 
             foreach (var actor in battle.Actors.Where(x => !scene.Nodes.OfType<ActorModel>().Any(y => y.Actor == x)))
             {
-                var modelFileName = @"Models\Actors\" + actor.TextureName;
+                var modelFileName = @"Models\Actors\" + actor.TextureName + "_portrait";
                 if (!System.IO.File.Exists(System.IO.Path.Combine(ContentManager.RootDirectory, modelFileName + ".xnb")))
-                    modelFileName = @"Models\Actors\king";
+                    modelFileName = @"Models\Actors\warrior_portrait";
 
-                scene.Nodes.Insert(0, new ActorModel(actor, ContentManager.Load<Model>(modelFileName), ContentManager));
+                scene.Nodes.Insert(0, new ActorModel(actor, ContentManager.Load<Texture2D>(modelFileName), ContentManager, ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\Particle")));
             }
 
             foreach (var projectile in battle.Projectiles.Where(x => !scene.Nodes.OfType<ProjectileModel>().Any(y => y.Projectile == x)))

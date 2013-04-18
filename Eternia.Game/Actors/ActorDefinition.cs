@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
 using EterniaGame.Abilities;
+using Eternia.Game.Stats;
 
 namespace EterniaGame.Actors
 {

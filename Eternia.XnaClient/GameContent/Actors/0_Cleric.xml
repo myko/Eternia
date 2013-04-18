@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<XnaContent xmlns:Actors="EterniaGame.Actors">
+<XnaContent xmlns:Actors="EterniaGame.Actors"
+            xmlns:Stats="Eternia.Game.Stats">
   <Asset Type="Actors:Actor">
     <Id>cleric</Id>
     <Name>Cleric</Name>
@@ -94,32 +95,6 @@
               <Duration>2</Duration>
               <Current>0</Current>
             </Cooldown>
-            <Statistics>
-              <Health>0</Health>
-              <Mana>0</Mana>
-              <Energy>0</Energy>
-              <AttackPower>0</AttackPower>
-              <SpellPower>0</SpellPower>
-              <DamageReduction>
-                <ArmorRating>0</ArmorRating>
-                <FireResistanceRating>0</FireResistanceRating>
-                <FrostResistanceRating>0</FrostResistanceRating>
-                <ArcaneResistanceRating>0</ArcaneResistanceRating>
-                <NatureResistanceRating>0</NatureResistanceRating>
-                <HolyResistanceRating>0</HolyResistanceRating>
-                <UnholyResistanceRating>0</UnholyResistanceRating>
-              </DamageReduction>
-              <MissRating>0</MissRating>
-              <DodgeRating>0</DodgeRating>
-              <HitRating>0</HitRating>
-              <CritRating>0</CritRating>
-              <PrecisionRating>0</PrecisionRating>
-              <DamageDone>1</DamageDone>
-              <DamageTaken>1</DamageTaken>
-              <HealingDone>1</HealingDone>
-              <HealingTaken>1</HealingTaken>
-              <ExtraRewards>0</ExtraRewards>
-            </Statistics>
           </Item>
         </AurasApplied>
       </Item>
@@ -170,30 +145,24 @@
         <Slot>Legs</Slot>
         <ArmorClass>Cloth</ArmorClass>
         <Statistics>
-          <Health>30</Health>
-          <Mana>5</Mana>
-          <Energy>0</Energy>
-          <AttackPower>0</AttackPower>
-          <SpellPower>0</SpellPower>
-          <DamageReduction>
-            <ArmorRating>70</ArmorRating>
-            <FireResistanceRating>0</FireResistanceRating>
-            <FrostResistanceRating>0</FrostResistanceRating>
-            <ArcaneResistanceRating>0</ArcaneResistanceRating>
-            <NatureResistanceRating>0</NatureResistanceRating>
-            <HolyResistanceRating>0</HolyResistanceRating>
-            <UnholyResistanceRating>0</UnholyResistanceRating>
-          </DamageReduction>
-          <MissRating>0</MissRating>
-          <DodgeRating>0</DodgeRating>
-          <HitRating>0</HitRating>
-          <CritRating>24</CritRating>
-          <PrecisionRating>0</PrecisionRating>
-          <DamageDone>1</DamageDone>
-          <DamageTaken>1</DamageTaken>
-          <HealingDone>1</HealingDone>
-          <HealingTaken>1</HealingTaken>
-          <ExtraRewards>0</ExtraRewards>
+          <Item Type="Stats:Health">
+            <Value>30</Value>
+          </Item>
+          <Item Type="Stats:Mana">
+            <Value>5</Value>
+          </Item>
+          <Item Type="Stats:DamageReduction">
+              <ArmorRating>70</ArmorRating>
+              <FireResistanceRating>0</FireResistanceRating>
+              <FrostResistanceRating>0</FrostResistanceRating>
+              <ArcaneResistanceRating>0</ArcaneResistanceRating>
+              <NatureResistanceRating>0</NatureResistanceRating>
+              <HolyResistanceRating>0</HolyResistanceRating>
+              <UnholyResistanceRating>0</UnholyResistanceRating>
+          </Item>
+          <Item Type="Stats:CriticalStrike">
+            <Rating>24</Rating>
+          </Item>
         </Statistics>
       </Item>
       <Item>
@@ -204,12 +173,13 @@
         <Slot>Boots</Slot>
         <ArmorClass>Cloth</ArmorClass>
         <Statistics>
-          <Health>20</Health>
-          <Mana>5</Mana>
-          <Energy>0</Energy>
-          <AttackPower>0</AttackPower>
-          <SpellPower>0</SpellPower>
-          <DamageReduction>
+          <Item Type="Stats:Health">
+            <Value>20</Value>
+          </Item>
+          <Item Type="Stats:Mana">
+            <Value>5</Value>
+          </Item>
+          <Item Type="Stats:DamageReduction">
             <ArmorRating>50</ArmorRating>
             <FireResistanceRating>0</FireResistanceRating>
             <FrostResistanceRating>0</FrostResistanceRating>
@@ -217,17 +187,7 @@
             <NatureResistanceRating>0</NatureResistanceRating>
             <HolyResistanceRating>0</HolyResistanceRating>
             <UnholyResistanceRating>0</UnholyResistanceRating>
-          </DamageReduction>
-          <MissRating>0</MissRating>
-          <DodgeRating>0</DodgeRating>
-          <HitRating>0</HitRating>
-          <CritRating>0</CritRating>
-          <PrecisionRating>0</PrecisionRating>
-          <DamageDone>1</DamageDone>
-          <DamageTaken>1</DamageTaken>
-          <HealingDone>1</HealingDone>
-          <HealingTaken>1</HealingTaken>
-          <ExtraRewards>0</ExtraRewards>
+          </Item>
         </Statistics>
       </Item>
       <Item>
@@ -238,12 +198,16 @@
         <Slot>Chest</Slot>
         <ArmorClass>Cloth</ArmorClass>
         <Statistics>
-          <Health>40</Health>
-          <Mana>5</Mana>
-          <Energy>0</Energy>
-          <AttackPower>0</AttackPower>
-          <SpellPower>14</SpellPower>
-          <DamageReduction>
+          <Item Type="Stats:Health">
+            <Value>40</Value>
+          </Item>
+          <Item Type="Stats:Mana">
+            <Value>5</Value>
+          </Item>
+          <Item Type="Stats:SpellPower">
+            <Value>14</Value>
+          </Item>
+          <Item Type="Stats:DamageReduction">
             <ArmorRating>90</ArmorRating>
             <FireResistanceRating>0</FireResistanceRating>
             <FrostResistanceRating>0</FrostResistanceRating>
@@ -251,17 +215,10 @@
             <NatureResistanceRating>0</NatureResistanceRating>
             <HolyResistanceRating>0</HolyResistanceRating>
             <UnholyResistanceRating>0</UnholyResistanceRating>
-          </DamageReduction>
-          <MissRating>0</MissRating>
-          <DodgeRating>0</DodgeRating>
-          <HitRating>0</HitRating>
-          <CritRating>0</CritRating>
-          <PrecisionRating>0</PrecisionRating>
-          <DamageDone>1</DamageDone>
-          <DamageTaken>1</DamageTaken>
-          <HealingDone>1</HealingDone>
-          <HealingTaken>1</HealingTaken>
-          <ExtraRewards>0</ExtraRewards>
+          </Item>
+          <Item Type="Stats:CriticalStrike">
+            <Rating>24</Rating>
+          </Item>
         </Statistics>
       </Item>
       <Item>
@@ -272,30 +229,15 @@
         <Slot>Offhand</Slot>
         <ArmorClass>Cloth</ArmorClass>
         <Statistics>
-          <Health>15</Health>
-          <Mana>5</Mana>
-          <Energy>0</Energy>
-          <AttackPower>0</AttackPower>
-          <SpellPower>24</SpellPower>
-          <DamageReduction>
-            <ArmorRating>0</ArmorRating>
-            <FireResistanceRating>0</FireResistanceRating>
-            <FrostResistanceRating>0</FrostResistanceRating>
-            <ArcaneResistanceRating>0</ArcaneResistanceRating>
-            <NatureResistanceRating>0</NatureResistanceRating>
-            <HolyResistanceRating>0</HolyResistanceRating>
-            <UnholyResistanceRating>0</UnholyResistanceRating>
-          </DamageReduction>
-          <MissRating>0</MissRating>
-          <DodgeRating>0</DodgeRating>
-          <HitRating>0</HitRating>
-          <CritRating>0</CritRating>
-          <PrecisionRating>0</PrecisionRating>
-          <DamageDone>1</DamageDone>
-          <DamageTaken>1</DamageTaken>
-          <HealingDone>1</HealingDone>
-          <HealingTaken>1</HealingTaken>
-          <ExtraRewards>0</ExtraRewards>
+          <Item Type="Stats:Health">
+            <Value>15</Value>
+          </Item>
+          <Item Type="Stats:Mana">
+            <Value>5</Value>
+          </Item>
+          <Item Type="Stats:SpellPower">
+            <Value>24</Value>
+          </Item>
         </Statistics>
       </Item>
       <Item>
@@ -306,12 +248,13 @@
         <Slot>Weapon</Slot>
         <ArmorClass>Cloth</ArmorClass>
         <Statistics>
-          <Health>20</Health>
-          <Mana>5</Mana>
-          <Energy>0</Energy>
-          <AttackPower>0</AttackPower>
-          <SpellPower>0</SpellPower>
-          <DamageReduction>
+          <Item Type="Stats:Health">
+            <Value>20</Value>
+          </Item>
+          <Item Type="Stats:Mana">
+            <Value>5</Value>
+          </Item>
+          <Item Type="Stats:DamageReduction">
             <ArmorRating>40</ArmorRating>
             <FireResistanceRating>0</FireResistanceRating>
             <FrostResistanceRating>0</FrostResistanceRating>
@@ -319,17 +262,10 @@
             <NatureResistanceRating>0</NatureResistanceRating>
             <HolyResistanceRating>0</HolyResistanceRating>
             <UnholyResistanceRating>0</UnholyResistanceRating>
-          </DamageReduction>
-          <MissRating>0</MissRating>
-          <DodgeRating>0</DodgeRating>
-          <HitRating>0</HitRating>
-          <CritRating>14</CritRating>
-          <PrecisionRating>0</PrecisionRating>
-          <DamageDone>1</DamageDone>
-          <DamageTaken>1</DamageTaken>
-          <HealingDone>1</HealingDone>
-          <HealingTaken>1</HealingTaken>
-          <ExtraRewards>0</ExtraRewards>
+          </Item>
+          <Item Type="Stats:CriticalStrike">
+            <Rating>24</Rating>
+          </Item>
         </Statistics>
       </Item>
     </Equipment>
@@ -339,37 +275,17 @@
     <PlayerControlled>true</PlayerControlled>
     <TextureName>cleric</TextureName>
     <BaseStatistics>
-      <Health>125</Health>
-      <Mana>225</Mana>
-      <Energy>0</Energy>
-      <AttackPower>0</AttackPower>
-      <SpellPower>0</SpellPower>
-      <DamageReduction>
-        <ArmorRating>0</ArmorRating>
-        <FireResistanceRating>0</FireResistanceRating>
-        <FrostResistanceRating>0</FrostResistanceRating>
-        <ArcaneResistanceRating>0</ArcaneResistanceRating>
-        <NatureResistanceRating>0</NatureResistanceRating>
-        <HolyResistanceRating>0</HolyResistanceRating>
-        <UnholyResistanceRating>0</UnholyResistanceRating>
-      </DamageReduction>
-      <MissRating>100</MissRating>
-      <DodgeRating>0</DodgeRating>
-      <HitRating>0</HitRating>
-      <CritRating>0</CritRating>
-      <PrecisionRating>0</PrecisionRating>
-      <DamageDone>1</DamageDone>
-      <DamageTaken>1</DamageTaken>
-      <HealingDone>1</HealingDone>
-      <HealingTaken>1</HealingTaken>
-      <ExtraRewards>0</ExtraRewards>
+      <Item Type="Stats:Health">
+        <Value>125</Value>
+      </Item>
+      <Item Type="Stats:Mana">
+        <Value>225</Value>
+      </Item>
+      <Item Type="Stats:Miss">
+        <Rating>100</Rating>
+      </Item>
     </BaseStatistics>
-    <BaseModifiers>
-      <HealthModifier>1</HealthModifier>
-      <AttackPowerModifier>1</AttackPowerModifier>
-      <SpellPowerModifier>1</SpellPowerModifier>
-    </BaseModifiers>
-    <TargettingStrategy>Threat</TargettingStrategy>
+    <TargettingStrategy>Manual</TargettingStrategy>
     <Cost>0</Cost>
     <MovementSpeed>5</MovementSpeed>
     <ResourceType>Mana</ResourceType>

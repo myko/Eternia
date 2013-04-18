@@ -7,8 +7,8 @@ namespace EterniaGame
 {
     public enum TargettingStrategies
     {
-        Threat,
         Manual,
+        Threat,
         ClosestEnemy,
         ClosestFriend,
         LowestHealthEnemy,

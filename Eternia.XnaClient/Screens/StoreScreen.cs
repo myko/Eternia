@@ -7,6 +7,7 @@ using Myko.Xna.Ui;
 using EterniaGame.Actors;
 using EterniaGame.Abilities;
 using System.Text;
+using Eternia.Game.Stats;
 
 namespace EterniaXna.Screens
 {
@@ -299,9 +300,9 @@ namespace EterniaXna.Screens
             //}
             yield return ContentManager.Load<Actor>(@"Actors\0_Warrior");
             yield return ContentManager.Load<Actor>(@"Actors\0_Cleric");
-            yield return ContentManager.Load<Actor>(@"Actors\1_Rogue");
-            yield return ContentManager.Load<Actor>(@"Actors\1_Ranger");
-            yield return ContentManager.Load<Actor>(@"Actors\1_Wizard");
+            //yield return ContentManager.Load<Actor>(@"Actors\1_Rogue");
+            //yield return ContentManager.Load<Actor>(@"Actors\1_Ranger");
+            //yield return ContentManager.Load<Actor>(@"Actors\1_Wizard");
         }
 
         private IEnumerable<Ability> GenerateAvailableAbilities()
@@ -371,27 +372,23 @@ namespace EterniaXna.Screens
         {
             var actor = listBox.SelectedItem;
             if (actor != null)
-                return GetStatisticsString(actor.CurrentStatistics, actor.BaseModifiers, actor.ResourceType);
+                return GetStatisticsString(actor.CurrentStatistics, actor.ResourceType);
             else
                 return "No hero selected.";
         }
 
-        private string GetStatisticsString(Statistics statistics, Modifiers modifiers, ActorResourceTypes resourceType)
+        private string GetStatisticsString(Statistics statistics, ActorResourceTypes resourceType)
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("Health: " + statistics.Health.ToString("0"));
+            sb.AppendLine("Health: " + statistics.For<Health>().ToString());
             
             if (resourceType == ActorResourceTypes.Mana)
-                sb.AppendLine("Mana: " + statistics.Mana.ToString("0"));
+                sb.AppendLine("Mana: " + statistics.For<Mana>().ToString());
             if (resourceType == ActorResourceTypes.Energy)
-                sb.AppendLine("Energy: " + statistics.Energy.ToString("0"));
+                sb.AppendLine("Energy: " + statistics.For<Energy>().ToString());
 
             sb.AppendLine();
-
-            sb.AppendLine("Health modifier: " + modifiers.HealthModifier.ToString("0.00"));
-            sb.AppendLine("Attack power modifier: " + modifiers.AttackPowerModifier.ToString("0.00"));
-            sb.AppendLine("Spell power modifier: " + modifiers.SpellPowerModifier.ToString("0.00"));
 
             return sb.ToString();
         }

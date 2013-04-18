@@ -20,6 +20,7 @@ namespace EterniaGame.Triggers.Actions
             {
                 Position = Position,
                 Direction = Vector2.Normalize(new Vector2(-1, -1)),
+                TargettingStrategy = TargettingStrategies.Threat,
             };
 
             battle.Actors.Add(actor);

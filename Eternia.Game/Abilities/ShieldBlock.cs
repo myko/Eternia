@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EterniaGame.Actors;
+using Eternia.Game.Stats;
 
 namespace EterniaGame.Abilities
 {
@@ -17,7 +18,7 @@ namespace EterniaGame.Abilities
             Duration = 0.5f;
             Cooldown = new Cooldown(20);
             TargettingType = TargettingTypes.Self;
-            AurasApplied.Add(new Aura { Name = "Shield Block", Duration = 10, Statistics = { DamageTaken = 0.8f } });
+            AurasApplied.Add(new Aura { Name = "Shield Block", Duration = 10, Statistics = { new DamageTaken(0.8f) } });
             CanMiss = false;
             CanBeDodged = false;
         }

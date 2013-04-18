@@ -59,27 +59,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Actors\1_Ranger.xml">
-      <Name>1_Ranger</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>PassThroughProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Actors\1_Rogue.xml">
-      <Name>1_Rogue</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>PassThroughProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Actors\1_Wizard.xml">
-      <Name>1_Wizard</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>PassThroughProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Encounters\1_1_Gates.xml">
       <Name>1_1_Gates</Name>
       <Importer>XmlImporter</Importer>
@@ -103,13 +82,6 @@
   <ItemGroup>
     <Compile Include="Encounters\1_4_ThroneRoom.xml">
       <Name>1_4_ThroneRoom</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>PassThroughProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Encounters\Benchmark.xml">
-      <Name>Benchmark</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </Compile>

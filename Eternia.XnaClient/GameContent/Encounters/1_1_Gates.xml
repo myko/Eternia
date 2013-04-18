@@ -14,7 +14,7 @@
         <MovementSpeed>5</MovementSpeed>
         <TextureName>gatekeeper</TextureName>
         <BaseStatistics>
-          <Health>500</Health>
+          <!--<Health>500</Health>
           <Mana>0</Mana>
           <Energy>0</Energy>
           <AttackPower>120</AttackPower>
@@ -37,7 +37,7 @@
           <DamageTaken>1</DamageTaken>
           <HealingDone>1</HealingDone>
           <HealingTaken>1</HealingTaken>
-          <ExtraRewards>0</ExtraRewards>
+          <ExtraRewards>0</ExtraRewards>-->
         </BaseStatistics>
         <Abilities>
           <Item>
@@ -131,6 +131,42 @@
         </Actions>
       </Item>
     </Triggers>
+    <Loot>
+      <Item>
+        <Name>Ruby Buckler</Name>
+        <Level>10</Level>
+        <Rarity>Rare</Rarity>
+        <Quality>Superior</Quality>
+        <Slot>Offhand</Slot>
+        <ArmorClass>Plate</ArmorClass>
+        <Statistics>
+          <!--<Health>10</Health>
+          <Mana>0</Mana>
+          <Energy>0</Energy>
+          <AttackPower>0</AttackPower>
+          <SpellPower>0</SpellPower>
+          <DamageReduction>
+            <ArmorRating>0</ArmorRating>
+            <FireResistanceRating>0</FireResistanceRating>
+            <FrostResistanceRating>0</FrostResistanceRating>
+            <ArcaneResistanceRating>0</ArcaneResistanceRating>
+            <NatureResistanceRating>0</NatureResistanceRating>
+            <HolyResistanceRating>0</HolyResistanceRating>
+            <UnholyResistanceRating>0</UnholyResistanceRating>
+          </DamageReduction>
+          <MissRating>0</MissRating>
+          <DodgeRating>10</DodgeRating>
+          <HitRating>0</HitRating>
+          <CritRating>0</CritRating>
+          <PrecisionRating>0</PrecisionRating>
+          <DamageDone>1</DamageDone>
+          <DamageTaken>1</DamageTaken>
+          <HealingDone>1</HealingDone>
+          <HealingTaken>1</HealingTaken>
+          <ExtraRewards>0</ExtraRewards>-->
+        </Statistics>
+      </Item>
+    </Loot>
     <Map>
       <Width>0</Width>
       <Height>0</Height>

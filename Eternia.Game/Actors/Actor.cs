@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using EterniaGame.Abilities;
 using Newtonsoft.Json;
+using Eternia.Game.Stats;
 
 namespace EterniaGame.Actors
 {
@@ -57,7 +58,6 @@ namespace EterniaGame.Actors
         [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
         public Cooldown CastingProgress { get; set; }
         public Statistics BaseStatistics { get; set; }
-        public Modifiers BaseModifiers { get; set; }
         [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
         public BaseAnimationState BaseAnimationState { get; set; }
         [ContentSerializer(Optional=true)]
@@ -78,7 +78,7 @@ namespace EterniaGame.Actors
         [ContentSerializerIgnore]
         public float MaximumHealth
         {
-            get { return CurrentStatistics.Health; }
+            get { return CurrentStatistics.For<Health>().Value; }
         }
 
         [ContentSerializerIgnore]
@@ -98,7 +98,7 @@ namespace EterniaGame.Actors
         [ContentSerializerIgnore]
         public float MaximumMana
         {
-            get { return CurrentStatistics.Mana; }
+            get { return CurrentStatistics.For<Mana>().Value; }
         }
 
         [ContentSerializerIgnore]
@@ -118,7 +118,7 @@ namespace EterniaGame.Actors
         [ContentSerializerIgnore]
         public float MaximumEnergy
         {
-            get { return CurrentStatistics.Energy; }
+            get { return CurrentStatistics.For<Energy>().Value; }
         }
 
         [ContentSerializerIgnore]
@@ -134,8 +134,7 @@ namespace EterniaGame.Actors
             {
                 return (BaseStatistics + 
                     Auras.Aggregate(new Statistics(), (statistics, aura) => statistics + aura.Statistics) + 
-                    Equipment.Aggregate(new Statistics(), (statistics, item) => statistics + item.Statistics))
-                    * BaseModifiers;
+                    Equipment.Aggregate(new Statistics(), (statistics, item) => statistics + item.Statistics));
             }
         }
 
@@ -147,7 +146,6 @@ namespace EterniaGame.Actors
 
             IsAlive = true;
             BaseStatistics = new Statistics();
-            BaseModifiers = new Modifiers();
 
             CurrentHealth = MaximumHealth;
             CurrentMana = MaximumMana;
@@ -306,7 +304,7 @@ namespace EterniaGame.Actors
             return true;
         }
 
-        public bool Move(float deltaTime) //, IEnumerable<Actor> otherActors)
+        public bool Move(float deltaTime, IEnumerable<Actor> otherActors)
         {
             if (Destination.HasValue)
             {
@@ -315,8 +313,8 @@ namespace EterniaGame.Actors
                 if (distance > 0.05f)
                 {
                     direction.Normalize();
-                    var newPosition = Position + direction * MovementSpeed * deltaTime;
-                    //if (!otherActors.Any(x => x.DistanceFrom(newPosition) < (x.Radius + Radius) * 0.5f))
+                    var newPosition = Position + direction * Math.Min(distance, MovementSpeed * deltaTime);
+                    if (!otherActors.Any(x => x.DistanceFrom(newPosition) < (x.Radius + Radius) * 1.00f))
                     {
                         Position = newPosition;
                         Direction = direction;

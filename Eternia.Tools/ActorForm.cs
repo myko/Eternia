@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Xml;
 using EterniaGame.Actors;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
+using Eternia.Tools.Properties;
 
 namespace Eternia.Tools
 {
@@ -24,7 +25,7 @@ namespace Eternia.Tools
 
             using (var reader = XmlReader.Create(fileName))
             {
-                actor = IntermediateSerializer.Deserialize<Actor>(reader, @"F:\Projects\Eternia\Eternia.XnaClient\GameContent\Actors\");
+                actor = IntermediateSerializer.Deserialize<Actor>(reader, Resources.SourcePath + @"Eternia.XnaClient\GameContent\Actors\");
             }
         }
 
@@ -37,7 +38,7 @@ namespace Eternia.Tools
         {
             using (var writer = XmlWriter.Create(fileName, new XmlWriterSettings { Indent = true }))
             {
-                IntermediateSerializer.Serialize<Actor>(writer, actor, @"F:\Projects\Eternia\Eternia.XnaClient\GameContent\Actors\");
+                IntermediateSerializer.Serialize<Actor>(writer, actor, Resources.SourcePath + @"Eternia.XnaClient\GameContent\Actors\");
             }
         }
     }

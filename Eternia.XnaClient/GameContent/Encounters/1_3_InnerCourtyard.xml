@@ -16,7 +16,7 @@
         <MovementSpeed>5</MovementSpeed>
         <TextureName>executioner</TextureName>
         <BaseStatistics>
-          <Health>6800</Health>
+          <!--<Health>6800</Health>
           <Mana>0</Mana>
           <Energy>0</Energy>
           <AttackPower>115</AttackPower>
@@ -39,7 +39,7 @@
           <DamageTaken>1</DamageTaken>
           <HealingDone>1</HealingDone>
           <HealingTaken>1</HealingTaken>
-          <ExtraRewards>0</ExtraRewards>
+          <ExtraRewards>0</ExtraRewards>-->
         </BaseStatistics>
         <Abilities>
           <Item>
@@ -133,7 +133,7 @@
                   <Current>0</Current>
                 </Cooldown>
                 <Statistics>
-                  <Health>0</Health>
+                  <!--<Health>0</Health>
                   <Mana>0</Mana>
                   <Energy>0</Energy>
                   <AttackPower>50</AttackPower>
@@ -156,7 +156,7 @@
                   <DamageTaken>1</DamageTaken>
                   <HealingDone>1</HealingDone>
                   <HealingTaken>1</HealingTaken>
-                  <ExtraRewards>0</ExtraRewards>
+                  <ExtraRewards>0</ExtraRewards>-->
                 </Statistics>
               </Item>
             </AurasApplied>
@@ -216,7 +216,7 @@
                   <Current>0</Current>
                 </Cooldown>
                 <Statistics>
-                  <Health>0</Health>
+                  <!--<Health>0</Health>
                   <Mana>0</Mana>
                   <Energy>0</Energy>
                   <AttackPower>0</AttackPower>
@@ -239,7 +239,7 @@
                   <DamageTaken>1</DamageTaken>
                   <HealingDone>1</HealingDone>
                   <HealingTaken>1</HealingTaken>
-                  <ExtraRewards>0</ExtraRewards>
+                  <ExtraRewards>0</ExtraRewards>-->
                 </Statistics>
               </Item>
             </AurasApplied>
@@ -254,7 +254,7 @@
         <MovementSpeed>5</MovementSpeed>
         <TextureName>shadowbeast</TextureName>
         <BaseStatistics>
-          <Health>1000</Health>
+          <!--<Health>1000</Health>
           <Mana>0</Mana>
           <Energy>0</Energy>
           <AttackPower>115</AttackPower>
@@ -277,7 +277,7 @@
           <DamageTaken>1</DamageTaken>
           <HealingDone>1</HealingDone>
           <HealingTaken>1</HealingTaken>
-          <ExtraRewards>0</ExtraRewards>
+          <ExtraRewards>0</ExtraRewards>-->
         </BaseStatistics>
         <Abilities>
           <Item>
@@ -371,7 +371,7 @@
                   <Current>0</Current>
                 </Cooldown>
                 <Statistics>
-                  <Health>0</Health>
+                  <!--<Health>0</Health>
                   <Mana>0</Mana>
                   <Energy>0</Energy>
                   <AttackPower>0</AttackPower>
@@ -394,7 +394,7 @@
                   <DamageTaken>1</DamageTaken>
                   <HealingDone>1</HealingDone>
                   <HealingTaken>1</HealingTaken>
-                  <ExtraRewards>0</ExtraRewards>
+                  <ExtraRewards>0</ExtraRewards>-->
                 </Statistics>
               </Item>
             </AurasApplied>

@@ -30,7 +30,7 @@ namespace Eternia.XnaClient
 
             Nodes = new List<SceneNode>();
 
-            cameraPosition = new Vector2(0, 10);
+            cameraPosition = new Vector2(0, 0);
         }
 
         public void LoadContent(ContentManager contentManager)
@@ -89,8 +89,8 @@ namespace Eternia.XnaClient
         {
             float aspectRatio = (float)graphicsDevice.Viewport.Width / (float)graphicsDevice.Viewport.Height;
 
-            var cameraWorldPosition = new Vector3(cameraPosition.X, cameraDistance, cameraPosition.Y + 5);
-            var cameraWorldTarget = new Vector3(cameraPosition.X, 0, cameraPosition.Y - 5);
+            var cameraWorldPosition = new Vector3(cameraPosition.X, cameraDistance, cameraPosition.Y);
+            var cameraWorldTarget = new Vector3(cameraPosition.X, 0, cameraPosition.Y);
             view = Matrix.CreateLookAt(cameraWorldPosition,
                                        cameraWorldTarget,
                                        Vector3.Cross(Vector3.Normalize(cameraWorldTarget - cameraWorldPosition), new Vector3(-1, 0, 0)));
@@ -99,6 +99,8 @@ namespace Eternia.XnaClient
                                                                     aspectRatio,
                                                                     0.1f,
                                                                     1000f);
+
+            projection = Matrix.CreateOrthographic(54, 30, 0.1f, 1000f);
 
             graphicsDevice.RenderState.DepthBufferEnable = true;
 
@@ -173,41 +175,7 @@ namespace Eternia.XnaClient
                 graphicsDevice.RenderState.DepthBufferWriteEnable = true;
             }
 
-            foreach (var actor in battle.Actors)
-            {
-                var vertices = new VertexPositionTexture[6];
-                vertices[0] = new VertexPositionTexture(new Vector3(-1, 0, -1), new Vector2(0, 0));
-                vertices[1] = new VertexPositionTexture(new Vector3(1, 0, -1), new Vector2(1, 0));
-                vertices[2] = new VertexPositionTexture(new Vector3(-1, 0, 1), new Vector2(0, 1));
-                vertices[3] = new VertexPositionTexture(new Vector3(1, 0, -1), new Vector2(1, 0));
-                vertices[4] = new VertexPositionTexture(new Vector3(1, 0, 1), new Vector2(1, 1));
-                vertices[5] = new VertexPositionTexture(new Vector3(-1, 0, 1), new Vector2(0, 1));
-
-                graphicsDevice.VertexDeclaration = new VertexDeclaration(graphicsDevice, VertexPositionTexture.VertexElements);
-                graphicsDevice.RenderState.AlphaBlendEnable = true;
-                graphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha;
-                graphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha;
-                graphicsDevice.RenderState.DepthBufferWriteEnable = false;
-
-                billboardEffect.Parameters["View"].SetValue(view);
-                billboardEffect.Parameters["Projection"].SetValue(projection);
-                billboardEffect.Parameters["Alpha"].SetValue(0.5f);
-
-                billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(actor.Radius * 0.85f) * Matrix.CreateTranslation(new Vector3(actor.Position.X, 0.03f, actor.Position.Y)));
-                billboardEffect.Parameters["Diffuse"].SetValue(Color.White.ToVector4());
-                billboardEffect.Parameters["Texture"].SetValue(contentManager.Load<Texture2D>(@"Sprites\shadow"));
-
-                billboardEffect.Begin();
-                foreach (var pass in billboardEffect.CurrentTechnique.Passes)
-                {
-                    pass.Begin();
-                    graphicsDevice.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, vertices, 0, 2);
-                    pass.End();
-                }
-                billboardEffect.End();
-
-                graphicsDevice.RenderState.DepthBufferWriteEnable = true;
-            }
+            DrawShadows(battle, contentManager);
 
             foreach (var actor in battle.Actors.Where(x => x.Faction == Factions.Enemy && x.IsAlive && x.CastingAbility != null))
             {
@@ -254,6 +222,45 @@ namespace Eternia.XnaClient
 
                     graphicsDevice.RenderState.DepthBufferWriteEnable = true;
                 }
+            }
+        }
+
+        private void DrawShadows(Battle battle, ContentManager contentManager)
+        {
+            foreach (var actor in battle.Actors)
+            {
+                var vertices = new VertexPositionTexture[6];
+                vertices[0] = new VertexPositionTexture(new Vector3(-1, 0, -1), new Vector2(0, 0));
+                vertices[1] = new VertexPositionTexture(new Vector3(1, 0, -1), new Vector2(1, 0));
+                vertices[2] = new VertexPositionTexture(new Vector3(-1, 0, 1), new Vector2(0, 1));
+                vertices[3] = new VertexPositionTexture(new Vector3(1, 0, -1), new Vector2(1, 0));
+                vertices[4] = new VertexPositionTexture(new Vector3(1, 0, 1), new Vector2(1, 1));
+                vertices[5] = new VertexPositionTexture(new Vector3(-1, 0, 1), new Vector2(0, 1));
+
+                graphicsDevice.VertexDeclaration = new VertexDeclaration(graphicsDevice, VertexPositionTexture.VertexElements);
+                graphicsDevice.RenderState.AlphaBlendEnable = true;
+                graphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha;
+                graphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha;
+                graphicsDevice.RenderState.DepthBufferWriteEnable = false;
+
+                billboardEffect.Parameters["View"].SetValue(view);
+                billboardEffect.Parameters["Projection"].SetValue(projection);
+                billboardEffect.Parameters["Alpha"].SetValue(0.5f);
+
+                billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(actor.Radius * 0.85f) * Matrix.CreateTranslation(new Vector3(actor.Position.X, 0.03f, actor.Position.Y)));
+                billboardEffect.Parameters["Diffuse"].SetValue(Color.White.ToVector4());
+                billboardEffect.Parameters["Texture"].SetValue(contentManager.Load<Texture2D>(@"Sprites\shadow"));
+
+                billboardEffect.Begin();
+                foreach (var pass in billboardEffect.CurrentTechnique.Passes)
+                {
+                    pass.Begin();
+                    graphicsDevice.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, vertices, 0, 2);
+                    pass.End();
+                }
+                billboardEffect.End();
+
+                graphicsDevice.RenderState.DepthBufferWriteEnable = true;
             }
         }
 

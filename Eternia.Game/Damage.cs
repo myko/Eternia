@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Content;
 using EterniaGame.Actors;
+using Eternia.Game.Stats;
 
 namespace EterniaGame
 {
@@ -30,21 +31,21 @@ namespace EterniaGame
 
         public float CalculateDamage(Actor actor, Actor target)
         {
-            var value = (actor.CurrentStatistics.AttackPower * AttackPowerScale + actor.CurrentStatistics.SpellPower * SpellPowerScale + Value);
-            value = random.Between(value * actor.CurrentStatistics.Precision, value);
-            value = value * actor.CurrentStatistics.DamageDone;
-            value = value * target.CurrentStatistics.DamageTaken;
-            value = value * (1f - target.CurrentStatistics.DamageReduction.GetReductionForSchool(School));
+            var value = (actor.CurrentStatistics.For<AttackPower>().Value * AttackPowerScale + actor.CurrentStatistics.For<SpellPower>().Value * SpellPowerScale + Value);
+            value = random.Between(value * actor.CurrentStatistics.For<Precision>().Chance, value);
+            value = value * actor.CurrentStatistics.For<DamageDone>().Value;
+            value = value * target.CurrentStatistics.For<DamageTaken>().Value;
+            value = value * (1f - target.CurrentStatistics.For<DamageReduction>().GetReductionForSchool(School));
 
             return value;
         }
 
         public float CalculateHealing(Actor actor, Actor target)
         {
-            var value = (actor.CurrentStatistics.AttackPower * AttackPowerScale + actor.CurrentStatistics.SpellPower * SpellPowerScale + Value);
-            value = random.Between(value * actor.CurrentStatistics.Precision, value);
-            value = value * actor.CurrentStatistics.HealingDone;
-            value = value * target.CurrentStatistics.HealingTaken;
+            var value = (actor.CurrentStatistics.For<AttackPower>().Value * AttackPowerScale + actor.CurrentStatistics.For<SpellPower>().Value * SpellPowerScale + Value);
+            value = random.Between(value * actor.CurrentStatistics.For<Precision>().Chance, value);
+            value = value * actor.CurrentStatistics.For<HealingDone>().Value;
+            value = value * target.CurrentStatistics.For<HealingTaken>().Value;
 
             return value;
         }

@@ -16,7 +16,7 @@
         <MovementSpeed>5</MovementSpeed>
         <TextureName>guardcaptain</TextureName>
         <BaseStatistics>
-          <Health>5000</Health>
+          <!--<Health>5000</Health>
           <Mana>0</Mana>
           <Energy>0</Energy>
           <AttackPower>120</AttackPower>
@@ -39,7 +39,7 @@
           <DamageTaken>1</DamageTaken>
           <HealingDone>1</HealingDone>
           <HealingTaken>1</HealingTaken>
-          <ExtraRewards>0</ExtraRewards>
+          <ExtraRewards>0</ExtraRewards>-->
         </BaseStatistics>
         <Abilities>
           <Item>

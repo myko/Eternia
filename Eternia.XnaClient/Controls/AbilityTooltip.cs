@@ -7,6 +7,7 @@ using Myko.Xna.Ui;
 using System.Collections.Generic;
 using EterniaGame.Abilities;
 using EterniaGame.Actors;
+using Eternia.Game.Stats;
 
 namespace EterniaXna
 {
@@ -40,13 +41,13 @@ namespace EterniaXna
             {
                 lines.Clear();
 
-                int abilityDamageUpper = (int)((actor.CurrentStatistics.AttackPower * ability.Damage.AttackPowerScale + actor.CurrentStatistics.SpellPower * ability.Damage.SpellPowerScale + ability.Damage.Value) * actor.CurrentStatistics.DamageDone);
-                int abilityDamageLower = (int)((abilityDamageUpper * actor.CurrentStatistics.Precision) * actor.CurrentStatistics.DamageDone);
-                float averageDamage = ((abilityDamageLower + abilityDamageUpper) / 2.0f) * (actor.CurrentStatistics.CritChance + 1.0f);
+                int abilityDamageUpper = (int)((actor.CurrentStatistics.For<AttackPower>().Value * ability.Damage.AttackPowerScale + actor.CurrentStatistics.For<SpellPower>().Value * ability.Damage.SpellPowerScale + ability.Damage.Value) * actor.CurrentStatistics.For<DamageDone>().Value);
+                int abilityDamageLower = (int)((abilityDamageUpper * actor.CurrentStatistics.For<Precision>().Chance) * actor.CurrentStatistics.For<DamageDone>().Value);
+                float averageDamage = ((abilityDamageLower + abilityDamageUpper) / 2.0f) * (actor.CurrentStatistics.For<CriticalStrike>().Chance + 1.0f);
 
-                int abilityHealingUpper = (int)((actor.CurrentStatistics.AttackPower * ability.Healing.AttackPowerScale + actor.CurrentStatistics.SpellPower * ability.Healing.SpellPowerScale + ability.Healing.Value) * actor.CurrentStatistics.HealingDone);
-                int abilityHealingLower = (int)((abilityHealingUpper * actor.CurrentStatistics.Precision) * actor.CurrentStatistics.HealingDone);
-                float averageHealing = ((abilityHealingLower + abilityHealingUpper) / 2.0f) * (actor.CurrentStatistics.CritChance + 1.0f);
+                int abilityHealingUpper = (int)((actor.CurrentStatistics.For<AttackPower>().Value * ability.Healing.AttackPowerScale + actor.CurrentStatistics.For<SpellPower>().Value * ability.Healing.SpellPowerScale + ability.Healing.Value) * actor.CurrentStatistics.For<HealingDone>().Value);
+                int abilityHealingLower = (int)((abilityHealingUpper * actor.CurrentStatistics.For<Precision>().Chance) * actor.CurrentStatistics.For<HealingDone>().Value);
+                float averageHealing = ((abilityHealingLower + abilityHealingUpper) / 2.0f) * (actor.CurrentStatistics.For<CriticalStrike>().Chance + 1.0f);
 
                 var damageString = ability.Damage.Value.ToString("0") + " " + ability.Damage.School.ToString() + " damage";
                 if (ability.Damage.SpellPowerScale > 0f)

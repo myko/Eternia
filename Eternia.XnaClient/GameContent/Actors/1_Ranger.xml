@@ -134,18 +134,8 @@
         <ArmorClass>Leather</ArmorClass>
         <Statistics>
           <Health>30</Health>
-          <Mana>0</Mana>
-          <Energy>0</Energy>
-          <AttackPower>0</AttackPower>
-          <SpellPower>0</SpellPower>
           <DamageReduction>
             <ArmorRating>140</ArmorRating>
-            <FireResistanceRating>0</FireResistanceRating>
-            <FrostResistanceRating>0</FrostResistanceRating>
-            <ArcaneResistanceRating>0</ArcaneResistanceRating>
-            <NatureResistanceRating>0</NatureResistanceRating>
-            <HolyResistanceRating>0</HolyResistanceRating>
-            <UnholyResistanceRating>0</UnholyResistanceRating>
           </DamageReduction>
           <MissRating>0</MissRating>
           <DodgeRating>0</DodgeRating>
@@ -327,11 +317,6 @@
       <HealingTaken>1</HealingTaken>
       <ExtraRewards>0</ExtraRewards>
     </BaseStatistics>
-    <BaseModifiers>
-      <HealthModifier>1</HealthModifier>
-      <AttackPowerModifier>1</AttackPowerModifier>
-      <SpellPowerModifier>1</SpellPowerModifier>
-    </BaseModifiers>
     <TargettingStrategy>Threat</TargettingStrategy>
     <Cost>100</Cost>
     <MovementSpeed>5</MovementSpeed>

@@ -327,11 +327,6 @@
       <HealingTaken>1</HealingTaken>
       <ExtraRewards>0</ExtraRewards>
     </BaseStatistics>
-    <BaseModifiers>
-      <HealthModifier>1</HealthModifier>
-      <AttackPowerModifier>1</AttackPowerModifier>
-      <SpellPowerModifier>1</SpellPowerModifier>
-    </BaseModifiers>
     <TargettingStrategy>Threat</TargettingStrategy>
     <Cost>100</Cost>
     <MovementSpeed>5</MovementSpeed>

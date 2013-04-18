@@ -180,7 +180,7 @@ namespace EterniaGame
                     }
                     else
                     {
-                        if (actor.Move(deltaTime))//, Actors.Where(x => x.IsAlive && x != actor)))
+                        if (actor.Move(deltaTime, Actors.Where(x => x.IsAlive && x != actor)))
                             actor.BaseAnimationState = BaseAnimationState.Walking;
                         else
                             actor.BaseAnimationState = BaseAnimationState.Idle;

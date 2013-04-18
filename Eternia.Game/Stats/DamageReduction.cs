@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
+using EterniaGame;
+using Microsoft.Xna.Framework.Graphics;
 
-namespace EterniaGame
+namespace Eternia.Game.Stats
 {
-    public class DamageReduction
+    public class DamageReduction: Stat<DamageReduction>
     {
         private Dictionary<DamageSchools, int> ratings;
 
@@ -24,6 +26,9 @@ namespace EterniaGame
         public int HolyResistanceRating { get { return GetRatingForSchool(DamageSchools.Holy); } set { SetRatingForSchool(DamageSchools.Holy, value); } }
         [ContentSerializer(Optional = true)]
         public int UnholyResistanceRating { get { return GetRatingForSchool(DamageSchools.Unholy); } set { SetRatingForSchool(DamageSchools.Unholy, value); } }
+
+        public override string Name { get { return "Damage reduction"; } }
+        public override Color Color { get { return Color.White; } }
 
         public DamageReduction()
         {
@@ -61,32 +66,42 @@ namespace EterniaGame
             return 0.75f * rating / (Math.Max(-999, rating) + 1000f);
         }
 
-        public static DamageReduction operator +(DamageReduction s1, DamageReduction s2)
+        public override DamageReduction Add(DamageReduction s)
         {
             var reduction = new DamageReduction();
             foreach (DamageSchools school in Enum.GetValues(typeof(DamageSchools)))
             {
-                reduction.SetRatingForSchool(school, s1.GetRatingForSchool(school) + s2.GetRatingForSchool(school));
+                reduction.SetRatingForSchool(school, GetRatingForSchool(school) + s.GetRatingForSchool(school));
             }
             return reduction;
         }
 
-        public static DamageReduction operator -(DamageReduction s1, DamageReduction s2)
+        public override DamageReduction Subtract(DamageReduction s)
         {
             var reduction = new DamageReduction();
             foreach (DamageSchools school in Enum.GetValues(typeof(DamageSchools)))
             {
-                reduction.SetRatingForSchool(school, s1.GetRatingForSchool(school) - s2.GetRatingForSchool(school));
+                reduction.SetRatingForSchool(school, GetRatingForSchool(school) - s.GetRatingForSchool(school));
             }
             return reduction;
         }
 
-        public static DamageReduction operator *(DamageReduction s1, float f)
+        public override StatBase Negate()
         {
             var reduction = new DamageReduction();
             foreach (DamageSchools school in Enum.GetValues(typeof(DamageSchools)))
             {
-                reduction.SetRatingForSchool(school, (int)(s1.GetRatingForSchool(school) * f));
+                reduction.SetRatingForSchool(school, -GetRatingForSchool(school));
+            }
+            return reduction;
+        }
+
+        public override StatBase Multiply(float f)
+        {
+            var reduction = new DamageReduction();
+            foreach (DamageSchools school in Enum.GetValues(typeof(DamageSchools)))
+            {
+                reduction.SetRatingForSchool(school, (int)(GetRatingForSchool(school) * f));
             }
             return reduction;
         }

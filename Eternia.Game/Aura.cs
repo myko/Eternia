@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Content;
 using System.Xml.Serialization;
 using EterniaGame.Actors;
 using Newtonsoft.Json;
+using Eternia.Game.Stats;
 
 namespace EterniaGame
 {

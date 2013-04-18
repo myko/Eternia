@@ -19,8 +19,12 @@ namespace Eternia.XnaClient
             Content.RootDirectory = "Content";
 
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = (GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width * 9) / 10;
-            graphics.PreferredBackBufferHeight = ((GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - 50) * 9) / 10;
+            //graphics.PreferredBackBufferWidth = (GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width * 9) / 10;
+            //graphics.PreferredBackBufferHeight = ((GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - 50) * 9) / 10;
+
+            graphics.PreferredBackBufferWidth = (1920 * 9) / 10;
+            graphics.PreferredBackBufferHeight = ((1080 - 50) * 9) / 10;
+
             graphics.PreferMultiSampling = true;
             graphics.SynchronizeWithVerticalRetrace = false;
 
@@ -53,7 +57,7 @@ namespace Eternia.XnaClient
             base.LoadContent();
 
             Player player = null;
-            var containerPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Eternia");
+            var containerPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Eternia");
 
             if (Directory.Exists(containerPath))
             {
@@ -68,7 +72,7 @@ namespace Eternia.XnaClient
                     try
                     {
                         var json = reader.ReadToEnd();
-                        player = JsonConvert.DeserializeObject<Player>(json);
+                        //player = JsonConvert.DeserializeObject<Player>(json);
                         //player = (Player)serializer.Deserialize(stream);
                     }
                     catch
