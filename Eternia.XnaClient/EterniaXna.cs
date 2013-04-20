@@ -72,7 +72,7 @@ namespace Eternia.XnaClient
                     try
                     {
                         var json = reader.ReadToEnd();
-                        //player = JsonConvert.DeserializeObject<Player>(json);
+                        player = JsonConvert.DeserializeObject<Player>(json, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
                         //player = (Player)serializer.Deserialize(stream);
                     }
                     catch

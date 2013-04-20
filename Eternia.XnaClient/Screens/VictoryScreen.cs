@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Myko.Xna.Ui;
 using Eternia.Game.Stats;
+using Newtonsoft.Json;
 
 namespace EterniaXna.Screens
 {
@@ -186,7 +187,7 @@ namespace EterniaXna.Screens
             var writer = new StreamWriter(stream);
 
             // Convert the object to XML data and put it in the stream
-            var json = Newtonsoft.Json.JsonConvert.SerializeObject(player, Newtonsoft.Json.Formatting.Indented, new Newtonsoft.Json.JsonSerializerSettings { TypeNameHandling = Newtonsoft.Json.TypeNameHandling.All });
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(player, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
             writer.Write(json);
 
             // Close the file
