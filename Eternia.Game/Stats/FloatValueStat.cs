@@ -28,16 +28,13 @@ namespace Eternia.Game.Stats
 
         public override string ToItemTooltipString()
         {
-            if (Value >= 0)
-                return "+" + Value.ToString() + " " + Name;
-            else
-                return Value.ToString() + " " + Name;
+            return Value.ToString() + " " + Name;
         }
 
         public override string ToItemUpgradeString()
         {
             if (Value >= 0)
-                return Name + ": " + "+\n" + Value.ToString("0.##");
+                return Name + ": " + "+" + Value.ToString("0.##");
             else
                 return Name + ": " + Value.ToString("0.##");
         }

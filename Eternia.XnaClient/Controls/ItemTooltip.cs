@@ -54,7 +54,7 @@ namespace EterniaXna
         {
             foreach (var stat in statistics.OrderBy(s => s.Name))
             {
-                var text = stat.ToItemUpgradeString();
+                var text = stat.ToItemTooltipString();
 
                 SpriteBatch.DrawString(Font, text, new Vector2(x, y), Color.LightYellow, ZIndex + 0.003f);
 

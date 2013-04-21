@@ -29,10 +29,7 @@ namespace Eternia.Game.Stats
 
         public override string ToItemTooltipString()
         {
-            if (Rating >= 0)
-                return "+" + Rating.ToString() + " " + Name;
-            else
-                return Rating.ToString() + " " + Name;
+            return Rating.ToString() + " " + Name;
         }
 
         public override string ToItemUpgradeString()

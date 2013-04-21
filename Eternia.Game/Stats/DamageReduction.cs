@@ -28,7 +28,7 @@ namespace Eternia.Game.Stats
         public int UnholyResistanceRating { get { return GetRatingForSchool(DamageSchools.Unholy); } set { SetRatingForSchool(DamageSchools.Unholy, value); } }
 
         public override string Name { get { return "Damage reduction"; } }
-        public override Color Color { get { return Color.White; } }
+        public override Color Color { get { return ratings.Sum(x => x.Value) < 0 ? Color.Salmon : Color.LightGreen; } }
 
         public DamageReduction()
         {
@@ -63,7 +63,36 @@ namespace Eternia.Game.Stats
         public float GetReductionForSchool(DamageSchools school)
         {
             var rating = GetRatingForSchool(school);
+
+            return GetReductionForRating(rating);
+        }
+
+        private static float GetReductionForRating(int rating)
+        {
             return 0.75f * rating / (Math.Max(-999, rating) + 1000f);
+        }
+
+        public string GetNameForSchool(DamageSchools school)
+        {
+            switch (school)
+            {
+                case DamageSchools.Physical:
+                    return "Armor";
+                case DamageSchools.Fire:
+                    return "Fire resistance";
+                case DamageSchools.Frost:
+                    return "Frost resistance";
+                case DamageSchools.Arcane:
+                    return "Arcane resistance";
+                case DamageSchools.Nature:
+                    return "Nature resistance";
+                case DamageSchools.Holy:
+                    return "Holy resistance";
+                case DamageSchools.Unholy:
+                    return "Unholy resistance";
+                default:
+                    return "";
+            }
         }
 
         public override DamageReduction Add(DamageReduction s)
@@ -109,34 +138,37 @@ namespace Eternia.Game.Stats
         public override string ToValueString()
         {
             if (!ratings.Any())
-                return "0";
+                return "";
 
-            var highestRating = ratings.OrderByDescending(x => x.Value).First();
-            return GetReductionForSchool(highestRating.Key) + " " + highestRating.Key.ToString();
+            return string.Join("\n", ratings
+                .OrderBy(x => GetNameForSchool(x.Key))
+                .Where(x => x.Value != 0)
+                .Select(x => x.Value.ToString() + " " + GetNameForSchool(x.Key) + " (" + GetReductionForRating(x.Value).ToString("P") + ")")
+                .ToArray());
         }
 
         public override string ToItemTooltipString()
         {
             if (!ratings.Any())
-                return "0";
+                return "";
 
-            var highestRating = ratings.OrderByDescending(x => x.Value).First();
-            if (highestRating.Value > 0)
-                return "+" + highestRating.Value.ToString() + " " + highestRating.Key.ToString();
-            else
-                return highestRating.Value + " " + highestRating.Key.ToString();
+            return string.Join("\n", ratings
+                .OrderBy(x => GetNameForSchool(x.Key))
+                .Where(x => x.Value != 0)
+                .Select(x => x.Value.ToString() + " " + GetNameForSchool(x.Key))
+                .ToArray());
         }
 
         public override string ToItemUpgradeString()
         {
             if (!ratings.Any())
-                return "0";
+                return "";
 
-            var highestRating = ratings.OrderByDescending(x => x.Value).First();
-            if (highestRating.Value > 0)
-                return "+" + highestRating.Value.ToString() + " " + highestRating.Key.ToString();
-            else
-                return highestRating.Value + " " + highestRating.Key.ToString();
+            return string.Join("\n", ratings
+                .OrderBy(x => GetNameForSchool(x.Key))
+                .Where(x => x.Value != 0)
+                .Select(x => GetNameForSchool(x.Key) + ": " + (x.Value < 0 ? "" : "+") + x.Value.ToString())
+                .ToArray());
         }
     }
 }

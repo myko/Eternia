@@ -160,12 +160,14 @@ namespace EterniaXna.Screens
             currentItemsListBox.Source = player.Inventory;
             currentItemsListBox.ToolTipBinder = x => new ItemTooltip(x) { Font = smallFont, ShowUpgrade = false };
             currentItemsListBox.ColorBinder = x => Bind(() => ItemTooltip.GetItemColor(x.Rarity));
+            currentItemsListBox.Font = smallFont;
 
             var availableItemsListBox = AddBoundListBox<Item>(grid.Cells[0, 2], Vector2.Zero, 300, 400);
             availableItemsListBox.ZIndex = 0.2f;
             availableItemsListBox.Source = availableItems;
             availableItemsListBox.ToolTipBinder = x => new ItemTooltip(x) { Font = smallFont, ShowUpgrade = Bind(() => currentHeroesListBox.SelectedItem != null), Upgrade = Bind(() => currentHeroesListBox.SelectedItem.GetItemUpgrade(x)) };
             availableItemsListBox.ColorBinder = x => Bind(() => ItemTooltip.GetItemColor(x.Rarity));
+            availableItemsListBox.Font = smallFont;
 
             var sellItemButton = CreateButton("Sell Item", Vector2.Zero);
             sellItemButton.Click += () => SellItem(currentItemsListBox.SelectedItem);
