@@ -4,13 +4,14 @@ using System.Xml;
 using EterniaGame.Actors;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
 using Eternia.Tools.Properties;
+using Eternia.Game.Stats;
 
 namespace Eternia.Tools
 {
     public partial class ActorForm : Form
     {
-        private readonly string fileName;
         private readonly Actor actor;
+        private readonly string fileName;
 
         public ActorForm()
         {

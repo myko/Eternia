@@ -8,6 +8,9 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using Eternia.Tools.Properties;
+using System.Xml;
+using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
+using EterniaGame.Actors;
 
 namespace Eternia.Tools
 {
@@ -26,7 +29,14 @@ namespace Eternia.Tools
             {
                 var fileName = file;
                 var actorMenuItem = actorsToolStripMenuItem.DropDown.Items.Add(Path.GetFileName(fileName));
-                actorMenuItem.Click += (x, y) => new ActorForm(fileName) { Text = fileName, MdiParent = this }.Show();
+                actorMenuItem.Click += (x, y) =>
+                {
+                    using (var reader = XmlReader.Create(fileName))
+                    {
+                        var actor = IntermediateSerializer.Deserialize<Actor>(reader, Resources.SourcePath + @"Eternia.XnaClient\GameContent\Actors\");
+                        new ActorForm(fileName) { Text = fileName, MdiParent = this }.Show();
+                    }
+                };
             }
 
             files = Directory.GetFiles(Resources.SourcePath + @"Eternia.XnaClient\GameContent\Encounters", "*.xml");
@@ -34,8 +44,8 @@ namespace Eternia.Tools
             foreach (var file in files)
             {
                 var fileName = file;
-                var actorMenuItem = encountersToolStripMenuItem.DropDown.Items.Add(Path.GetFileName(fileName));
-                actorMenuItem.Click += (x, y) => new EncounterForm(fileName) { Text = fileName, MdiParent = this }.Show();
+                var encounterMenuItem = encountersToolStripMenuItem.DropDown.Items.Add(Path.GetFileName(fileName));
+                encounterMenuItem.Click += (x, y) => new EncounterForm(fileName) { Text = fileName, MdiParent = this }.Show();
             }
         }
     }

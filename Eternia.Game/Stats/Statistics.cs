@@ -20,6 +20,25 @@ namespace Eternia.Game.Stats
                 return stat;
         }
 
+        public StatBase For(Type statType)
+        {
+            var stat = this.SingleOrDefault(x => x.GetType() == statType);
+            if (stat == null)
+                return (StatBase)Activator.CreateInstance(statType);
+            else
+                return stat;
+        }
+
+        public bool Has<T>()
+        {
+            return Has(typeof(T));
+        }
+
+        public bool Has(Type statType)
+        {
+            return this.Any(x => x.GetType() == statType);
+        }
+
         public static Statistics operator +(Statistics s1, Statistics s2)
         {
             var statistics = new Statistics();

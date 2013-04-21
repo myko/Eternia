@@ -80,6 +80,12 @@
     <Compile Include="EncounterForm.Designer.cs">
       <DependentUpon>EncounterForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="StatisticsEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StatisticsEditorForm.Designer.cs">
+      <DependentUpon>StatisticsEditorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ToolsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,6 +104,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StatisticsEditorForm.resx">
+      <DependentUpon>StatisticsEditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ToolsForm.resx">
       <DependentUpon>ToolsForm.cs</DependentUpon>
