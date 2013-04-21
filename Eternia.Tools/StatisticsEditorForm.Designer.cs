@@ -54,6 +54,7 @@
             this.statsListBox.Location = new System.Drawing.Point(12, 12);
             this.statsListBox.Name = "statsListBox";
             this.statsListBox.Size = new System.Drawing.Size(215, 327);
+            this.statsListBox.Sorted = true;
             this.statsListBox.TabIndex = 12;
             this.statsListBox.SelectedIndexChanged += new System.EventHandler(this.statsListBox_SelectedIndexChanged);
             this.statsListBox.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.statsListBox_ItemCheck);

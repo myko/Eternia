@@ -6,13 +6,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Eternia.Game.Stats
 {
-    public class Dodge: Stat<Dodge>
+    public class Dodge: RatingStat<Dodge>
     {
-        public int Rating { get; set; }
-        public float Chance { get { return 0.075f + Rating / (2f * Rating + 1000f); } }
+        public override float Chance { get { return 0.075f + Rating / (2f * Rating + 1000f); } }
         public override string Name { get { return "Dodge rating"; } }
-        public override Color Color { get { return Color.White; } }
-
+        
         public Dodge()
         {
             this.Rating = 0;

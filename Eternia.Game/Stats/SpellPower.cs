@@ -6,11 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Eternia.Game.Stats
 {
-    public class SpellPower: Stat<SpellPower>
+    public class SpellPower: FloatValueStat<SpellPower>
     {
-        public float Value { get; set; }
         public override string Name { get { return "Spell power"; } }
-        public override Color Color { get { return Color.White; } }
 
         public SpellPower()
         {

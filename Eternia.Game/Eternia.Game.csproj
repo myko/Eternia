@@ -87,6 +87,9 @@
     <Compile Include="CombatTable.cs" />
     <Compile Include="Cooldown.cs" />
     <Compile Include="Damage.cs" />
+    <Compile Include="Stats\IntValueStat.cs" />
+    <Compile Include="Stats\FloatValueStat.cs" />
+    <Compile Include="Stats\RatingStat.cs" />
     <Compile Include="Stats\ExtraRewards.cs" />
     <Compile Include="Stats\HealingDone.cs" />
     <Compile Include="Stats\HealingTaken.cs" />

@@ -105,5 +105,38 @@ namespace Eternia.Game.Stats
             }
             return reduction;
         }
+
+        public override string ToValueString()
+        {
+            if (!ratings.Any())
+                return "0";
+
+            var highestRating = ratings.OrderByDescending(x => x.Value).First();
+            return GetReductionForSchool(highestRating.Key) + " " + highestRating.Key.ToString();
+        }
+
+        public override string ToItemTooltipString()
+        {
+            if (!ratings.Any())
+                return "0";
+
+            var highestRating = ratings.OrderByDescending(x => x.Value).First();
+            if (highestRating.Value > 0)
+                return "+" + highestRating.Value.ToString() + " " + highestRating.Key.ToString();
+            else
+                return highestRating.Value + " " + highestRating.Key.ToString();
+        }
+
+        public override string ToItemUpgradeString()
+        {
+            if (!ratings.Any())
+                return "0";
+
+            var highestRating = ratings.OrderByDescending(x => x.Value).First();
+            if (highestRating.Value > 0)
+                return "+" + highestRating.Value.ToString() + " " + highestRating.Key.ToString();
+            else
+                return highestRating.Value + " " + highestRating.Key.ToString();
+        }
     }
 }

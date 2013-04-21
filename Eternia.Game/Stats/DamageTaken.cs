@@ -6,11 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Eternia.Game.Stats
 {
-    public class DamageTaken: Stat<DamageTaken>
+    public class DamageTaken: FloatValueStat<DamageTaken>
     {
-        public float Value { get; set; }
         public override string Name { get { return "Damage taken"; } }
-        public override Color Color { get { return Color.White; } }
 
         public DamageTaken()
         {

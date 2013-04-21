@@ -6,11 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Eternia.Game.Stats
 {
-    public class ExtraRewards: Stat<ExtraRewards>
+    public class ExtraRewards: IntValueStat<ExtraRewards>
     {
-        public int Value { get; private set; }
         public override string Name { get { return "Extra rewards"; } }
-        public override Color Color { get { return Color.White; } }
 
         public ExtraRewards()
         {

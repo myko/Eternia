@@ -147,9 +147,9 @@ namespace EterniaXna.Screens
         {
             StringBuilder sb = new StringBuilder();
 
-            foreach (var stat in statistics)
+            foreach (var stat in statistics.OrderBy(x => x.Name))
             {
-                sb.AppendLine(stat.Name + ": " + stat.ToString());
+                sb.AppendLine(stat.Name + ": " + stat.ToValueString());
             }
 
             return sb.ToString();

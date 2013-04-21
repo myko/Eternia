@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using EterniaGame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -51,74 +52,30 @@ namespace EterniaXna
 
         public int DrawStatistics(Statistics statistics, int x, int y, bool hideZero)
         {
-            y = DrawStatistic("Health", (int)statistics.For<Health>().Value, x, y, hideZero);
-            y = DrawStatistic("Mana", (int)statistics.For<Mana>().Value, x, y, hideZero);
-            y = DrawStatistic("Energy", (int)statistics.For<Energy>().Value, x, y, hideZero);
-            y = DrawStatistic("Armor rating", statistics.For < DamageReduction>().ArmorRating, x, y, hideZero);
-            y = DrawStatistic("Attack power", (int)statistics.For<AttackPower>().Value, x, y, hideZero);
-            y = DrawStatistic("Spell power", (int)statistics.For<SpellPower>().Value, x, y, hideZero);
-            y = DrawStatistic("Hit rating", statistics.For<Hit>().Rating, x, y, hideZero);
-            y = DrawStatistic("Crit rating", statistics.For<CriticalStrike>().Rating, x, y, hideZero);
-            y = DrawStatistic("Precision rating", statistics.For<Precision>().Rating, x, y, hideZero);
-            y = DrawStatistic("Dodge rating", statistics.For<Dodge>().Rating, x, y, hideZero);
-            y = DrawStatistic("Fire resistance rating", statistics.For<DamageReduction>().FireResistanceRating, x, y, hideZero);
-            y = DrawStatistic("Frost resistance rating", statistics.For<DamageReduction>().FrostResistanceRating, x, y, hideZero);
-            y = DrawStatistic("Arcane resistance rating", statistics.For<DamageReduction>().ArcaneResistanceRating, x, y, hideZero);
-            y = DrawStatistic("Nature resistance rating", statistics.For<DamageReduction>().NatureResistanceRating, x, y, hideZero);
-            y = DrawStatistic("Holy resistance rating", statistics.For<DamageReduction>().HolyResistanceRating, x, y, hideZero);
-            y = DrawStatistic("Unholy resistance rating", statistics.For<DamageReduction>().UnholyResistanceRating, x, y, hideZero);
-            y = DrawStatistic("Chance of extra rewards", statistics.For<ExtraRewards>().Value, x, y, hideZero);
+            foreach (var stat in statistics.OrderBy(s => s.Name))
+            {
+                var text = stat.ToItemUpgradeString();
 
+                SpriteBatch.DrawString(Font, text, new Vector2(x, y), Color.LightYellow, ZIndex + 0.003f);
+
+                y += (int)Font.MeasureString(text).Y;
+            }
+            
             return y;
         }
 
         public int DrawUpgradeStatistics(Statistics statistics, int x, int y)
         {
-            y = DrawUpgradeStatistic("Health", (int)statistics.For<Health>().Value, x, y);
-            y = DrawUpgradeStatistic("Mana", (int)statistics.For<Mana>().Value, x, y);
-            y = DrawUpgradeStatistic("Energy", (int)statistics.For<Energy>().Value, x, y);
-            y = DrawUpgradeStatistic("Armor rating", statistics.For<DamageReduction>().ArmorRating, x, y);
-            y = DrawUpgradeStatistic("Attack power", (int)statistics.For<AttackPower>().Value, x, y);
-            y = DrawUpgradeStatistic("Spell power", (int)statistics.For<SpellPower>().Value, x, y);
-            y = DrawUpgradeStatistic("Hit rating", statistics.For<Hit>().Rating, x, y);
-            y = DrawUpgradeStatistic("Crit rating", statistics.For<CriticalStrike>().Rating, x, y);
-            y = DrawUpgradeStatistic("Precision rating", statistics.For<Precision>().Rating, x, y);
-            y = DrawUpgradeStatistic("Dodge rating", statistics.For<Dodge>().Rating, x, y);
-            y = DrawUpgradeStatistic("Fire resistance rating", statistics.For<DamageReduction>().FireResistanceRating, x, y);
-            y = DrawUpgradeStatistic("Frost resistance rating", statistics.For<DamageReduction>().FrostResistanceRating, x, y);
-            y = DrawUpgradeStatistic("Arcane resistance rating", statistics.For<DamageReduction>().ArcaneResistanceRating, x, y);
-            y = DrawUpgradeStatistic("Nature resistance rating", statistics.For<DamageReduction>().NatureResistanceRating, x, y);
-            y = DrawUpgradeStatistic("Holy resistance rating", statistics.For<DamageReduction>().HolyResistanceRating, x, y);
-            y = DrawUpgradeStatistic("Unholy resistance rating", statistics.For<DamageReduction>().UnholyResistanceRating, x, y);
-            y = DrawUpgradeStatistic("Chance of extra rewards", statistics.For<ExtraRewards>().Value, x, y);
+            foreach (var stat in statistics.OrderBy(s => s.Name))
+            {
+                var text = stat.ToItemUpgradeString();
+
+                SpriteBatch.DrawString(Font, text, new Vector2(x, y), stat.Color, ZIndex + 0.003f);
+
+                y += (int)Font.MeasureString(text).Y;
+            }
 
             return y;
-        }
-
-        private int DrawStatistic(string valueName, int value, int x, int y, bool hideZero)
-        {
-            if (hideZero && value == 0)
-                return y;
-
-            if (value > 0)
-                SpriteBatch.DrawString(Font, "+" + value.ToString() + " " + valueName, new Vector2(x, y), Color.LightYellow, ZIndex + 0.003f);
-            else
-                SpriteBatch.DrawString(Font, value.ToString() + " " + valueName, new Vector2(x, y), Color.LightYellow, ZIndex + 0.003f);
-
-            return y + Font.LineSpacing;
-        }
-
-        private int DrawUpgradeStatistic(string valueName, int value, int x, int y)
-        {
-            if (value == 0)
-                return y;
-
-            if (value > 0)
-                SpriteBatch.DrawString(Font, valueName + ": +" + value.ToString(), new Vector2(x, y), Color.LightGreen, ZIndex + 0.003f);
-            else
-                SpriteBatch.DrawString(Font, valueName + ": " + value.ToString(), new Vector2(x, y), Color.Salmon, ZIndex + 0.003f);
-
-            return y + Font.LineSpacing;
         }
 
         public static Color GetItemColor(ItemRarities rarity)

@@ -6,11 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Eternia.Game.Stats
 {
-    public class AttackPower: Stat<AttackPower>
+    public class AttackPower: FloatValueStat<AttackPower>
     {
-        public float Value { get; set; }
         public override string Name { get { return "Attack power"; } }
-        public override Color Color { get { return Color.White; } }
 
         public AttackPower()
         {

@@ -6,12 +6,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Eternia.Game.Stats
 {
-    public class CriticalStrike: Stat<CriticalStrike>
+    public class CriticalStrike: RatingStat<CriticalStrike>
     {
-        public int Rating { get; set; }
-        public float Chance { get { return 0.075f + Rating / (2f * Rating + 1000f); } }
+        public override float Chance { get { return 0.075f + Rating / (2f * Rating + 1000f); } }
         public override string Name { get { return "Critical strike rating"; } }
-        public override Color Color { get { return Color.White; } }
 
         public CriticalStrike()
         {

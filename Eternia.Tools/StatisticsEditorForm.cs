@@ -86,7 +86,8 @@ namespace Eternia.Tools
 
         public override string ToString()
         {
-            return statistics.For(Type).Name;
+            var stat = statistics.For(Type);
+            return stat.Name + ": " + stat.ToValueString();
         }
     }
 

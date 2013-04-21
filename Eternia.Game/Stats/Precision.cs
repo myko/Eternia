@@ -6,12 +6,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Eternia.Game.Stats
 {
-    public class Precision: Stat<Precision>
+    public class Precision: RatingStat<Precision>
     {
-        public int Rating { get; set; }
-        public float Chance { get { return 0.50f + Rating / (2f * Rating + 1200f); } }
+        public override float Chance { get { return 0.50f + Rating / (2f * Rating + 1200f); } }
         public override string Name { get { return "Precision rating"; } }
-        public override Color Color { get { return Color.White; } }
 
         public Precision()
         {

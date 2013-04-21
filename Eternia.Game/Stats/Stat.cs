@@ -10,6 +10,7 @@ namespace Eternia.Game.Stats
     {
         public abstract string Name { get; }
         public abstract Color Color { get; }
+        //public abstract bool IsUpgrade { get; }
 
         public StatBase Add(StatBase s)
         {
@@ -23,6 +24,10 @@ namespace Eternia.Game.Stats
 
         public abstract StatBase Negate();
         public abstract StatBase Multiply(float f);
+
+        public abstract string ToValueString();
+        public abstract string ToItemTooltipString();
+        public abstract string ToItemUpgradeString();
 
         protected abstract StatBase InternalAdd(StatBase s);
         protected abstract StatBase InternalSubtract(StatBase s);
