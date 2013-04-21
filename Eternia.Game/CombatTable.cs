@@ -7,59 +7,64 @@ using Eternia.Game.Stats;
 
 namespace EterniaGame
 {
-    public enum CombatOutcome
+    //public enum CombatOutcome
+    //{
+    //    None,
+    //    Miss,
+    //    Dodge,
+    //    Crit,
+    //    Hit
+    //}
+
+    public class CombatOutcome
     {
-        None,
-        Miss,
-        Dodge,
-        Crit,
-        Hit
+        public bool IsMiss { get; set; }
+        public bool IsDodge { get; set; }
+        public bool IsHit { get; set; }
+        public bool IsCrit { get; set; }
+        public bool IsBlock { get; set; }
     }
 
     public class CombatTable
     {
         private Random random;
-        private int missRating;
-        private int dodgeRating;
+        
+        private float dodgeChance;
+        private float hitChance;
         private float critChance;
-        private int hitRating;
+        private float blockChance;
 
         public CombatTable(Random random, Statistics actorStatistics, Statistics targetStatistics)
         {
             this.random = random;
 
-            missRating = targetStatistics.For<Miss>().Rating;
-            dodgeRating = targetStatistics.For<Dodge>().Rating;
+            dodgeChance = targetStatistics.For<Dodge>().Chance;
+            hitChance = actorStatistics.For<Hit>().Chance;
             critChance = actorStatistics.For<CriticalStrike>().Chance;
-            hitRating = actorStatistics.For<Hit>().Rating;
+            blockChance = 0;
         }
 
         public CombatTable(Random random, Statistics actorStatistics, Statistics targetStatistics, Ability ability)
         {
             this.random = random;
 
-            missRating = ability.CanMiss ? targetStatistics.For<Miss>().Rating : 0;
-            dodgeRating = ability.CanBeDodged ? targetStatistics.For<Dodge>().Rating : 0;
+            dodgeChance = ability.CanBeDodged ? targetStatistics.For<Dodge>().Chance : 0;
+            hitChance = ability.CanMiss ? actorStatistics.For<Hit>().Chance : 1;
             critChance = ability.CanCrit ? actorStatistics.For<CriticalStrike>().Chance : 0;
-            hitRating = actorStatistics.For<Hit>().Rating;
+            blockChance = 0;
         }
 
         public CombatOutcome Roll()
         {
-            int roll = random.Next(Math.Max(1, missRating + dodgeRating + hitRating));
+            var result = new CombatOutcome();
 
-            if (roll < missRating)
-                return CombatOutcome.Miss;
-            roll -= missRating;
+            result.IsDodge = random.NextDouble() < dodgeChance;
+            result.IsHit = !result.IsDodge && random.NextDouble() < hitChance;
+            result.IsMiss = !result.IsHit && !result.IsDodge;
+            result.IsCrit = result.IsHit && random.NextDouble() < critChance;
+            result.IsBlock = result.IsHit && random.NextDouble() < blockChance;
 
-            if (roll < dodgeRating)
-                return CombatOutcome.Dodge;
-            roll -= dodgeRating;
-
-            if (random.NextDouble() < critChance)
-                return CombatOutcome.Crit;
-
-            return CombatOutcome.Hit;
+            return result;
         }
     }
 }

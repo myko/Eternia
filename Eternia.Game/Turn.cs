@@ -33,6 +33,7 @@ namespace EterniaGame
         {
             Type = type;
             TimeStamp = DateTime.Now;
+            CombatOutcome = new CombatOutcome();
         }
 
         public override string ToString()
@@ -40,31 +41,37 @@ namespace EterniaGame
             switch (Type)
             {
                 case EventTypes.Ability:
-                    switch (CombatOutcome)
+
+                    if (CombatOutcome.IsMiss)
+                        return string.Format("{0}'s {2} missed {1}", Actor.Name, Target.Name, Ability.Name);
+
+                    if (CombatOutcome.IsDodge)
+                        return string.Format("{0}'s {2} was dodged by {1}", Actor.Name, Target.Name, Ability.Name);
+
+                    if (CombatOutcome.IsCrit)
                     {
-                        case CombatOutcome.Miss:
-                            return string.Format("{0}'s {2} missed {1}", Actor.Name, Target.Name, Ability.Name);
-                        case CombatOutcome.Dodge:
-                            return string.Format("{0}'s {2} was dodged by {1}", Actor.Name, Target.Name, Ability.Name);
-                        case CombatOutcome.Crit:
-                            if (Damage > 0f && Healing > 0f)
-                                return string.Format("{0}'s {2} did {3:0} damage to {1} and healed {1} for {4:0} (critical)", Actor.Name, Target.Name, Ability.Name, Damage, Healing);
-                            else if (Damage > 0f && Healing <= 0f)
-                                return string.Format("{0}'s {2} did {3:0} damage to {1} (critical)", Actor.Name, Target.Name, Ability.Name, Damage);
-                            else if (Damage <= 0f && Healing > 0f)
-                                return string.Format("{0}'s {2} healed {1} for {3:0} (critical)", Actor.Name, Target.Name, Ability.Name, Healing);
-                            else
-                                return string.Format("{0}'s {2} had no effect on {1} (critical)", Actor.Name, Target.Name, Ability.Name);
-                        case CombatOutcome.Hit:
-                            if (Damage > 0f && Healing > 0f)
-                                return string.Format("{0}'s {2} did {3:0} damage to {1} and healed {1} for {4:0}", Actor.Name, Target.Name, Ability.Name, Damage, Healing);
-                            else if (Damage > 0f && Healing <= 0f)
-                                return string.Format("{0}'s {2} did {3:0} damage to {1}", Actor.Name, Target.Name, Ability.Name, Damage);
-                            else if (Damage <= 0f && Healing > 0f)
-                                return string.Format("{0}'s {2} healed {1} for {3:0}", Actor.Name, Target.Name, Ability.Name, Healing);
-                            else
-                                return string.Format("{0}'s {2} had no effect on {1}", Actor.Name, Target.Name, Ability.Name);
+                        if (Damage > 0f && Healing > 0f)
+                            return string.Format("{0}'s {2} did {3:0} damage to {1} and healed {1} for {4:0} (critical)", Actor.Name, Target.Name, Ability.Name, Damage, Healing);
+                        else if (Damage > 0f && Healing <= 0f)
+                            return string.Format("{0}'s {2} did {3:0} damage to {1} (critical)", Actor.Name, Target.Name, Ability.Name, Damage);
+                        else if (Damage <= 0f && Healing > 0f)
+                            return string.Format("{0}'s {2} healed {1} for {3:0} (critical)", Actor.Name, Target.Name, Ability.Name, Healing);
+                        else
+                            return string.Format("{0}'s {2} had no effect on {1} (critical)", Actor.Name, Target.Name, Ability.Name);
                     }
+
+                    if (CombatOutcome.IsHit)
+                    {
+                        if (Damage > 0f && Healing > 0f)
+                            return string.Format("{0}'s {2} did {3:0} damage to {1} and healed {1} for {4:0}", Actor.Name, Target.Name, Ability.Name, Damage, Healing);
+                        else if (Damage > 0f && Healing <= 0f)
+                            return string.Format("{0}'s {2} did {3:0} damage to {1}", Actor.Name, Target.Name, Ability.Name, Damage);
+                        else if (Damage <= 0f && Healing > 0f)
+                            return string.Format("{0}'s {2} healed {1} for {3:0}", Actor.Name, Target.Name, Ability.Name, Healing);
+                        else
+                            return string.Format("{0}'s {2} had no effect on {1}", Actor.Name, Target.Name, Ability.Name);
+                    }
+
                     return string.Format("{0}'s {2} had an unknown outcome on {1}", Actor.Name, Target.Name, Ability.Name);
                 case EventTypes.ActorDeath:
                     return string.Format("{0} dies.", Actor.Name);

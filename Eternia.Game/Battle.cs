@@ -475,16 +475,21 @@ namespace EterniaGame
             var damage2 = 0f;
             var healing = 0f;
 
-            switch (combatOutcome)
+            if (combatOutcome.IsHit)
             {
-                case CombatOutcome.Hit:
-                    damage = abilityDamage;
-                    healing = abilityHealing;
-                    break;
-                case CombatOutcome.Crit:
-                    damage = abilityDamage * 2f;
-                    healing = abilityHealing * 2f;
-                    break;
+                damage = abilityDamage;
+                healing = abilityHealing;
+            }
+                    
+            if (combatOutcome.IsCrit)
+            {
+                damage = damage * 2f;
+                healing = healing * 2f;
+            }
+
+            if (combatOutcome.IsBlock)
+            {
+                damage -= Math.Min(damage, actor.CurrentStatistics.For<Eternia.Game.Stats.DamageReduction>().ArmorRating);
             }
 
             actor.CurrentMana -= ability.ManaCost;

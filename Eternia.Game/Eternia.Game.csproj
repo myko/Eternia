@@ -120,7 +120,6 @@
     <Compile Include="Stats\AttackPower.cs" />
     <Compile Include="Stats\Hit.cs" />
     <Compile Include="Stats\Dodge.cs" />
-    <Compile Include="Stats\Miss.cs" />
     <Compile Include="Stats\Energy.cs" />
     <Compile Include="Stats\CriticalStrike.cs" />
     <Compile Include="Stats\Health.cs" />

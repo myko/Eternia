@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<XnaContent xmlns:Actors="EterniaGame.Actors"
-            xmlns:Stats="Eternia.Game.Stats">
+<XnaContent xmlns:Actors="EterniaGame.Actors" xmlns:Stats="Eternia.Game.Stats">
   <Asset Type="Actors:Actor">
     <Id>cleric</Id>
     <Name>Cleric</Name>
@@ -95,6 +94,7 @@
               <Duration>2</Duration>
               <Current>0</Current>
             </Cooldown>
+            <Statistics />
           </Item>
         </AurasApplied>
       </Item>
@@ -152,16 +152,16 @@
             <Value>5</Value>
           </Item>
           <Item Type="Stats:DamageReduction">
-              <ArmorRating>70</ArmorRating>
-              <FireResistanceRating>0</FireResistanceRating>
-              <FrostResistanceRating>0</FrostResistanceRating>
-              <ArcaneResistanceRating>0</ArcaneResistanceRating>
-              <NatureResistanceRating>0</NatureResistanceRating>
-              <HolyResistanceRating>0</HolyResistanceRating>
-              <UnholyResistanceRating>0</UnholyResistanceRating>
+            <ArmorRating>70</ArmorRating>
+            <FireResistanceRating>0</FireResistanceRating>
+            <FrostResistanceRating>0</FrostResistanceRating>
+            <ArcaneResistanceRating>0</ArcaneResistanceRating>
+            <NatureResistanceRating>0</NatureResistanceRating>
+            <HolyResistanceRating>0</HolyResistanceRating>
+            <UnholyResistanceRating>0</UnholyResistanceRating>
           </Item>
           <Item Type="Stats:CriticalStrike">
-            <Rating>24</Rating>
+            <Rating>14</Rating>
           </Item>
         </Statistics>
       </Item>
@@ -187,6 +187,9 @@
             <NatureResistanceRating>0</NatureResistanceRating>
             <HolyResistanceRating>0</HolyResistanceRating>
             <UnholyResistanceRating>0</UnholyResistanceRating>
+          </Item>
+          <Item Type="Stats:Precision">
+            <Rating>14</Rating>
           </Item>
         </Statistics>
       </Item>
@@ -216,7 +219,7 @@
             <HolyResistanceRating>0</HolyResistanceRating>
             <UnholyResistanceRating>0</UnholyResistanceRating>
           </Item>
-          <Item Type="Stats:CriticalStrike">
+          <Item Type="Stats:Precision">
             <Rating>24</Rating>
           </Item>
         </Statistics>
@@ -280,9 +283,6 @@
       </Item>
       <Item Type="Stats:Mana">
         <Value>225</Value>
-      </Item>
-      <Item Type="Stats:Miss">
-        <Rating>100</Rating>
       </Item>
     </BaseStatistics>
     <TargettingStrategy>Manual</TargettingStrategy>

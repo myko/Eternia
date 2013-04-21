@@ -8,7 +8,7 @@ namespace Eternia.Game.Stats
 {
     public class Dodge: RatingStat<Dodge>
     {
-        public override float Chance { get { return 0.075f + Rating / (2f * Rating + 1000f); } }
+        public override float Chance { get { return 0.05f + Rating / (3f * Rating + 1000f); } }
         public override string Name { get { return "Dodge rating"; } }
         
         public Dodge()

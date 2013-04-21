@@ -390,9 +390,6 @@
       <Item Type="Stats:Energy">
         <Value>100</Value>
       </Item>
-      <Item Type="Stats:Miss">
-        <Rating>100</Rating>
-      </Item>
       <Item Type="Stats:Dodge">
         <Rating>0</Rating>
       </Item>

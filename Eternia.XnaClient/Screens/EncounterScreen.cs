@@ -421,24 +421,16 @@ namespace EterniaXna.Screens
                 var damage = ev.Healing > 0f ? ev.Healing.ToString("0") : ev.Damage.ToString("0");
                 var text = damage;
 
-                switch (ev.CombatOutcome)
-                {
-                    case CombatOutcome.Miss:
-                        text = "Miss";
-                        break;
-                    case CombatOutcome.Dodge:
-                        text = "Dodge";
-                        break;
-                    case CombatOutcome.None:
-                        text = "";
-                        break;
-                }
+                if (ev.CombatOutcome.IsMiss)
+                    text = "Miss";
+                else if (ev.CombatOutcome.IsDodge)
+                    text = "Dodge";
 
                 return new ScrollingText(SpriteBatch)
                 {
                     Source = ev.Actor,
                     Target = ev.Target,
-                    Font = ev.CombatOutcome == CombatOutcome.Crit ? kootenayFont : kootenaySmallFont,
+                    Font = ev.CombatOutcome.IsCrit ? kootenayFont : kootenaySmallFont,
                     Text = text,
                     Color = ev.Healing > 0f ? Color.LightGreen : ev.Ability != null ? (ev.Actor.Faction != Factions.Friend ? Color.Tomato : Color.Yellow) : Color.White,
                     Alpha = 1f,

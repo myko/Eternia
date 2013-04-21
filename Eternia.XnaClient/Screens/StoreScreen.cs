@@ -381,18 +381,10 @@ namespace EterniaXna.Screens
 
         private string GetStatisticsString(Statistics statistics, ActorResourceTypes resourceType)
         {
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine("Health: " + statistics.For<Health>().ToString());
-            
-            if (resourceType == ActorResourceTypes.Mana)
-                sb.AppendLine("Mana: " + statistics.For<Mana>().ToString());
-            if (resourceType == ActorResourceTypes.Energy)
-                sb.AppendLine("Energy: " + statistics.For<Energy>().ToString());
-
-            sb.AppendLine();
-
-            return sb.ToString();
+            return string.Join("\n", statistics
+                .OrderBy(x => x.Name)
+                .Select(x => x.ToItemTooltipString())
+                .ToArray());
         }
 
         private void UpdateEquipmentList(Actor actor)

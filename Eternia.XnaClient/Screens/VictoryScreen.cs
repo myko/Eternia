@@ -81,10 +81,10 @@ namespace EterniaXna.Screens
                 foreach (var actorEvents in events.GroupBy(x => x.Actor))
                 {
                     var abilitySwings = actorEvents.Where(x => x.Type == EventTypes.Ability);
-                    var missSwings = abilitySwings.Where(x => x.CombatOutcome == CombatOutcome.Miss);
-                    var dodgeSwings = abilitySwings.Where(x => x.CombatOutcome == CombatOutcome.Dodge);
-                    var hitSwings = abilitySwings.Where(x => x.CombatOutcome == CombatOutcome.Hit);
-                    var critSwings = abilitySwings.Where(x => x.CombatOutcome == CombatOutcome.Crit);
+                    var missSwings = abilitySwings.Where(x => x.CombatOutcome.IsMiss);
+                    var dodgeSwings = abilitySwings.Where(x => x.CombatOutcome.IsDodge);
+                    var hitSwings = abilitySwings.Where(x => x.CombatOutcome.IsHit);
+                    var critSwings = abilitySwings.Where(x => x.CombatOutcome.IsCrit);
 
                     y += 16;
                     SpriteBatch.DrawString(smallFont, actorEvents.Key.Name, new Vector2(200, y), Color.White, 0.1f);
@@ -100,47 +100,6 @@ namespace EterniaXna.Screens
                     }
                 }
             }
-        }
-
-        public static void DrawStatistics(SpriteBatch spriteBatch, SpriteFont font, Statistics statistics, int x, int y, bool hideZero)
-        {
-            foreach (var stat in statistics)
-            {
-                spriteBatch.DrawString(font, stat.Name + ": " + stat.ToString(), new Vector2(x, y += 20), stat.Color, 0.1f);
-            }
-
-            //if (!hideZero || statistics.Health != 0)
-            //    spriteBatch.DrawString(font, "Health: " + statistics.Health.ToString("0"), new Vector2(x, y += 20), Color.LightGreen, 0.1f);
-            //if (!hideZero || statistics.Mana != 0)
-            //    spriteBatch.DrawString(font, "Mana: " + statistics.Mana.ToString("0"), new Vector2(x, y += 20), Color.LightGreen, 0.1f);
-            //if (!hideZero || statistics.Energy != 0)
-            //    spriteBatch.DrawString(font, "Energy: " + statistics.Energy.ToString("0"), new Vector2(x, y += 20), Color.LightGreen, 0.1f);
-            //if (!hideZero || statistics.DamageReduction.ArmorRating != 0)
-            //    spriteBatch.DrawString(font, "Armor rating: " + statistics.DamageReduction.ArmorRating.ToString() + " (" + (statistics.DamageReduction.GetReductionForSchool(DamageSchools.Physical) * 100).ToString("0") + "%)", new Vector2(x, y += 20), Color.LightGreen, 0.1f);
-            //if (!hideZero || statistics.AttackPower != 0)
-            //    spriteBatch.DrawString(font, "Attack power: " + statistics.AttackPower.ToString("0"), new Vector2(x, y += 20), Color.LightGreen, 0.1f);
-            //if (!hideZero || statistics.SpellPower != 0)
-            //    spriteBatch.DrawString(font, "Spell power: " + statistics.SpellPower.ToString("0"), new Vector2(x, y += 20), Color.LightGreen, 0.1f);
-            //if (!hideZero || statistics.HitRating != 0)
-            //    spriteBatch.DrawString(font, "Hit rating: " + statistics.HitRating.ToString(), new Vector2(x, y += 20), Color.LightGreen, 0.1f);
-            //if (!hideZero || statistics.CritRating != 0)
-            //    spriteBatch.DrawString(font, "Crit rating: " + statistics.CritRating.ToString() + " (" + (statistics.CritChance * 100).ToString("0") + "%)", new Vector2(x, y += 20), Color.LightGreen, 0.1f);
-            //if (!hideZero || statistics.PrecisionRating != 0)
-            //    spriteBatch.DrawString(font, "Precision rating: " + statistics.PrecisionRating.ToString() + " (" + (statistics.Precision * 100).ToString("0") + "%)", new Vector2(x, y += 20), Color.LightGreen, 0.1f);
-            //if (!hideZero || statistics.DodgeRating != 0)
-            //    spriteBatch.DrawString(font, "Dodge rating: " + statistics.DodgeRating.ToString(), new Vector2(x, y += 20), Color.LightGreen, 0.1f);
-            //if (!hideZero || statistics.DamageReduction.FireResistanceRating != 0)
-            //    spriteBatch.DrawString(font, "Fire resistance rating: " + statistics.DamageReduction.FireResistanceRating.ToString() + " (" + (statistics.DamageReduction.GetReductionForSchool(DamageSchools.Fire) * 100).ToString("0") + "%)", new Vector2(x, y += 20), Color.LightGreen, 0.1f);
-            //if (!hideZero || statistics.DamageReduction.FrostResistanceRating != 0)
-            //    spriteBatch.DrawString(font, "Frost resistance rating: " + statistics.DamageReduction.FrostResistanceRating.ToString() + " (" + (statistics.DamageReduction.GetReductionForSchool(DamageSchools.Frost) * 100).ToString("0") + "%)", new Vector2(x, y += 20), Color.LightGreen, 0.1f);
-            //if (!hideZero || statistics.DamageReduction.ArcaneResistanceRating != 0)
-            //    spriteBatch.DrawString(font, "Arcane resistance rating: " + statistics.DamageReduction.ArcaneResistanceRating.ToString() + " (" + (statistics.DamageReduction.GetReductionForSchool(DamageSchools.Arcane) * 100).ToString("0") + "%)", new Vector2(x, y += 20), Color.LightGreen, 0.1f);
-            //if (!hideZero || statistics.DamageReduction.NatureResistanceRating != 0)
-            //    spriteBatch.DrawString(font, "Nature resistance rating: " + statistics.DamageReduction.NatureResistanceRating.ToString() + " (" + (statistics.DamageReduction.GetReductionForSchool(DamageSchools.Nature) * 100).ToString("0") + "%)", new Vector2(x, y += 20), Color.LightGreen, 0.1f);
-            //if (!hideZero || statistics.DamageReduction.HolyResistanceRating != 0)
-            //    spriteBatch.DrawString(font, "Holy resistance rating: " + statistics.DamageReduction.HolyResistanceRating.ToString() + " (" + (statistics.DamageReduction.GetReductionForSchool(DamageSchools.Holy) * 100).ToString("0") + "%)", new Vector2(x, y += 20), Color.LightGreen, 0.1f);
-            //if (!hideZero || statistics.DamageReduction.UnholyResistanceRating != 0)
-            //    spriteBatch.DrawString(font, "Unholy resistance rating: " + statistics.DamageReduction.UnholyResistanceRating.ToString() + " (" + (statistics.DamageReduction.GetReductionForSchool(DamageSchools.Unholy) * 100).ToString("0") + "%)", new Vector2(x, y += 20), Color.LightGreen, 0.1f);
         }
 
         public static string GetStatisticsString(Statistics statistics, ActorResourceTypes resourceType, bool hideZero)

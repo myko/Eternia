@@ -8,7 +8,7 @@ namespace Eternia.Game.Stats
 {
     public class Hit: RatingStat<Hit>
     {
-        public override float Chance { get { return 0.075f + Rating / (2f * Rating + 1000f); } }
+        public override float Chance { get { return 0.50f + Rating / (2f * Rating + 222f); } }
         public override string Name { get { return "Hit rating"; } }
 
         public Hit()
