@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<XnaContent xmlns:Actions="EterniaGame.Triggers.Actions">
+<XnaContent xmlns:Actions="EterniaGame.Triggers.Actions"
+            xmlns:Stats="Eternia.Game.Stats">
   <Asset Type="EterniaGame.EncounterDefinition">
     <Name>Gates</Name>
     <HeroLimit>2</HeroLimit>
@@ -14,6 +15,9 @@
         <MovementSpeed>5</MovementSpeed>
         <TextureName>gatekeeper</TextureName>
         <BaseStatistics>
+          <Item Type="Stats:Health">
+            <Value>500</Value>
+          </Item>
           <!--<Health>500</Health>
           <Mana>0</Mana>
           <Energy>0</Energy>
