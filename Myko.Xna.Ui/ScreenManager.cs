@@ -79,7 +79,8 @@ namespace Myko.Xna.Ui
 
         public override void Draw(GameTime gameTime)
         {
-            SpriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.FrontToBack, SaveStateMode.None);
+            //SpriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.FrontToBack, SaveStateMode.None);
+            SpriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
             
             if (screens.Count > 0)
                 screens.Last().DrawScreen(gameTime);
