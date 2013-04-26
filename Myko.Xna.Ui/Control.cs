@@ -76,7 +76,8 @@ namespace Myko.Xna.Ui
                         blankTexture = Parent.BlankTexture;
                     else
                     {
-                        blankTexture = new Texture2D(SpriteBatch.GraphicsDevice, 1, 1, 1, TextureUsage.None, SurfaceFormat.Color);
+                        //blankTexture = new Texture2D(SpriteBatch.GraphicsDevice, 1, 1, 1, TextureUsage.None, SurfaceFormat.Color);
+                        blankTexture = new Texture2D(SpriteBatch.GraphicsDevice, 1, 1, false, SurfaceFormat.Color); //Tommy 2013-04-26  Upgrade to XNA 4.0. Class constructor change.
                         blankTexture.SetData(new Color[] { Color.White });
                     }
                 }
