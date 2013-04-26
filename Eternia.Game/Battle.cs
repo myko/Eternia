@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using EterniaGame.Triggers;
 using EterniaGame.Abilities;
 using EterniaGame.Actors;
+using Eternia.Game.Events;
 
 namespace EterniaGame
 {
@@ -214,7 +215,7 @@ namespace EterniaGame
             actor.IsAlive = false;
             actor.Targets.Clear();
             actor.Auras.Clear();
-            turn.Events.Add(new Event(EventTypes.ActorDeath)
+            turn.Events.Add(new OldEvent(EventTypes.ActorDeath)
             {
                 Actor = actor
             });
@@ -239,12 +240,12 @@ namespace EterniaGame
                     var healing = aura.Healing.CalculateHealing(aura.Owner, actor);
                     if (damage > 0)
                     {
-                        turn.Events.Add(new Event(EventTypes.AuraDamage) { Actor = aura.Owner, Target = actor, Damage = damage });
+                        turn.Events.Add(new OldEvent(EventTypes.AuraDamage) { Actor = aura.Owner, Target = actor, Damage = damage });
                         actor.CurrentHealth -= damage;
                     }
                     if (healing > 0)
                     {
-                        turn.Events.Add(new Event(EventTypes.AuraHealing) { Actor = aura.Owner, Target = actor, Healing = healing });
+                        turn.Events.Add(new OldEvent(EventTypes.AuraHealing) { Actor = aura.Owner, Target = actor, Healing = healing });
                         actor.CurrentHealth += healing;
                     }
                     aura.Cooldown.Incur();
@@ -256,7 +257,7 @@ namespace EterniaGame
                 if (aura.Duration <= 0f)
                 {
                     actor.Auras.Remove(aura);
-                    turn.Events.Add(new Event(EventTypes.AuraExpired) { Actor = actor, Target = actor });
+                    turn.Events.Add(new OldEvent(EventTypes.AuraExpired) { Actor = actor, Target = actor });
                 }
             });
 
@@ -475,6 +476,12 @@ namespace EterniaGame
             var damage2 = 0f;
             var healing = 0f;
 
+            if (combatOutcome.IsMiss)
+                Event.Raise(new ActorMissed { Actor = target });
+
+            if (combatOutcome.IsDodge)
+                Event.Raise(new ActorDodged { Actor = target });
+
             if (combatOutcome.IsHit)
             {
                 damage = abilityDamage;
@@ -489,13 +496,23 @@ namespace EterniaGame
 
             if (combatOutcome.IsBlock)
             {
-                damage -= Math.Min(damage, actor.CurrentStatistics.For<Eternia.Game.Stats.DamageReduction>().ArmorRating);
+                damage -= actor.CurrentStatistics.For<Eternia.Game.Stats.DamageReduction>().ArmorRating;
             }
 
             actor.CurrentMana -= ability.ManaCost;
             actor.CurrentEnergy -= ability.EnergyCost;
-            target.CurrentHealth -= (damage);
-            target.CurrentHealth += (healing);
+
+            if (damage > 0)
+            {
+                target.CurrentHealth -= (damage);
+                Event.Raise(new ActorTookDamage { Actor = target, Damage = damage, IsCrit = combatOutcome.IsCrit });
+            }
+
+            if (healing > 0)
+            {
+                target.CurrentHealth += (healing);
+                Event.Raise(new ActorWasHealed { Actor = target, Healing = healing, IsCrit = combatOutcome.IsCrit });
+            }
 
             // Calculate damage threat
             target.ThreatList.Increase(actor, (int)(damage * ability.ThreatModifier));
@@ -512,7 +529,7 @@ namespace EterniaGame
                 target.Auras.Add(new Aura { Owner = actor, Cooldown = aura.Cooldown, Damage = aura.Damage, Healing = aura.Healing, Duration = aura.Duration, Name = aura.Name, Statistics = aura.Statistics });
             }
 
-            turn.Events.Add(new Event(EventTypes.Ability)
+            turn.Events.Add(new OldEvent(EventTypes.Ability)
             {
                 Actor = actor,
                 Target = target,

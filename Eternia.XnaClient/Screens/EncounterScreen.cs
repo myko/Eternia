@@ -26,6 +26,7 @@ namespace EterniaXna.Screens
         SpriteFont kootenaySmallFont;
         Texture2D healthBarTexture;
         Texture2D defaultAbilityTexture;
+        ScrollingTextSystem scrollingTextSystem;
 
         List<Button> abilityButtons;
         List<Button> targettingStrategyButtons;
@@ -80,6 +81,9 @@ namespace EterniaXna.Screens
 
         public override void LoadContent()
         {
+            kootenayFont = ContentManager.Load<SpriteFont>(@"Fonts\Kootenay");
+            kootenaySmallFont = ContentManager.Load<SpriteFont>(@"Fonts\KootenaySmall");
+            
             scene = new Scene(ScreenManager.GraphicsDevice);
             scene.LoadContent(ContentManager);
             scene.Nodes.Add(new Level(ScreenManager.GraphicsDevice, ContentManager.Load<Model>(@"Models\Levels\pillarlevel")));
@@ -100,14 +104,13 @@ namespace EterniaXna.Screens
                     LifeSpan = float.PositiveInfinity
                 },
             });
+            scene.Nodes.Add(scrollingTextSystem = new ScrollingTextSystem(scene, SpriteBatch, kootenaySmallFont, kootenayFont));
 
             AddFire(new Vector3(-10.5f, 0.5f, -10.5f));
             AddFire(new Vector3(10.5f, 0.5f, -10.5f));
             AddFire(new Vector3(10.5f, 0.5f, 10.5f));
             AddFire(new Vector3(-10.5f, 0.5f, 10.5f));
 
-            kootenayFont = ContentManager.Load<SpriteFont>(@"Fonts\Kootenay");
-            kootenaySmallFont = ContentManager.Load<SpriteFont>(@"Fonts\KootenaySmall");
             healthBarTexture = ContentManager.Load<Texture2D>(@"Interface\healthbar");
             defaultAbilityTexture = ContentManager.Load<Texture2D>(@"Icons\INV_Misc_QuestionMark");
 
@@ -366,9 +369,9 @@ namespace EterniaXna.Screens
                         if (!selectedActors.Any(x => ev.Actor == x || ev.Target == x))
                             continue;
 
-                    var text = CreateScrollingTextForEvent(ev);
-                    if (text != null)
-                        scene.Nodes.Add(text);
+                    //var text = CreateScrollingTextForEvent(ev);
+                    //if (text != null)
+                    //    scrollingTextSystem.Nodes.Add(text);
                 }
                 turns.Add(turn);
 
@@ -414,33 +417,35 @@ namespace EterniaXna.Screens
             }
         }
 
-        private ScrollingText CreateScrollingTextForEvent(Event ev)
-        {
-            if (ev.Target != null)
-            {
-                var damage = ev.Healing > 0f ? ev.Healing.ToString("0") : ev.Damage.ToString("0");
-                var text = damage;
+        //private ScrollingText CreateScrollingTextForEvent(OldEvent ev)
+        //{
+        //    if (ev.Target != null)
+        //    {
+        //        var damage = ev.Healing > 0f ? ev.Healing.ToString("0") : ev.Damage.ToString("0");
+        //        var text = damage;
 
-                if (ev.CombatOutcome.IsMiss)
-                    text = "Miss";
-                else if (ev.CombatOutcome.IsDodge)
-                    text = "Dodge";
+        //        if (ev.CombatOutcome == null)
+        //            text = "";
+        //        else if (ev.CombatOutcome.IsMiss)
+        //            text = "Miss";
+        //        else if (ev.CombatOutcome.IsDodge)
+        //            text = "Dodge";
 
-                return new ScrollingText(SpriteBatch)
-                {
-                    Source = ev.Actor,
-                    Target = ev.Target,
-                    Font = ev.CombatOutcome.IsCrit ? kootenayFont : kootenaySmallFont,
-                    Text = text,
-                    Color = ev.Healing > 0f ? Color.LightGreen : ev.Ability != null ? (ev.Actor.Faction != Factions.Friend ? Color.Tomato : Color.Yellow) : Color.White,
-                    Alpha = 1f,
-                    Position = scene.Project(ev.Target.Position) + new Vector2(random.Between(-40f, 40f), -(ev.Target.Radius + 75f)),
-                    Speed = 45f,
-                };
-            }
+        //        return new ScrollingText(SpriteBatch)
+        //        {
+        //            //Source = ev.Actor,
+        //            //Target = ev.Target,
+        //            Font = (ev.CombatOutcome != null && ev.CombatOutcome.IsCrit) ? kootenayFont : kootenaySmallFont,
+        //            Text = text,
+        //            Color = ev.Healing > 0f ? Color.LightGreen : ev.Ability != null ? (ev.Actor.Faction != Factions.Friend ? Color.Tomato : Color.Yellow) : Color.White,
+        //            Alpha = 1f,
+        //            Position = scene.Project(ev.Target.Position) + new Vector2(-Font.MeasureString(text).X * 0.5f, -(ev.Target.Radius + 75f)),
+        //            Speed = 45f,
+        //        };
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
 
         public override void Draw(GameTime gameTime)
         {
@@ -453,9 +458,9 @@ namespace EterniaXna.Screens
                 if (selectedActors.Any() && actorModel.Actor.IsAlive)
                 {
                     var v = scene.Project(actorModel.Actor.Position);
-                    DrawHealthBar((int)(v.X - 25), (int)(v.Y - 100), 75, 5, actorModel.Actor.HealthFraction, Color.GreenYellow);
-                    if (battle.Actors.Any(x => x != actorModel.Actor && x.Faction == Factions.Enemy && x.Targets.Any() && x.Targets.Peek() == actorModel.Actor))
-                        SpriteBatch.Draw(ContentManager.Load<Texture2D>(@"Interface\aggro"), new Rectangle((int)(v.X + 52), (int)(v.Y - 110), 24, 24), Color.White, 0.01f);
+                    DrawHealthBar((int)(v.X - 30), (int)(v.Y + 40), 60, 5, actorModel.Actor.HealthFraction, Color.GreenYellow);
+                    //if (battle.Actors.Any(x => x != actorModel.Actor && x.Faction == Factions.Enemy && x.Targets.Any() && x.Targets.Peek() == actorModel.Actor))
+                    //    SpriteBatch.Draw(ContentManager.Load<Texture2D>(@"Interface\aggro"), new Rectangle((int)(v.X + 52), (int)(v.Y - 110), 24, 24), Color.White, 0.01f);
                 }
             }
 

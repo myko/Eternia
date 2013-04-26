@@ -17,7 +17,7 @@ namespace EterniaGame
         AuraHealing
     }
 
-    public class Event
+    public class OldEvent
     {
         public EventTypes Type { get; set; }
         public Actor Actor { get; set; }
@@ -29,11 +29,10 @@ namespace EterniaGame
         public CombatOutcome CombatOutcome { get; set; }
         public DateTime TimeStamp { get; set; }
 
-        public Event(EventTypes type)
+        public OldEvent(EventTypes type)
         {
             Type = type;
             TimeStamp = DateTime.Now;
-            CombatOutcome = new CombatOutcome();
         }
 
         public override string ToString()
@@ -56,8 +55,8 @@ namespace EterniaGame
                             return string.Format("{0}'s {2} did {3:0} damage to {1} (critical)", Actor.Name, Target.Name, Ability.Name, Damage);
                         else if (Damage <= 0f && Healing > 0f)
                             return string.Format("{0}'s {2} healed {1} for {3:0} (critical)", Actor.Name, Target.Name, Ability.Name, Healing);
-                        else
-                            return string.Format("{0}'s {2} had no effect on {1} (critical)", Actor.Name, Target.Name, Ability.Name);
+                        //else
+                        //    return string.Format("{0}'s {2} had no effect on {1} (critical)", Actor.Name, Target.Name, Ability.Name);
                     }
 
                     if (CombatOutcome.IsHit)
@@ -68,8 +67,8 @@ namespace EterniaGame
                             return string.Format("{0}'s {2} did {3:0} damage to {1}", Actor.Name, Target.Name, Ability.Name, Damage);
                         else if (Damage <= 0f && Healing > 0f)
                             return string.Format("{0}'s {2} healed {1} for {3:0}", Actor.Name, Target.Name, Ability.Name, Healing);
-                        else
-                            return string.Format("{0}'s {2} had no effect on {1}", Actor.Name, Target.Name, Ability.Name);
+                        //else
+                        //    return string.Format("{0}'s {2} had no effect on {1}", Actor.Name, Target.Name, Ability.Name);
                     }
 
                     return string.Format("{0}'s {2} had an unknown outcome on {1}", Actor.Name, Target.Name, Ability.Name);
@@ -92,11 +91,11 @@ namespace EterniaGame
     public class Turn
     {
         public int TimeIndex { get; set; }
-        public List<Event> Events { get; set; }
+        public List<OldEvent> Events { get; set; }
 
         public Turn()
         {
-            Events = new List<Event>();
+            Events = new List<OldEvent>();
         }
     }
 }
