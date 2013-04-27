@@ -8,21 +8,21 @@ using Eternia.Game.Actors;
 
 namespace EterniaXna
 {
-    public class AbilityButton: IControlContent
+    public class OrderButton: IControlContent
     {
         public Actor Actor { get; set; }
-        public Ability Ability { get; set; }
+        public Order Order { get; set; }
 
         private ContentControl container;
         private Texture2D texture;
         private Texture2D blankTexture;
         private SpriteFont font;
 
-        public AbilityButton(ContentControl container, Actor actor, Ability ability, Texture2D texture, Texture2D blankTexture, SpriteFont font)
+        public OrderButton(ContentControl container, Actor actor, Order order, Texture2D texture, Texture2D blankTexture, SpriteFont font)
         {
             this.container = container;
             this.Actor = actor;
-            this.Ability = ability;
+            this.Order = order;
             this.texture = texture;
             this.blankTexture = blankTexture;
             this.font = font;
@@ -39,14 +39,16 @@ namespace EterniaXna
         public void Draw(Vector2 position, GameTime gameTime)
         {
             var bounds = new Rectangle((int)position.X, (int)position.Y, (int)container.Width, (int)container.Height);
-            //if (Actor.CurrentOrder != null && Ability == Actor.CurrentOrder.Ability)
+            //if (Order == Actor.CurrentOrder)
             //    container.SpriteBatch.Draw(texture, bounds, Color.Yellow, container.ZIndex + 0.001f);
             //else
                 container.SpriteBatch.Draw(texture, bounds, Color.White, container.ZIndex + 0.001f);
-            
-            if (!Ability.Cooldown.IsReady)
+
+            // Draw out of range
+
+            if (!Order.Ability.Cooldown.IsReady)
             {
-                var cooldown = ((int)Ability.Cooldown.Current).ToString();
+                var cooldown = ((int)Order.Ability.Cooldown.Current).ToString();
                 var textSize = font.MeasureString(cooldown);
                 var textPosition = new Vector2((int)(container.Width / 2 - textSize.X / 2), (int)(container.Height / 2 - textSize.Y / 2));
 

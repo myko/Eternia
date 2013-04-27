@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
-namespace EterniaGame
+namespace Eternia.Game
 {
     //public class Encounter
     //{

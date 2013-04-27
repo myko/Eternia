@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="AdvancedActorModel.cs" />
     <Compile Include="Controls\AbilityTooltip.cs" />
+    <Compile Include="Controls\OrderButton.cs" />
     <Compile Include="Controls\TargetingStrategyButton.cs" />
     <Compile Include="ActorModel.cs" />
     <Compile Include="GraphicEffect.cs" />

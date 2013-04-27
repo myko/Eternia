@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using EterniaGame;
-using EterniaGame.Actors;
+using Eternia.Game;
+using Eternia.Game.Actors;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -177,9 +177,9 @@ namespace Eternia.XnaClient
 
             DrawShadows(battle, contentManager);
 
-            foreach (var actor in battle.Actors.Where(x => x.Faction == Factions.Enemy && x.IsAlive && x.CastingAbility != null))
+            foreach (var actor in battle.Actors.Where(x => x.Faction == Factions.Enemy && x.IsAlive && x.CurrentOrder != null))
             {
-                if (actor.CastingAbility.DamageType == DamageTypes.PointBlankArea || actor.CastingAbility.DamageType == DamageTypes.Cleave)
+                if (actor.CurrentOrder.Ability.DamageType == DamageTypes.PointBlankArea || actor.CurrentOrder.Ability.DamageType == DamageTypes.Cleave)
                 {
                     var vertices = new VertexPositionTexture[6];
                     vertices[0] = new VertexPositionTexture(new Vector3(-1, 0, -1), new Vector2(0, 0));
@@ -200,11 +200,11 @@ namespace Eternia.XnaClient
                     billboardEffect.Parameters["Alpha"].SetValue(0.5f);
 
                     var position = new Vector3(actor.Position.X, 0.04f, actor.Position.Y);
-                    if (actor.CastingAbility.DamageType == DamageTypes.Cleave)
+                    if (actor.CurrentOrder.Ability.DamageType == DamageTypes.Cleave)
                         position = new Vector3(actor.Targets.Peek().Position.X, 0.04f, actor.Targets.Peek().Position.Y);
 
-                    var scale = actor.CastingAbility.Range.Maximum;
-                    if (actor.CastingAbility.DamageType == DamageTypes.Cleave)
+                    var scale = actor.CurrentOrder.Ability.Range.Maximum;
+                    if (actor.CurrentOrder.Ability.DamageType == DamageTypes.Cleave)
                         scale = actor.Radius + 1;
 
                     billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(scale) * Matrix.CreateTranslation(position));

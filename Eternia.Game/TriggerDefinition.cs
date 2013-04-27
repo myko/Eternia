@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EterniaGame.Triggers;
+using Eternia.Game.Triggers;
 
-namespace EterniaGame
+namespace Eternia.Game
 {
     public class TriggerDefinition
     {

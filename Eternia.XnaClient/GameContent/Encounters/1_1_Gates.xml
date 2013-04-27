@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<XnaContent xmlns:Stats="Eternia.Game.Stats" xmlns:Actions="EterniaGame.Triggers.Actions">
-  <Asset Type="EterniaGame.EncounterDefinition">
+<XnaContent xmlns:Game="Eternia.Game" xmlns:Stats="Eternia.Game.Stats" xmlns:Actions="Eternia.Game.Triggers.Actions">
+  <Asset Type="Game:EncounterDefinition">
     <Name>Gates</Name>
     <HeroLimit>2</HeroLimit>
     <ItemLevel>10</ItemLevel>
@@ -35,6 +35,12 @@
             <HolyResistanceRating>0</HolyResistanceRating>
             <UnholyResistanceRating>0</UnholyResistanceRating>
           </Item>
+          <Item Type="Stats:AttackPower">
+            <Value>147</Value>
+          </Item>
+          <Item Type="Stats:SpellPower">
+            <Value>184</Value>
+          </Item>
         </BaseStatistics>
         <Abilities>
           <Item>
@@ -43,8 +49,8 @@
             <AnimationName>Ability1</AnimationName>
             <TextureName>Spell_nature_acid_01</TextureName>
             <Damage>
-              <Value>10</Value>
-              <AttackPowerScale>0.5</AttackPowerScale>
+              <Value>15</Value>
+              <AttackPowerScale>0.81</AttackPowerScale>
               <SpellPowerScale>0</SpellPowerScale>
               <School>Physical</School>
             </Damage>
@@ -79,10 +85,10 @@
             <AnimationName>Spell1</AnimationName>
             <TextureName>Spell_nature_acid_01</TextureName>
             <Damage>
-              <Value>40</Value>
+              <Value>51</Value>
               <AttackPowerScale>0</AttackPowerScale>
-              <SpellPowerScale>0.5</SpellPowerScale>
-              <School>Physical</School>
+              <SpellPowerScale>0.71</SpellPowerScale>
+              <School>Fire</School>
             </Damage>
             <Healing>
               <Value>0</Value>

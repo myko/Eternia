@@ -1,9 +1,9 @@
 ﻿using System;
-using EterniaGame;
+using Eternia.Game;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Myko.Xna.Ui;
-using EterniaGame.Actors;
+using Eternia.Game.Actors;
 
 namespace EterniaXna
 {

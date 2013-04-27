@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Content;
-using EterniaGame.Actors;
+using Eternia.Game.Actors;
 using Eternia.Game.Stats;
 
-namespace EterniaGame
+namespace Eternia.Game
 {
     public enum DamageSchools
     {

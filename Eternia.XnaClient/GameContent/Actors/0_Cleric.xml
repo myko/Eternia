@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<XnaContent xmlns:Actors="EterniaGame.Actors" xmlns:Stats="Eternia.Game.Stats">
+<XnaContent xmlns:Actors="Eternia.Game.Actors" xmlns:Stats="Eternia.Game.Stats">
   <Asset Type="Actors:Actor">
     <Id>cleric</Id>
     <Name>Cleric</Name>

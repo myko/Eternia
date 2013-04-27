@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
-using EterniaGame.Actors;
+using Eternia.Game.Actors;
+using Eternia.Game.Items;
 
-namespace EterniaGame
+namespace Eternia.Game
 {
     public class EncounterDefinition
     {

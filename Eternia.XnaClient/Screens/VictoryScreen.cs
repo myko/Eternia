@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using EterniaGame;
-using EterniaGame.Actors;
+using Eternia.Game;
+using Eternia.Game.Actors;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Myko.Xna.Ui;
 using Eternia.Game.Stats;
 using Newtonsoft.Json;
+using Eternia.Game.Items;
 
 namespace EterniaXna.Screens
 {

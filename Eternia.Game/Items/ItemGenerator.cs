@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Eternia.Game.Stats;
 
-namespace EterniaGame
+namespace Eternia.Game.Items
 {
     public class ItemGenerator
     {

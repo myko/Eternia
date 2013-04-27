@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
-using EterniaGame;
+using Eternia.Game;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Myko.Xna.Ui;
 using Eternia.Game.Stats;
+using Eternia.Game.Items;
 
 namespace EterniaXna
 {

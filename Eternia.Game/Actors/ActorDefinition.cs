@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
-using EterniaGame.Abilities;
+using Eternia.Game.Abilities;
 using Eternia.Game.Stats;
 
-namespace EterniaGame.Actors
+namespace Eternia.Game.Actors
 {
     public class ActorDefinition
     {

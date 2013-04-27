@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using EterniaGame.Triggers;
-using EterniaGame.Abilities;
-using EterniaGame.Actors;
+using Eternia.Game.Triggers;
+using Eternia.Game.Abilities;
+using Eternia.Game.Actors;
 using Eternia.Game.Events;
 
-namespace EterniaGame
+namespace Eternia.Game
 {
     public class Battle
     {
@@ -138,7 +138,7 @@ namespace EterniaGame
             // Aggro radius threat list calculations
             foreach (var other in Actors.Where(ba => ba.IsAlive))
             {
-                var aggroRadius = 10f; // TODO: REMOVE HARD CODED AGGRO RADIUS
+                var aggroRadius = 10f; // TODO: Remove hard coded aggro radius
                 if (actor.DistanceFrom(other) < aggroRadius)
                     actor.ThreatList.Add(other);
             }
@@ -146,12 +146,9 @@ namespace EterniaGame
             // Drop dead actors from threat lists
             actor.ThreatList.RemoveAll(t => !t.Actor.IsAlive);
 
-            if (IsReadyToSelectNewTarget(actor))
-            {
-                actor.SelectTarget(Actors.Where(x => x.IsAlive));
-            }
-
+            // TODO: Remove hard coded mana regen
             actor.CurrentMana += 1f * deltaTime;
+            // TODO: Remove hard coded energy regen
             actor.CurrentEnergy += 10f * deltaTime;
 
             CoolAbilities(deltaTime, actor);
@@ -159,34 +156,62 @@ namespace EterniaGame
 
             if (actor.IsAlive)
             {
+                actor.SelectTarget(Actors.Where(x => x != actor));
                 actor.PickDestination();
-                        
-                if (actor.Targets.Any())
-                {
-                    var target = actor.Targets.Peek();
-                    if (target.DistanceFrom(actor) > 0.01f)
-                        actor.Direction = Vector2.Normalize(target.Position - actor.Position);
-                }
-                actor.BaseAnimationState = BaseAnimationState.Casting;
-                if (actor.CastingAbility != null)
+
+                if (actor.CurrentOrder != null)
                 {
                     RunAbilityCast(deltaTime, turn, actor);
                 }
+                else if (actor.Destination != null)
+                {
+                    actor.Move(deltaTime, Actors.Where(x => x.IsAlive && x != actor));
+                }
                 else
                 {
-                    var ability = actor.SelectAbility();
-                    if (actor.Destination == null && ability != null)
+                    if (!actor.Orders.Any())
+                        actor.FillOrderQueue();
+
+                    if (actor.Orders.Any())
                     {
-                        UseAbility(turn, actor, ability);
-                    }
-                    else
-                    {
-                        if (actor.Move(deltaTime, Actors.Where(x => x.IsAlive && x != actor)))
-                            actor.BaseAnimationState = BaseAnimationState.Walking;
-                        else
-                            actor.BaseAnimationState = BaseAnimationState.Idle;
+                        var order = actor.Orders.First();
+                        var ability = order.Ability;
+
+                        if (UseAbility(turn, actor, order))
+                        {
+                            actor.Orders.Remove(order);
+                        }
                     }
                 }
+
+                //actor.PickDestination();
+                        
+                //if (actor.Targets.Any())
+                //{
+                //    var target = actor.Targets.Peek();
+                //    if (target.DistanceFrom(actor) > 0.01f)
+                //        actor.Direction = Vector2.Normalize(target.Position - actor.Position);
+                //}
+                //actor.BaseAnimationState = BaseAnimationState.Casting;
+                //if (actor.CastingAbility != null)
+                //{
+                //    RunAbilityCast(deltaTime, turn, actor);
+                //}
+                //else
+                //{
+                //    var ability = actor.SelectAbility();
+                //    if (actor.Destination == null && ability != null)
+                //    {
+                //        UseAbility(turn, actor, ability);
+                //    }
+                //    else
+                //    {
+                //        if (actor.Move(deltaTime, Actors.Where(x => x.IsAlive && x != actor)))
+                //            actor.BaseAnimationState = BaseAnimationState.Walking;
+                //        else
+                //            actor.BaseAnimationState = BaseAnimationState.Idle;
+                //    }
+                //}
             }
             else
             {
@@ -204,7 +229,7 @@ namespace EterniaGame
             if (!actor.IsAlive)
                 return false;
 
-            if (actor.CastingProgress != null && actor.CastingProgress.Current > 0f && actor.CastingAbility != null)
+            if (actor.CastingProgress != null && actor.CastingProgress.Current > 0f && actor.CurrentOrder != null)
                 return false;
 
             return true;
@@ -278,12 +303,17 @@ namespace EterniaGame
 
             if (actor.CastingProgress.IsReady)
             {
-                ApplyCastAbility(turn, actor, actor.CastingAbility);
+                ApplyCastAbility(turn, actor, actor.CurrentOrder.Ability);
             }
         }
 
-        private bool UseAbility(Turn turn, Actor actor, Ability ability)
+        private bool UseAbility(Turn turn, Actor actor, Order order)
         {
+            var ability = order.Ability;
+
+            if (!ability.Cooldown.IsReady)
+                return false;
+            
             if (ability.DamageType == DamageTypes.SingleTarget)
             {
                 var abilityTarget = actor.Targets.FirstOrDefault();
@@ -303,7 +333,7 @@ namespace EterniaGame
 
                     if (abilityTarget.DistanceFrom(actor).In(ability.Range + actor.Radius + abilityTarget.Radius))
                     {
-                        actor.CastingAbility = ability;
+                        actor.CurrentOrder = order;
                         actor.CastingProgress = new Cooldown(ability.Duration);
                         actor.CastingProgress.Incur();
 
@@ -315,7 +345,7 @@ namespace EterniaGame
             {
                 //if (Actors.Any(x => ValidPointBlankAreaTarget(actor, x, ability)))
                 {
-                    actor.CastingAbility = ability;
+                    actor.CurrentOrder = order;
                     actor.CastingProgress = new Cooldown(ability.Duration);
                     actor.CastingProgress.Incur();
 
@@ -339,7 +369,7 @@ namespace EterniaGame
 
                     if (primaryTarget.DistanceFrom(actor).In(ability.Range + actor.Radius + primaryTarget.Radius))
                     {
-                        actor.CastingAbility = ability;
+                        actor.CurrentOrder = order;
                         actor.CastingProgress = new Cooldown(ability.Duration);
                         actor.CastingProgress.Incur();
                         
@@ -378,7 +408,7 @@ namespace EterniaGame
                 }
             }
 
-            actor.CastingAbility = null;
+            actor.CurrentOrder = null;
             actor.CastingProgress = null;
         }
 

@@ -3,7 +3,7 @@
 //using System.Linq;
 //using System.Text;
 //using Microsoft.Xna.Framework.Content;
-//using EterniaGame;
+//using Eternia.Game;
 
 //namespace Eternia.Game.Stats
 //{

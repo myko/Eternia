@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EterniaGame.Actors;
+using Eternia.Game.Actors;
 using System.Reflection;
 
-namespace EterniaGame.Abilities
+namespace Eternia.Game.Abilities
 {
     public enum AbilityPowerTypes
     {

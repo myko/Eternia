@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Xml;
-using EterniaGame.Actors;
+using Eternia.Game.Actors;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
-using EterniaGame;
+using Eternia.Game;
 using Eternia.Tools.Properties;
 
 namespace Eternia.Tools

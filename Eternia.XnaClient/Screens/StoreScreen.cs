@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using EterniaGame;
+using Eternia.Game;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Myko.Xna.Ui;
-using EterniaGame.Actors;
-using EterniaGame.Abilities;
+using Eternia.Game.Actors;
+using Eternia.Game.Abilities;
 using System.Text;
 using Eternia.Game.Stats;
+using Eternia.Game.Items;
 
 namespace EterniaXna.Screens
 {

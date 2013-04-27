@@ -4,11 +4,12 @@ using System.Linq;
 using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using EterniaGame.Abilities;
+using Eternia.Game.Abilities;
 using Newtonsoft.Json;
 using Eternia.Game.Stats;
+using Eternia.Game.Items;
 
-namespace EterniaGame.Actors
+namespace Eternia.Game.Actors
 {
     public enum Factions
     {
@@ -32,8 +33,6 @@ namespace EterniaGame.Actors
         public string Name { get; set; }
         [ContentSerializerIgnore]
         public bool IsAlive { get; set; }
-        [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
-        public Queue<Actor> Targets { get; set; }
         public List<Ability> Abilities { get; set; }
         [ContentSerializer(Optional=true)]
         public List<Aura> Auras { get; set; }
@@ -41,31 +40,39 @@ namespace EterniaGame.Actors
         public Factions Faction { get; set; }
         [ContentSerializer(Optional=true)]
         public Vector2 Position { get; set; }
-        [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
-        public Vector2 Direction { get; set; }
-        [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
-        public Vector2? Destination { get; set; }
-        [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
-        public Vector2? OrderedDestination { get; set; }
         public float Diameter { get; set; }
         public float Radius { get { return Diameter * 0.5f; } }
         public bool PlayerControlled { get; set; }
-        [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
-        public ThreatList ThreatList { get; set; }
         public string TextureName { get; set; }
-        [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
-        public Ability CastingAbility { get; set; }
-        [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
-        public Cooldown CastingProgress { get; set; }
         public Statistics BaseStatistics { get; set; }
-        [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
-        public BaseAnimationState BaseAnimationState { get; set; }
         [ContentSerializer(Optional=true)]
         public TargettingStrategies TargettingStrategy { get; set; }
         public int Cost { get; set; }
         [ContentSerializer(Optional = true)]
         public float MovementSpeed { get; set; }
         public ActorResourceTypes ResourceType { get; set; }
+
+        [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
+        public Queue<Actor> Targets { get; set; }
+        [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
+        public ThreatList ThreatList { get; set; }
+
+        [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
+        public List<Order> Orders { get; set; }
+        [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
+        public Order CurrentOrder { get; set; }
+        [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
+        public Cooldown CastingProgress { get; set; }
+        
+        [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
+        public Vector2 Direction { get; set; }
+        [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
+        public Vector2? Destination { get; set; }
+        [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
+        public Vector2? OrderedDestination { get; set; }
+        
+        [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
+        public BaseAnimationState BaseAnimationState { get; set; }
 
         private float currentHealth;
         [ContentSerializerIgnore]
@@ -143,6 +150,7 @@ namespace EterniaGame.Actors
             Abilities = new List<Ability>();
             Auras = new List<Aura>();
             Equipment = new List<Item>();
+            Orders = new List<Order>();
 
             IsAlive = true;
             BaseStatistics = new Statistics();
@@ -244,27 +252,30 @@ namespace EterniaGame.Actors
             else
                 return Targets.FirstOrDefault();
         }
-
-        public Ability SelectAbility()
+        
+        public void FillOrderQueue()
         {
-            var abilityTarget = Targets.FirstOrDefault();
+            if (Abilities.Any())
+            {
+                var abilityTarget = Targets.FirstOrDefault();
 
-            return Abilities
-                .Where(x => x.Enabled && x.Cooldown.IsReady && x.ManaCost <= CurrentMana && x.EnergyCost <= CurrentEnergy)
-                .Where(x => x.TargettingType == TargettingTypes.Self || abilityTarget == null || abilityTarget.DistanceFrom(this).In(x.Range + Radius + abilityTarget.Radius))
-                .Where(x => 
-                    (x.TargettingType == TargettingTypes.Self) ||
-                    (x.TargettingType == TargettingTypes.Hostile && abilityTarget != null && abilityTarget.Faction != Faction) ||
-                    (x.TargettingType == TargettingTypes.Friendly && abilityTarget != null && abilityTarget.Faction == Faction))
-                .OrderByDescending(x => x.Cooldown.Duration)
-                .FirstOrDefault();
+                Orders.AddRange(Abilities
+                    .Where(x => x.Cooldown.IsReady && x.ManaCost <= CurrentMana && x.EnergyCost <= CurrentEnergy)
+                    //.Where(x => x.TargettingType == TargettingTypes.Self || abilityTarget == null || abilityTarget.DistanceFrom(this).In(x.Range + Radius + abilityTarget.Radius))
+                    //.Where(x =>
+                    //    (x.TargettingType == TargettingTypes.Self) ||
+                    //    (x.TargettingType == TargettingTypes.Hostile && abilityTarget != null && abilityTarget.Faction != Faction) ||
+                    //    (x.TargettingType == TargettingTypes.Friendly && abilityTarget != null && abilityTarget.Faction == Faction))
+                    .OrderByDescending(x => x.Cooldown.Duration)
+                    .Select(x => new Order(x)));
+            }
         }
 
         public bool PickDestination()
         {
             if (OrderedDestination.HasValue)
             {
-                CastingAbility = null;
+                CurrentOrder = null;
                 CastingProgress = null;
                 Destination = OrderedDestination;
             }
@@ -279,7 +290,7 @@ namespace EterniaGame.Actors
 
                     var availableAbilities = Abilities
                         .Where(x => 
-                            x.Enabled && x.Cooldown.IsReady && 
+                            x.Cooldown.IsReady && 
                             x.ManaCost <= CurrentMana && x.EnergyCost <= CurrentEnergy && 
                             x.DamageType != DamageTypes.PointBlankArea &&
                             ((x.TargettingType == TargettingTypes.Hostile && Faction != target.Faction) || 
@@ -291,6 +302,8 @@ namespace EterniaGame.Actors
 
                         if (distance > minimumRange)
                             Destination = Position + Vector2.Normalize(direction) * (distance - minimumRange);
+                        else
+                            Destination = null;
                     }
                 }
             }
@@ -314,11 +327,11 @@ namespace EterniaGame.Actors
                 {
                     direction.Normalize();
                     var newPosition = Position + direction * Math.Min(distance, MovementSpeed * deltaTime);
-                    if (!otherActors.Any(x => x.DistanceFrom(newPosition) < (x.Radius + Radius) * 1.00f))
+                    if (!otherActors.Any(x => x.DistanceFrom(newPosition) < (x.Radius + Radius) * 1.05f))
                     {
                         Position = newPosition;
                         Direction = direction;
-                        CastingAbility = null;
+                        CurrentOrder = null;
                         CastingProgress = null;
 
                         return true;

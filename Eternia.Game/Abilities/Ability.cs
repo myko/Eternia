@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
 using System.Xml.Serialization;
-using EterniaGame.Actors;
+using Eternia.Game.Actors;
 using System.ComponentModel;
 
-namespace EterniaGame.Abilities
+namespace Eternia.Game.Abilities
 {
     [System.Diagnostics.DebuggerDisplay("Ability '{Name}' (Damage: {Damage}, Healing: {Healing})")]
     public class Ability
@@ -33,10 +33,6 @@ namespace EterniaGame.Abilities
         [ContentSerializer(Optional = true)] public ProjectileDefinition SpawnsProjectile { get; set; }
         [ContentSerializer(Optional = true)] public List<Aura> AurasApplied { get; set; }
 
-
-        [ContentSerializerIgnore]
-        public bool Enabled { get; set; }
-
         public Ability()
         {
             Name = "!!! Unnamed Ability !!!";
@@ -55,8 +51,6 @@ namespace EterniaGame.Abilities
             CanMiss = true;
             CanBeDodged = true;
             CanCrit = true;
-
-            Enabled = true;
         }
 
         public override string ToString()

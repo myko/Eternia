@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using EterniaGame.Actors;
+using Eternia.Game.Actors;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Eternia.Game.Events;

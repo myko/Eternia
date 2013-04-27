@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using EterniaGame;
+using Eternia.Game;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Myko.Xna.Ui;
-using EterniaGame.Actors;
+using Eternia.Game.Actors;
 
 namespace EterniaXna.Screens
 {
@@ -88,9 +88,14 @@ namespace EterniaXna.Screens
                 actor.CurrentMana = actor.MaximumMana;
                 actor.ThreatList.Clear();
                 actor.Targets.Clear();
-                actor.CastingAbility = null;
+                actor.CurrentOrder = null;
                 actor.CastingProgress = null;
                 actor.BaseAnimationState = BaseAnimationState.Idle;
+
+                foreach (var ability in actor.Abilities)
+                {
+                    ability.Cooldown.Reset();
+                }
             }
 
             var battle = new Battle(encounterDefinition);

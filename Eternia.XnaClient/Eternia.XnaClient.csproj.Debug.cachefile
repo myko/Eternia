@@ -42,7 +42,6 @@ Content\Icons\Ability_Warrior_SecondWind.xnb
 Content\Icons\Ability_warrior_incite.xnb
 Content\Icons\Ability_warrior_shieldmastery.xnb
 Content\Fonts\KootenaySmall.xnb
-Content\Models\Actors\king.xnb
 Content\Encounters\1_3_InnerCourtyard.xnb
 Content\Models\Levels\AD7_MorgueFloor1a_cis_0.xnb
 Content\Models\Levels\AD7_MorgueFloor1a_cis2_0.xnb
@@ -53,6 +52,7 @@ Content\Models\Actors\titanfemaleskinbronze1_0.xnb
 Content\Icons\Spell_holy_circleofrenewal.xnb
 Content\Interface\button-mouseover.xnb
 Content\MapTiles\rock1.xnb
+Content\Models\Objects\projectile1.xnb
 Content\Models\Objects\waterbolt_diffuse.xnb
 Content\Icons\Ability_warrior_bloodfrenzy.xnb
 Content\Icons\Ability_Warrior_FocusedRage.xnb
@@ -65,7 +65,7 @@ Content\Models\Actors\ClockworkGnomeFeat_Gold_0.xnb
 Content\Interface\purpleclouds.xnb
 Content\Icons\Ability_druid_improvedtreeform.xnb
 Content\Models\Actors\wizard_portrait.xnb
-Content\Models\Objects\sword1.xnb
+Content\Models\Actors\king.xnb
 Content\Sprites\smoke_particle.xnb
 Content\Models\Objects\dagger1.xnb
 Content\Icons\Spell_shaman_measuredinsight.xnb
@@ -127,7 +127,7 @@ Content\Icons\INV_Misc_QuestionMark.xnb
 Content\Models\Objects\rocket1_diffuse.xnb
 Content\Interface\button2-mouseover.xnb
 Content\MapTiles\sand1.xnb
-Content\Models\Objects\projectile1.xnb
+Content\Models\Objects\sword1.xnb
 Content\Models\Actors\executioner.xnb
 Content\Icons\Ability_parry.xnb
 Content\MapTiles\paving1.xnb

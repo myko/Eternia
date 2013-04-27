@@ -10,7 +10,7 @@ using System.IO;
 using Eternia.Tools.Properties;
 using System.Xml;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
-using EterniaGame.Actors;
+using Eternia.Game.Actors;
 
 namespace Eternia.Tools
 {

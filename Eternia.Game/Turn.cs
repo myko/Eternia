@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EterniaGame.Abilities;
-using EterniaGame.Actors;
+using Eternia.Game.Abilities;
+using Eternia.Game.Actors;
 
-namespace EterniaGame
+namespace Eternia.Game
 {
     public enum EventTypes
     {

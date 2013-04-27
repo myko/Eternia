@@ -82,6 +82,7 @@
     <Compile Include="Actors\ActorDefinition.cs" />
     <Compile Include="Actors\ActorResourceTypes.cs" />
     <Compile Include="Actors\ActorRoles.cs" />
+    <Compile Include="Actors\Order.cs" />
     <Compile Include="Aura.cs" />
     <Compile Include="Battle.cs" />
     <Compile Include="CombatTable.cs" />

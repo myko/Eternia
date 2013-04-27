@@ -1,4 +1,4 @@
-﻿using EterniaGame;
+﻿using Eternia.Game;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Myko.Xna.Ui;

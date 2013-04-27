@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EterniaGame.Actors;
+using Eternia.Game.Actors;
 using Eternia.Game.Stats;
 
-namespace EterniaGame.Abilities
+namespace Eternia.Game.Abilities
 {
     public class ShieldBlock: Ability
     {

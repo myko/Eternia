@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using EterniaGame;
+using Eternia.Game;
 using EterniaXna.Screens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

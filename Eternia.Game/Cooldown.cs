@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
 
-namespace EterniaGame
+namespace Eternia.Game
 {
     public class Cooldown
     {
@@ -48,6 +48,11 @@ namespace EterniaGame
         public void Cool(float time)
         {
             current = Math.Max(0f, current - time);
+        }
+        
+        public void Reset()
+        {
+            current = 0f;
         }
 
         public override string ToString()

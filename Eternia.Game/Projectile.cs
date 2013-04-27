@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Myko.Xna.SkinnedModel;
-using EterniaGame.Abilities;
-using EterniaGame.Actors;
+using Eternia.Game.Abilities;
+using Eternia.Game.Actors;
 
-namespace EterniaGame
+namespace Eternia.Game
 {
     public class Projectile
     {

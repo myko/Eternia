@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace EterniaGame
+namespace Eternia.Game
 {
     public static class RandomExtensions
     {

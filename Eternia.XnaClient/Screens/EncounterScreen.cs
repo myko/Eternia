@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Eternia.XnaClient;
-using EterniaGame;
-using EterniaGame.Actors;
+using Eternia.Game;
+using Eternia.Game.Actors;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -30,6 +30,7 @@ namespace EterniaXna.Screens
 
         List<Button> abilityButtons;
         List<Button> targettingStrategyButtons;
+        List<Button> orderQueueButtons;
 
         bool isPaused = true;
         bool isBenchmarking = false;
@@ -50,6 +51,7 @@ namespace EterniaXna.Screens
 
             abilityButtons = new List<Button>();
             targettingStrategyButtons = new List<Button>();
+            orderQueueButtons = new List<Button>();
             selectedActors = new List<Actor>();
         }
 
@@ -61,7 +63,20 @@ namespace EterniaXna.Screens
                 if (abilityButton != null)
                 {
                     var ability = abilityButton.Ability;
-                    ability.Enabled = !ability.Enabled;
+                    abilityButton.Actor.Orders.Insert(0, new Order(ability));
+                }
+            }
+        }
+
+        void orderQueueButton_Click(Button button)
+        {
+            if (button != null)
+            {
+                var abilityButton = button.Content as OrderButton;
+                if (abilityButton != null)
+                {
+                    var order = abilityButton.Order;
+                    abilityButton.Actor.Orders.Remove(order);
                 }
             }
         }
@@ -106,6 +121,7 @@ namespace EterniaXna.Screens
             });
             scene.Nodes.Add(scrollingTextSystem = new ScrollingTextSystem(scene, SpriteBatch, kootenaySmallFont, kootenayFont));
 
+            // TODO: This is map specific
             AddFire(new Vector3(-10.5f, 0.5f, -10.5f));
             AddFire(new Vector3(10.5f, 0.5f, -10.5f));
             AddFire(new Vector3(10.5f, 0.5f, 10.5f));
@@ -148,7 +164,7 @@ namespace EterniaXna.Screens
             for (int i = 0; i < 10; i++)
             {
                 var abilityButton = new Button();
-                abilityButton.Position = new Vector2((Width / 2) - 200 + i * 40, Height - 50);
+                abilityButton.Position = new Vector2((Width / 2) - 300 + i * 40, Height - 80);
                 abilityButton.Width = 32;
                 abilityButton.Height = 32;
                 abilityButton.Background = Color.TransparentBlack;
@@ -156,11 +172,23 @@ namespace EterniaXna.Screens
                 abilityButtons.Add(abilityButton);
                 Controls.Add(abilityButton);
             }
+            
+            for (int i = 0; i < 10; i++)
+            {
+                var orderQueueButton = new Button();
+                orderQueueButton.Position = new Vector2((Width / 2) - 300 + i * 40, Height - 130);
+                orderQueueButton.Width = 32;
+                orderQueueButton.Height = 32;
+                orderQueueButton.Background = Color.TransparentBlack;
+                orderQueueButton.Click += () => orderQueueButton_Click(orderQueueButton);
+                orderQueueButtons.Add(orderQueueButton);
+                Controls.Add(orderQueueButton);
+            }
 
             for (int i = 0; i < player.UnlockedTargetingStrategies.Count; i++)
             {
                 var targettingStrategyButton = new Button();
-                targettingStrategyButton.Position = new Vector2((Width / 2) - 200 + i * 40, Height - 100);
+                targettingStrategyButton.Position = new Vector2((Width / 2) + 300 + i * 40, Height - 80);
                 targettingStrategyButton.Width = 32;
                 targettingStrategyButton.Height = 32;
                 targettingStrategyButton.Background = Color.TransparentBlack;
@@ -172,6 +200,7 @@ namespace EterniaXna.Screens
             base.LoadContent();
         }
 
+        // TODO: This is map specific
         private void AddFire(Vector3 position)
         {
             scene.Nodes.Add(new ParticleSystem(ContentManager.Load<Effect>(@"Shaders\Particle"), ScreenManager.GraphicsDevice)
@@ -311,6 +340,7 @@ namespace EterniaXna.Screens
                 scene.Nodes.Insert(0, new ActorModel(actor, ContentManager.Load<Texture2D>(modelFileName), ContentManager, ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\Particle")));
             }
 
+            // TODO: Projectiles should not all look the same
             foreach (var projectile in battle.Projectiles.Where(x => !scene.Nodes.OfType<ProjectileModel>().Any(y => y.Projectile == x)))
             {
                 var proj = projectile;
@@ -363,16 +393,6 @@ namespace EterniaXna.Screens
             {
                 float deltaTime = isBenchmarking ? 0.5f : (float)gameTime.ElapsedGameTime.TotalSeconds;
                 var turn = battle.Run(deltaTime);
-                foreach (var ev in turn.Events)
-                {
-                    if (selectedActors.Any())
-                        if (!selectedActors.Any(x => ev.Actor == x || ev.Target == x))
-                            continue;
-
-                    //var text = CreateScrollingTextForEvent(ev);
-                    //if (text != null)
-                    //    scrollingTextSystem.Nodes.Add(text);
-                }
                 turns.Add(turn);
 
                 while (battle.GraphicEffects.Any())
@@ -388,6 +408,7 @@ namespace EterniaXna.Screens
             }
             
             UpdateAbilityButtons();
+            UpdateOrderQueueButtons();
             UpdateStrategyButtons();
 
             if (battle.Actors.Count(a => a.IsAlive && a.Faction == Factions.Friend) == 0)
@@ -416,36 +437,6 @@ namespace EterniaXna.Screens
                     mouseOverActor = actor;
             }
         }
-
-        //private ScrollingText CreateScrollingTextForEvent(OldEvent ev)
-        //{
-        //    if (ev.Target != null)
-        //    {
-        //        var damage = ev.Healing > 0f ? ev.Healing.ToString("0") : ev.Damage.ToString("0");
-        //        var text = damage;
-
-        //        if (ev.CombatOutcome == null)
-        //            text = "";
-        //        else if (ev.CombatOutcome.IsMiss)
-        //            text = "Miss";
-        //        else if (ev.CombatOutcome.IsDodge)
-        //            text = "Dodge";
-
-        //        return new ScrollingText(SpriteBatch)
-        //        {
-        //            //Source = ev.Actor,
-        //            //Target = ev.Target,
-        //            Font = (ev.CombatOutcome != null && ev.CombatOutcome.IsCrit) ? kootenayFont : kootenaySmallFont,
-        //            Text = text,
-        //            Color = ev.Healing > 0f ? Color.LightGreen : ev.Ability != null ? (ev.Actor.Faction != Factions.Friend ? Color.Tomato : Color.Yellow) : Color.White,
-        //            Alpha = 1f,
-        //            Position = scene.Project(ev.Target.Position) + new Vector2(-Font.MeasureString(text).X * 0.5f, -(ev.Target.Radius + 75f)),
-        //            Speed = 45f,
-        //        };
-        //    }
-
-        //    return null;
-        //}
 
         public override void Draw(GameTime gameTime)
         {
@@ -506,6 +497,24 @@ namespace EterniaXna.Screens
 
                     abilityButtons[i].Content = new AbilityButton(abilityButtons[i], selectedActor, ability, abilityTexture, BlankTexture, kootenayFont);
                     abilityButtons[i].Tooltip = new AbilityTooltip(selectedActor, ability) { Font = kootenaySmallFont };
+                }
+            }
+        }
+
+        private void UpdateOrderQueueButtons()
+        {
+            orderQueueButtons.ForEach(button => { button.Content = null; button.Tooltip = null; });
+
+            if (selectedActors.Any())
+            {
+                var selectedActor = selectedActors.First();
+                for (int i = 0; i < selectedActor.Orders.Count; i++)
+                {
+                    var order = selectedActor.Orders.ElementAt(i);
+                    var abilityTexture = ContentManager.Load<Texture2D>(@"Icons\" + order.Ability.TextureName) ?? defaultAbilityTexture;
+
+                    orderQueueButtons[i].Content = new OrderButton(orderQueueButtons[i], selectedActor, order, abilityTexture, BlankTexture, kootenayFont);
+                    orderQueueButtons[i].Tooltip = new AbilityTooltip(selectedActor, order.Ability) { Font = kootenaySmallFont };
                 }
             }
         }
@@ -609,9 +618,13 @@ namespace EterniaXna.Screens
                     DrawHealthBar(50, 25 + i * 50 + 15, 100, 5, actor.EnergyFraction, Color.LightGoldenrodYellow);
                 if (actor.CastingProgress != null)
                 {
-                    DrawHealthBar(50, 25 + i * 50 + 20, 100, 5, (actor.CastingProgress.Duration - actor.CastingProgress.Current) / actor.CastingProgress.Duration, Color.Yellow);
+                    DrawHealthBar(50, 25 + i * 50 + 20, 100, 5, (actor.CastingProgress.Duration - actor.CastingProgress.Current) / actor.CastingProgress.Duration, Color.Goldenrod);
                     if (isFirstSelected)
-                        DrawHealthBar((int)Width / 2 - 100, (int)Height - 140, 200, 10, (actor.CastingProgress.Duration - actor.CastingProgress.Current) / actor.CastingProgress.Duration, Color.Yellow);
+                    {
+                        var abilityTexture = ContentManager.Load<Texture2D>(@"Icons\" + actor.CurrentOrder.Ability.TextureName) ?? defaultAbilityTexture;
+                        SpriteBatch.Draw(abilityTexture, new Rectangle((int)Width / 2 - 25, (int)Height - 200, 50, 50), Color.White);
+                        DrawHealthBar((int)Width / 2 - 100, (int)Height - 140, 200, 10, (actor.CastingProgress.Duration - actor.CastingProgress.Current) / actor.CastingProgress.Duration, Color.Goldenrod);
+                    }
                 }
                 SpriteBatch.DrawString(kootenaySmallFont, actor.CurrentHealth.ToString("0") + "/" + actor.MaximumHealth.ToString("0"), new Vector2(55, 25 + i * 50), Color.White, ZIndex + 0.003f);
             }

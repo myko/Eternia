@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Xml;
-using EterniaGame.Actors;
+using Eternia.Game.Actors;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
 using Eternia.Tools.Properties;
 using Eternia.Game.Stats;

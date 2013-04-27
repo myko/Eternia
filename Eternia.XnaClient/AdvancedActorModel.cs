@@ -1,13 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using EterniaGame;
+using Eternia.Game;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Myko.Xna.SkinnedModel;
-using EterniaGame.Actors;
+using Eternia.Game.Actors;
 using System.Collections.Generic;
+using Eternia.Game.Items;
 
 namespace Eternia.XnaClient
 {
@@ -50,14 +51,14 @@ namespace Eternia.XnaClient
                 var walkClip = skinningData.AnimationClips["Walk"];
                 var deathClip = skinningData.AnimationClips["Death"];
 
-                if (Actor.CastingAbility != null)
+                if (Actor.CurrentOrder != null)
                 {
                     var abilityClip = skinningData.AnimationClips["AttackUnarmed"];
-                    if (skinningData.AnimationClips.ContainsKey(Actor.CastingAbility.AnimationName))
-                        abilityClip = skinningData.AnimationClips[Actor.CastingAbility.AnimationName];
+                    if (skinningData.AnimationClips.ContainsKey(Actor.CurrentOrder.Ability.AnimationName))
+                        abilityClip = skinningData.AnimationClips[Actor.CurrentOrder.Ability.AnimationName];
 
                     if (Actor.BaseAnimationState == BaseAnimationState.Casting && AnimationPlayer.CurrentClip != abilityClip)
-                        AnimationPlayer.StartClip(abilityClip, true, TimeSpan.FromSeconds(Actor.CastingAbility.Duration));
+                        AnimationPlayer.StartClip(abilityClip, true, TimeSpan.FromSeconds(Actor.CurrentOrder.Ability.Duration));
                 }
 
                 if (Actor.BaseAnimationState == BaseAnimationState.Walking && AnimationPlayer.CurrentClip != walkClip)

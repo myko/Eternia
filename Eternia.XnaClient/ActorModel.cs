@@ -1,12 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using EterniaGame;
+using Eternia.Game;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Myko.Xna.SkinnedModel;
-using EterniaGame.Actors;
+using Eternia.Game.Actors;
 using System.Collections.Generic;
 
 namespace Eternia.XnaClient
@@ -77,10 +77,10 @@ namespace Eternia.XnaClient
 
             var vertices = new VertexPositionColorTexture[6];
 
-            vertices[0] = new VertexPositionColorTexture(new Vector3(-1, 0.3f, -1),color, new Vector2(0, 0));
-            vertices[1] = new VertexPositionColorTexture(new Vector3(1, 0.3f, -1), color, new Vector2(1, 0));
+            vertices[0] = new VertexPositionColorTexture(new Vector3(-1, 0.8f, -1),color, new Vector2(0, 0));
+            vertices[1] = new VertexPositionColorTexture(new Vector3(1, 0.8f, -1), color, new Vector2(1, 0));
             vertices[2] = new VertexPositionColorTexture(new Vector3(-1, 0.2f, 1), color, new Vector2(0, 1));
-            vertices[3] = new VertexPositionColorTexture(new Vector3(1, 0.3f, -1), color, new Vector2(1, 0));
+            vertices[3] = new VertexPositionColorTexture(new Vector3(1, 0.8f, -1), color, new Vector2(1, 0));
             vertices[4] = new VertexPositionColorTexture(new Vector3(1, 0.2f, 1), color, new Vector2(1, 1));
             vertices[5] = new VertexPositionColorTexture(new Vector3(-1, 0.2f, 1), color, new Vector2(0, 1));
 

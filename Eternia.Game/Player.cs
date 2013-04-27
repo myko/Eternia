@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EterniaGame.Actors;
+using Eternia.Game.Actors;
+using Eternia.Game.Items;
 
-namespace EterniaGame
+namespace Eternia.Game
 {
     public class Player
     {

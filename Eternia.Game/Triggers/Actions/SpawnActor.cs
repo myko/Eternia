@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using EterniaGame.Actors;
+using Eternia.Game.Actors;
 
-namespace EterniaGame.Triggers.Actions
+namespace Eternia.Game.Triggers.Actions
 {
     public class SpawnActor : TriggerAction
     {

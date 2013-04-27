@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using EterniaGame;
+using Eternia.Game;
 
 namespace Eternia.XnaClient
 {

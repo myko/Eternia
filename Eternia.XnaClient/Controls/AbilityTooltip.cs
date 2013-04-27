@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
-using EterniaGame;
+using Eternia.Game;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Myko.Xna.Ui;
 using System.Collections.Generic;
-using EterniaGame.Abilities;
-using EterniaGame.Actors;
+using Eternia.Game.Abilities;
+using Eternia.Game.Actors;
 using Eternia.Game.Stats;
 
 namespace EterniaXna

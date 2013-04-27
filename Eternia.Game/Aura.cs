@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
 using System.Xml.Serialization;
-using EterniaGame.Actors;
+using Eternia.Game.Actors;
 using Newtonsoft.Json;
 using Eternia.Game.Stats;
 
-namespace EterniaGame
+namespace Eternia.Game
 {
     public class Aura
     {

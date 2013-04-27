@@ -16,7 +16,7 @@ namespace Eternia.Tools
         [STAThread]
         static void Main()
         {
-            var gameAssembly = Assembly.GetAssembly(typeof(EterniaGame.Battle));
+            var gameAssembly = Assembly.GetAssembly(typeof(Eternia.Game.Battle));
             foreach (var type in gameAssembly.GetTypes())
             {
                 if (!type.IsEnum)
