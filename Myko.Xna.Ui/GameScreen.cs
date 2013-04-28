@@ -35,6 +35,10 @@ namespace Myko.Xna.Ui
             Update(gameTime);
             UpdateControls(gameTime);
         }
+        
+        public virtual void DrawBackground(GameTime gameTime)
+        {
+        }
 
         public void DrawScreen(GameTime gameTime)
         {

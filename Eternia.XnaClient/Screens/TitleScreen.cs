@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Myko.Xna.Ui;
 using System;
+using Eternia.XnaClient;
 
 namespace EterniaXna.Screens
 {
@@ -52,10 +53,17 @@ namespace EterniaXna.Screens
 
         public override void HandleInput(GameTime gameTime)
         {
+            base.HandleInput(gameTime);
         }
 
         public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            base.Draw(gameTime);
         }
 
         private void encounterButton_Click()

@@ -261,15 +261,25 @@ namespace Eternia.Game
 
                 if (aura.Cooldown.IsReady)
                 {
+                    var combatTable = new CombatTable(new Random(), aura.Owner.CurrentStatistics, actor.CurrentStatistics);
+                    var roll = combatTable.Roll();
                     var damage = aura.Damage.CalculateDamage(aura.Owner, actor);
                     var healing = aura.Healing.CalculateHealing(aura.Owner, actor);
+                    if (roll.IsCrit)
+                    {
+                        damage *= 2;
+                        healing *= 2;
+                    }
+
                     if (damage > 0)
                     {
+                        Event.Raise(new ActorTookDamage { Actor = actor, Damage = damage, IsCrit = roll.IsCrit });
                         turn.Events.Add(new OldEvent(EventTypes.AuraDamage) { Actor = aura.Owner, Target = actor, Damage = damage });
                         actor.CurrentHealth -= damage;
                     }
                     if (healing > 0)
                     {
+                        Event.Raise(new ActorWasHealed { Actor = actor, Healing = healing, IsCrit = roll.IsCrit });
                         turn.Events.Add(new OldEvent(EventTypes.AuraHealing) { Actor = aura.Owner, Target = actor, Healing = healing });
                         actor.CurrentHealth += healing;
                     }

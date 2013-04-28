@@ -48,6 +48,7 @@ Content\Models\Levels\AD7_MorgueFloor1a_cis2_0.xnb
 Content\Icons\INV_Ammo_Bullet_01.xnb
 Content\Models\Objects\shadowbolt_diffuse.xnb
 Content\Models\Actors\beastman_diffuse_0.xnb
+Content\Interface\button1.xnb
 Content\Models\Actors\titanfemaleskinbronze1_0.xnb
 Content\Icons\Spell_holy_circleofrenewal.xnb
 Content\Interface\button-mouseover.xnb
@@ -68,8 +69,10 @@ Content\Models\Actors\wizard_portrait.xnb
 Content\Models\Actors\king.xnb
 Content\Sprites\smoke_particle.xnb
 Content\Models\Objects\dagger1.xnb
+Content\Interface\button1-mouseover.xnb
 Content\Icons\Spell_shaman_measuredinsight.xnb
 Content\Models\Actors\ranger.xnb
+Content\Sprites\star.xnb
 Content\Icons\Spell_shaman_tidalwaves.xnb
 Content\Models\Actors\skeletor_diffuse_0.xnb
 Content\Models\Objects\box1x2floor.xnb
@@ -79,6 +82,7 @@ Content\Icons\Ability_racial_rocketbarrage.xnb
 Content\MapTiles\dirt1.xnb
 Content\Icons\Ability_warrior_strengthofarms.xnb
 Content\Shaders\Particle.xnb
+Content\Interface\border-1.xnb
 Content\Models\Levels\539_0.xnb
 Content\Icons\Ability_bullrush.xnb
 Content\Sprites\fireball.xnb

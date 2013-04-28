@@ -54,7 +54,7 @@ namespace EterniaXna.Screens
             tabControl.AddPage("Heroes", BuildHeroesTabPage());
             //tabControl.AddPage("Skills", BuildAbilitiesTabPage());
             tabControl.AddPage("Items", BuildItemsTabPage());
-            tabControl.AddPage("Tactics", BuildTacticsTabPage());
+            //tabControl.AddPage("Tactics", BuildTacticsTabPage());
             grid.Cells[2, 0].Add(tabControl);
 
             var okButton = CreateButton("Close", Vector2.Zero);

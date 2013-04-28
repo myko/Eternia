@@ -81,14 +81,6 @@ namespace EterniaXna.Screens
             grid.Cells[4,0].Add(backButton);
         }
 
-        public override void HandleInput(GameTime gameTime)
-        {
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-        }
-
         private void okButton_Click()
         {
             if (encounterListBox.SelectedItem == null)

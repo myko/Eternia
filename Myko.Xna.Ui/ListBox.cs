@@ -198,6 +198,15 @@ namespace Myko.Xna.Ui
             mouseOverItem = null;
             int visibleItems = Math.Min(items.Count, (int)Height / Font.LineSpacing);
 
+            if (mouseState.X > position.X + Width - 10 && mouseState.X < position.X + Width && mouseState.Y > position.Y && mouseState.Y < position.Y + Height)
+            {
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                    draggingScrollBar = true;
+            }
+
+            if (mouseState.LeftButton == ButtonState.Released)
+                draggingScrollBar = false;
+
             if (!draggingScrollBar)
             {
                 if (mouseState.X > position.X &&
@@ -232,16 +241,7 @@ namespace Myko.Xna.Ui
                 else
                     Tooltip = null;
             }
-
-            if (mouseState.X > position.X + Width - 10 && mouseState.X < position.X + Width && mouseState.Y > position.Y && mouseState.Y < position.Y + Height)
-            {
-                if (mouseState.LeftButton == ButtonState.Pressed)
-                    draggingScrollBar = true;
-            }
-
-            if (mouseState.LeftButton == ButtonState.Released)
-                draggingScrollBar = false;
-
+            
             if (draggingScrollBar)
             {
                 var itemScrollBarHeight = Height / items.Count;
@@ -301,9 +301,9 @@ namespace Myko.Xna.Ui
             {
                 var itemScrollBarHeight = Height / items.Count;
                 if (draggingScrollBar)
-                    SpriteBatch.Draw(BlankTexture, new Rectangle((int)(position.X + Width - 10), (int)(position.Y + scrollOffset * itemScrollBarHeight), 10, (int)(itemScrollBarHeight * visibleItems)), Color.White, ZIndex + 0.01f);
+                    SpriteBatch.Draw(BlankTexture, new Rectangle((int)(position.X + Width - 10), (int)(position.Y + scrollOffset * itemScrollBarHeight), 10, (int)(itemScrollBarHeight * visibleItems)), Color.White, ZIndex + 0.02f);
                 else
-                    SpriteBatch.Draw(BlankTexture, new Rectangle((int)(position.X + Width - 10), (int)(position.Y + scrollOffset * itemScrollBarHeight), 10, (int)(itemScrollBarHeight * visibleItems)), Color.Blue, ZIndex + 0.01f);
+                    SpriteBatch.Draw(BlankTexture, new Rectangle((int)(position.X + Width - 10), (int)(position.Y + scrollOffset * itemScrollBarHeight), 10, (int)(itemScrollBarHeight * visibleItems)), Foreground, ZIndex + 0.02f);
             }
 
             base.Draw(position, gameTime);

@@ -12,6 +12,7 @@ namespace Myko.Xna.Ui
         public int BorderSize { get; set; }
         public Color BorderColor { get; set; }
         public Texture2D BorderTexture { get; set; }
+        public Vector2 Padding { get; set; }
 
         public Border()
         {
@@ -78,7 +79,7 @@ namespace Myko.Xna.Ui
                 SpriteBatch.Draw(BlankTexture, innerBounds, Background, ZIndex + 0.001f);
             }
 
-            base.Draw(position + new Vector2(BorderSize, BorderSize), gameTime);
+            base.Draw(position + new Vector2(BorderSize, BorderSize) + Padding, gameTime);
         }
     }
 }

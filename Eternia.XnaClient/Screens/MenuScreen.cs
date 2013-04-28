@@ -1,6 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Eternia.XnaClient;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Myko.Xna.Ui;
+using Eternia.Game;
 
 namespace EterniaXna.Screens
 {
@@ -10,31 +13,68 @@ namespace EterniaXna.Screens
         private Texture2D buttonTexture;
         private Texture2D buttonMouseOverTexture;
         private Texture2D borderTexture;
+        private ParticleSystem particleSystem;
 
         public override void LoadContent()
         {
             base.LoadContent();
 
             cloudsBackground = ContentManager.Load<Texture2D>(@"Interface\purpleclouds");
-            buttonTexture = ContentManager.Load<Texture2D>(@"Interface\button2");
-            buttonMouseOverTexture = ContentManager.Load<Texture2D>(@"Interface\button2-mouseover");
-            borderTexture = ContentManager.Load<Texture2D>(@"Interface\border-2");
+            buttonTexture = ContentManager.Load<Texture2D>(@"Interface\button1");
+            buttonMouseOverTexture = ContentManager.Load<Texture2D>(@"Interface\button1-mouseover");
+            borderTexture = ContentManager.Load<Texture2D>(@"Interface\border-1");
+
+            Random random = new Random();
+
+            particleSystem = new ParticleSystem(ContentManager.Load<Effect>(@"Shaders\Particle"), ScreenManager.GraphicsDevice)
+            {
+                SourceBlend = Blend.One,
+                DestinationBlend = Blend.One,
+                Texture = ContentManager.Load<Texture2D>(@"Sprites\star"),
+                OpacityFunction = p => p.InverseAgeFraction * p.AgeFraction * 2f,
+                SizeFunction = p => p.InverseAgeFraction * 0.6f,
+                RotationSpeed = 2f,
+                SpawnRate = 0.005f,
+                MaxParticles = 600,
+                Emitter = () => new Particle()
+                {
+                    Position = random.NextVector3(-40, 40) + new Vector3(0, 0, -50),
+                    Velocity = new Vector3(0, 1, 0) * random.Between(0.9f, 2.5f),
+                    Opacity = random.Between(0.4f, 0.8f),
+                    LifeSpan = random.Between(3.75f, 7.5f)
+                },
+            };
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            particleSystem.Update(gameTime, false);
+        }
+
+        public override void DrawBackground(GameTime gameTime)
+        {
+            SpriteBatch.Draw(cloudsBackground, new Rectangle(0, 0, (int)Width, (int)Height), Color.DarkGray, 0);
         }
 
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
 
-            SpriteBatch.Draw(cloudsBackground, new Rectangle(0, 0, (int)Width, (int)Height), Color.Gray, 0);
+            var aspectRatio = (float)ScreenManager.GraphicsDevice.Viewport.Width / (float)ScreenManager.GraphicsDevice.Viewport.Height;
+            var view = Matrix.CreateLookAt(new Vector3(0, 0, 10), new Vector3(0, 0, 0), new Vector3(0, 1, 0));
+            var projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio, 10f, 100f);
+            particleSystem.Draw(view, projection);
         }
-
+        
         protected Button CreateButton(string text, Vector2 position)
         {
             return new Button
             {
                 Content = text,
                 Position = position,
-                Background = new Color(230, 140, 60),
+                Background = Color.White, // new Color(230, 140, 60),
                 BackgroundTexture = buttonTexture,
                 MouseOverTexture = buttonMouseOverTexture,
                 Width = 150,
@@ -48,8 +88,8 @@ namespace EterniaXna.Screens
         {
             var listbox = new ListBox<T>
             {
-                Width = width - 32,
-                Height = height - 32,
+                Width = width - 12,
+                Height = height - 12,
                 ZIndex = 0.1f,
                 Background = Color.TransparentBlack
             }; 
@@ -60,11 +100,12 @@ namespace EterniaXna.Screens
                 Width = width,
                 Height = height,
                 ZIndex = 0.1f,
-                BorderSize = 16,
+                BorderSize = 2,
                 BorderColor = new Color(240, 210, 120),
                 BorderTexture = borderTexture,
                 Background = new Color(40, 40, 149),
-                BackgroundTexture = cloudsBackground
+                BackgroundTexture = cloudsBackground,
+                Padding = new Vector2(4, 4)
             };
 
             controls.Add(border);
@@ -77,8 +118,8 @@ namespace EterniaXna.Screens
         {
             var listbox = new BoundListBox<T>
             {
-                Width = width - 32,
-                Height = height - 32,
+                Width = width - 12,
+                Height = height - 12,
                 ZIndex = 0.1f,
                 Background = Color.TransparentBlack
             };
@@ -89,11 +130,12 @@ namespace EterniaXna.Screens
                 Width = width,
                 Height = height,
                 ZIndex = 0.1f,
-                BorderSize = 16,
+                BorderSize = 2,
                 BorderColor = new Color(160, 140, 120),
                 BorderTexture = borderTexture,
                 Background = new Color(40, 40, 149),
-                BackgroundTexture = cloudsBackground
+                BackgroundTexture = cloudsBackground,
+                Padding = new Vector2(4, 4)
             };
 
             controls.Add(border);

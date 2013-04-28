@@ -36,10 +36,10 @@
             <UnholyResistanceRating>0</UnholyResistanceRating>
           </Item>
           <Item Type="Stats:AttackPower">
-            <Value>147</Value>
+            <Value>127</Value>
           </Item>
           <Item Type="Stats:SpellPower">
-            <Value>184</Value>
+            <Value>161</Value>
           </Item>
         </BaseStatistics>
         <Abilities>

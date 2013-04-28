@@ -29,7 +29,7 @@ namespace EterniaXna.Screens
         ScrollingTextSystem scrollingTextSystem;
 
         List<Button> abilityButtons;
-        List<Button> targettingStrategyButtons;
+        //List<Button> targettingStrategyButtons;
         List<Button> orderQueueButtons;
 
         bool isPaused = true;
@@ -50,7 +50,7 @@ namespace EterniaXna.Screens
             turns = new List<Turn>();
 
             abilityButtons = new List<Button>();
-            targettingStrategyButtons = new List<Button>();
+            //targettingStrategyButtons = new List<Button>();
             orderQueueButtons = new List<Button>();
             selectedActors = new List<Actor>();
         }
@@ -130,8 +130,8 @@ namespace EterniaXna.Screens
             healthBarTexture = ContentManager.Load<Texture2D>(@"Interface\healthbar");
             defaultAbilityTexture = ContentManager.Load<Texture2D>(@"Icons\INV_Misc_QuestionMark");
 
-            var buttonTexture = ContentManager.Load<Texture2D>(@"Interface\button2");
-            var buttonMouseOverTexture = ContentManager.Load<Texture2D>(@"Interface\button2-mouseover");
+            var buttonTexture = ContentManager.Load<Texture2D>(@"Interface\button1");
+            var buttonMouseOverTexture = ContentManager.Load<Texture2D>(@"Interface\button1-mouseover");
 
             var pauseButton = new Button
             {
@@ -185,17 +185,17 @@ namespace EterniaXna.Screens
                 Controls.Add(orderQueueButton);
             }
 
-            for (int i = 0; i < player.UnlockedTargetingStrategies.Count; i++)
-            {
-                var targettingStrategyButton = new Button();
-                targettingStrategyButton.Position = new Vector2((Width / 2) + 300 + i * 40, Height - 80);
-                targettingStrategyButton.Width = 32;
-                targettingStrategyButton.Height = 32;
-                targettingStrategyButton.Background = Color.TransparentBlack;
-                targettingStrategyButton.Click += () => targettingStrategyButton_Click(targettingStrategyButton);
-                targettingStrategyButtons.Add(targettingStrategyButton);
-                Controls.Add(targettingStrategyButton);
-            }
+            //for (int i = 0; i < player.UnlockedTargetingStrategies.Count; i++)
+            //{
+            //    var targettingStrategyButton = new Button();
+            //    targettingStrategyButton.Position = new Vector2((Width / 2) + 300 + i * 40, Height - 80);
+            //    targettingStrategyButton.Width = 32;
+            //    targettingStrategyButton.Height = 32;
+            //    targettingStrategyButton.Background = Color.TransparentBlack;
+            //    targettingStrategyButton.Click += () => targettingStrategyButton_Click(targettingStrategyButton);
+            //    targettingStrategyButtons.Add(targettingStrategyButton);
+            //    Controls.Add(targettingStrategyButton);
+            //}
 
             base.LoadContent();
         }
@@ -409,7 +409,7 @@ namespace EterniaXna.Screens
             
             UpdateAbilityButtons();
             UpdateOrderQueueButtons();
-            UpdateStrategyButtons();
+            //UpdateStrategyButtons();
 
             if (battle.Actors.Count(a => a.IsAlive && a.Faction == Factions.Friend) == 0)
             {
@@ -519,26 +519,26 @@ namespace EterniaXna.Screens
             }
         }
 
-        private void UpdateStrategyButtons()
-        {
-            targettingStrategyButtons.ForEach(button => { button.Content = null; button.Tooltip = null; });
+        //private void UpdateStrategyButtons()
+        //{
+        //    targettingStrategyButtons.ForEach(button => { button.Content = null; button.Tooltip = null; });
 
-            if (selectedActors.Any(x => x.PlayerControlled))
-            {
-                var selectedActor = selectedActors.First(x => x.PlayerControlled);
-                var texture = ContentManager.Load<Texture2D>("Icons\\Ability_thunderbolt");
+        //    if (selectedActors.Any(x => x.PlayerControlled))
+        //    {
+        //        var selectedActor = selectedActors.First(x => x.PlayerControlled);
+        //        var texture = ContentManager.Load<Texture2D>("Icons\\Ability_thunderbolt");
                 
-                var strategies = TargetingStrategy.All().Where(x => player.UnlockedTargetingStrategies.Contains(x.Value)).ToArray();
-                for (int i = 0; i < strategies.Length; i++)
-                {
-                    targettingStrategyButtons[i].Content = new TargetingStrategyButton(targettingStrategyButtons[i], selectedActor, strategies[i], texture);
-                    var smallFont = ContentManager.Load<SpriteFont>("Fonts\\kootenaySmall");
-                    var t = strategies[i].Name + "\n" + strategies[i].Description;
-                    var ts = smallFont.MeasureString(t);
-                    targettingStrategyButtons[i].Tooltip = new Border(t) { Font = smallFont, Width = ts.X + 20, Height = ts.Y + 20 };
-                }
-            }
-        }
+        //        var strategies = TargetingStrategy.All().Where(x => player.UnlockedTargetingStrategies.Contains(x.Value)).ToArray();
+        //        for (int i = 0; i < strategies.Length; i++)
+        //        {
+        //            targettingStrategyButtons[i].Content = new TargetingStrategyButton(targettingStrategyButtons[i], selectedActor, strategies[i], texture);
+        //            var smallFont = ContentManager.Load<SpriteFont>("Fonts\\kootenaySmall");
+        //            var t = strategies[i].Name + "\n" + strategies[i].Description;
+        //            var ts = smallFont.MeasureString(t);
+        //            targettingStrategyButtons[i].Tooltip = new Border(t) { Font = smallFont, Width = ts.X + 20, Height = ts.Y + 20 };
+        //        }
+        //    }
+        //}
         
         private void DrawThreatList()
         {

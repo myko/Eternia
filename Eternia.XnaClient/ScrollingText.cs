@@ -4,6 +4,7 @@ using Eternia.Game.Actors;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Eternia.Game.Events;
+using Myko.Xna.Ui;
 
 namespace Eternia.XnaClient
 {
@@ -76,8 +77,8 @@ namespace Eternia.XnaClient
             foreach (var text in Nodes.OfType<ScrollingText>())
             {
                 var position = scene.Project(text.Target.Position)
-                    + new Vector2(-text.Width * 0.5f, -(text.Target.Radius + 75f))
-                    + new Vector2(0, (2f - text.Life) * -text.Speed);
+                    + new Vector2((int)(-text.Width * 0.5f), (int)(-(text.Target.Radius + 75f)))
+                    + new Vector2(0, (int)((2f - text.Life) * -text.Speed));
 
                 bool intersects = true;
                 while (intersects)
@@ -91,7 +92,7 @@ namespace Eternia.XnaClient
                         return bounds.Intersects(otherBounds);
                     }))
                     {
-                        position += new Vector2(-5, 0);
+                        position += new Vector2(-6, 0);
                         intersects = true;
                     }
                     else
@@ -155,6 +156,12 @@ namespace Eternia.XnaClient
             //if (selectedActors.Contains(st.Source) || selectedActors.Contains(st.Target))
             
             spriteBatch.DrawString(Font, Text, Position, new Color(Color, Alpha));
+
+            spriteBatch.DrawString(Font, Text, Position + new Vector2(-1, -1), new Color(Color.Black, Alpha));
+            //spriteBatch.DrawString(Font, Text, Position + new Vector2(1, -1), new Color(Color.Black, Alpha));
+            //spriteBatch.DrawString(Font, Text, Position + new Vector2(-1, 1), new Color(Color.Black, Alpha));
+            spriteBatch.DrawString(Font, Text, Position + new Vector2(1, 1), new Color(Color.Black, Alpha));
+            spriteBatch.DrawString(Font, Text, Position, new Color(Color, Alpha), 0.02f);
 
             base.Draw(view, projection);
         }
