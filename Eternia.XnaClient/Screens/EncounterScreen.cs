@@ -148,7 +148,7 @@ namespace EterniaXna.Screens
                 abilityButton.Position = new Vector2((Width / 2) - 200 + i * 40, Height - 50);
                 abilityButton.Width = 32;
                 abilityButton.Height = 32;
-                abilityButton.Background = Color.TransparentBlack;
+                abilityButton.Background = Color.Transparent;
                 abilityButton.Click += () => abilityButton_Click(abilityButton);
                 abilityButtons.Add(abilityButton);
                 Controls.Add(abilityButton);
@@ -160,7 +160,7 @@ namespace EterniaXna.Screens
                 targettingStrategyButton.Position = new Vector2((Width / 2) - 200 + i * 40, Height - 100);
                 targettingStrategyButton.Width = 32;
                 targettingStrategyButton.Height = 32;
-                targettingStrategyButton.Background = Color.TransparentBlack;
+                targettingStrategyButton.Background = Color.Transparent;
                 targettingStrategyButton.Click += () => targettingStrategyButton_Click(targettingStrategyButton);
                 targettingStrategyButtons.Add(targettingStrategyButton);
                 Controls.Add(targettingStrategyButton);
@@ -472,7 +472,7 @@ namespace EterniaXna.Screens
                 var x2 = Math.Max(dragStart.Value.X, dragEnd.Value.X);
                 var y1 = Math.Min(dragStart.Value.Y, dragEnd.Value.Y);
                 var y2 = Math.Max(dragStart.Value.Y, dragEnd.Value.Y);
-                SpriteBatch.Draw(BlankTexture, new Rectangle(x1, y1, x2 - x1, y2 - y1), new Color(Color.Green, 0.33f));
+                SpriteBatch.Draw(BlankTexture, new Rectangle(x1, y1, x2 - x1, y2 - y1), new Color(Color.Green.R, Color.Green.G, Color.Green.B, 255*0.33f));
             }
 
             SpriteBatch.DrawString(Font, fps.ToString("0"), new Vector2(Width - 50, Height - Font.LineSpacing), Color.White);

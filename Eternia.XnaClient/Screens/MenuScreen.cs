@@ -51,7 +51,7 @@ namespace EterniaXna.Screens
                 Width = width - 32,
                 Height = height - 32,
                 ZIndex = 0.1f,
-                Background = Color.TransparentBlack
+                Background = Color.Transparent
             }; 
 
             var border = new Border(listbox)
@@ -80,7 +80,7 @@ namespace EterniaXna.Screens
                 Width = width - 32,
                 Height = height - 32,
                 ZIndex = 0.1f,
-                Background = Color.TransparentBlack
+                Background = Color.Transparent
             };
 
             var border = new Border(listbox)

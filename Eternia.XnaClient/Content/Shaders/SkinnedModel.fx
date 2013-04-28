@@ -62,7 +62,7 @@ struct VS_OUTPUT
 
 
 // Vertex shader program.
-VS_OUTPUT VertexShader(VS_INPUT input)
+VS_OUTPUT VertexShaderFunction(VS_INPUT input)
 {
     VS_OUTPUT output;
     
@@ -101,7 +101,7 @@ struct PS_INPUT
 
 
 // Pixel shader program.
-float4 PixelShader(PS_INPUT input) : COLOR0
+float4 PixelShaderFunction(PS_INPUT input) : COLOR0
 {
     float4 color = tex2D(Sampler, input.TexCoord);
 
@@ -115,7 +115,7 @@ technique SkinnedModelTechnique
 {
     pass SkinnedModelPass
     {
-        VertexShader = compile vs_3_0 VertexShader();
-        PixelShader = compile ps_3_0 PixelShader();
+        VertexShader = compile vs_3_0 VertexShaderFunction();
+        PixelShader = compile ps_3_0 PixelShaderFunction();
     }
 }

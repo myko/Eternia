@@ -259,7 +259,7 @@
     <Compile Include="Models\Objects\projectile1.fbx">
       <Name>projectile1</Name>
       <Importer>FbxImporter</Importer>
-      <Processor>SkinnedModelProcessor</Processor>
+      <Processor>ModelProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -540,7 +540,7 @@
     <Compile Include="Models\Objects\rocket1.fbx">
       <Name>rocket1</Name>
       <Importer>FbxImporter</Importer>
-      <Processor>SkinnedModelProcessor</Processor>
+      <Processor>ModelProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -709,7 +709,7 @@
     <Compile Include="Models\Actors\guardcaptain.fbx">
       <Name>guardcaptain</Name>
       <Importer>FbxImporter</Importer>
-      <Processor>SkinnedModelProcessor</Processor>
+      <Processor>ModelProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>

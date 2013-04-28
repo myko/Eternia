@@ -43,7 +43,8 @@ namespace Eternia.XnaClient
         public override void Draw(Matrix view, Matrix projection)
         {
             //if (selectedActors.Contains(st.Source) || selectedActors.Contains(st.Target))
-            spriteBatch.DrawString(Font, Text, Position, new Color(Color, Alpha));
+            //spriteBatch.DrawString(Font, Text, Position, new Color(Color, Alpha));
+            spriteBatch.DrawString(Font, Text, Position, new Color(Color.R, Color.G, Color.B, Alpha));
 
             base.Draw(view, projection);
         }

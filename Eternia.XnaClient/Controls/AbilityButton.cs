@@ -44,7 +44,7 @@ namespace EterniaXna
             else
                 container.SpriteBatch.Draw(texture, bounds, Color.White, container.ZIndex + 0.001f);
             if (!Ability.Enabled)
-                container.SpriteBatch.Draw(texture, bounds, new Color(Color.TransparentBlack, 0.5f), container.ZIndex + 0.002f);
+                container.SpriteBatch.Draw(texture, bounds, new Color(Color.Transparent.R, Color.Transparent.G, Color.Transparent.B, 255*0.5f), container.ZIndex + 0.002f);
 
             if (!Ability.Cooldown.IsReady)
             {

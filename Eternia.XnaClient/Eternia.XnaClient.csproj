@@ -129,7 +129,6 @@
     <Compile Include="ActorModel.cs" />
     <Compile Include="GraphicEffect.cs" />
     <Compile Include="Level.cs" />
-    <Compile Include="MapModel.cs" />
     <Compile Include="ParticleSystem.cs" />
     <Compile Include="ProjectileModel.cs" />
     <Compile Include="Scene.cs" />

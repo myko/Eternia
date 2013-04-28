@@ -91,31 +91,38 @@ namespace Eternia.XnaClient
             effect.Parameters["Alpha"].SetValue(1);
             effect.Parameters["Diffuse"].SetValue(Color.White.ToVector4());
 
-            graphicsDevice.VertexDeclaration = new VertexDeclaration(graphicsDevice, VertexPositionColorTexture.VertexElements);
-            graphicsDevice.SamplerStates[0].MagFilter = TextureFilter.Point;
+            //graphicsDevice.VertexDeclaration = new VertexDeclaration(graphicsDevice, VertexPositionColorTexture.VertexElements);
+            //graphicsDevice.SamplerStates[0].MagFilter = TextureFilter.Point;
             graphicsDevice.SamplerStates[0].MaxMipLevel = 0;
-            graphicsDevice.SamplerStates[0].MinFilter = TextureFilter.Point;
-            graphicsDevice.SamplerStates[0].MipFilter = TextureFilter.Point;
-            graphicsDevice.RenderState.AlphaBlendEnable = true;
-            graphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha;
-            graphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha;
-            graphicsDevice.RenderState.DepthBufferWriteEnable = true;
+            //graphicsDevice.SamplerStates[0].MinFilter = TextureFilter.Point;
+            //graphicsDevice.SamplerStates[0].MipFilter = TextureFilter.Point;
+            
+            //graphicsDevice.SamplerStates[0].Filter = TextureFilter.Point;
+            
+            //graphicsDevice.RenderState.AlphaBlendEnable = true;
+            //graphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha;
+            //graphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha;
+            //graphicsDevice.RenderState.DepthBufferWriteEnable = true;
+            graphicsDevice.BlendState = BlendState.AlphaBlend;
+            graphicsDevice.DepthStencilState = DepthStencilState.Default;
             //graphicsDevice.RenderState.CullMode = CullMode.None;
 
 
-            effect.Begin();
+            //effect.Begin();
             foreach (var pass in effect.CurrentTechnique.Passes)
             {
-                pass.Begin();
+                //pass.Begin();
                 graphicsDevice.DrawUserPrimitives<VertexPositionColorTexture>(PrimitiveType.TriangleList, vertices, 0, 2);
-                pass.End();
+                //pass.End();
             }
-            effect.End();
+            //effect.End();
 
-            graphicsDevice.RenderState.AlphaBlendEnable = true;
-            graphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha;
-            graphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha;
-            graphicsDevice.RenderState.DepthBufferWriteEnable = true;
+            //graphicsDevice.RenderState.AlphaBlendEnable = true;
+            //graphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha;
+            //graphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha;
+            //graphicsDevice.RenderState.DepthBufferWriteEnable = true;
+            graphicsDevice.BlendState = BlendState.AlphaBlend;
+            graphicsDevice.DepthStencilState = DepthStencilState.Default;
 
             //foreach (ModelMesh mesh in Model.Meshes)
             //{

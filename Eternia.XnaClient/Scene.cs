@@ -68,7 +68,8 @@ namespace Eternia.XnaClient
 
         public void DrawHelperBox(Vector3 position, Color color, ContentManager contentManager)
         {
-            graphicsDevice.RenderState.DepthBufferEnable = true;
+            //graphicsDevice.RenderState.DepthBufferEnable = true;
+            graphicsDevice.DepthStencilState = DepthStencilState.Default;
             var helperModel = contentManager.Load<Model>(@"Models\Objects\helper");
             foreach (ModelMesh mesh in helperModel.Meshes)
             {
@@ -102,7 +103,8 @@ namespace Eternia.XnaClient
 
             projection = Matrix.CreateOrthographic(54, 30, 0.1f, 1000f);
 
-            graphicsDevice.RenderState.DepthBufferEnable = true;
+            //graphicsDevice.RenderState.DepthBufferEnable = true;
+            graphicsDevice.DepthStencilState = DepthStencilState.Default;
 
             foreach (var actorModel in Nodes.OfType<ActorModel>().OrderBy(a => a.Actor.Position.Y))
             {
@@ -124,11 +126,13 @@ namespace Eternia.XnaClient
                 vertices[4] = new VertexPositionTexture(new Vector3(1, 0, 1), new Vector2(1, 1));
                 vertices[5] = new VertexPositionTexture(new Vector3(-1, 0, 1), new Vector2(0, 1));
 
-                graphicsDevice.VertexDeclaration = new VertexDeclaration(graphicsDevice, VertexPositionTexture.VertexElements);
-                graphicsDevice.RenderState.AlphaBlendEnable = true;
-                graphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha;
-                graphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha;
-                graphicsDevice.RenderState.DepthBufferWriteEnable = true;
+                //graphicsDevice.VertexDeclaration = new VertexDeclaration(graphicsDevice, VertexPositionTexture.VertexElements);
+                //graphicsDevice.RenderState.AlphaBlendEnable = true;
+                //graphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha;
+                //graphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha;
+                //graphicsDevice.RenderState.DepthBufferWriteEnable = true;
+                graphicsDevice.BlendState = BlendState.AlphaBlend;
+                graphicsDevice.DepthStencilState = DepthStencilState.Default;
 
                 billboardEffect.Parameters["View"].SetValue(view);
                 billboardEffect.Parameters["Projection"].SetValue(projection);
@@ -141,14 +145,14 @@ namespace Eternia.XnaClient
                     billboardEffect.Parameters["Diffuse"].SetValue(Color.Red.ToVector4());
                 billboardEffect.Parameters["Texture"].SetValue(selectionTexture);
 
-                billboardEffect.Begin();
+                //billboardEffect.Begin();
                 foreach (var pass in billboardEffect.CurrentTechnique.Passes)
                 {
-                    pass.Begin();
+                    //pass.Begin();
                     graphicsDevice.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, vertices, 0, 2);
-                    pass.End();
+                    //pass.End();
                 }
-                billboardEffect.End();
+                //billboardEffect.End();
 
                 if (selectedActor.Destination.HasValue || selectedActor.OrderedDestination.HasValue)
                 {
@@ -162,17 +166,18 @@ namespace Eternia.XnaClient
                     else
                         billboardEffect.Parameters["Texture"].SetValue(contentManager.Load<Texture2D>(@"Interface\destination"));
 
-                    billboardEffect.Begin();
+                    //billboardEffect.Begin();
                     foreach (var pass in billboardEffect.CurrentTechnique.Passes)
                     {
-                        pass.Begin();
+                        //pass.Begin();
                         graphicsDevice.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, vertices, 0, 2);
-                        pass.End();
+                        //pass.End();
                     }
-                    billboardEffect.End();
+                    //billboardEffect.End();
                 }
 
-                graphicsDevice.RenderState.DepthBufferWriteEnable = true;
+                //graphicsDevice.RenderState.DepthBufferWriteEnable = true;
+                graphicsDevice.DepthStencilState = DepthStencilState.Default;
             }
 
             DrawShadows(battle, contentManager);
@@ -189,11 +194,13 @@ namespace Eternia.XnaClient
                     vertices[4] = new VertexPositionTexture(new Vector3(1, 0, 1), new Vector2(1, 1));
                     vertices[5] = new VertexPositionTexture(new Vector3(-1, 0, 1), new Vector2(0, 1));
 
-                    graphicsDevice.VertexDeclaration = new VertexDeclaration(graphicsDevice, VertexPositionTexture.VertexElements);
-                    graphicsDevice.RenderState.AlphaBlendEnable = true;
-                    graphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha;
-                    graphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha;
-                    graphicsDevice.RenderState.DepthBufferWriteEnable = false;
+                    //graphicsDevice.VertexDeclaration = new VertexDeclaration(graphicsDevice, VertexPositionTexture.VertexElements);
+                    //graphicsDevice.RenderState.AlphaBlendEnable = true;
+                    //graphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha;
+                    //graphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha;
+                    //graphicsDevice.RenderState.DepthBufferWriteEnable = false;
+                    graphicsDevice.BlendState = BlendState.AlphaBlend;
+                    graphicsDevice.DepthStencilState = DepthStencilState.Default;
 
                     billboardEffect.Parameters["View"].SetValue(view);
                     billboardEffect.Parameters["Projection"].SetValue(projection);
@@ -211,16 +218,17 @@ namespace Eternia.XnaClient
                     billboardEffect.Parameters["Diffuse"].SetValue(Color.Red.ToVector4());
                     billboardEffect.Parameters["Texture"].SetValue(contentManager.Load<Texture2D>(@"Interface\circlearea"));
 
-                    billboardEffect.Begin();
+                    //billboardEffect.Begin();
                     foreach (var pass in billboardEffect.CurrentTechnique.Passes)
                     {
-                        pass.Begin();
+                        //pass.Begin();
                         graphicsDevice.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, vertices, 0, 2);
-                        pass.End();
+                        //pass.End();
                     }
-                    billboardEffect.End();
+                    //billboardEffect.End();
 
-                    graphicsDevice.RenderState.DepthBufferWriteEnable = true;
+                    //graphicsDevice.RenderState.DepthBufferWriteEnable = true;
+                    graphicsDevice.DepthStencilState = DepthStencilState.Default;
                 }
             }
         }
@@ -237,11 +245,13 @@ namespace Eternia.XnaClient
                 vertices[4] = new VertexPositionTexture(new Vector3(1, 0, 1), new Vector2(1, 1));
                 vertices[5] = new VertexPositionTexture(new Vector3(-1, 0, 1), new Vector2(0, 1));
 
-                graphicsDevice.VertexDeclaration = new VertexDeclaration(graphicsDevice, VertexPositionTexture.VertexElements);
-                graphicsDevice.RenderState.AlphaBlendEnable = true;
-                graphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha;
-                graphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha;
-                graphicsDevice.RenderState.DepthBufferWriteEnable = false;
+                //graphicsDevice.VertexDeclaration = new VertexDeclaration(graphicsDevice, VertexPositionTexture.VertexElements);
+                //graphicsDevice.RenderState.AlphaBlendEnable = true;
+                //graphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha;
+                //graphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha;
+                //graphicsDevice.RenderState.DepthBufferWriteEnable = false;
+                graphicsDevice.BlendState = BlendState.AlphaBlend;
+                graphicsDevice.DepthStencilState = DepthStencilState.Default;
 
                 billboardEffect.Parameters["View"].SetValue(view);
                 billboardEffect.Parameters["Projection"].SetValue(projection);
@@ -251,16 +261,17 @@ namespace Eternia.XnaClient
                 billboardEffect.Parameters["Diffuse"].SetValue(Color.White.ToVector4());
                 billboardEffect.Parameters["Texture"].SetValue(contentManager.Load<Texture2D>(@"Sprites\shadow"));
 
-                billboardEffect.Begin();
+                //billboardEffect.Begin();
                 foreach (var pass in billboardEffect.CurrentTechnique.Passes)
                 {
-                    pass.Begin();
+                    //pass.Begin();
                     graphicsDevice.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, vertices, 0, 2);
-                    pass.End();
+                    //pass.End();
                 }
-                billboardEffect.End();
+                //billboardEffect.End();
 
-                graphicsDevice.RenderState.DepthBufferWriteEnable = true;
+                //graphicsDevice.RenderState.DepthBufferWriteEnable = true;
+                graphicsDevice.DepthStencilState = DepthStencilState.Default;
             }
         }
 
