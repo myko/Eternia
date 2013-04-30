@@ -46,6 +46,8 @@ namespace Eternia.XnaClient
             IsMouseVisible = true;
 
             base.Initialize();
+
+            
         }
 
         /// <summary>

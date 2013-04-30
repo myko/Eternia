@@ -102,23 +102,22 @@ namespace EterniaXna.Screens
             scene = new Scene(ScreenManager.GraphicsDevice);
             scene.LoadContent(ContentManager);
             scene.Nodes.Add(new Level(ScreenManager.GraphicsDevice, ContentManager.Load<Model>(@"Models\Levels\pillarlevel")));
-            scene.Nodes.Add(new ParticleSystem(ContentManager.Load<Effect>(@"Shaders\Particle"), ScreenManager.GraphicsDevice)
-            {
-                SourceBlend = Blend.SourceAlpha,
-                DestinationBlend = Blend.InverseSourceAlpha,
-                Texture = ContentManager.Load<Texture2D>(@"Sprites\fog"),
-                RotationSpeed = 0.2f,
-                SpawnRate = 0,
-                MaxParticles = 200,
-                Emitter = () => new Particle()
-                {
-                    Position = random.NextVector3(-40, 40) - new Vector3(0, 2, 0),
-                    Opacity = random.Between(0.1f, 0.16f),
-                    Size = random.Between(15f, 18f),
-                    Rotation = random.Between(0f, 6f),
-                    LifeSpan = float.PositiveInfinity
-                },
-            });
+            //scene.Nodes.Add(new ParticleSystem(ContentManager.Load<Effect>(@"Shaders\Particle"), ScreenManager.GraphicsDevice)
+            //{
+            //    BlendState = BlendState.NonPremultiplied,
+            //    Texture = ContentManager.Load<Texture2D>(@"Sprites\fog"),
+            //    RotationSpeed = 0.2f,
+            //    SpawnRate = 0,
+            //    MaxParticles = 200,
+            //    Emitter = () => new Particle()
+            //    {
+            //        Position = random.NextVector3(-40, 40) - new Vector3(0, 2, 0),
+            //        Opacity = random.Between(0.1f, 0.16f),
+            //        Size = random.Between(15f, 18f),
+            //        Rotation = random.Between(0f, 6f),
+            //        LifeSpan = float.PositiveInfinity
+            //    },
+            //});
             scene.Nodes.Add(scrollingTextSystem = new ScrollingTextSystem(scene, SpriteBatch, kootenaySmallFont, kootenayFont));
 
             // TODO: This is map specific
@@ -167,7 +166,7 @@ namespace EterniaXna.Screens
                 abilityButton.Position = new Vector2((Width / 2) - 300 + i * 40, Height - 80);
                 abilityButton.Width = 32;
                 abilityButton.Height = 32;
-                abilityButton.Background = Color.TransparentBlack;
+                abilityButton.Background = Color.Transparent;
                 abilityButton.Click += () => abilityButton_Click(abilityButton);
                 abilityButtons.Add(abilityButton);
                 Controls.Add(abilityButton);
@@ -179,7 +178,7 @@ namespace EterniaXna.Screens
                 orderQueueButton.Position = new Vector2((Width / 2) - 300 + i * 40, Height - 130);
                 orderQueueButton.Width = 32;
                 orderQueueButton.Height = 32;
-                orderQueueButton.Background = Color.TransparentBlack;
+                orderQueueButton.Background = Color.Transparent;
                 orderQueueButton.Click += () => orderQueueButton_Click(orderQueueButton);
                 orderQueueButtons.Add(orderQueueButton);
                 Controls.Add(orderQueueButton);
@@ -205,8 +204,7 @@ namespace EterniaXna.Screens
         {
             scene.Nodes.Add(new ParticleSystem(ContentManager.Load<Effect>(@"Shaders\Particle"), ScreenManager.GraphicsDevice)
             {
-                SourceBlend = Blend.One,
-                DestinationBlend = Blend.One,
+                BlendState = BlendState.Additive,
                 Texture = ContentManager.Load<Texture2D>(@"Sprites\fire"),
                 OpacityFunction = p => p.InverseAgeFraction * 0.3f,
                 SizeFunction = p => p.InverseAgeFraction * 0.6f,
@@ -223,8 +221,7 @@ namespace EterniaXna.Screens
             });
             scene.Nodes.Add(new ParticleSystem(ContentManager.Load<Effect>(@"Shaders\Particle"), ScreenManager.GraphicsDevice)
             {
-                SourceBlend = Blend.One,
-                DestinationBlend = Blend.One,
+                BlendState = BlendState.Additive,
                 Texture = ContentManager.Load<Texture2D>(@"Sprites\light"),
                 SpawnRate = 0,
                 MaxParticles = 1,
@@ -366,8 +363,7 @@ namespace EterniaXna.Screens
                 {
                     Position = projectile.Position,
                     Texture = ContentManager.Load<Texture2D>(@"Sprites\fireball"),
-                    SourceBlend = Blend.One,
-                    DestinationBlend = Blend.One,
+                    BlendState = BlendState.Additive,
                     SpawnRate = 0.005f,
                     OpacityFunction = p => p.InverseAgeFraction * 0.8f,
                     SizeFunction = p => p.InverseAgeFraction * 0.7f,
@@ -468,7 +464,7 @@ namespace EterniaXna.Screens
                 var x2 = Math.Max(dragStart.Value.X, dragEnd.Value.X);
                 var y1 = Math.Min(dragStart.Value.Y, dragEnd.Value.Y);
                 var y2 = Math.Max(dragStart.Value.Y, dragEnd.Value.Y);
-                SpriteBatch.Draw(BlankTexture, new Rectangle(x1, y1, x2 - x1, y2 - y1), new Color(Color.Green, 0.33f));
+                SpriteBatch.Draw(BlankTexture, new Rectangle(x1, y1, x2 - x1, y2 - y1), Color.Green * 0.33f);
             }
 
             SpriteBatch.DrawString(Font, fps.ToString("0"), new Vector2(Width - 50, Height - Font.LineSpacing), Color.White);

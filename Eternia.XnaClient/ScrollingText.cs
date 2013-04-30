@@ -168,14 +168,12 @@ namespace Eternia.XnaClient
         public override void Draw(Matrix view, Matrix projection)
         {
             //if (selectedActors.Contains(st.Source) || selectedActors.Contains(st.Target))
-            
-            spriteBatch.DrawString(Font, Text, Position, new Color(Color, Alpha));
 
-            spriteBatch.DrawString(Font, Text, Position + new Vector2(-1, -1), new Color(Color.Black, Alpha));
+            spriteBatch.DrawString(Font, Text, Position + new Vector2(-1, -1), new Color(0, 0, 0, Alpha), 0.01f);
             //spriteBatch.DrawString(Font, Text, Position + new Vector2(1, -1), new Color(Color.Black, Alpha));
             //spriteBatch.DrawString(Font, Text, Position + new Vector2(-1, 1), new Color(Color.Black, Alpha));
-            spriteBatch.DrawString(Font, Text, Position + new Vector2(1, 1), new Color(Color.Black, Alpha));
-            spriteBatch.DrawString(Font, Text, Position, new Color(Color, Alpha), 0.02f);
+            spriteBatch.DrawString(Font, Text, Position + new Vector2(1, 1), new Color(0, 0, 0, Alpha), 0.01f);
+            spriteBatch.DrawString(Font, Text, Position, new Color(Color.R, Color.G, Color.B, Alpha), 0.02f);
 
             base.Draw(view, projection);
         }

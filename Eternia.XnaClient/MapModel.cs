@@ -665,13 +665,17 @@ namespace Eternia.XnaClient
         {
             var vertexElements = new VertexElement[] 
                 { 
-                    new VertexElement(0, 0, VertexElementFormat.Vector3, VertexElementMethod.Default, VertexElementUsage.Position, 0),
-                    new VertexElement(0, 12, VertexElementFormat.Vector2, VertexElementMethod.Default, VertexElementUsage.TextureCoordinate, 0),
-                    new VertexElement(0, 20, VertexElementFormat.Vector4, VertexElementMethod.Default, VertexElementUsage.Color, 0),
-                    new VertexElement(0, 36, VertexElementFormat.Single, VertexElementMethod.Default, VertexElementUsage.Color, 1),
+                    //new VertexElement(0, 0, VertexElementFormat.Vector3, VertexElementMethod.Default, VertexElementUsage.Position, 0),
+                    //new VertexElement(0, 12, VertexElementFormat.Vector2, VertexElementMethod.Default, VertexElementUsage.TextureCoordinate, 0),
+                    //new VertexElement(0, 20, VertexElementFormat.Vector4, VertexElementMethod.Default, VertexElementUsage.Color, 0),
+                    //new VertexElement(0, 36, VertexElementFormat.Single, VertexElementMethod.Default, VertexElementUsage.Color, 1),
+                    new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
+                    new VertexElement(12, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0),
+                    new VertexElement(20, VertexElementFormat.Vector4, VertexElementUsage.Color, 0),
+                    new VertexElement(36, VertexElementFormat.Single, VertexElementUsage.Color, 1),
                 };
 
-            device.VertexDeclaration = new VertexDeclaration(device, vertexElements);
+            //device.VertexDeclaration = new VertexDeclaration(device, vertexElements);
 
             mapEffect.Parameters["View"].SetValue(view);
             mapEffect.Parameters["Projection"].SetValue(projection);
@@ -690,13 +694,14 @@ namespace Eternia.XnaClient
 
         private static void DrawPrimitives(GraphicsDevice device, Effect mapEffect, List<MapVertex> vertices)
         {
-            mapEffect.Begin();
+            //mapEffect.Begin();
 
-            mapEffect.CurrentTechnique.Passes[0].Begin();
+            //mapEffect.CurrentTechnique.Passes[0].Begin();
+            mapEffect.CurrentTechnique.Passes[0].Apply();
             device.DrawUserPrimitives<MapVertex>(PrimitiveType.TriangleList, vertices.ToArray(), 0, vertices.Count / 3);
-            mapEffect.CurrentTechnique.Passes[0].End();
+            //mapEffect.CurrentTechnique.Passes[0].End();
 
-            mapEffect.End();
+            //mapEffect.End();
         }
     }
 }

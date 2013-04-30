@@ -44,7 +44,9 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
     float4 color = tex2D(Sampler, input.TexCoords);
-    color = float4(color.rgb, color.a * Alpha) * Diffuse * input.Color;
+    //color = input.Color; // float4(color.rgb, color.a * Alpha) * Diffuse * input.Color;
+	color = color * input.Color;
+	clip(color.a == 0 ? -1 : 1);
     return color;
 }
 
@@ -52,7 +54,7 @@ technique Technique1
 {
     pass Pass1
     {
-        VertexShader = compile vs_1_1 VertexShaderFunction();
-        PixelShader = compile ps_1_1 PixelShaderFunction();
+        VertexShader = compile vs_2_0 VertexShaderFunction();
+        PixelShader = compile ps_2_0 PixelShaderFunction();
     }
 }

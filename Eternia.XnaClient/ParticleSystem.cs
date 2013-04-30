@@ -44,8 +44,9 @@ namespace Eternia.XnaClient
         public List<Particle> Particles { get; set; }
 
         public Texture2D Texture { get; set; }
-        public Blend SourceBlend { get; set; }
-        public Blend DestinationBlend { get; set; }
+        //public Blend SourceBlend { get; set; }
+        //public Blend DestinationBlend { get; set; }
+        public BlendState BlendState { get; set; }
 
         public Func<Particle> Emitter { get; set; }
         public int MaxParticles { get; set; }
@@ -69,8 +70,9 @@ namespace Eternia.XnaClient
             IsAlive = true;
             Particles = new List<Particle>();
 
-            SourceBlend = Blend.SourceAlpha;
-            DestinationBlend = Blend.InverseSourceAlpha;
+            //SourceBlend = Blend.SourceAlpha;
+            //DestinationBlend = Blend.InverseSourceAlpha;
+            BlendState = BlendState.AlphaBlend;
 
             Emitter = () => new Particle() { Position = Position };
             MaxParticles = 1000;
@@ -149,25 +151,31 @@ namespace Eternia.XnaClient
                 effect.Parameters["Alpha"].SetValue(1);
                 effect.Parameters["Diffuse"].SetValue(Color.White.ToVector4());
 
-                graphicsDevice.VertexDeclaration = new VertexDeclaration(graphicsDevice, VertexPositionColorTexture.VertexElements);
-                graphicsDevice.RenderState.AlphaBlendEnable = true;
-                graphicsDevice.RenderState.SourceBlend = SourceBlend;
-                graphicsDevice.RenderState.DestinationBlend = DestinationBlend;
-                graphicsDevice.RenderState.DepthBufferWriteEnable = false;
+                //graphicsDevice.VertexDeclaration = new VertexDeclaration(graphicsDevice, VertexPositionColorTexture.VertexElements);
+                //graphicsDevice.RenderState.AlphaBlendEnable = true;
+                //graphicsDevice.RenderState.SourceBlend = SourceBlend;
+                //graphicsDevice.RenderState.DestinationBlend = DestinationBlend;
+                //graphicsDevice.RenderState.DepthBufferWriteEnable = false;
+                graphicsDevice.DepthStencilState = DepthStencilState.None;
+                graphicsDevice.BlendState = BlendState;
+                graphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
 
-                effect.Begin();
+                //effect.Begin();
                 foreach (var pass in effect.CurrentTechnique.Passes)
                 {
-                    pass.Begin();
+                    //pass.Begin();
+                    pass.Apply();
                     graphicsDevice.DrawUserPrimitives<VertexPositionColorTexture>(PrimitiveType.TriangleList, vertices, 0, 2 * Particles.Count);
-                    pass.End();
+                    //pass.End();
                 }
-                effect.End();
+                //effect.End();
 
-                graphicsDevice.RenderState.AlphaBlendEnable = true;
-                graphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha;
-                graphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha;
-                graphicsDevice.RenderState.DepthBufferWriteEnable = true;
+                //graphicsDevice.RenderState.AlphaBlendEnable = true;
+                //graphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha;
+                //graphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha;
+                //graphicsDevice.RenderState.DepthBufferWriteEnable = true;
+                graphicsDevice.DepthStencilState = DepthStencilState.None;
+                graphicsDevice.BlendState = BlendState.AlphaBlend;
             }
 
             base.Draw(view, projection);

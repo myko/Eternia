@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework.Graphics;
+//using Microsoft.Xna.Framework.Graphics;   //Tommy 2013-04-26  Upgrade to XNA 4.0. Color was moved from namespace Microsoft.Xna.Framework.Graphics to Microsoft.Xna.Framework
+using Microsoft.Xna.Framework;  //Tommy 2013-04-26  Upgrade to XNA 4.0. Color was moved from namespace Microsoft.Xna.Framework.Graphics to Microsoft.Xna.Framework
+
 
 namespace Eternia.Game.Stats
 {

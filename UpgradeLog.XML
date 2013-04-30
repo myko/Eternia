@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="Eternia">
+</Property><Property Name="Solution File" Value="C:\Users\Tommy.DOMAIN\Documents\GitHub\Eternia\Eternia.sln">
+</Property><Property Name="Date" Value="den 25 april 2013">
+</Property><Property Name="Time" Value="13:03">
+</Property><Property Name="Solution" Value="Eternia">
+</Property><Property Name="Solution File" Value="C:\Users\Tommy.DOMAIN\Documents\GitHub\Eternia\Eternia.sln">
+</Property><Property Name="Date" Value="den 25 april 2013">
+</Property><Property Name="Time" Value="13:03:20">
+</Property><Property Name="Solution" Value="Eternia">
+</Property><Property Name="Solution File" Value="C:\Users\Tommy.DOMAIN\Documents\GitHub\Eternia\Eternia.sln">
+</Property><Property Name="Date" Value="den 25 april 2013">
+</Property><Property Name="Time" Value="13:03:21">
+</Property></Properties><Event ErrorLevel="0" Project="Eternia.XnaClient" Source="Eternia.XnaClient\Eternia.XnaClient.csproj" Description="Upgraded XNA Game Studio project to XNA Framework 4.0.">
+</Event><Event ErrorLevel="0" Project="Eternia.XnaClient" Source="Eternia.XnaClient\Eternia.XnaClient.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="Eternia.XnaClient" Source="Eternia.XnaClient\Eternia.XnaClient.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Myko.Xna.Ui" Source="Myko.Xna.Ui\Myko.Xna.Ui.csproj" Description="Upgraded XNA Game Studio project to XNA Framework 4.0.">
+</Event><Event ErrorLevel="0" Project="Myko.Xna.Ui" Source="Myko.Xna.Ui\Myko.Xna.Ui.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="Myko.Xna.Ui" Source="Myko.Xna.Ui\Myko.Xna.Ui.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Myko.Xna.Pipeline" Source="Myko.Xna.Pipeline\Myko.Xna.Pipeline.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="Myko.Xna.Pipeline" Source="Myko.Xna.Pipeline\Myko.Xna.Pipeline.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Myko.Xna.SkinnedModel" Source="Myko.Xna.SkinnedModel\Myko.Xna.SkinnedModel.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="Myko.Xna.SkinnedModel" Source="Myko.Xna.SkinnedModel\Myko.Xna.SkinnedModel.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Eternia.Game" Source="Eternia.Game\Eternia.Game.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="Eternia.Game" Source="Eternia.Game\Eternia.Game.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Eternia.Tools" Source="Eternia.Tools\Eternia.Tools.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="Eternia.Tools" Source="Eternia.Tools\Eternia.Tools.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="Eternia.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="Eternia.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Eternia.XnaClient" Source="Eternia.XnaClient\Eternia.XnaClient.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="Eternia.XnaClient" Source="Eternia.XnaClient\Eternia.XnaClient.csproj" Description="Upgraded XNA Framework references to XNA Framework 4.0.">
+</Event><Event ErrorLevel="0" Project="Eternia.XnaClientContent" Source="Eternia.XnaClient\Content\Eternia.XnaClientContent.contentproj" Description="Upgraded XNA Game Studio nested content projects to XNA Framework 4.0 and promoted to sibling project.">
+</Event><Event ErrorLevel="0" Project="Eternia.XnaClientGameContent" Source="Eternia.XnaClient\GameContent\Eternia.XnaClientGameContent.contentproj" Description="Upgraded XNA Game Studio nested content projects to XNA Framework 4.0 and promoted to sibling project.">
+</Event><Event ErrorLevel="0" Project="Myko.Xna.Ui" Source="Myko.Xna.Ui\Myko.Xna.Ui.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="Myko.Xna.Ui" Source="Myko.Xna.Ui\Myko.Xna.Ui.csproj" Description="Upgraded XNA Framework references to XNA Framework 4.0.">
+</Event><Event ErrorLevel="0" Project="Myko.Xna.Ui" Source="Content\Content.contentproj" Description="Upgrade of Library project 'Myko.Xna.Ui' removed a reference to the empty Content Project 'C:\Users\Tommy.DOMAIN\Documents\GitHub\Eternia\Myko.Xna.Ui\Content\Content.contentproj'.">
+</Event><Event ErrorLevel="0" Project="Myko.Xna.Pipeline" Source="Myko.Xna.Pipeline\Myko.Xna.Pipeline.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="Myko.Xna.Pipeline" Source="Myko.Xna.Pipeline\Myko.Xna.Pipeline.csproj" Description="Upgraded XNA Framework Content Pipeline References.">
+</Event><Event ErrorLevel="0" Project="Myko.Xna.Pipeline" Source="Myko.Xna.Pipeline\Myko.Xna.Pipeline.csproj" Description="Upgraded XNA Framework references to XNA Framework 4.0.">
+</Event><Event ErrorLevel="0" Project="Myko.Xna.SkinnedModel" Source="Myko.Xna.SkinnedModel\Myko.Xna.SkinnedModel.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="Eternia.Game" Source="Eternia.Game\Eternia.Game.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event><Event ErrorLevel="0" Project="Eternia.Game" Source="Eternia.Game\Eternia.Game.csproj" Description="Upgraded XNA Framework Content Pipeline References.">
+</Event><Event ErrorLevel="0" Project="Eternia.Game" Source="Eternia.Game\Eternia.Game.csproj" Description="Upgraded XNA Framework references to XNA Framework 4.0.">
+</Event><Event ErrorLevel="0" Project="Eternia.Tools" Source="Eternia.Tools\app.config" Description="File converted successfully. All &lt;supportedRuntime&gt; and &lt;requiredRuntime&gt; tags were removed to enable the project to build and run with Visual Studio 2005.">
+</Event><Event ErrorLevel="3" Project="Eternia.Tools" Source="Eternia.Tools\app.config" Description="Converted">
+</Event></UpgradeLog>

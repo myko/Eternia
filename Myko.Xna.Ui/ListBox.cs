@@ -282,7 +282,10 @@ namespace Myko.Xna.Ui
                     color = Color.White;
 
                 if (items[i].Value == SelectedItem)
-                    SpriteBatch.Draw(BlankTexture, new Rectangle((int)itemPosition.X, (int)itemPosition.Y, (int)Width, Font.LineSpacing), new Color(Color.CornflowerBlue, 0.25f), ZIndex + 0.01f);
+                {
+                    //SpriteBatch.Draw(BlankTexture, new Rectangle((int)itemPosition.X, (int)itemPosition.Y, (int)Width, Font.LineSpacing), new Color(Color.CornflowerBlue, 0.25f), ZIndex + 0.01f);
+                    SpriteBatch.Draw(BlankTexture, new Rectangle((int)itemPosition.X, (int)itemPosition.Y, (int)Width, Font.LineSpacing), new Color(Color.CornflowerBlue.R, Color.CornflowerBlue.G, Color.CornflowerBlue.B, 0.25f * 255), ZIndex + 0.01f);
+                }
 
                 if (EnableCheckBoxes)
                 {

@@ -28,11 +28,10 @@ namespace EterniaXna.Screens
 
             particleSystem = new ParticleSystem(ContentManager.Load<Effect>(@"Shaders\Particle"), ScreenManager.GraphicsDevice)
             {
-                SourceBlend = Blend.One,
-                DestinationBlend = Blend.One,
+                BlendState = BlendState.AlphaBlend,
                 Texture = ContentManager.Load<Texture2D>(@"Sprites\star"),
                 OpacityFunction = p => p.InverseAgeFraction * p.AgeFraction * 2f,
-                SizeFunction = p => p.InverseAgeFraction * 0.6f,
+                SizeFunction = p => p.InverseAgeFraction * 1.0f,
                 RotationSpeed = 2f,
                 SpawnRate = 0.005f,
                 MaxParticles = 600,
@@ -91,7 +90,7 @@ namespace EterniaXna.Screens
                 Width = width - 12,
                 Height = height - 12,
                 ZIndex = 0.1f,
-                Background = Color.TransparentBlack
+                Background = Color.Transparent
             }; 
 
             var border = new Border(listbox)
@@ -121,7 +120,7 @@ namespace EterniaXna.Screens
                 Width = width - 12,
                 Height = height - 12,
                 ZIndex = 0.1f,
-                Background = Color.TransparentBlack
+                Background = Color.Transparent
             };
 
             var border = new Border(listbox)
