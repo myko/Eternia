@@ -29,6 +29,7 @@ namespace Eternia.Game.Abilities
         [ContentSerializer(Optional = true)] public float ThreatModifier { get; set; }
         [ContentSerializer(Optional = true)] public bool CanMiss { get; set; }
         [ContentSerializer(Optional = true)] public virtual bool CanBeDodged { get; set; }
+        [ContentSerializer(Optional = true)] public virtual bool CanBeBlocked { get; set; }
         [ContentSerializer(Optional = true)] public virtual bool CanCrit { get; set; }
         [ContentSerializer(Optional = true)] public ProjectileDefinition SpawnsProjectile { get; set; }
         [ContentSerializer(Optional = true)] public List<Aura> AurasApplied { get; set; }
@@ -51,6 +52,7 @@ namespace Eternia.Game.Abilities
             CanMiss = true;
             CanBeDodged = true;
             CanCrit = true;
+            CanBeBlocked = true;
         }
 
         public override string ToString()

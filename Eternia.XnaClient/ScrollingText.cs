@@ -8,7 +8,12 @@ using Myko.Xna.Ui;
 
 namespace Eternia.XnaClient
 {
-    public class ScrollingTextSystem : SceneNode, IEventHandler<ActorTookDamage>, IEventHandler<ActorDodged>, IEventHandler<ActorMissed>, IEventHandler<ActorWasHealed>
+    public class ScrollingTextSystem : SceneNode, 
+        IEventHandler<ActorTookDamage>, 
+        IEventHandler<ActorDodged>, 
+        IEventHandler<ActorBlocked>,
+        IEventHandler<ActorMissed>, 
+        IEventHandler<ActorWasHealed>
     {
         private readonly Scene scene;
         private readonly SpriteBatch spriteBatch;
@@ -50,6 +55,15 @@ namespace Eternia.XnaClient
         public void Handle(ActorDodged ev)
         {
             Nodes.Add(new ScrollingText(spriteBatch, "Dodge", smallFont)
+            {
+                Target = ev.Actor,
+                Color = ev.Actor.Faction == Factions.Enemy ? Color.Yellow : Color.Salmon
+            });
+        }
+
+        public void Handle(ActorBlocked ev)
+        {
+            Nodes.Add(new ScrollingText(spriteBatch, "Block", smallFont)
             {
                 Target = ev.Actor,
                 Color = ev.Actor.Faction == Factions.Enemy ? Color.Yellow : Color.Salmon

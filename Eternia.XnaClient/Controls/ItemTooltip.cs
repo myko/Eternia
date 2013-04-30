@@ -32,10 +32,16 @@ namespace EterniaXna
             int y = (int)position.Y + 10;
 
             SpriteBatch.DrawString(Font, item.Name, new Vector2(x, y), GetItemColor(item.Rarity), ZIndex + 0.002f);
-            SpriteBatch.DrawString(Font, item.Quality.ToString() + " " + item.ArmorClass.ToString() + " " + item.Slot.ToString(), new Vector2(x, y + Font.LineSpacing), Color.Gray, ZIndex + 0.002f);
+            //if (item.Rarity == ItemRarities.Common)
+            //    SpriteBatch.DrawString(Font, item.Quality.ToString() + " " + item.ArmorClass.ToString() + " " + item.Slot.ToString(), new Vector2(x, y + Font.LineSpacing), Color.Gray, ZIndex + 0.002f);
+            //else
+                SpriteBatch.DrawString(Font, item.ArmorClass.ToString() + " " + item.Slot.ToString(), new Vector2(x, y + Font.LineSpacing), Color.Gray, ZIndex + 0.002f);
             SpriteBatch.DrawString(Font, "Level " + item.Level + " " + item.Rarity.ToString(), new Vector2(x, y + 2 * Font.LineSpacing), Color.Gray, ZIndex + 0.002f);
 
-            y += Font.LineSpacing * 3 + 10;
+            y += Font.LineSpacing * 3;
+            if (item.Statistics.Any())
+                y += 10;
+
             y = DrawStatistics(item.Statistics, x, y, !ShowZeroValues);
             if (ShowUpgrade)
                 y = DrawUpgradeStatistics(Upgrade, x, y + 10);
@@ -83,10 +89,10 @@ namespace EterniaXna
         {
             switch (rarity)
             {
-                case ItemRarities.Common:
-                    return Color.Gray;
-                case ItemRarities.Uncommon:
-                    return Color.White;
+                //case ItemRarities.Common:
+                //    return Color.Gray;
+                //case ItemRarities.Uncommon:
+                //    return Color.White;
                 case ItemRarities.Rare:
                     return Color.MediumAquamarine;
                 case ItemRarities.Heroic:

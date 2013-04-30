@@ -319,10 +319,11 @@ namespace EterniaXna.Screens
 
         private IEnumerable<Item> GenerateAvailableItems()
         {
+            var randomizer = new Randomizer();
             var generator = new ItemGenerator(new Randomizer());
             for (int i = 0; i < 15; i++)
             {
-                yield return generator.Generate(5);
+                yield return generator.Generate(10);
             }
         }
 

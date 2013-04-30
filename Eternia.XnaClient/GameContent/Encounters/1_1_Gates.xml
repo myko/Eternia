@@ -76,6 +76,7 @@
             <ThreatModifier>1</ThreatModifier>
             <CanMiss>true</CanMiss>
             <CanBeDodged>true</CanBeDodged>
+            <CanBeBlocked>true</CanBeBlocked>
             <CanCrit>true</CanCrit>
             <AurasApplied />
           </Item>
@@ -112,6 +113,7 @@
             <ThreatModifier>1</ThreatModifier>
             <CanMiss>true</CanMiss>
             <CanBeDodged>true</CanBeDodged>
+            <CanBeBlocked>false</CanBeBlocked>
             <CanCrit>true</CanCrit>
             <SpawnsProjectile>
               <ModelName>projectile1</ModelName>

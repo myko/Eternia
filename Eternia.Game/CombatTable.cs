@@ -41,7 +41,7 @@ namespace Eternia.Game
             dodgeChance = targetStatistics.For<Dodge>().Chance;
             hitChance = actorStatistics.For<Hit>().Chance;
             critChance = actorStatistics.For<CriticalStrike>().Chance;
-            blockChance = 0;
+            blockChance = targetStatistics.For<Block>().Chance;
         }
 
         public CombatTable(Random random, Statistics actorStatistics, Statistics targetStatistics, Ability ability)
@@ -51,7 +51,7 @@ namespace Eternia.Game
             dodgeChance = ability.CanBeDodged ? targetStatistics.For<Dodge>().Chance : 0;
             hitChance = ability.CanMiss ? actorStatistics.For<Hit>().Chance : 1;
             critChance = ability.CanCrit ? actorStatistics.For<CriticalStrike>().Chance : 0;
-            blockChance = 0;
+            blockChance = ability.CanBeBlocked ? targetStatistics.For<Block>().Chance : 0;
         }
 
         public CombatOutcome Roll()

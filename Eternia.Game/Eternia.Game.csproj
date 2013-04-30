@@ -91,8 +91,10 @@
     <Compile Include="Events\ActorDodged.cs" />
     <Compile Include="Events\ActorMissed.cs" />
     <Compile Include="Events\ActorWasHealed.cs" />
+    <Compile Include="Events\ActorBlocked.cs" />
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\ActorTookDamage.cs" />
+    <Compile Include="Stats\Block.cs" />
     <Compile Include="Stats\IntValueStat.cs" />
     <Compile Include="Stats\FloatValueStat.cs" />
     <Compile Include="Stats\RatingStat.cs" />

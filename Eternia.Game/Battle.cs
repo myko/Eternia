@@ -515,6 +515,7 @@ namespace Eternia.Game
             var damage = 0f;
             var damage2 = 0f;
             var healing = 0f;
+            var blocked = 0f;
 
             if (combatOutcome.IsMiss)
                 Event.Raise(new ActorMissed { Actor = target });
@@ -536,7 +537,9 @@ namespace Eternia.Game
 
             if (combatOutcome.IsBlock)
             {
-                damage -= actor.CurrentStatistics.For<Eternia.Game.Stats.DamageReduction>().ArmorRating;
+                blocked = Math.Min(damage, actor.CurrentStatistics.For<Eternia.Game.Stats.DamageReduction>().ArmorRating * 0.1f);
+                damage -= blocked;
+                Event.Raise(new ActorBlocked { Actor = target });
             }
 
             actor.CurrentMana -= ability.ManaCost;
@@ -576,6 +579,7 @@ namespace Eternia.Game
                 Damage = damage,
                 Damage2 = damage2,
                 Healing = healing,
+                Blocked = blocked,
                 Ability = ability,
                 CombatOutcome = combatOutcome
             });

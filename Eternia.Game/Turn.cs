@@ -25,6 +25,7 @@ namespace Eternia.Game
         public float Damage { get; set; }
         public float Damage2 { get; set; }
         public float Healing { get; set; }
+        public float Blocked { get; set; }
         public Ability Ability { get; set; }
         public CombatOutcome CombatOutcome { get; set; }
         public DateTime TimeStamp { get; set; }
@@ -46,6 +47,18 @@ namespace Eternia.Game
 
                     if (CombatOutcome.IsDodge)
                         return string.Format("{0}'s {2} was dodged by {1}", Actor.Name, Target.Name, Ability.Name);
+
+                    if (CombatOutcome.IsBlock)
+                    {
+                        if (Damage > 0f && Healing > 0f)
+                            return string.Format("{0}'s {2} did {3:0} damage to {1} and healed {1} for {4:0} ({5:0} blocked)", Actor.Name, Target.Name, Ability.Name, Damage, Healing, Blocked);
+                        else if (Damage > 0f && Healing <= 0f)
+                            return string.Format("{0}'s {2} did {3:0} damage to {1} ({4:0} blocked)", Actor.Name, Target.Name, Ability.Name, Damage, Blocked);
+                        else if (Damage <= 0f && Healing > 0f)
+                            return string.Format("{0}'s {2} healed {1} for {3:0} ({4:0} blocked)", Actor.Name, Target.Name, Ability.Name, Healing, Blocked);
+                        else
+                            return string.Format("{0}'s {2} was blocked by {1}", Actor.Name, Target.Name, Ability.Name);
+                    }
 
                     if (CombatOutcome.IsCrit)
                     {
