@@ -264,13 +264,19 @@ namespace Eternia.Game.Actors
 
                 Orders.AddRange(Abilities
                     .Where(x => x.Cooldown.IsReady && x.ManaCost <= CurrentMana && x.EnergyCost <= CurrentEnergy)
-                    //.Where(x => x.TargettingType == TargettingTypes.Self || abilityTarget == null || abilityTarget.DistanceFrom(this).In(x.Range + Radius + abilityTarget.Radius))
-                    //.Where(x =>
-                    //    (x.TargettingType == TargettingTypes.Self) ||
-                    //    (x.TargettingType == TargettingTypes.Hostile && abilityTarget != null && abilityTarget.Faction != Faction) ||
-                    //    (x.TargettingType == TargettingTypes.Friendly && abilityTarget != null && abilityTarget.Faction == Faction))
+                    .Where(x => x.TargettingType == TargettingTypes.Self || abilityTarget != null) // || abilityTarget.DistanceFrom(this).In(x.Range + Radius + abilityTarget.Radius))
+                    .Where(x =>
+                        (x.TargettingType == TargettingTypes.Self) ||
+                        (x.TargettingType == TargettingTypes.Hostile && abilityTarget != null && abilityTarget.Faction != Faction) ||
+                        (x.TargettingType == TargettingTypes.Friendly && abilityTarget != null && abilityTarget.Faction == Faction))
                     .OrderByDescending(x => x.Cooldown.Duration)
-                    .Select(x => new Order(x)));
+                    .Select(x =>
+                    {
+                        if (x.TargettingType == TargettingTypes.Self)
+                            return new Order(x, this, this);
+                        else
+                            return new Order(x, this, abilityTarget);
+                    }));
             }
         }
 

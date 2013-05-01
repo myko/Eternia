@@ -176,9 +176,8 @@ namespace Eternia.Game
                     if (actor.Orders.Any())
                     {
                         var order = actor.Orders.First();
-                        var ability = order.Ability;
 
-                        if (UseAbility(turn, actor, order))
+                        if (UseOrder(turn, actor, order))
                         {
                             actor.Orders.Remove(order);
                         }
@@ -314,11 +313,11 @@ namespace Eternia.Game
 
             if (actor.CastingProgress.IsReady)
             {
-                ApplyCastAbility(turn, actor, actor.CurrentOrder.Ability);
+                ApplyCastAbility(turn, actor, actor.CurrentOrder);
             }
         }
 
-        private bool UseAbility(Turn turn, Actor actor, Order order)
+        private bool UseOrder(Turn turn, Actor actor, Order order)
         {
             var ability = order.Ability;
 
@@ -327,12 +326,12 @@ namespace Eternia.Game
             
             if (ability.DamageType == DamageTypes.SingleTarget)
             {
-                var abilityTarget = actor.Targets.FirstOrDefault();
-                if (ability.TargettingType == TargettingTypes.Self)
-                    abilityTarget = actor;
+                var abilityTarget = order.Target;
+                //if (ability.TargettingType == TargettingTypes.Self)
+                //    abilityTarget = actor;
 
-                if (!actor.PlayerControlled)
-                    abilityTarget = actor.GetAbilityTarget(ability.TargettingType);
+                //if (!actor.PlayerControlled)
+                //    abilityTarget = actor.GetAbilityTarget(ability.TargettingType);
 
                 if (abilityTarget != null && abilityTarget.IsAlive)
                 {
@@ -365,10 +364,10 @@ namespace Eternia.Game
             }
             else if (ability.DamageType == DamageTypes.Cleave)
             {
-                var primaryTarget = actor.Targets.FirstOrDefault();
+                var primaryTarget = order.Target;
 
-                if (!actor.PlayerControlled)
-                    primaryTarget = actor.GetAbilityTarget(ability.TargettingType);
+                //if (!actor.PlayerControlled)
+                //    primaryTarget = actor.GetAbilityTarget(ability.TargettingType);
 
                 if (primaryTarget != null && primaryTarget.IsAlive)
                 {
@@ -392,30 +391,30 @@ namespace Eternia.Game
             return false;
         }
 
-        private void ApplyCastAbility(Turn turn, Actor actor, Ability ability)
+        private void ApplyCastAbility(Turn turn, Actor actor, Order order)
         {
-            if (ability.DamageType == DamageTypes.SingleTarget)
+            if (order.Ability.DamageType == DamageTypes.SingleTarget)
             {
-                var abilityTarget = actor.GetAbilityTarget(ability.TargettingType);
+                var abilityTarget = order.Target;
 
                 if (abilityTarget != null && abilityTarget.IsAlive)
                 {
-                    if (abilityTarget.DistanceFrom(actor).In(ability.Range + actor.Radius + abilityTarget.Radius))
-                        ApplySingleTargetAbility(turn, actor, ability, abilityTarget);
+                    if (abilityTarget.DistanceFrom(actor).In(order.Ability.Range + actor.Radius + abilityTarget.Radius))
+                        ApplySingleTargetAbility(turn, actor, order.Ability, abilityTarget);
                 }
             }
-            else if (ability.DamageType == DamageTypes.PointBlankArea)
+            else if (order.Ability.DamageType == DamageTypes.PointBlankArea)
             {
-                ApplyPointBlankAreaAbility(turn, actor, ability);
+                ApplyPointBlankAreaAbility(turn, actor, order.Ability);
             }
-            else if (ability.DamageType == DamageTypes.Cleave)
+            else if (order.Ability.DamageType == DamageTypes.Cleave)
             {
-                var primaryTarget = actor.GetAbilityTarget(ability.TargettingType);
+                var primaryTarget = order.Target;
 
                 if (primaryTarget != null && primaryTarget.IsAlive)
                 {
-                    if (primaryTarget.DistanceFrom(actor).In(ability.Range + actor.Radius + primaryTarget.Radius))
-                        ApplyCleaveAbility(turn, actor, ability, primaryTarget);
+                    if (primaryTarget.DistanceFrom(actor).In(order.Ability.Range + actor.Radius + primaryTarget.Radius))
+                        ApplyCleaveAbility(turn, actor, order.Ability, primaryTarget);
                 }
             }
 

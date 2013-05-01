@@ -32,6 +32,7 @@ namespace EterniaXna.Screens
         //List<Button> targettingStrategyButtons;
         List<Button> orderQueueButtons;
 
+        AbilityButton isTargetting;
         bool isPaused = true;
         bool isBenchmarking = false;
 
@@ -63,7 +64,17 @@ namespace EterniaXna.Screens
                 if (abilityButton != null)
                 {
                     var ability = abilityButton.Ability;
-                    abilityButton.Actor.Orders.Insert(0, new Order(ability));
+                    var actor = abilityButton.Actor;
+                    var target = actor.Targets.FirstOrDefault();
+
+                    if (ability.TargettingType == TargettingTypes.Self)
+                        actor.Orders.Insert(0, new Order(ability, actor, actor));
+                    else if (ability.TargettingType == TargettingTypes.Hostile && target != null && target.Faction != actor.Faction)
+                        actor.Orders.Insert(0, new Order(ability, actor, target));
+                    else if (ability.TargettingType == TargettingTypes.Friendly && target != null && target.Faction == actor.Faction)
+                        actor.Orders.Insert(0, new Order(ability, actor, target));
+                    else
+                        isTargetting = abilityButton;
                 }
             }
         }
@@ -175,7 +186,7 @@ namespace EterniaXna.Screens
             for (int i = 0; i < 10; i++)
             {
                 var orderQueueButton = new Button();
-                orderQueueButton.Position = new Vector2((Width / 2) - 300 + i * 40, Height - 130);
+                orderQueueButton.Position = new Vector2((Width / 2) - 300 + i * 65, Height - 125);
                 orderQueueButton.Width = 32;
                 orderQueueButton.Height = 32;
                 orderQueueButton.Background = Color.Transparent;
@@ -238,6 +249,7 @@ namespace EterniaXna.Screens
 
         private MouseState? dragStart;
         private MouseState? dragEnd;
+        private bool isPressingLeft;
 
         public override void HandleInput(GameTime gameTime)
         {
@@ -259,48 +271,76 @@ namespace EterniaXna.Screens
                     form.Cursor = System.Windows.Forms.Cursors.Arrow;
             }
 
-            if (mouseState.LeftButton == ButtonState.Pressed)
+            if (mouseState.LeftButton == ButtonState.Pressed && !isPressingLeft || dragStart.HasValue)
             {
+                isPressingLeft = true;
+
                 if (!Controls.Any(x => x.IsMouseOver))
                 {
-                    if (keyboardState.IsKeyUp(Keys.LeftShift))
-                        selectedActors.Clear();
-                    if (mouseOverActor != null && !selectedActors.Contains(mouseOverActor))
-                        selectedActors.Add(mouseOverActor);
-
-                    if (dragStart.HasValue)
+                    if (isTargetting != null)
                     {
-                        if (Math.Abs(mouseState.X - dragStart.Value.X) > 10 || Math.Abs(mouseState.Y - dragStart.Value.Y) > 10)
-                            dragEnd = mouseState;
+                        var ability = isTargetting.Ability;
+                        var actor = isTargetting.Actor;
+                        var target = mouseOverActor;
+
+                        if (ability.TargettingType == TargettingTypes.Self)
+                            actor.Orders.Insert(0, new Order(ability, actor, actor));
+                        else if (ability.TargettingType == TargettingTypes.Hostile && target != null && target.Faction != actor.Faction)
+                            actor.Orders.Insert(0, new Order(ability, actor, target));
+                        else if (ability.TargettingType == TargettingTypes.Friendly && target != null && target.Faction == actor.Faction)
+                            actor.Orders.Insert(0, new Order(ability, actor, target));
+
+                        isTargetting = null;
                     }
                     else
-                        dragStart = mouseState;
-
-                    if (dragStart.HasValue && dragEnd.HasValue)
                     {
-                        var x1 = Math.Min(dragStart.Value.X, dragEnd.Value.X);
-                        var x2 = Math.Max(dragStart.Value.X, dragEnd.Value.X);
-                        var y1 = Math.Min(dragStart.Value.Y, dragEnd.Value.Y);
-                        var y2 = Math.Max(dragStart.Value.Y, dragEnd.Value.Y);
+                        if (keyboardState.IsKeyUp(Keys.LeftShift))
+                            selectedActors.Clear();
+                        if (mouseOverActor != null && !selectedActors.Contains(mouseOverActor))
+                            selectedActors.Add(mouseOverActor);
 
-                        selectedActors.Clear();
-                        foreach (var actor in battle.Actors.Where(x => x.IsAlive && x.Faction == Factions.Friend))
+                        if (dragStart.HasValue)
                         {
-                            var pos = scene.Project(actor.Position);
-                            if (pos.X > x1 && pos.X < x2 && pos.Y > y1 && pos.Y < y2)
-                                selectedActors.Add(actor);
+                            if (Math.Abs(mouseState.X - dragStart.Value.X) > 10 || Math.Abs(mouseState.Y - dragStart.Value.Y) > 10)
+                                dragEnd = mouseState;
+                        }
+                        else
+                            dragStart = mouseState;
+
+                        if (dragStart.HasValue && dragEnd.HasValue)
+                        {
+                            var x1 = Math.Min(dragStart.Value.X, dragEnd.Value.X);
+                            var x2 = Math.Max(dragStart.Value.X, dragEnd.Value.X);
+                            var y1 = Math.Min(dragStart.Value.Y, dragEnd.Value.Y);
+                            var y2 = Math.Max(dragStart.Value.Y, dragEnd.Value.Y);
+
+                            selectedActors.Clear();
+                            foreach (var actor in battle.Actors.Where(x => x.IsAlive && x.Faction == Factions.Friend))
+                            {
+                                var pos = scene.Project(actor.Position);
+                                if (pos.X > x1 && pos.X < x2 && pos.Y > y1 && pos.Y < y2)
+                                    selectedActors.Add(actor);
+                            }
                         }
                     }
                 }
+                else
+                {
+                    isTargetting = null;
+                }
             }
-            else
+
+            if (mouseState.LeftButton == ButtonState.Released)
             {
+                isPressingLeft = false;
                 dragStart = null;
                 dragEnd = null;
             }
 
             if (mouseState.RightButton == ButtonState.Pressed && selectedActors.Any())
             {
+                isTargetting = null;
+
                 if (mouseOverActor != null)
                 {
                     selectedActors.Where(x => x.IsAlive).ToList().ForEach(x =>
@@ -510,8 +550,9 @@ namespace EterniaXna.Screens
                 {
                     var order = selectedActor.Orders.ElementAt(i);
                     var abilityTexture = ContentManager.Load<Texture2D>(@"Icons\" + order.Ability.TextureName) ?? defaultAbilityTexture;
+                    var targetTexture = order.Target != null ? ContentManager.Load<Texture2D>(@"Models\Actors\" + order.Target.TextureName + "_portrait") : ContentManager.Load<Texture2D>(@"Models\Actors\" + selectedActor.TextureName + "_portrait");
 
-                    orderQueueButtons[i].Content = new OrderButton(orderQueueButtons[i], selectedActor, order, abilityTexture, BlankTexture, kootenayFont);
+                    orderQueueButtons[i].Content = new OrderButton(orderQueueButtons[i], selectedActor, order, abilityTexture, BlankTexture, targetTexture, kootenayFont);
                     orderQueueButtons[i].Tooltip = new AbilityTooltip(selectedActor, order.Ability) { Font = kootenaySmallFont };
                 }
             }

@@ -31,9 +31,12 @@ namespace Eternia.XnaClient
 
         public override void Update(GameTime time, bool isPaused)
         {
-            Age += (float)time.ElapsedGameTime.TotalSeconds;
-            Scale = 1f + 10f * Age;
-            Alpha = 1f - 4f * Age;
+            if (!isPaused)
+            {
+                Age += (float)time.ElapsedGameTime.TotalSeconds;
+                Scale = 1f + 10f * Age;
+                Alpha = 1f - 4f * Age;
+            }
         }
 
         public override void Draw(Matrix view, Matrix projection)
@@ -59,6 +62,7 @@ namespace Eternia.XnaClient
 
             graphicsDevice.DepthStencilState = DepthStencilState.None;
             graphicsDevice.BlendState = BlendState.AlphaBlend;
+            graphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
 
             foreach (var pass in effect.CurrentTechnique.Passes)
             {

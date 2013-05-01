@@ -9,9 +9,9 @@ sampler Sampler = sampler_state
 {
     Texture = (Texture);
 
-    MinFilter = Linear;
-    MagFilter = Linear;
-    MipFilter = Linear;
+    //MinFilter = Linear;
+    //MagFilter = Linear;
+    //MipFilter = Linear;
 };
 
 struct VertexShaderInput
