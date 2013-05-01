@@ -661,13 +661,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Actors\king.fbx">
-      <Name>king</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>SkinnedModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Models\Actors\executioner_portrait.png">
       <Name>executioner_portrait</Name>
       <Importer>TextureImporter</Importer>
@@ -680,49 +673,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Actors\executioner.fbx">
-      <Name>executioner</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>SkinnedModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\Actors\rogue.fbx">
-      <Name>rogue</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>SkinnedModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\Actors\wizard.fbx">
-      <Name>wizard</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>SkinnedModelProcessor</Processor>
-    </Compile>
-    <Compile Include="Models\Actors\ranger.fbx">
-      <Name>ranger</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>SkinnedModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\Actors\guardcaptain.fbx">
-      <Name>guardcaptain</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Models\Actors\cleric.fbx">
-      <Name>cleric</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>SkinnedModelProcessor</Processor>
-    </Compile>
-    <None Include="Models\Actors\warrior.fbx">
-      <Name>warrior</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </None>
     <Compile Include="Models\Levels\pillarlevel.fbx">
       <Name>pillarlevel</Name>
       <Importer>FbxImporter</Importer>

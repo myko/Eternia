@@ -20,26 +20,8 @@ namespace Eternia.XnaClient
 
         public override void Draw(Matrix view, Matrix projection)
         {
-            //graphicsDevice.RenderState.DepthBufferEnable = true;
             graphicsDevice.DepthStencilState = DepthStencilState.Default;
             graphicsDevice.SamplerStates[0] = SamplerState.PointWrap;
-            //.AddressU = TextureAddressMode.Wrap;
-            //graphicsDevice.SamplerStates[0].AddressW = TextureAddressMode.Wrap;
-            //graphicsDevice.SamplerStates[0].AddressV = TextureAddressMode.Wrap;
-            //graphicsDevice.SamplerStates[0].MinFilter = TextureFilter.Point;
-            //graphicsDevice.SamplerStates[0].MagFilter = TextureFilter.Point;
-            //graphicsDevice.SamplerStates[0].MipFilter = TextureFilter.Point;
-            
-            //graphicsDevice.SamplerStates[0].Filter = TextureFilter.Point;
-
-            //graphicsDevice.SamplerStates[0].MaxMipLevel = 0;
-
-            //graphicsDevice.SamplerStates[1].AddressU = TextureAddressMode.Wrap;
-            //graphicsDevice.SamplerStates[1].AddressW = TextureAddressMode.Wrap;
-            //graphicsDevice.SamplerStates[1].AddressV = TextureAddressMode.Wrap;
-            //graphicsDevice.SamplerStates[1].MinFilter = TextureFilter.None;
-            //graphicsDevice.SamplerStates[1].MagFilter = TextureFilter.None;
-            //graphicsDevice.SamplerStates[1].MaxMipLevel = 0;
 
             foreach (ModelMesh mesh in levelModel.Meshes)
             {
@@ -61,39 +43,18 @@ namespace Eternia.XnaClient
                     effect.FogEnd = 60f;
                     effect.FogStart = 40f;
                 }
-
-                //graphicsDevice.Indices = mesh.IndexBuffer;
-
+                
                 foreach (var part in mesh.MeshParts)
                 {
-                    graphicsDevice.Indices = part.IndexBuffer;  //2013-04-28 Tommy XNA4.0 change from ModelMesh to ModelMesh.MeshParts
-                    //part.Effect.Begin();
-
-                    //graphicsDevice.Vertices[0].SetSource(mesh.VertexBuffer, part.StreamOffset, part.VertexStride);
+                    graphicsDevice.Indices = part.IndexBuffer;
                     graphicsDevice.SetVertexBuffer(part.VertexBuffer, part.VertexOffset);
-                    //graphicsDevice.VertexDeclaration = part.VertexDeclaration;
 
-                    foreach (var t in part.Effect.Techniques)
+                    foreach (var p in part.Effect.Techniques.SelectMany(x => x.Passes))
                     {
-                        foreach (var p in t.Passes)
-                        {
-                            p.Apply();
-                            //p.Begin();
+                        p.Apply();
 
-                            //graphicsDevice.SamplerStates[0].MipFilter = TextureFilter.Point;
-                            //graphicsDevice.SamplerStates[0].MinFilter = TextureFilter.Point;
-                            //graphicsDevice.SamplerStates[0].MagFilter = TextureFilter.Point;
-                            
-                            //graphicsDevice.SamplerStates[0].Filter = TextureFilter.Point;
-
-                            //graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, part.BaseVertex, 0, part.NumVertices, part.StartIndex, part.PrimitiveCount);
-                            graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, part.NumVertices, part.StartIndex, part.PrimitiveCount);
-
-                            //p.End();
-                        }
+                        graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, part.NumVertices, part.StartIndex, part.PrimitiveCount);
                     }
-
-                    //part.Effect.End();
                 }
             }
 

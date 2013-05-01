@@ -220,14 +220,14 @@
       <Project>{8B765BA8-7563-4E2B-B58D-DE0DA5338B92}</Project>
       <Name>Myko.Xna.Ui</Name>
     </ProjectReference>
-    <ProjectReference Include="Content\Eternia.XnaClientContent.contentproj">
+    <ProjectReference Include="Content\Eternia.Content.contentproj">
       <Project>{DC3D91CD-6566-40B8-B00F-B3BE94216A29}</Project>
-      <Name>Eternia.XnaClientContent %28Content%29</Name>
+      <Name>Eternia.Content %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
     </ProjectReference>
-    <ProjectReference Include="GameContent\Eternia.XnaClientGameContent.contentproj">
+    <ProjectReference Include="GameContent\Eternia.GameContent.contentproj">
       <Project>{3D73C0D5-5C5E-455C-8FF6-6334643E7EE7}</Project>
-      <Name>Eternia.XnaClientGameContent %28Content%29</Name>
+      <Name>Eternia.GameContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
     </ProjectReference>
   </ItemGroup>

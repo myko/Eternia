@@ -57,31 +57,14 @@ namespace Eternia.XnaClient
             effect.Parameters["Alpha"].SetValue(Alpha);
             effect.Parameters["Diffuse"].SetValue(Color.White.ToVector4());
 
-            //graphicsDevice.VertexDeclaration = new VertexDeclaration(graphicsDevice, VertexPositionTexture.VertexElements);
-            //graphicsDevice.RenderState.AlphaBlendEnable = true;
-            //graphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha;
-            //graphicsDevice.RenderState.DestinationBlend = Blend.One;
-            //graphicsDevice.RenderState.DepthBufferWriteEnable = false;
             graphicsDevice.DepthStencilState = DepthStencilState.None;
             graphicsDevice.BlendState = BlendState.AlphaBlend;
 
-            //effect.Begin();
             foreach (var pass in effect.CurrentTechnique.Passes)
             {
-                //pass.Begin();
                 pass.Apply();
                 graphicsDevice.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, vertices, 0, 2);
-                //pass.End();
             }
-            //effect.End();
-
-            //graphicsDevice.RenderState.AlphaBlendEnable = true;
-            //graphicsDevice.RenderState.SourceBlend = Blend.SourceAlpha;
-            //graphicsDevice.RenderState.DestinationBlend = Blend.InverseSourceAlpha;
-            //graphicsDevice.RenderState.DepthBufferWriteEnable = true;
-            graphicsDevice.BlendState = BlendState.AlphaBlend;
-            graphicsDevice.DepthStencilState = DepthStencilState.Default;
-
 
             base.Draw(view, projection);
         }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Eternia.XnaClient;
 using Eternia.Game;
 using Eternia.Game.Actors;
+using Eternia.XnaClient;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -102,22 +102,22 @@ namespace EterniaXna.Screens
             scene = new Scene(ScreenManager.GraphicsDevice);
             scene.LoadContent(ContentManager);
             scene.Nodes.Add(new Level(ScreenManager.GraphicsDevice, ContentManager.Load<Model>(@"Models\Levels\pillarlevel")));
-            //scene.Nodes.Add(new ParticleSystem(ContentManager.Load<Effect>(@"Shaders\Particle"), ScreenManager.GraphicsDevice)
-            //{
-            //    BlendState = BlendState.NonPremultiplied,
-            //    Texture = ContentManager.Load<Texture2D>(@"Sprites\fog"),
-            //    RotationSpeed = 0.2f,
-            //    SpawnRate = 0,
-            //    MaxParticles = 200,
-            //    Emitter = () => new Particle()
-            //    {
-            //        Position = random.NextVector3(-40, 40) - new Vector3(0, 2, 0),
-            //        Opacity = random.Between(0.1f, 0.16f),
-            //        Size = random.Between(15f, 18f),
-            //        Rotation = random.Between(0f, 6f),
-            //        LifeSpan = float.PositiveInfinity
-            //    },
-            //});
+            scene.Nodes.Add(new ParticleSystem(ContentManager.Load<Effect>(@"Shaders\Particle"), ScreenManager.GraphicsDevice)
+            {
+                BlendState = BlendState.NonPremultiplied,
+                Texture = ContentManager.Load<Texture2D>(@"Sprites\fog"),
+                RotationSpeed = 0.2f,
+                SpawnRate = 0,
+                MaxParticles = 200,
+                Emitter = () => new Particle()
+                {
+                    Position = random.NextVector3(-40, 40) - new Vector3(0, 2, 0),
+                    Opacity = random.Between(0.1f, 0.16f),
+                    Size = random.Between(15f, 18f),
+                    Rotation = random.Between(0f, 6f),
+                    LifeSpan = float.PositiveInfinity
+                },
+            });
             scene.Nodes.Add(scrollingTextSystem = new ScrollingTextSystem(scene, SpriteBatch, kootenaySmallFont, kootenayFont));
 
             // TODO: This is map specific
