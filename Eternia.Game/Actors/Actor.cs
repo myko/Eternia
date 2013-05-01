@@ -171,12 +171,15 @@ namespace Eternia.Game.Actors
         {
             Id = actorDefinition.Id;
             Abilities.AddRange(actorDefinition.Abilities);
+            Equipment.AddRange(actorDefinition.Equipment.Select(x => new Item(x)));
             BaseStatistics = actorDefinition.BaseStatistics;
             Diameter = actorDefinition.Diameter;
             MovementSpeed = actorDefinition.MovementSpeed;
             Faction = actorDefinition.Faction;
             Name = actorDefinition.Name;
             TextureName = actorDefinition.TextureName;
+            Cost = actorDefinition.Cost;
+            ResourceType = actorDefinition.ResourceType;
 
             CurrentHealth = MaximumHealth;
             CurrentMana = MaximumMana;

@@ -1,8 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <XnaContent xmlns:Actors="Eternia.Game.Actors" xmlns:Stats="Eternia.Game.Stats">
-  <Asset Type="Actors:Actor">
+  <Asset Type="Actors:ActorDefinition">
     <Id>warrior</Id>
     <Name>Warrior</Name>
+    <Faction>Friend</Faction>
+    <ResourceType>Energy</ResourceType>
+    <Cost>0</Cost>
+    <Diameter>1.5</Diameter>
+    <MovementSpeed>7</MovementSpeed>
+    <TextureName>warrior</TextureName>
+    <BaseStatistics>
+      <Item Type="Stats:Health">
+        <Value>125</Value>
+      </Item>
+      <Item Type="Stats:Energy">
+        <Value>100</Value>
+      </Item>
+      <Item Type="Stats:Dodge">
+        <Rating>0</Rating>
+      </Item>
+    </BaseStatistics>
     <Abilities>
       <Item>
         <Name>Shield Block</Name>
@@ -37,6 +54,7 @@
         <ThreatModifier>1</ThreatModifier>
         <CanMiss>false</CanMiss>
         <CanBeDodged>false</CanBeDodged>
+        <CanBeBlocked>true</CanBeBlocked>
         <CanCrit>false</CanCrit>
         <AurasApplied>
           <Item>
@@ -99,6 +117,7 @@
         <ThreatModifier>2.5</ThreatModifier>
         <CanMiss>true</CanMiss>
         <CanBeDodged>true</CanBeDodged>
+        <CanBeBlocked>true</CanBeBlocked>
         <CanCrit>true</CanCrit>
         <AurasApplied />
       </Item>
@@ -135,6 +154,7 @@
         <ThreatModifier>2.5</ThreatModifier>
         <CanMiss>true</CanMiss>
         <CanBeDodged>true</CanBeDodged>
+        <CanBeBlocked>true</CanBeBlocked>
         <CanCrit>true</CanCrit>
         <AurasApplied />
       </Item>
@@ -171,6 +191,7 @@
         <ThreatModifier>0.5</ThreatModifier>
         <CanMiss>true</CanMiss>
         <CanBeDodged>true</CanBeDodged>
+        <CanBeBlocked>true</CanBeBlocked>
         <CanCrit>true</CanCrit>
         <AurasApplied />
       </Item>
@@ -207,6 +228,7 @@
         <ThreatModifier>1</ThreatModifier>
         <CanMiss>true</CanMiss>
         <CanBeDodged>true</CanBeDodged>
+        <CanBeBlocked>true</CanBeBlocked>
         <CanCrit>true</CanCrit>
         <AurasApplied />
       </Item>
@@ -236,18 +258,18 @@
         <Duration>1</Duration>
         <Range>
           <Minimum>0</Minimum>
-          <Maximum>1.5</Maximum>
+          <Maximum>4</Maximum>
         </Range>
         <DamageType>PointBlankArea</DamageType>
         <TargettingType>Hostile</TargettingType>
         <ThreatModifier>0.5</ThreatModifier>
         <CanMiss>true</CanMiss>
         <CanBeDodged>true</CanBeDodged>
+        <CanBeBlocked>true</CanBeBlocked>
         <CanCrit>true</CanCrit>
         <AurasApplied />
       </Item>
     </Abilities>
-    <Auras />
     <Equipment>
       <Item>
         <Name>Warrior's Loincloth</Name>
@@ -257,20 +279,17 @@
         <Slot>Legs</Slot>
         <ArmorClass>Plate</ArmorClass>
         <Statistics>
-          <Item Type="Stats:Health">
-            <Value>80</Value>
+          <Item>
+            <TypeName>Armor</TypeName>
           </Item>
-          <Item Type="Stats:DamageReduction">
-            <ArmorRating>300</ArmorRating>
-            <FireResistanceRating>0</FireResistanceRating>
-            <FrostResistanceRating>0</FrostResistanceRating>
-            <ArcaneResistanceRating>0</ArcaneResistanceRating>
-            <NatureResistanceRating>0</NatureResistanceRating>
-            <HolyResistanceRating>0</HolyResistanceRating>
-            <UnholyResistanceRating>0</UnholyResistanceRating>
+          <Item>
+            <TypeName>Health</TypeName>
           </Item>
-          <Item Type="Stats:Dodge">
-            <Rating>14</Rating>
+          <Item>
+            <TypeName>Hit</TypeName>
+          </Item>
+          <Item>
+            <TypeName>AttackPower</TypeName>
           </Item>
         </Statistics>
       </Item>
@@ -282,20 +301,17 @@
         <Slot>Boots</Slot>
         <ArmorClass>Plate</ArmorClass>
         <Statistics>
-          <Item Type="Stats:Health">
-            <Value>55</Value>
+          <Item>
+            <TypeName>Armor</TypeName>
           </Item>
-          <Item Type="Stats:DamageReduction">
-            <ArmorRating>200</ArmorRating>
-            <FireResistanceRating>0</FireResistanceRating>
-            <FrostResistanceRating>0</FrostResistanceRating>
-            <ArcaneResistanceRating>0</ArcaneResistanceRating>
-            <NatureResistanceRating>0</NatureResistanceRating>
-            <HolyResistanceRating>0</HolyResistanceRating>
-            <UnholyResistanceRating>0</UnholyResistanceRating>
+          <Item>
+            <TypeName>Health</TypeName>
           </Item>
-          <Item Type="Stats:Dodge">
-            <Rating>24</Rating>
+          <Item>
+            <TypeName>AttackPower</TypeName>
+          </Item>
+          <Item>
+            <TypeName>Dodge</TypeName>
           </Item>
         </Statistics>
       </Item>
@@ -307,23 +323,17 @@
         <Slot>Chest</Slot>
         <ArmorClass>Plate</ArmorClass>
         <Statistics>
-          <Item Type="Stats:Health">
-            <Value>110</Value>
+          <Item>
+            <TypeName>Armor</TypeName>
           </Item>
-          <Item Type="Stats:AttackPower">
-            <Value>14</Value>
+          <Item>
+            <TypeName>Health</TypeName>
           </Item>
-          <Item Type="Stats:DamageReduction">
-            <ArmorRating>400</ArmorRating>
-            <FireResistanceRating>0</FireResistanceRating>
-            <FrostResistanceRating>0</FrostResistanceRating>
-            <ArcaneResistanceRating>0</ArcaneResistanceRating>
-            <NatureResistanceRating>0</NatureResistanceRating>
-            <HolyResistanceRating>0</HolyResistanceRating>
-            <UnholyResistanceRating>0</UnholyResistanceRating>
+          <Item>
+            <TypeName>AttackPower</TypeName>
           </Item>
-          <Item Type="Stats:Hit">
-            <Rating>24</Rating>
+          <Item>
+            <TypeName>Block</TypeName>
           </Item>
         </Statistics>
       </Item>
@@ -335,20 +345,17 @@
         <Slot>Offhand</Slot>
         <ArmorClass>Plate</ArmorClass>
         <Statistics>
-          <Item Type="Stats:Health">
-            <Value>110</Value>
+          <Item>
+            <TypeName>Armor</TypeName>
           </Item>
-          <Item Type="Stats:DamageReduction">
-            <ArmorRating>500</ArmorRating>
-            <FireResistanceRating>0</FireResistanceRating>
-            <FrostResistanceRating>0</FrostResistanceRating>
-            <ArcaneResistanceRating>0</ArcaneResistanceRating>
-            <NatureResistanceRating>0</NatureResistanceRating>
-            <HolyResistanceRating>0</HolyResistanceRating>
-            <UnholyResistanceRating>0</UnholyResistanceRating>
+          <Item>
+            <TypeName>Dodge</TypeName>
           </Item>
-          <Item Type="Stats:Hit">
-            <Rating>14</Rating>
+          <Item>
+            <TypeName>Block</TypeName>
+          </Item>
+          <Item>
+            <TypeName>Health</TypeName>
           </Item>
         </Statistics>
       </Item>
@@ -360,43 +367,20 @@
         <Slot>Weapon</Slot>
         <ArmorClass>Plate</ArmorClass>
         <Statistics>
-          <Item Type="Stats:Health">
-            <Value>20</Value>
+          <Item>
+            <TypeName>Hit</TypeName>
           </Item>
-          <Item Type="Stats:AttackPower">
-            <Value>24</Value>
+          <Item>
+            <TypeName>AttackPower</TypeName>
           </Item>
-          <Item Type="Stats:DamageReduction">
-            <ArmorRating>100</ArmorRating>
-            <FireResistanceRating>0</FireResistanceRating>
-            <FrostResistanceRating>0</FrostResistanceRating>
-            <ArcaneResistanceRating>0</ArcaneResistanceRating>
-            <NatureResistanceRating>0</NatureResistanceRating>
-            <HolyResistanceRating>0</HolyResistanceRating>
-            <UnholyResistanceRating>0</UnholyResistanceRating>
+          <Item>
+            <TypeName>Armor</TypeName>
+          </Item>
+          <Item>
+            <TypeName>Health</TypeName>
           </Item>
         </Statistics>
       </Item>
     </Equipment>
-    <Faction>Friend</Faction>
-    <Position>0 0</Position>
-    <Diameter>1.5</Diameter>
-    <PlayerControlled>true</PlayerControlled>
-    <TextureName>warrior</TextureName>
-    <BaseStatistics>
-      <Item Type="Stats:Health">
-        <Value>125</Value>
-      </Item>
-      <Item Type="Stats:Energy">
-        <Value>100</Value>
-      </Item>
-      <Item Type="Stats:Dodge">
-        <Rating>0</Rating>
-      </Item>
-    </BaseStatistics>
-    <TargettingStrategy>Manual</TargettingStrategy>
-    <Cost>0</Cost>
-    <MovementSpeed>7</MovementSpeed>
-    <ResourceType>Energy</ResourceType>
   </Asset>
 </XnaContent>

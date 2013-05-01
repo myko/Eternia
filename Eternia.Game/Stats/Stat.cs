@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 //using Microsoft.Xna.Framework.Graphics;   //Tommy 2013-04-26  Upgrade to XNA 4.0. Color was moved from namespace Microsoft.Xna.Framework.Graphics to Microsoft.Xna.Framework
-using Microsoft.Xna.Framework;  //Tommy 2013-04-26  Upgrade to XNA 4.0. Color was moved from namespace Microsoft.Xna.Framework.Graphics to Microsoft.Xna.Framework
+using Microsoft.Xna.Framework;
+using Eternia.Game.Items;  //Tommy 2013-04-26  Upgrade to XNA 4.0. Color was moved from namespace Microsoft.Xna.Framework.Graphics to Microsoft.Xna.Framework
 
 namespace Eternia.Game.Stats
 {
@@ -29,6 +30,7 @@ namespace Eternia.Game.Stats
         public abstract string ToValueString();
         public abstract string ToItemTooltipString();
         public abstract string ToItemUpgradeString();
+        public abstract void SetItemValue(int level, ItemArmorClasses armorClass, float itemSlotModifier);
 
         protected abstract StatBase InternalAdd(StatBase s);
         protected abstract StatBase InternalSubtract(StatBase s);

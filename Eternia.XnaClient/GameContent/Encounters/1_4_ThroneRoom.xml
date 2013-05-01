@@ -29,14 +29,8 @@
           <Item Type="Stats:Hit">
             <Rating>506</Rating>
           </Item>
-          <Item Type="Stats:DamageReduction">
-            <ArmorRating>174</ArmorRating>
-            <FireResistanceRating>0</FireResistanceRating>
-            <FrostResistanceRating>0</FrostResistanceRating>
-            <ArcaneResistanceRating>0</ArcaneResistanceRating>
-            <NatureResistanceRating>0</NatureResistanceRating>
-            <HolyResistanceRating>0</HolyResistanceRating>
-            <UnholyResistanceRating>0</UnholyResistanceRating>
+          <Item Type="Stats:Armor">
+            <Rating>174</Rating>
           </Item>
         </BaseStatistics>
         <Abilities>
@@ -125,14 +119,8 @@
           <Item Type="Stats:Hit">
             <Rating>461</Rating>
           </Item>
-          <Item Type="Stats:DamageReduction">
-            <ArmorRating>223</ArmorRating>
-            <FireResistanceRating>0</FireResistanceRating>
-            <FrostResistanceRating>0</FrostResistanceRating>
-            <ArcaneResistanceRating>0</ArcaneResistanceRating>
-            <NatureResistanceRating>0</NatureResistanceRating>
-            <HolyResistanceRating>0</HolyResistanceRating>
-            <UnholyResistanceRating>0</UnholyResistanceRating>
+          <Item Type="Stats:Armor">
+            <Rating>223</Rating>
           </Item>
         </BaseStatistics>
         <Abilities>

@@ -19,14 +19,8 @@
           <Item Type="Stats:Health">
             <Value>4963</Value>
           </Item>
-          <Item Type="Stats:DamageReduction">
-            <ArmorRating>181</ArmorRating>
-            <FireResistanceRating>0</FireResistanceRating>
-            <FrostResistanceRating>0</FrostResistanceRating>
-            <ArcaneResistanceRating>0</ArcaneResistanceRating>
-            <NatureResistanceRating>0</NatureResistanceRating>
-            <HolyResistanceRating>0</HolyResistanceRating>
-            <UnholyResistanceRating>0</UnholyResistanceRating>
+          <Item Type="Stats:Armor">
+            <Rating>181</Rating>
           </Item>
           <Item Type="Stats:CriticalStrike">
             <Rating>31</Rating>

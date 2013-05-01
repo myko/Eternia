@@ -60,7 +60,7 @@ namespace EterniaXna.Screens
             for (int i = 0; i < 5 + random.Between(0, battle.Actors.Sum(x => x.CurrentStatistics.For<ExtraRewards>().Value)); i++)
             {
                 //var item = encounterDefinition.Loot.Any() ? random.From(encounterDefinition.Loot) : generator.Generate(encounterDefinition.ItemLevel);
-                var item = generator.Generate(encounterDefinition.ItemLevel);
+                var item = new Item(generator.Generate(encounterDefinition.ItemLevel));
                 rewardsListBox.Items.Add(item, new ItemTooltip(item) { Font = smallFont }, ItemTooltip.GetItemColor(item.Rarity));
             }
             

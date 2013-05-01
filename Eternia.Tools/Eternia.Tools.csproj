@@ -57,6 +57,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Design" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -70,17 +71,47 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActorForm.cs">
+    <Compile Include="ActorDefinitionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ActorForm.Designer.cs">
-      <DependentUpon>ActorForm.cs</DependentUpon>
+    <Compile Include="ActorDefinitionForm.Designer.cs">
+      <DependentUpon>ActorDefinitionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ItemDefinitionEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ItemDefinitionEditorForm.Designer.cs">
+      <DependentUpon>ItemDefinitionEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ItemDefinitionEditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ItemDefinitionEditorControl.Designer.cs">
+      <DependentUpon>ItemDefinitionEditorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StatDefinitionListEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StatDefinitionListEditorForm.Designer.cs">
+      <DependentUpon>StatDefinitionListEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StatisticsViewerControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StatisticsViewerControl.Designer.cs">
+      <DependentUpon>StatisticsViewerControl.cs</DependentUpon>
     </Compile>
     <Compile Include="EncounterForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="EncounterForm.Designer.cs">
       <DependentUpon>EncounterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StatisticsEditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StatisticsEditorControl.Designer.cs">
+      <DependentUpon>StatisticsEditorControl.cs</DependentUpon>
     </Compile>
     <Compile Include="StatisticsEditorForm.cs">
       <SubType>Form</SubType>
@@ -96,8 +127,20 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ActorForm.resx">
-      <DependentUpon>ActorForm.cs</DependentUpon>
+    <EmbeddedResource Include="ActorDefinitionForm.resx">
+      <DependentUpon>ActorDefinitionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ItemDefinitionEditorForm.resx">
+      <DependentUpon>ItemDefinitionEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ItemDefinitionEditorControl.resx">
+      <DependentUpon>ItemDefinitionEditorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StatDefinitionListEditorForm.resx">
+      <DependentUpon>StatDefinitionListEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StatisticsViewerControl.resx">
+      <DependentUpon>StatisticsViewerControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EncounterForm.resx">
       <DependentUpon>EncounterForm.cs</DependentUpon>
@@ -106,6 +149,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StatisticsEditorControl.resx">
+      <DependentUpon>StatisticsEditorControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StatisticsEditorForm.resx">
       <DependentUpon>StatisticsEditorForm.cs</DependentUpon>

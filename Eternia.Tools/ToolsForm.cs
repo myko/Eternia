@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.IO;
-using Eternia.Tools.Properties;
+using System.Windows.Forms;
 using System.Xml;
-using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
 using Eternia.Game.Actors;
+using Eternia.Tools.Properties;
+using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
 
 namespace Eternia.Tools
 {
@@ -31,13 +25,24 @@ namespace Eternia.Tools
                 var actorMenuItem = actorsToolStripMenuItem.DropDown.Items.Add(Path.GetFileName(fileName));
                 actorMenuItem.Click += (x, y) =>
                 {
-                    using (var reader = XmlReader.Create(fileName))
-                    {
-                        var actor = IntermediateSerializer.Deserialize<Actor>(reader, Resources.SourcePath + @"Eternia.XnaClient\GameContent\Actors\");
-                        new ActorForm(fileName) { Text = fileName, MdiParent = this }.Show();
-                    }
+                    //using (var reader = XmlReader.Create(fileName))
+                    //{
+                        //var actor = IntermediateSerializer.Deserialize<ActorDefinition>(reader, Resources.SourcePath + @"Eternia.XnaClient\GameContent\Actors\");
+                        new ActorDefinitionForm(fileName) { Text = fileName, MdiParent = this }.Show();
+                    //}
                 };
             }
+
+            var newActorMenuItem = actorsToolStripMenuItem.DropDown.Items.Add("New...");
+            newActorMenuItem.Click += (x, y) =>
+            {
+                saveFileDialog1.InitialDirectory = Resources.SourcePath + @"Eternia.XnaClient\GameContent\Actors";
+                if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    var fileName = saveFileDialog1.FileName;
+                    new ActorDefinitionForm(fileName) { Text = fileName, MdiParent = this }.Show();
+                }
+            };
 
             files = Directory.GetFiles(Resources.SourcePath + @"Eternia.XnaClient\GameContent\Encounters", "*.xml");
 

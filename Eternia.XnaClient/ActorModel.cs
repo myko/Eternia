@@ -66,8 +66,11 @@ namespace Eternia.XnaClient
 
             Matrix world = Matrix.CreateScale(Actor.Diameter) * Matrix.CreateTranslation(new Vector3(Actor.Position.X, 0, Actor.Position.Y));
 
-            //if (!Actor.IsAlive)
-            //    world = Matrix.CreateRotationX(Microsoft.Xna.Framework.MathHelper.ToRadians(-90f)) * world * Matrix.CreateTranslation(0, 0, 1);
+            if (!Actor.IsAlive)
+            {
+                world = Matrix.CreateRotationY(Microsoft.Xna.Framework.MathHelper.ToRadians(90f)) * Matrix.CreateScale(new Vector3(1, 1, 0.6f)) * world;
+                color = Color.DarkGray;
+            }
 
             var vertices = new VertexPositionColorTexture[6];
 

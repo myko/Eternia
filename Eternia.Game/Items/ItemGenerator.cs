@@ -15,7 +15,7 @@ namespace Eternia.Game.Items
             this.randomizer = randomizer;
         }
 
-        public Item Generate(int itemLevel)
+        public ItemDefinition Generate(int itemLevel)
         {
             var slot = randomizer.Next<ItemSlots>();
 
@@ -32,11 +32,11 @@ namespace Eternia.Game.Items
             return Generate(itemLevel, slot, rarity);
         }
 
-        public Item Generate(int itemLevel, ItemSlots slot, ItemRarities rarity)
+        public ItemDefinition Generate(int itemLevel, ItemSlots slot, ItemRarities rarity)
         {
             var armorClass = randomizer.Next<ItemArmorClasses>();
-            
-            var item = new Item();
+
+            var item = new ItemDefinition();
             item.Level = itemLevel;
             item.Rarity = rarity;
             item.Quality = ItemQualities.Superior;
@@ -50,15 +50,17 @@ namespace Eternia.Game.Items
             var armorClassHealthMultiplier = (float)(armorClass == ItemArmorClasses.Plate ? 4 : 1);
             var armorClassArmorMultipler = (float)Math.Pow(2, (int)armorClass);
 
-            var baseStatistics = new Statistics();
-            baseStatistics.Add(new Health(itemLevelMultiplier * armorClassHealthMultiplier * slotModifier * 25));
-            baseStatistics.Add(new DamageReduction { ArmorRating = (int)(itemLevelMultiplier * armorClassArmorMultipler * slotModifier * 25)});
+            //var baseStatistics = new Statistics();
+            //baseStatistics.Add(new Health(itemLevelMultiplier * armorClassHealthMultiplier * slotModifier * 25));
+            //baseStatistics.Add(new DamageReduction { ArmorRating = (int)(itemLevelMultiplier * armorClassArmorMultipler * slotModifier * 25)});
+            item.Statistics.Add(new StatDefinition(typeof(Health)));
+            item.Statistics.Add(new StatDefinition(typeof(Armor)));
 
             if (rarity > ItemRarities.Common)
             {
                 var prefix = string.Empty;
                 var suffix = string.Empty;
-                var statistics = new Statistics();
+                //var statistics = new Statistics();
 
                 for (int i = (int)rarity + 1; i > 0;)
                 {
@@ -69,23 +71,35 @@ namespace Eternia.Game.Items
                     else if (string.IsNullOrEmpty(suffix))
                         suffix = modifier.Suffix;
 
-                    statistics = statistics + modifier.Statistics * itemLevelMultiplier * slotModifier * 6.25f;
+                    //statistics = statistics + modifier.Statistics * itemLevelMultiplier * slotModifier * 6.25f;
+
+                    foreach (var stat in modifier.Statistics)
+                    {
+                        var statType = stat.GetType();
+                        if (!item.Statistics.Any(x => x.StatType == statType))
+                            item.Statistics.Add(new StatDefinition(statType));
+                    }
+                    
 
                     i -= modifier.Rank;
                 }
 
-                item.Statistics = baseStatistics + statistics;
+                //item.Statistics = baseStatistics + statistics;
                 item.Name = string.Format("{0} {1} {2}", prefix, slotName, suffix);
             }
             else
             {
                 var quality = randomizer.Next<ItemQualities>();
                 item.Name = quality.ToString() + " " + slotName;
-                item.Statistics = new Statistics();
                 item.Quality = quality;
             }
 
             return item;
+        }
+
+        public static float GetItemLevelMultiplier(int itemLevel)
+        {
+            return (float)(Math.Pow(2, (double)itemLevel * 0.1) * 0.5);
         }
     }
 }

@@ -10,6 +10,8 @@
         <Id>gatekeeper</Id>
         <Name>Gatekeeper</Name>
         <Faction>Enemy</Faction>
+        <ResourceType>Mana</ResourceType>
+        <Cost>0</Cost>
         <Diameter>2</Diameter>
         <MovementSpeed>5</MovementSpeed>
         <TextureName>gatekeeper</TextureName>
@@ -18,7 +20,7 @@
             <Value>1053</Value>
           </Item>
           <Item Type="Stats:Hit">
-            <Rating>486</Rating>
+            <Rating>441</Rating>
           </Item>
           <Item Type="Stats:CriticalStrike">
             <Rating>26</Rating>
@@ -26,20 +28,14 @@
           <Item Type="Stats:Dodge">
             <Rating>24</Rating>
           </Item>
-          <Item Type="Stats:DamageReduction">
-            <ArmorRating>178</ArmorRating>
-            <FireResistanceRating>0</FireResistanceRating>
-            <FrostResistanceRating>0</FrostResistanceRating>
-            <ArcaneResistanceRating>0</ArcaneResistanceRating>
-            <NatureResistanceRating>0</NatureResistanceRating>
-            <HolyResistanceRating>0</HolyResistanceRating>
-            <UnholyResistanceRating>0</UnholyResistanceRating>
+          <Item Type="Stats:Armor">
+            <Rating>178</Rating>
           </Item>
           <Item Type="Stats:AttackPower">
-            <Value>127</Value>
+            <Value>106</Value>
           </Item>
           <Item Type="Stats:SpellPower">
-            <Value>161</Value>
+            <Value>131</Value>
           </Item>
         </BaseStatistics>
         <Abilities>
@@ -49,8 +45,8 @@
             <AnimationName>Ability1</AnimationName>
             <TextureName>Spell_nature_acid_01</TextureName>
             <Damage>
-              <Value>15</Value>
-              <AttackPowerScale>0.81</AttackPowerScale>
+              <Value>12</Value>
+              <AttackPowerScale>0.72</AttackPowerScale>
               <SpellPowerScale>0</SpellPowerScale>
               <School>Physical</School>
             </Damage>
@@ -86,9 +82,9 @@
             <AnimationName>Spell1</AnimationName>
             <TextureName>Spell_nature_acid_01</TextureName>
             <Damage>
-              <Value>51</Value>
+              <Value>46</Value>
               <AttackPowerScale>0</AttackPowerScale>
-              <SpellPowerScale>0.71</SpellPowerScale>
+              <SpellPowerScale>0.65</SpellPowerScale>
               <School>Fire</School>
             </Damage>
             <Healing>
@@ -123,6 +119,7 @@
             <AurasApplied />
           </Item>
         </Abilities>
+        <Equipment />
       </Item>
     </Actors>
     <Triggers>

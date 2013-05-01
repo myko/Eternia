@@ -1,8 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <XnaContent xmlns:Actors="Eternia.Game.Actors" xmlns:Stats="Eternia.Game.Stats">
-  <Asset Type="Actors:Actor">
+  <Asset Type="Actors:ActorDefinition">
     <Id>cleric</Id>
     <Name>Cleric</Name>
+    <Faction>Friend</Faction>
+    <ResourceType>Mana</ResourceType>
+    <Cost>0</Cost>
+    <Diameter>1.5</Diameter>
+    <MovementSpeed>5</MovementSpeed>
+    <TextureName>cleric</TextureName>
+    <BaseStatistics>
+      <Item Type="Stats:Health">
+        <Value>125</Value>
+      </Item>
+      <Item Type="Stats:Mana">
+        <Value>125</Value>
+      </Item>
+    </BaseStatistics>
     <Abilities>
       <Item>
         <Name>Heal</Name>
@@ -37,6 +51,7 @@
         <ThreatModifier>1</ThreatModifier>
         <CanMiss>false</CanMiss>
         <CanBeDodged>false</CanBeDodged>
+        <CanBeBlocked>true</CanBeBlocked>
         <CanCrit>true</CanCrit>
         <AurasApplied />
       </Item>
@@ -73,6 +88,7 @@
         <ThreatModifier>1</ThreatModifier>
         <CanMiss>false</CanMiss>
         <CanBeDodged>false</CanBeDodged>
+        <CanBeBlocked>true</CanBeBlocked>
         <CanCrit>true</CanCrit>
         <AurasApplied>
           <Item>
@@ -131,11 +147,11 @@
         <ThreatModifier>1</ThreatModifier>
         <CanMiss>false</CanMiss>
         <CanBeDodged>false</CanBeDodged>
+        <CanBeBlocked>true</CanBeBlocked>
         <CanCrit>true</CanCrit>
         <AurasApplied />
       </Item>
     </Abilities>
-    <Auras />
     <Equipment>
       <Item>
         <Name>Cleric's Pants</Name>
@@ -145,23 +161,17 @@
         <Slot>Legs</Slot>
         <ArmorClass>Cloth</ArmorClass>
         <Statistics>
-          <Item Type="Stats:Health">
-            <Value>30</Value>
+          <Item>
+            <TypeName>Health</TypeName>
           </Item>
-          <Item Type="Stats:Mana">
-            <Value>5</Value>
+          <Item>
+            <TypeName>Armor</TypeName>
           </Item>
-          <Item Type="Stats:DamageReduction">
-            <ArmorRating>70</ArmorRating>
-            <FireResistanceRating>0</FireResistanceRating>
-            <FrostResistanceRating>0</FrostResistanceRating>
-            <ArcaneResistanceRating>0</ArcaneResistanceRating>
-            <NatureResistanceRating>0</NatureResistanceRating>
-            <HolyResistanceRating>0</HolyResistanceRating>
-            <UnholyResistanceRating>0</UnholyResistanceRating>
+          <Item>
+            <TypeName>Precision</TypeName>
           </Item>
-          <Item Type="Stats:CriticalStrike">
-            <Rating>14</Rating>
+          <Item>
+            <TypeName>SpellPower</TypeName>
           </Item>
         </Statistics>
       </Item>
@@ -173,23 +183,17 @@
         <Slot>Boots</Slot>
         <ArmorClass>Cloth</ArmorClass>
         <Statistics>
-          <Item Type="Stats:Health">
-            <Value>20</Value>
+          <Item>
+            <TypeName>Armor</TypeName>
           </Item>
-          <Item Type="Stats:Mana">
-            <Value>5</Value>
+          <Item>
+            <TypeName>Health</TypeName>
           </Item>
-          <Item Type="Stats:DamageReduction">
-            <ArmorRating>50</ArmorRating>
-            <FireResistanceRating>0</FireResistanceRating>
-            <FrostResistanceRating>0</FrostResistanceRating>
-            <ArcaneResistanceRating>0</ArcaneResistanceRating>
-            <NatureResistanceRating>0</NatureResistanceRating>
-            <HolyResistanceRating>0</HolyResistanceRating>
-            <UnholyResistanceRating>0</UnholyResistanceRating>
+          <Item>
+            <TypeName>Mana</TypeName>
           </Item>
-          <Item Type="Stats:Precision">
-            <Rating>14</Rating>
+          <Item>
+            <TypeName>SpellPower</TypeName>
           </Item>
         </Statistics>
       </Item>
@@ -201,26 +205,17 @@
         <Slot>Chest</Slot>
         <ArmorClass>Cloth</ArmorClass>
         <Statistics>
-          <Item Type="Stats:Health">
-            <Value>40</Value>
+          <Item>
+            <TypeName>Armor</TypeName>
           </Item>
-          <Item Type="Stats:Mana">
-            <Value>5</Value>
+          <Item>
+            <TypeName>Health</TypeName>
           </Item>
-          <Item Type="Stats:SpellPower">
-            <Value>14</Value>
+          <Item>
+            <TypeName>Mana</TypeName>
           </Item>
-          <Item Type="Stats:DamageReduction">
-            <ArmorRating>90</ArmorRating>
-            <FireResistanceRating>0</FireResistanceRating>
-            <FrostResistanceRating>0</FrostResistanceRating>
-            <ArcaneResistanceRating>0</ArcaneResistanceRating>
-            <NatureResistanceRating>0</NatureResistanceRating>
-            <HolyResistanceRating>0</HolyResistanceRating>
-            <UnholyResistanceRating>0</UnholyResistanceRating>
-          </Item>
-          <Item Type="Stats:Precision">
-            <Rating>24</Rating>
+          <Item>
+            <TypeName>Precision</TypeName>
           </Item>
         </Statistics>
       </Item>
@@ -232,14 +227,17 @@
         <Slot>Offhand</Slot>
         <ArmorClass>Cloth</ArmorClass>
         <Statistics>
-          <Item Type="Stats:Health">
-            <Value>15</Value>
+          <Item>
+            <TypeName>Armor</TypeName>
           </Item>
-          <Item Type="Stats:Mana">
-            <Value>5</Value>
+          <Item>
+            <TypeName>Health</TypeName>
           </Item>
-          <Item Type="Stats:SpellPower">
-            <Value>24</Value>
+          <Item>
+            <TypeName>Mana</TypeName>
+          </Item>
+          <Item>
+            <TypeName>SpellPower</TypeName>
           </Item>
         </Statistics>
       </Item>
@@ -251,43 +249,20 @@
         <Slot>Weapon</Slot>
         <ArmorClass>Cloth</ArmorClass>
         <Statistics>
-          <Item Type="Stats:Health">
-            <Value>20</Value>
+          <Item>
+            <TypeName>Armor</TypeName>
           </Item>
-          <Item Type="Stats:Mana">
-            <Value>5</Value>
+          <Item>
+            <TypeName>Health</TypeName>
           </Item>
-          <Item Type="Stats:DamageReduction">
-            <ArmorRating>40</ArmorRating>
-            <FireResistanceRating>0</FireResistanceRating>
-            <FrostResistanceRating>0</FrostResistanceRating>
-            <ArcaneResistanceRating>0</ArcaneResistanceRating>
-            <NatureResistanceRating>0</NatureResistanceRating>
-            <HolyResistanceRating>0</HolyResistanceRating>
-            <UnholyResistanceRating>0</UnholyResistanceRating>
+          <Item>
+            <TypeName>CriticalStrike</TypeName>
           </Item>
-          <Item Type="Stats:CriticalStrike">
-            <Rating>24</Rating>
+          <Item>
+            <TypeName>SpellPower</TypeName>
           </Item>
         </Statistics>
       </Item>
     </Equipment>
-    <Faction>Friend</Faction>
-    <Position>0 0</Position>
-    <Diameter>1.5</Diameter>
-    <PlayerControlled>true</PlayerControlled>
-    <TextureName>cleric</TextureName>
-    <BaseStatistics>
-      <Item Type="Stats:Health">
-        <Value>125</Value>
-      </Item>
-      <Item Type="Stats:Mana">
-        <Value>225</Value>
-      </Item>
-    </BaseStatistics>
-    <TargettingStrategy>Manual</TargettingStrategy>
-    <Cost>0</Cost>
-    <MovementSpeed>5</MovementSpeed>
-    <ResourceType>Mana</ResourceType>
   </Asset>
 </XnaContent>

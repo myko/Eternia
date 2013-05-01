@@ -20,10 +20,16 @@ namespace Eternia.Tools
             foreach (var type in gameAssembly.GetTypes())
             {
                 if (!type.IsEnum)
+                {
                     TypeDescriptor.AddAttributes(type, new TypeConverterAttribute(typeof(ExpandableObjectConverter)));
+                    TypeDescriptor.AddAttributes(type, new NotifyParentPropertyAttribute(true));
+                    TypeDescriptor.AddAttributes(type, new RefreshPropertiesAttribute(RefreshProperties.All));
+                }
             }
 
             TypeDescriptor.AddAttributes(typeof(Eternia.Game.Stats.Statistics), new EditorAttribute(typeof(StatisticsEditor), typeof(UITypeEditor)));
+            TypeDescriptor.AddAttributes(typeof(Eternia.Game.Items.ItemDefinition), new EditorAttribute(typeof(ItemDefinitionEditor), typeof(UITypeEditor)));
+            TypeDescriptor.AddAttributes(typeof(Eternia.Game.Stats.StatDefinitionList), new EditorAttribute(typeof(StatDefinitionListEditor), typeof(UITypeEditor)));
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

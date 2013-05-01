@@ -87,7 +87,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abilities\Ability.cs" />
-    <Compile Include="Abilities\AbilityDefinition.cs" />
     <Compile Include="Abilities\AbilityGenerator.cs" />
     <Compile Include="Abilities\FireballVolley.cs" />
     <Compile Include="Abilities\HeroicCleave.cs" />
@@ -113,6 +112,8 @@
     <Compile Include="Events\ActorBlocked.cs" />
     <Compile Include="Events\Event.cs" />
     <Compile Include="Events\ActorTookDamage.cs" />
+    <Compile Include="Items\ItemDefinition.cs" />
+    <Compile Include="Stats\Armor.cs" />
     <Compile Include="Stats\Block.cs" />
     <Compile Include="Stats\IntValueStat.cs" />
     <Compile Include="Stats\FloatValueStat.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Stats\Modifier.cs" />
     <Compile Include="Stats\OldStatistics.cs" />
     <Compile Include="Stats\Stat.cs" />
+    <Compile Include="Stats\StatDefinition.cs" />
     <Compile Include="Stats\Statistics.cs" />
     <Compile Include="TargettingStrategy.cs" />
     <Compile Include="TargettingTypes.cs" />

@@ -21,6 +21,24 @@ namespace Eternia.Game.Items
             Statistics = new Statistics();
         }
 
+        public Item(ItemDefinition itemDefinition)
+            : this()
+        {
+            Name = itemDefinition.Name;
+            Level = itemDefinition.Level;
+            Rarity = itemDefinition.Rarity;
+            Quality = itemDefinition.Quality;
+            Slot = itemDefinition.Slot;
+            ArmorClass = itemDefinition.ArmorClass;
+
+            foreach (var statDefinition in itemDefinition.Statistics)
+            {
+                var stat = (StatBase)Activator.CreateInstance(statDefinition.StatType);
+                stat.SetItemValue(itemDefinition.Level, itemDefinition.ArmorClass, ItemSlotHelper.ItemSlotModifier[(int)itemDefinition.Slot]);
+                Statistics.Add(stat);
+            }
+        }
+
         public override string ToString()
         {
             return Name;

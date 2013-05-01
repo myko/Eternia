@@ -35,7 +35,7 @@ namespace Eternia.Game
             value = random.Between(value * actor.CurrentStatistics.For<Precision>().Chance, value);
             value = value * actor.CurrentStatistics.For<DamageDone>().Value;
             value = value * target.CurrentStatistics.For<DamageTaken>().Value;
-            value = value * (1f - target.CurrentStatistics.For<DamageReduction>().GetReductionForSchool(School));
+            value = value * (1f - target.CurrentStatistics.For<Armor>().Chance);
 
             return value;
         }
@@ -72,6 +72,20 @@ namespace Eternia.Game
                 Value = d1.Value * f,
                 School = d1.School,
             };
+        }
+
+        public bool Any()
+        {
+            if (Value > 0)
+                return true;
+
+            if (AttackPowerScale > 0)
+                return true;
+
+            if (SpellPowerScale > 0)
+                return true;
+
+            return false;
         }
     }
 }

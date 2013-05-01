@@ -166,10 +166,18 @@ namespace Eternia.XnaClient
 
             DrawShadows(battle, contentManager);
 
-            foreach (var actor in battle.Actors.Where(x => x.Faction == Factions.Enemy && x.IsAlive && x.CurrentOrder != null))
+            foreach (var actor in battle.Actors.Where(x => x.IsAlive && x.CurrentOrder != null))
             {
                 if (actor.CurrentOrder.Ability.DamageType == DamageTypes.PointBlankArea || actor.CurrentOrder.Ability.DamageType == DamageTypes.Cleave)
                 {
+                    var color = Color.Red;
+                    if (actor.Faction == Factions.Friend)
+                    {
+                        color = Color.Blue;
+                        if (actor.CurrentOrder.Ability.Healing.Any())
+                            color = Color.Green;
+                    }
+
                     var vertices = new VertexPositionTexture[6];
                     vertices[0] = new VertexPositionTexture(new Vector3(-1, 0, -1), new Vector2(0, 0));
                     vertices[1] = new VertexPositionTexture(new Vector3(1, 0, -1), new Vector2(1, 0));
@@ -194,7 +202,7 @@ namespace Eternia.XnaClient
                         scale = actor.Radius + 1;
 
                     billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(scale) * Matrix.CreateTranslation(position));
-                    billboardEffect.Parameters["Diffuse"].SetValue(Color.Red.ToVector4());
+                    billboardEffect.Parameters["Diffuse"].SetValue(color.ToVector4());
                     billboardEffect.Parameters["Texture"].SetValue(contentManager.Load<Texture2D>(@"Interface\circlearea"));
 
                     foreach (var pass in billboardEffect.CurrentTechnique.Passes)

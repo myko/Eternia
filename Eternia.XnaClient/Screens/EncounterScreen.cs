@@ -326,6 +326,8 @@ namespace EterniaXna.Screens
 
         public override void Update(GameTime gameTime)
         {
+            selectedActors.RemoveAll(x => !x.IsAlive);
+
             scene.Update(gameTime, isPaused);
 
             foreach (var actor in battle.Actors.Where(x => !scene.Nodes.OfType<ActorModel>().Any(y => y.Actor == x)))

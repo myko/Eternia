@@ -17,7 +17,7 @@ namespace EterniaXna.Screens
         private readonly Player player;
         private SpriteFont smallFont;
 
-        private List<Actor> availableHeroes;
+        private List<ActorDefinition> availableHeroes;
         private List<Ability> availableAbilities;
         private List<Item> availableItems;
 
@@ -82,7 +82,7 @@ namespace EterniaXna.Screens
             currentHeroesListBox.ZIndex = 0.2f;
             currentHeroesListBox.Source = player.Heroes;
 
-            var availableHeroesListBox = AddBoundListBox<Actor>(grid.Cells[1, 3], Vector2.Zero, 300, 400);
+            var availableHeroesListBox = AddBoundListBox<ActorDefinition>(grid.Cells[1, 3], Vector2.Zero, 300, 400);
             availableHeroesListBox.ZIndex = 0.2f;
             availableHeroesListBox.Source = availableHeroes;
             availableHeroesListBox.ColorBinder = x => Bind(() => GetHeroColor(x));
@@ -205,12 +205,12 @@ namespace EterniaXna.Screens
             return grid;
         }
 
-        private void BuyHero(Actor hero)
+        private void BuyHero(ActorDefinition hero)
         {
             if (hero != null && player.Gold >= hero.Cost)
             {
                 player.Gold -= hero.Cost;
-                player.Heroes.Add(hero);
+                player.Heroes.Add(new Actor(hero));
                 availableHeroes.Remove(hero);
             }
         }
@@ -225,7 +225,7 @@ namespace EterniaXna.Screens
                     hero.Unequip(player, item);
 
                 player.Heroes.Remove(hero);
-                availableHeroes.Add(hero);
+                //availableHeroes.Add(hero);
             }
         }
 
@@ -294,18 +294,13 @@ namespace EterniaXna.Screens
             ScreenManager.RemoveScreen(this);
         }
 
-        private IEnumerable<Actor> GenerateAvailableHeroes()
+        private IEnumerable<ActorDefinition> GenerateAvailableHeroes()
         {
-            //var generator = new ActorGenerator(new Randomizer());
-            //for (int i = 0; i < 15; i++)
-            //{
-            //    yield return generator.Generate();
-            //}
-            yield return ContentManager.Load<Actor>(@"Actors\0_Warrior");
-            yield return ContentManager.Load<Actor>(@"Actors\0_Cleric");
-            //yield return ContentManager.Load<Actor>(@"Actors\1_Rogue");
-            //yield return ContentManager.Load<Actor>(@"Actors\1_Ranger");
-            //yield return ContentManager.Load<Actor>(@"Actors\1_Wizard");
+            yield return ContentManager.Load<ActorDefinition>(@"Actors\0_Warrior");
+            yield return ContentManager.Load<ActorDefinition>(@"Actors\0_Cleric");
+            yield return ContentManager.Load<ActorDefinition>(@"Actors\1_Rogue");
+            yield return ContentManager.Load<ActorDefinition>(@"Actors\1_Ranger");
+            yield return ContentManager.Load<ActorDefinition>(@"Actors\1_Wizard");
         }
 
         private IEnumerable<Ability> GenerateAvailableAbilities()
@@ -323,11 +318,11 @@ namespace EterniaXna.Screens
             var generator = new ItemGenerator(new Randomizer());
             for (int i = 0; i < 15; i++)
             {
-                yield return generator.Generate(10);
+                yield return new Item(generator.Generate(5));
             }
         }
 
-        private Color GetHeroColor(Actor hero)
+        private Color GetHeroColor(ActorDefinition hero)
         {
             if (hero.Cost > player.Gold)
                 return Color.Salmon;
@@ -377,6 +372,15 @@ namespace EterniaXna.Screens
             var actor = listBox.SelectedItem;
             if (actor != null)
                 return GetStatisticsString(actor.CurrentStatistics, actor.ResourceType);
+            else
+                return "No hero selected.";
+        }
+
+        private string GetHeroStatistics(ListBoxBase<ActorDefinition> listBox)
+        {
+            var actor = listBox.SelectedItem;
+            if (actor != null)
+                return GetStatisticsString(actor.BaseStatistics, actor.ResourceType);
             else
                 return "No hero selected.";
         }

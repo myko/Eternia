@@ -1,6 +1,6 @@
 ﻿namespace Eternia.Tools
 {
-    partial class StatisticsEditorForm
+    partial class ItemDefinitionEditorForm
     {
         /// <summary>
         /// Required designer variable.

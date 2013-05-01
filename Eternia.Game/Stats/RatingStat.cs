@@ -40,5 +40,10 @@ namespace Eternia.Game.Stats
             else
                 return Name + ": " + Rating.ToString();
         }
+
+        public override void SetItemValue(int level, Items.ItemArmorClasses armorClass, float itemSlotModifier)
+        {
+            Rating = (int)(Items.ItemGenerator.GetItemLevelMultiplier(level) * 6.25f * itemSlotModifier);
+        }
     }
 }

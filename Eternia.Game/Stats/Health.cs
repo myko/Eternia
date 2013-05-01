@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using Eternia.Game.Items;
 
 namespace Eternia.Game.Stats
 {
@@ -38,6 +39,12 @@ namespace Eternia.Game.Stats
         public override StatBase Multiply(float f)
         {
             return new Health(Value * f);
+        }
+
+        public override void SetItemValue(int level, ItemArmorClasses armorClass, float itemSlotModifier)
+        {
+            var armorClassHealthMultiplier = (float)(armorClass == ItemArmorClasses.Plate ? 4 : 1);
+            Value = ItemGenerator.GetItemLevelMultiplier(level) * armorClassHealthMultiplier * itemSlotModifier * 25f;
         }
     }
 }

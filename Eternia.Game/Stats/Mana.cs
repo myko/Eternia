@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using Eternia.Game.Items;
 
 namespace Eternia.Game.Stats
 {
@@ -38,6 +39,11 @@ namespace Eternia.Game.Stats
         public override StatBase Multiply(float f)
         {
             return new Mana(Value * f);
+        }
+
+        public override void SetItemValue(int level, ItemArmorClasses armorClass, float itemSlotModifier)
+        {
+            Value = ItemGenerator.GetItemLevelMultiplier(level) * itemSlotModifier * 25f;
         }
     }
 }

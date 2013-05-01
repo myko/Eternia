@@ -29,12 +29,13 @@
         private void InitializeComponent()
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.actorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.encountersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,6 +50,32 @@
             this.menuStrip1.Size = new System.Drawing.Size(1294, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            // 
+            // actorsToolStripMenuItem
+            // 
+            this.actorsToolStripMenuItem.Name = "actorsToolStripMenuItem";
+            this.actorsToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.actorsToolStripMenuItem.Text = "Actors";
+            // 
+            // encountersToolStripMenuItem
+            // 
+            this.encountersToolStripMenuItem.Name = "encountersToolStripMenuItem";
+            this.encountersToolStripMenuItem.Size = new System.Drawing.Size(78, 20);
+            this.encountersToolStripMenuItem.Text = "Encounters";
             // 
             // toolStrip1
             // 
@@ -66,31 +93,9 @@
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // fileToolStripMenuItem
+            // saveFileDialog1
             // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exitToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            // 
-            // actorsToolStripMenuItem
-            // 
-            this.actorsToolStripMenuItem.Name = "actorsToolStripMenuItem";
-            this.actorsToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
-            this.actorsToolStripMenuItem.Text = "Actors";
-            // 
-            // encountersToolStripMenuItem
-            // 
-            this.encountersToolStripMenuItem.Name = "encountersToolStripMenuItem";
-            this.encountersToolStripMenuItem.Size = new System.Drawing.Size(78, 20);
-            this.encountersToolStripMenuItem.Text = "Encounters";
+            this.saveFileDialog1.DefaultExt = "xml";
             // 
             // ToolsForm
             // 
@@ -121,6 +126,7 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripMenuItem actorsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem encountersToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 

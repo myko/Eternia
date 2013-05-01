@@ -6,6 +6,7 @@ using Eternia.Game.Triggers;
 using Eternia.Game.Abilities;
 using Eternia.Game.Actors;
 using Eternia.Game.Events;
+using Eternia.Game.Stats;
 
 namespace Eternia.Game
 {
@@ -537,7 +538,7 @@ namespace Eternia.Game
 
             if (combatOutcome.IsBlock)
             {
-                blocked = Math.Min(damage, actor.CurrentStatistics.For<Eternia.Game.Stats.DamageReduction>().ArmorRating * 0.1f);
+                blocked = Math.Min(damage, actor.CurrentStatistics.For<Armor>().Rating * 0.1f);
                 damage -= blocked;
                 Event.Raise(new ActorBlocked { Actor = target });
             }

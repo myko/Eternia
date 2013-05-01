@@ -12,7 +12,7 @@ using Eternia.Game.Stats;
 
 namespace Eternia.Tools
 {
-    public partial class StatisticsEditorForm : Form
+    public partial class ItemDefinitionEditorForm : Form
     {
         public Statistics Statistics
         {
@@ -20,12 +20,12 @@ namespace Eternia.Tools
             set { statisticsControl1.Statistics = value; }
         }
 
-        public StatisticsEditorForm()
+        public ItemDefinitionEditorForm()
         {
             InitializeComponent();
         }
 
-        public StatisticsEditorForm(Statistics statistics)
+        public ItemDefinitionEditorForm(Statistics statistics)
         {
             InitializeComponent();
 
@@ -33,7 +33,7 @@ namespace Eternia.Tools
         }
     }
     
-    public class StatisticsEditor : UITypeEditor
+    public class ItemDefinitionEditor : UITypeEditor
     {
         public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context)
         {
