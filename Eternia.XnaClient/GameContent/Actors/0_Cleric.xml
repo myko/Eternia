@@ -16,6 +16,9 @@
       <Item Type="Stats:Mana">
         <Value>125</Value>
       </Item>
+      <Item Type="Stats:Hit">
+        <Rating>48</Rating>
+      </Item>
     </BaseStatistics>
     <Abilities>
       <Item>
@@ -52,9 +55,10 @@
         <ThreatModifier>1</ThreatModifier>
         <CanMiss>false</CanMiss>
         <CanBeDodged>false</CanBeDodged>
-        <CanBeBlocked>true</CanBeBlocked>
+        <CanBeBlocked>false</CanBeBlocked>
         <CanCrit>true</CanCrit>
         <AurasApplied />
+        <IsChanneled>false</IsChanneled>
       </Item>
       <Item>
         <Name>Renew</Name>
@@ -90,7 +94,7 @@
         <ThreatModifier>1</ThreatModifier>
         <CanMiss>false</CanMiss>
         <CanBeDodged>false</CanBeDodged>
-        <CanBeBlocked>true</CanBeBlocked>
+        <CanBeBlocked>false</CanBeBlocked>
         <CanCrit>true</CanCrit>
         <AurasApplied>
           <Item>
@@ -115,6 +119,7 @@
             <Statistics />
           </Item>
         </AurasApplied>
+        <IsChanneled>false</IsChanneled>
       </Item>
       <Item>
         <Name>Infectious Healing</Name>
@@ -144,15 +149,16 @@
           <Minimum>0</Minimum>
           <Maximum>20</Maximum>
         </Range>
-        <Area>4.5</Area>
+        <Area>4</Area>
         <DamageType>Cleave</DamageType>
         <TargettingType>Friendly</TargettingType>
         <ThreatModifier>1</ThreatModifier>
         <CanMiss>false</CanMiss>
         <CanBeDodged>false</CanBeDodged>
-        <CanBeBlocked>true</CanBeBlocked>
+        <CanBeBlocked>false</CanBeBlocked>
         <CanCrit>true</CanCrit>
         <AurasApplied />
+        <IsChanneled>false</IsChanneled>
       </Item>
     </Abilities>
     <Equipment>

@@ -63,6 +63,8 @@ namespace Eternia.Game.Actors
         public Order CurrentOrder { get; set; }
         [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
         public Cooldown CastingProgress { get; set; }
+        [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
+        public Cooldown ChannelProgress { get; set; }
         
         [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
         public Vector2 Direction { get; set; }
@@ -277,6 +279,7 @@ namespace Eternia.Game.Actors
             {
                 CurrentOrder = null;
                 CastingProgress = null;
+                ChannelProgress = null;
                 Destination = OrderedDestination;
             }
             else
@@ -332,6 +335,7 @@ namespace Eternia.Game.Actors
                         Direction = direction;
                         CurrentOrder = null;
                         CastingProgress = null;
+                        ChannelProgress = null;
 
                         return true;
                     }
@@ -344,6 +348,7 @@ namespace Eternia.Game.Actors
                         Direction = direction;
                         CurrentOrder = null;
                         CastingProgress = null;
+                        ChannelProgress = null;
 
                         return true;
                     }

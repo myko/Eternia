@@ -317,9 +317,21 @@ namespace Eternia.Game
         {
             actor.CastingProgress.Cool(deltaTime);
 
-            if (actor.CastingProgress.IsReady)
+            if (actor.ChannelProgress != null)
             {
-                ApplyCastAbility(turn, actor, actor.CurrentOrder);
+                actor.ChannelProgress.Cool(deltaTime);
+
+                if (actor.ChannelProgress.IsReady)
+                {
+                    ApplyChannelAbility(turn, actor, actor.CurrentOrder);
+                }
+            }
+            else
+            {
+                if (actor.CastingProgress.IsReady)
+                {
+                    ApplyCastAbility(turn, actor, actor.CurrentOrder);
+                }
             }
         }
 
@@ -352,6 +364,11 @@ namespace Eternia.Game
                         actor.CurrentOrder = order;
                         actor.CastingProgress = new Cooldown(ability.Duration);
                         actor.CastingProgress.Incur();
+                        if (ability.IsChanneled)
+                        {
+                            actor.ChannelProgress = new Cooldown(1.0f);
+                            actor.ChannelProgress.Incur();
+                        }
 
                         return true;
                     }
@@ -364,6 +381,11 @@ namespace Eternia.Game
                     actor.CurrentOrder = order;
                     actor.CastingProgress = new Cooldown(ability.Duration);
                     actor.CastingProgress.Incur();
+                    if (ability.IsChanneled)
+                    {
+                        actor.ChannelProgress = new Cooldown(1.0f);
+                        actor.ChannelProgress.Incur();
+                    }
 
                     return true;
                 }
@@ -388,7 +410,12 @@ namespace Eternia.Game
                         actor.CurrentOrder = order;
                         actor.CastingProgress = new Cooldown(ability.Duration);
                         actor.CastingProgress.Incur();
-                        
+                        if (ability.IsChanneled)
+                        {
+                            actor.ChannelProgress = new Cooldown(1.0f);
+                            actor.ChannelProgress.Incur();
+                        }
+
                         return true;
                     }
                 }
@@ -400,6 +427,11 @@ namespace Eternia.Game
                     actor.CurrentOrder = order;
                     actor.CastingProgress = new Cooldown(ability.Duration);
                     actor.CastingProgress.Incur();
+                    if (ability.IsChanneled)
+                    {
+                        actor.ChannelProgress = new Cooldown(1.0f);
+                        actor.ChannelProgress.Incur();
+                    }
 
                     return true;
                 }
@@ -441,6 +473,50 @@ namespace Eternia.Game
 
             actor.CurrentOrder = null;
             actor.CastingProgress = null;
+            actor.ChannelProgress = null;
+        }
+
+        private void ApplyChannelAbility(Turn turn, Actor actor, Order order)
+        {
+            if (order.Ability.DamageType == DamageTypes.SingleTarget)
+            {
+                var abilityTarget = order.TargetActor;
+
+                if (abilityTarget != null && abilityTarget.IsAlive)
+                {
+                    if (abilityTarget.DistanceFrom(actor).In(order.Ability.Range + actor.Radius + abilityTarget.Radius))
+                        ApplySingleTargetAbility(turn, actor, order.Ability, abilityTarget);
+                }
+            }
+            else if (order.Ability.DamageType == DamageTypes.PointBlankArea)
+            {
+                ApplyPointBlankAreaAbility(turn, actor, order.Ability);
+            }
+            else if (order.Ability.DamageType == DamageTypes.Cleave)
+            {
+                var primaryTarget = order.TargetActor;
+
+                if (primaryTarget != null && primaryTarget.IsAlive)
+                {
+                    if (primaryTarget.DistanceFrom(actor).In(order.Ability.Range + actor.Radius + primaryTarget.Radius))
+                        ApplyCleaveAbility(turn, actor, order.Ability, primaryTarget);
+                }
+            }
+            else if (order.Ability.DamageType == DamageTypes.Location)
+            {
+                ApplyLocationAbility(turn, actor, order.Ability, order.TargetLocation.Value);
+            }
+
+            if (actor.CastingProgress.IsReady)
+            {
+                actor.CurrentOrder = null;
+                actor.CastingProgress = null;
+                actor.ChannelProgress = null;
+            }
+            else
+            {
+                actor.ChannelProgress.Incur();
+            }
         }
 
         private void ApplySingleTargetAbility(Turn turn, Actor actor, Ability ability, Actor abilityTarget)

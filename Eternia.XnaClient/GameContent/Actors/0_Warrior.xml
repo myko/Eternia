@@ -19,6 +19,9 @@
       <Item Type="Stats:Dodge">
         <Rating>0</Rating>
       </Item>
+      <Item Type="Stats:Hit">
+        <Rating>48</Rating>
+      </Item>
     </BaseStatistics>
     <Abilities>
       <Item>
@@ -55,7 +58,7 @@
         <ThreatModifier>1</ThreatModifier>
         <CanMiss>false</CanMiss>
         <CanBeDodged>false</CanBeDodged>
-        <CanBeBlocked>true</CanBeBlocked>
+        <CanBeBlocked>false</CanBeBlocked>
         <CanCrit>false</CanCrit>
         <AurasApplied>
           <Item>
@@ -84,6 +87,7 @@
             </Statistics>
           </Item>
         </AurasApplied>
+        <IsChanneled>false</IsChanneled>
       </Item>
       <Item>
         <Name>Heroic Strike</Name>
@@ -122,6 +126,7 @@
         <CanBeBlocked>true</CanBeBlocked>
         <CanCrit>true</CanCrit>
         <AurasApplied />
+        <IsChanneled>false</IsChanneled>
       </Item>
       <Item>
         <Name>Cleave</Name>
@@ -154,12 +159,13 @@
         <Area>2</Area>
         <DamageType>Cleave</DamageType>
         <TargettingType>Hostile</TargettingType>
-        <ThreatModifier>0.5</ThreatModifier>
+        <ThreatModifier>2.5</ThreatModifier>
         <CanMiss>true</CanMiss>
         <CanBeDodged>true</CanBeDodged>
         <CanBeBlocked>true</CanBeBlocked>
         <CanCrit>true</CanCrit>
         <AurasApplied />
+        <IsChanneled>false</IsChanneled>
       </Item>
       <Item>
         <Name>Thunderclap</Name>
@@ -194,10 +200,11 @@
         <TargettingType>Hostile</TargettingType>
         <ThreatModifier>2.5</ThreatModifier>
         <CanMiss>true</CanMiss>
-        <CanBeDodged>true</CanBeDodged>
-        <CanBeBlocked>true</CanBeBlocked>
+        <CanBeDodged>false</CanBeDodged>
+        <CanBeBlocked>false</CanBeBlocked>
         <CanCrit>true</CanCrit>
         <AurasApplied />
+        <IsChanneled>false</IsChanneled>
       </Item>
     </Abilities>
     <Equipment>

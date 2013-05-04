@@ -34,6 +34,7 @@ namespace Eternia.Game.Abilities
         [ContentSerializer(Optional = true)] public virtual bool CanCrit { get; set; }
         [ContentSerializer(Optional = true)] public ProjectileDefinition SpawnsProjectile { get; set; }
         [ContentSerializer(Optional = true)] public List<Aura> AurasApplied { get; set; }
+        [ContentSerializer(Optional = true)] public bool IsChanneled { get; set; }
 
         public Ability()
         {

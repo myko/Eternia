@@ -16,11 +16,14 @@
       <Item Type="Stats:Mana">
         <Value>125</Value>
       </Item>
+      <Item Type="Stats:Hit">
+        <Rating>48</Rating>
+      </Item>
     </BaseStatistics>
     <Abilities>
       <Item>
         <Name>Blizzard</Name>
-        <Description></Description>
+        <Description>Pelts an area with frosty shards.</Description>
         <AnimationName Null="true" />
         <TextureName>Ability_warrior_weaponmastery</TextureName>
         <Damage>
@@ -41,7 +44,7 @@
           <Duration>0</Duration>
           <Current>0</Current>
         </Cooldown>
-        <Duration>1</Duration>
+        <Duration>8</Duration>
         <Range>
           <Minimum>0</Minimum>
           <Maximum>20</Maximum>
@@ -55,6 +58,7 @@
         <CanBeBlocked>false</CanBeBlocked>
         <CanCrit>true</CanCrit>
         <AurasApplied />
+        <IsChanneled>true</IsChanneled>
       </Item>
     </Abilities>
     <Equipment />
