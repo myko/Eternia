@@ -9,6 +9,7 @@ using Eternia.Game.Abilities;
 using System.Text;
 using Eternia.Game.Stats;
 using Eternia.Game.Items;
+using Microsoft.Xna.Framework.Audio;
 
 namespace EterniaXna.Screens
 {
@@ -91,10 +92,12 @@ namespace EterniaXna.Screens
             grid.Cells[1, 2].Add(new Label { Text = Bind(() => GetHeroStatistics(availableHeroesListBox )) });
 
             var sellHeroButton = CreateButton("Sell Hero", Vector2.Zero);
+            sellHeroButton.Sound = ContentManager.Load<SoundEffect>(@"Sounds\140380__d-w__coins-38");
             sellHeroButton.Click += () => SellHero(currentHeroesListBox.SelectedItem);
             grid.Cells[2, 0].Add(sellHeroButton);
 
             var buyHeroButton = CreateButton("Buy Hero", Vector2.Zero);
+            buyHeroButton.Sound = ContentManager.Load<SoundEffect>(@"Sounds\140380__d-w__coins-38");
             buyHeroButton.Click += () => BuyHero(availableHeroesListBox.SelectedItem);
             grid.Cells[2, 3].Add(buyHeroButton);
 
@@ -131,10 +134,12 @@ namespace EterniaXna.Screens
             availableAbilitiesListBox.ColorBinder = x => Bind(() => GetAbilityColor(currentHeroesListBox.SelectedItem, x));
 
             var sellAbilityButton = CreateButton("Sell Skill", Vector2.Zero);
+            sellAbilityButton.Sound = ContentManager.Load<SoundEffect>(@"Sounds\140380__d-w__coins-38");
             sellAbilityButton.Click += () => SellAbility(currentHeroesListBox.SelectedItem, currentHeroAbilitiesListBox.SelectedItem);
             grid.Cells[1, 1].Add(sellAbilityButton);
 
             var buyAbilityButton = CreateButton("Buy Skill", Vector2.Zero);
+            buyAbilityButton.Sound = ContentManager.Load<SoundEffect>(@"Sounds\140380__d-w__coins-38");
             buyAbilityButton.Click += () => BuyAbility(currentHeroesListBox.SelectedItem, availableAbilitiesListBox.SelectedItem);
             grid.Cells[1, 2].Add(buyAbilityButton);
 
@@ -171,10 +176,12 @@ namespace EterniaXna.Screens
             availableItemsListBox.Font = smallFont;
 
             var sellItemButton = CreateButton("Sell Item", Vector2.Zero);
+            sellItemButton.Sound = ContentManager.Load<SoundEffect>(@"Sounds\140380__d-w__coins-38");
             sellItemButton.Click += () => SellItem(currentItemsListBox.SelectedItem);
             grid.Cells[1, 1].Add(sellItemButton);
 
             var buyItemButton = CreateButton("Buy Item", Vector2.Zero);
+            buyItemButton.Sound = ContentManager.Load<SoundEffect>(@"Sounds\140380__d-w__coins-38");
             buyItemButton.Click += () => BuyItem(availableItemsListBox.SelectedItem);
             grid.Cells[1, 2].Add(buyItemButton);
 
