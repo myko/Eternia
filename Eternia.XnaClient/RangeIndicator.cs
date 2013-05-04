@@ -42,10 +42,10 @@ namespace Eternia.XnaClient
         {
             if (actor.CurrentOrder != null && (actor.CurrentOrder.Ability.DamageType == DamageTypes.Cleave || actor.CurrentOrder.Ability.DamageType == DamageTypes.PointBlankArea))
             {
-                var color = Color.Red;
+                var color = Color.Salmon;
                 if (actor.Faction == Factions.Friend)
                 {
-                    color = Color.Blue;
+                    color = Color.CornflowerBlue;
                     if (actor.CurrentOrder.Ability.Healing.Any())
                         color = Color.Green;
                 }
@@ -55,7 +55,7 @@ namespace Eternia.XnaClient
 
                 billboardEffect.Parameters["View"].SetValue(view);
                 billboardEffect.Parameters["Projection"].SetValue(projection);
-                billboardEffect.Parameters["Alpha"].SetValue(0.5f);
+                billboardEffect.Parameters["Alpha"].SetValue(0.35f);
 
                 var position = new Vector3(actor.Position.X, 0.04f, actor.Position.Y);
                 if (actor.CurrentOrder.Ability.DamageType == DamageTypes.Cleave)

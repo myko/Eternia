@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Myko.Xna.Ui;
 using Eternia.Game;
+using Microsoft.Xna.Framework.Audio;
 
 namespace EterniaXna.Screens
 {
@@ -79,6 +80,7 @@ namespace EterniaXna.Screens
                 Width = 150,
                 Height = 40,
                 ZIndex = 0.1f,
+                Sound = ContentManager.Load<SoundEffect>(@"Sounds\157539__nenadsimic__click")
             };
         }
 
