@@ -24,6 +24,7 @@ namespace Eternia.Game.Abilities
         [ContentSerializer(Optional = true)] public Cooldown Cooldown { get; set; }
         [ContentSerializer(Optional = true)] public float Duration { get; set; }
         [ContentSerializer(Optional = true)] public Range Range { get; set; }
+        [ContentSerializer(Optional = true)] public float Area { get; set; }
         [ContentSerializer(Optional = true)] public DamageTypes DamageType { get; set; }
         [ContentSerializer(Optional = true)] public TargettingTypes TargettingType { get; set; }
         [ContentSerializer(Optional = true)] public float ThreatModifier { get; set; }
@@ -45,6 +46,7 @@ namespace Eternia.Game.Abilities
             TargettingType = TargettingTypes.Hostile;
             Cooldown = new Cooldown(0f);
             Range = new Range(20f);
+            Area = 1f;
             ThreatModifier = 1f;
             AurasApplied = new List<Aura>();
             Duration = 1;

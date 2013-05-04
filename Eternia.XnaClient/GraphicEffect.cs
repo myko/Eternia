@@ -13,20 +13,24 @@ namespace Eternia.XnaClient
         private readonly GraphicsDevice graphicsDevice;
 
         public Vector2 Position { get; set; }
-        public float Scale { get; set; }
+        public float Size { get; set; }
+        public float Scale { get; private set; }
         public float Alpha { get; set; }
         public float Age { get; set; }
+        public float LifeTime { get; set; }
         public Texture2D Texture { get; set; }
 
         public GraphicEffect(GraphicsDevice graphicsDevice, Effect effect)
         {
             this.graphicsDevice = graphicsDevice;
             this.effect = effect;
+
+            LifeTime = 0.5f;
         }
 
         public override bool IsExpired()
         {
-            return Alpha <= 0.05f;
+            return Age > LifeTime;
         }
 
         public override void Update(GameTime time, bool isPaused)
@@ -34,8 +38,8 @@ namespace Eternia.XnaClient
             if (!isPaused)
             {
                 Age += (float)time.ElapsedGameTime.TotalSeconds;
-                Scale = 1f + 10f * Age;
-                Alpha = 1f - 4f * Age;
+                Scale = Size * (Age / LifeTime);
+                Alpha = 1f - (Age / LifeTime);
             }
         }
 

@@ -17,7 +17,46 @@
         <Value>125</Value>
       </Item>
     </BaseStatistics>
-    <Abilities />
+    <Abilities>
+      <Item>
+        <Name>Blizzard</Name>
+        <Description></Description>
+        <AnimationName Null="true" />
+        <TextureName>Ability_warrior_weaponmastery</TextureName>
+        <Damage>
+          <Value>100</Value>
+          <AttackPowerScale>0</AttackPowerScale>
+          <SpellPowerScale>1</SpellPowerScale>
+          <School>Frost</School>
+        </Damage>
+        <Healing>
+          <Value>0</Value>
+          <AttackPowerScale>0</AttackPowerScale>
+          <SpellPowerScale>0</SpellPowerScale>
+          <School>Physical</School>
+        </Healing>
+        <ManaCost>0</ManaCost>
+        <EnergyCost>0</EnergyCost>
+        <Cooldown>
+          <Duration>0</Duration>
+          <Current>0</Current>
+        </Cooldown>
+        <Duration>1</Duration>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>20</Maximum>
+        </Range>
+        <Area>8</Area>
+        <DamageType>Location</DamageType>
+        <TargettingType>Location</TargettingType>
+        <ThreatModifier>1</ThreatModifier>
+        <CanMiss>true</CanMiss>
+        <CanBeDodged>false</CanBeDodged>
+        <CanBeBlocked>false</CanBeBlocked>
+        <CanCrit>true</CanCrit>
+        <AurasApplied />
+      </Item>
+    </Abilities>
     <Equipment />
   </Asset>
 </XnaContent>

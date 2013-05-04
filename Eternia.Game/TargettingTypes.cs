@@ -10,5 +10,6 @@ namespace Eternia.Game
         Self,
         Friendly,
         Hostile,
+        Location,
     }
 }

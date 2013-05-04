@@ -9,6 +9,7 @@ namespace Eternia.Game
     {
         SingleTarget,
         Cleave,
-        PointBlankArea
+        PointBlankArea,
+        Location
     }
 }

@@ -49,6 +49,7 @@
           <Minimum>0</Minimum>
           <Maximum>20</Maximum>
         </Range>
+        <Area>1</Area>
         <DamageType>SingleTarget</DamageType>
         <TargettingType>Self</TargettingType>
         <ThreatModifier>1</ThreatModifier>
@@ -112,9 +113,48 @@
           <Minimum>0</Minimum>
           <Maximum>1</Maximum>
         </Range>
+        <Area>1</Area>
         <DamageType>SingleTarget</DamageType>
         <TargettingType>Hostile</TargettingType>
         <ThreatModifier>2.5</ThreatModifier>
+        <CanMiss>true</CanMiss>
+        <CanBeDodged>true</CanBeDodged>
+        <CanBeBlocked>true</CanBeBlocked>
+        <CanCrit>true</CanCrit>
+        <AurasApplied />
+      </Item>
+      <Item>
+        <Name>Cleave</Name>
+        <Description>A powerful melee attack.</Description>
+        <AnimationName>Ability1</AnimationName>
+        <TextureName>Ability_Warrior_SecondWind</TextureName>
+        <Damage>
+          <Value>15</Value>
+          <AttackPowerScale>2.5</AttackPowerScale>
+          <SpellPowerScale>0</SpellPowerScale>
+          <School>Physical</School>
+        </Damage>
+        <Healing>
+          <Value>0</Value>
+          <AttackPowerScale>0</AttackPowerScale>
+          <SpellPowerScale>0</SpellPowerScale>
+          <School>Physical</School>
+        </Healing>
+        <ManaCost>0</ManaCost>
+        <EnergyCost>-10</EnergyCost>
+        <Cooldown>
+          <Duration>3</Duration>
+          <Current>0</Current>
+        </Cooldown>
+        <Duration>1</Duration>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>1</Maximum>
+        </Range>
+        <Area>2</Area>
+        <DamageType>Cleave</DamageType>
+        <TargettingType>Hostile</TargettingType>
+        <ThreatModifier>0.5</ThreatModifier>
         <CanMiss>true</CanMiss>
         <CanBeDodged>true</CanBeDodged>
         <CanBeBlocked>true</CanBeBlocked>
@@ -149,120 +189,10 @@
           <Minimum>0</Minimum>
           <Maximum>4</Maximum>
         </Range>
+        <Area>4</Area>
         <DamageType>PointBlankArea</DamageType>
         <TargettingType>Hostile</TargettingType>
         <ThreatModifier>2.5</ThreatModifier>
-        <CanMiss>true</CanMiss>
-        <CanBeDodged>true</CanBeDodged>
-        <CanBeBlocked>true</CanBeBlocked>
-        <CanCrit>true</CanCrit>
-        <AurasApplied />
-      </Item>
-      <Item>
-        <Name>Power Punch</Name>
-        <Description>A powerful melee attack.</Description>
-        <AnimationName>Ability1</AnimationName>
-        <TextureName>Ability_Warrior_SecondWind</TextureName>
-        <Damage>
-          <Value>15</Value>
-          <AttackPowerScale>2.5</AttackPowerScale>
-          <SpellPowerScale>0</SpellPowerScale>
-          <School>Physical</School>
-        </Damage>
-        <Healing>
-          <Value>0</Value>
-          <AttackPowerScale>0</AttackPowerScale>
-          <SpellPowerScale>0</SpellPowerScale>
-          <School>Physical</School>
-        </Healing>
-        <ManaCost>0</ManaCost>
-        <EnergyCost>-10</EnergyCost>
-        <Cooldown>
-          <Duration>3</Duration>
-          <Current>0</Current>
-        </Cooldown>
-        <Duration>1</Duration>
-        <Range>
-          <Minimum>0</Minimum>
-          <Maximum>1</Maximum>
-        </Range>
-        <DamageType>SingleTarget</DamageType>
-        <TargettingType>Hostile</TargettingType>
-        <ThreatModifier>0.5</ThreatModifier>
-        <CanMiss>true</CanMiss>
-        <CanBeDodged>true</CanBeDodged>
-        <CanBeBlocked>true</CanBeBlocked>
-        <CanCrit>true</CanCrit>
-        <AurasApplied />
-      </Item>
-      <Item>
-        <Name>Slash</Name>
-        <Description>A powerful melee attack.</Description>
-        <AnimationName>Ability2</AnimationName>
-        <TextureName>Ability_Warrior_bloodfrenzy</TextureName>
-        <Damage>
-          <Value>25</Value>
-          <AttackPowerScale>3.5</AttackPowerScale>
-          <SpellPowerScale>0</SpellPowerScale>
-          <School>Physical</School>
-        </Damage>
-        <Healing>
-          <Value>0</Value>
-          <AttackPowerScale>0</AttackPowerScale>
-          <SpellPowerScale>0</SpellPowerScale>
-          <School>Physical</School>
-        </Healing>
-        <ManaCost>0</ManaCost>
-        <EnergyCost>20</EnergyCost>
-        <Cooldown>
-          <Duration>5</Duration>
-          <Current>0</Current>
-        </Cooldown>
-        <Duration>1</Duration>
-        <Range>
-          <Minimum>0</Minimum>
-          <Maximum>1</Maximum>
-        </Range>
-        <DamageType>SingleTarget</DamageType>
-        <TargettingType>Hostile</TargettingType>
-        <ThreatModifier>1</ThreatModifier>
-        <CanMiss>true</CanMiss>
-        <CanBeDodged>true</CanBeDodged>
-        <CanBeBlocked>true</CanBeBlocked>
-        <CanCrit>true</CanCrit>
-        <AurasApplied />
-      </Item>
-      <Item>
-        <Name>Whirlwind</Name>
-        <Description>Hits all nearby enemy targets.</Description>
-        <AnimationName>Ability1</AnimationName>
-        <TextureName>Ability_whirlwind</TextureName>
-        <Damage>
-          <Value>20</Value>
-          <AttackPowerScale>1.8</AttackPowerScale>
-          <SpellPowerScale>0</SpellPowerScale>
-          <School>Physical</School>
-        </Damage>
-        <Healing>
-          <Value>0</Value>
-          <AttackPowerScale>0</AttackPowerScale>
-          <SpellPowerScale>0</SpellPowerScale>
-          <School>Physical</School>
-        </Healing>
-        <ManaCost>0</ManaCost>
-        <EnergyCost>50</EnergyCost>
-        <Cooldown>
-          <Duration>9</Duration>
-          <Current>0</Current>
-        </Cooldown>
-        <Duration>1</Duration>
-        <Range>
-          <Minimum>0</Minimum>
-          <Maximum>4</Maximum>
-        </Range>
-        <DamageType>PointBlankArea</DamageType>
-        <TargettingType>Hostile</TargettingType>
-        <ThreatModifier>0.5</ThreatModifier>
         <CanMiss>true</CanMiss>
         <CanBeDodged>true</CanBeDodged>
         <CanBeBlocked>true</CanBeBlocked>

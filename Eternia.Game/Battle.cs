@@ -148,7 +148,7 @@ namespace Eternia.Game
             actor.ThreatList.RemoveAll(t => !t.Actor.IsAlive);
 
             // Drop dead targets from order lists
-            actor.Orders.RemoveAll(o => !o.Target.IsAlive);
+            actor.Orders.RemoveAll(o => o.HasExpired());
 
             while (actor.Targets.Any() && !actor.Targets.Peek().IsAlive)
                 actor.Targets.Dequeue();
@@ -332,7 +332,7 @@ namespace Eternia.Game
             
             if (ability.DamageType == DamageTypes.SingleTarget)
             {
-                var abilityTarget = order.Target;
+                var abilityTarget = order.TargetActor;
                 //if (ability.TargettingType == TargettingTypes.Self)
                 //    abilityTarget = actor;
 
@@ -347,7 +347,7 @@ namespace Eternia.Game
                     if (ability.TargettingType == TargettingTypes.Friendly && actor.Faction != abilityTarget.Faction)
                         return false;
 
-                    if (abilityTarget.DistanceFrom(actor).In(ability.Range + actor.Radius + abilityTarget.Radius))
+                    if (order.GetTargetLocation().DistanceFrom(actor).In(ability.Range + actor.Radius + abilityTarget.Radius))
                     {
                         actor.CurrentOrder = order;
                         actor.CastingProgress = new Cooldown(ability.Duration);
@@ -370,7 +370,7 @@ namespace Eternia.Game
             }
             else if (ability.DamageType == DamageTypes.Cleave)
             {
-                var primaryTarget = order.Target;
+                var primaryTarget = order.TargetActor;
 
                 //if (!actor.PlayerControlled)
                 //    primaryTarget = actor.GetAbilityTarget(ability.TargettingType);
@@ -383,7 +383,7 @@ namespace Eternia.Game
                     if (ability.TargettingType == TargettingTypes.Friendly && actor.Faction != primaryTarget.Faction)
                         return false;
 
-                    if (primaryTarget.DistanceFrom(actor).In(ability.Range + actor.Radius + primaryTarget.Radius))
+                    if (order.GetTargetLocation().DistanceFrom(actor).In(ability.Range + actor.Radius + order.GetTargetRadius()))
                     {
                         actor.CurrentOrder = order;
                         actor.CastingProgress = new Cooldown(ability.Duration);
@@ -391,6 +391,17 @@ namespace Eternia.Game
                         
                         return true;
                     }
+                }
+            }
+            else if (ability.DamageType == DamageTypes.Location)
+            {
+                if (order.GetTargetLocation().DistanceFrom(actor).In(ability.Range + actor.Radius))
+                {
+                    actor.CurrentOrder = order;
+                    actor.CastingProgress = new Cooldown(ability.Duration);
+                    actor.CastingProgress.Incur();
+
+                    return true;
                 }
             }
 
@@ -401,7 +412,7 @@ namespace Eternia.Game
         {
             if (order.Ability.DamageType == DamageTypes.SingleTarget)
             {
-                var abilityTarget = order.Target;
+                var abilityTarget = order.TargetActor;
 
                 if (abilityTarget != null && abilityTarget.IsAlive)
                 {
@@ -415,13 +426,17 @@ namespace Eternia.Game
             }
             else if (order.Ability.DamageType == DamageTypes.Cleave)
             {
-                var primaryTarget = order.Target;
+                var primaryTarget = order.TargetActor;
 
                 if (primaryTarget != null && primaryTarget.IsAlive)
                 {
                     if (primaryTarget.DistanceFrom(actor).In(order.Ability.Range + actor.Radius + primaryTarget.Radius))
                         ApplyCleaveAbility(turn, actor, order.Ability, primaryTarget);
                 }
+            }
+            else if (order.Ability.DamageType == DamageTypes.Location)
+            {
+                ApplyLocationAbility(turn, actor, order.Ability, order.TargetLocation.Value);
             }
 
             actor.CurrentOrder = null;
@@ -452,7 +467,7 @@ namespace Eternia.Game
                 }
             }
 
-            GraphicEffects.Enqueue(new GraphicsEffectDefinition { Position = actor.Position });
+            GraphicEffects.Enqueue(new GraphicsEffectDefinition { Position = actor.Position, Scale = ability.Area });
             ability.Cooldown.Incur();
         }
 
@@ -464,7 +479,38 @@ namespace Eternia.Game
             if (target.Faction != actor.Faction && ability.TargettingType == TargettingTypes.Friendly)
                 return false;
 
-            if (target.DistanceFrom(actor).In(ability.Range + target.Radius))
+            if (target.DistanceFrom(actor) <= ability.Area + target.Radius)
+                return true;
+
+            return false;
+        }
+
+        private void ApplyLocationAbility(Turn turn, Actor actor, Ability ability, Vector2 location)
+        {
+            foreach (var target in Actors.Where(x => x.IsAlive))
+            {
+                if (ValidLocationAreaTarget(actor, target, ability, location))
+                {
+                    ApplyAbilityOutcome(turn, actor, ability, target);
+                }
+            }
+
+            GraphicEffects.Enqueue(new GraphicsEffectDefinition { Position = location, Scale = ability.Area });
+            ability.Cooldown.Incur();
+        }
+
+        private bool ValidLocationAreaTarget(Actor actor, Actor target, Ability ability, Vector2 location)
+        {
+            if (target.Faction == actor.Faction && ability.TargettingType == TargettingTypes.Hostile)
+                return false;
+
+            if (target.Faction != actor.Faction && ability.TargettingType == TargettingTypes.Friendly)
+                return false;
+
+            if (target.Faction == actor.Faction && ability.TargettingType == TargettingTypes.Location)
+                return false;
+
+            if (target.DistanceFrom(location) <= ability.Area + target.Radius)
                 return true;
 
             return false;
@@ -474,7 +520,7 @@ namespace Eternia.Game
         {
             foreach (var secondaryTarget in Actors.Where(x => x.IsAlive))
             {
-                if ((secondaryTarget.DistanceFrom(primaryTarget) - primaryTarget.Radius - secondaryTarget.Radius) > 1)
+                if ((secondaryTarget.DistanceFrom(primaryTarget) - primaryTarget.Radius - secondaryTarget.Radius) > ability.Area)
                     continue;
 
                 if (secondaryTarget.Faction == actor.Faction && ability.TargettingType == TargettingTypes.Hostile)

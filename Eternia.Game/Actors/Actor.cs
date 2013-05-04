@@ -246,14 +246,6 @@ namespace Eternia.Game.Actors
                     break;
             }
         }
-
-        public Actor GetAbilityTarget(TargettingTypes targettingType)
-        {
-            if (targettingType == TargettingTypes.Self)
-                return this;
-            else
-                return Targets.FirstOrDefault();
-        }
         
         public void FillOrderQueue()
         {
@@ -293,7 +285,7 @@ namespace Eternia.Game.Actors
                 if (Orders.Any()) // && Faction != Targets.Peek().Faction)
                 {
                     var order = Orders.First();
-                    var direction = order.Target.Position - Position;
+                    var direction = order.GetTargetLocation() - Position;
                     var distance = direction.Length();
 
                     //var availableAbilities = Abilities
@@ -304,7 +296,7 @@ namespace Eternia.Game.Actors
                     //        ((x.TargettingType == TargettingTypes.Hostile && Faction != target.Faction) || 
                     //        (x.TargettingType == TargettingTypes.Friendly && Faction == target.Faction)));
 
-                    var minimumRange = order.Ability.Range.Maximum + Radius + order.Target.Radius - 0.2f;
+                    var minimumRange = order.Ability.Range.Maximum + Radius + order.GetTargetRadius() - 0.2f;
 
                     if (distance > minimumRange)
                         Destination = Position + Vector2.Normalize(direction) * (distance - minimumRange);
@@ -411,6 +403,16 @@ namespace Eternia.Game.Actors
         public static float DistanceFrom(this Actor actor, Vector2 position)
         {
             return (position - actor.Position).Length();
+        }
+
+        public static float DistanceFrom(this Vector2 position, Vector2 destination)
+        {
+            return (destination - position).Length();
+        }
+
+        public static float DistanceFrom(this Vector2 position, Actor actor)
+        {
+            return (actor.Position - position).Length();
         }
 
         public static float DistanceFrom(this Actor actor, Vector3 position)

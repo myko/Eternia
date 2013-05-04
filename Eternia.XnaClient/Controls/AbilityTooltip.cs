@@ -133,6 +133,7 @@ namespace EterniaXna
                     SpriteBatch.DrawString(Font, ability.Range.ToString() + " meter range", new Vector2(x, y += Font.LineSpacing), GetRangeColor(actorBinding.GetValue()), ZIndex + 0.003f);
                 else
                     Height -= Font.LineSpacing;
+                SpriteBatch.DrawString(Font, ability.Area.ToString() + " meter area radius", new Vector2(x, y += Font.LineSpacing), Color.White, ZIndex + 0.003f);
 
                 foreach (var line in lines.Skip(1))
                 {

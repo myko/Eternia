@@ -40,14 +40,20 @@ namespace Eternia.XnaClient
 
         public override void Draw(Matrix view, Matrix projection)
         {
-            if (actor.CurrentOrder != null && (actor.CurrentOrder.Ability.DamageType == DamageTypes.Cleave || actor.CurrentOrder.Ability.DamageType == DamageTypes.PointBlankArea))
+            if (actor.CurrentOrder != null)
             {
+                if (actor.CurrentOrder.Ability.DamageType == DamageTypes.SingleTarget)
+                    return;
+
+                if (actor.CurrentOrder.Ability.TargettingType == TargettingTypes.Self)
+                    return;
+
                 var color = Color.Salmon;
                 if (actor.Faction == Factions.Friend)
                 {
                     color = Color.CornflowerBlue;
                     if (actor.CurrentOrder.Ability.Healing.Any())
-                        color = Color.Green;
+                        color = Color.LightGreen;
                 }
                 
                 graphicsDevice.BlendState = BlendState.AlphaBlend;
@@ -55,17 +61,17 @@ namespace Eternia.XnaClient
 
                 billboardEffect.Parameters["View"].SetValue(view);
                 billboardEffect.Parameters["Projection"].SetValue(projection);
-                billboardEffect.Parameters["Alpha"].SetValue(0.35f);
+                billboardEffect.Parameters["Alpha"].SetValue(0.5f);
 
-                var position = new Vector3(actor.Position.X, 0.04f, actor.Position.Y);
-                if (actor.CurrentOrder.Ability.DamageType == DamageTypes.Cleave)
-                    position = new Vector3(actor.Targets.Peek().Position.X, 0.04f, actor.Targets.Peek().Position.Y);
+                var position = actor.CurrentOrder.GetTargetLocation();
+                if (actor.CurrentOrder.Ability.DamageType == DamageTypes.PointBlankArea)
+                    position = actor.Position;
 
-                var scale = actor.CurrentOrder.Ability.Range.Maximum;
-                if (actor.CurrentOrder.Ability.DamageType == DamageTypes.Cleave)
-                    scale = actor.Radius + 1;
+                var scale = actor.CurrentOrder.Ability.Area;
+                //if (actor.CurrentOrder.Ability.DamageType == DamageTypes.Cleave)
+                //    scale = actor.Radius + 1;
 
-                billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(scale) * Matrix.CreateTranslation(position));
+                billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(scale) * Matrix.CreateTranslation(new Vector3(position.X, 0.04f, position.Y)));
                 billboardEffect.Parameters["Diffuse"].SetValue(color.ToVector4());
                 billboardEffect.Parameters["Texture"].SetValue(texture);
 

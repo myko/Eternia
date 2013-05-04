@@ -46,6 +46,7 @@
           <Minimum>0</Minimum>
           <Maximum>20</Maximum>
         </Range>
+        <Area>1</Area>
         <DamageType>SingleTarget</DamageType>
         <TargettingType>Friendly</TargettingType>
         <ThreatModifier>1</ThreatModifier>
@@ -83,6 +84,7 @@
           <Minimum>0</Minimum>
           <Maximum>20</Maximum>
         </Range>
+        <Area>1</Area>
         <DamageType>SingleTarget</DamageType>
         <TargettingType>Friendly</TargettingType>
         <ThreatModifier>1</ThreatModifier>
@@ -142,6 +144,7 @@
           <Minimum>0</Minimum>
           <Maximum>20</Maximum>
         </Range>
+        <Area>4.5</Area>
         <DamageType>Cleave</DamageType>
         <TargettingType>Friendly</TargettingType>
         <ThreatModifier>1</ThreatModifier>

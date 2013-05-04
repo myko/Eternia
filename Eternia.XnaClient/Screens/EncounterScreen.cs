@@ -65,14 +65,14 @@ namespace EterniaXna.Screens
                 {
                     var ability = abilityButton.Ability;
                     var actor = abilityButton.Actor;
-                    var target = actor.Targets.FirstOrDefault();
+                    //var target = actor.Targets.FirstOrDefault();
 
                     if (ability.TargettingType == TargettingTypes.Self)
                         actor.Orders.Insert(0, new Order(ability, actor, actor));
-                    else if (ability.TargettingType == TargettingTypes.Hostile && target != null && target.Faction != actor.Faction)
-                        actor.Orders.Insert(0, new Order(ability, actor, target));
-                    else if (ability.TargettingType == TargettingTypes.Friendly && target != null && target.Faction == actor.Faction)
-                        actor.Orders.Insert(0, new Order(ability, actor, target));
+                    //else if (ability.TargettingType == TargettingTypes.Hostile && target != null && target.Faction != actor.Faction)
+                    //    actor.Orders.Insert(0, new Order(ability, actor, target));
+                    //else if (ability.TargettingType == TargettingTypes.Friendly && target != null && target.Faction == actor.Faction)
+                    //    actor.Orders.Insert(0, new Order(ability, actor, target));
                     else
                         isTargetting = abilityButton;
                 }
@@ -262,8 +262,30 @@ namespace EterniaXna.Screens
             var form = System.Windows.Forms.Form.FromHandle(ScreenManager.Game.Window.Handle);
             if (isTargetting != null)
             {
-                if (form.Cursor != System.Windows.Forms.Cursors.Cross)
-                    form.Cursor = System.Windows.Forms.Cursors.Cross;
+                if (isTargetting.Ability.TargettingType == TargettingTypes.Location)
+                {
+                    if (form.Cursor != System.Windows.Forms.Cursors.Cross)
+                        form.Cursor = System.Windows.Forms.Cursors.Cross;
+                }
+                else if (mouseOverActor != null)
+                {
+                    if ((isTargetting.Ability.TargettingType == TargettingTypes.Friendly && mouseOverActor.Faction != Factions.Friend) ||
+                        (isTargetting.Ability.TargettingType == TargettingTypes.Hostile && mouseOverActor.Faction != Factions.Enemy))
+                    {
+                        if (form.Cursor != System.Windows.Forms.Cursors.No)
+                            form.Cursor = System.Windows.Forms.Cursors.No;
+                    }
+                    else
+                    {
+                        if (form.Cursor != System.Windows.Forms.Cursors.Cross)
+                            form.Cursor = System.Windows.Forms.Cursors.Cross;
+                    }
+                }
+                else
+                {
+                    if (form.Cursor != System.Windows.Forms.Cursors.SizeAll)
+                        form.Cursor = System.Windows.Forms.Cursors.SizeAll;
+                }
             }
             else if (mouseOverActor != null)
             {
@@ -294,6 +316,8 @@ namespace EterniaXna.Screens
                             actor.Orders.Insert(0, new Order(ability, actor, target));
                         else if (ability.TargettingType == TargettingTypes.Friendly && target != null && target.Faction == actor.Faction)
                             actor.Orders.Insert(0, new Order(ability, actor, target));
+                        else if (ability.TargettingType == TargettingTypes.Location)
+                            actor.Orders.Insert(0, new Order(ability, actor, null, scene.Unproject(mouseState)));
 
                         isTargetting = null;
                     }
@@ -465,11 +489,12 @@ namespace EterniaXna.Screens
 
                 while (battle.GraphicEffects.Any())
                 {
+                    var graphicsEffect = battle.GraphicEffects.Dequeue();
                     scene.Nodes.Add(new GraphicEffect(ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\Billboard"))
                     {
                         Alpha = 1f,
-                        Scale = 1f,
-                        Position = battle.GraphicEffects.Dequeue().Position,
+                        Size = graphicsEffect.Scale,
+                        Position = graphicsEffect.Position,
                         Texture = ContentManager.Load<Texture2D>(@"Models\Objects\splash_diffuse")
                     });
                 }
@@ -539,6 +564,12 @@ namespace EterniaXna.Screens
                 SpriteBatch.Draw(BlankTexture, new Rectangle(x1, y1, x2 - x1, y2 - y1), Color.Green * 0.33f);
             }
 
+            if (isTargetting != null)
+            {
+                var position = scene.Unproject(Mouse.GetState());
+                scene.DrawBillboard(new Vector3(position.X, 0.05f, position.Y), ContentManager.Load<Texture2D>(@"Interface\circlearea"), isTargetting.Ability.Area);
+            }
+
             SpriteBatch.DrawString(Font, scene.CountNodes().ToString(), new Vector2(Width - 50, Height - Font.LineSpacing * 2), Color.White);
             SpriteBatch.DrawString(Font, fps.ToString("0"), new Vector2(Width - 50, Height - Font.LineSpacing), Color.White);
             fps = (float)((fps + (1000.0 / gameTime.ElapsedGameTime.TotalMilliseconds)) / 2.0);
@@ -581,7 +612,7 @@ namespace EterniaXna.Screens
                 {
                     var order = selectedActor.Orders.ElementAt(i);
                     var abilityTexture = ContentManager.Load<Texture2D>(@"Icons\" + order.Ability.TextureName) ?? defaultAbilityTexture;
-                    var targetTexture = order.Target != null ? ContentManager.Load<Texture2D>(@"Models\Actors\" + order.Target.TextureName + "_portrait") : ContentManager.Load<Texture2D>(@"Models\Actors\" + selectedActor.TextureName + "_portrait");
+                    var targetTexture = order.TargetActor != null ? ContentManager.Load<Texture2D>(@"Models\Actors\" + order.TargetActor.TextureName + "_portrait") : ContentManager.Load<Texture2D>(@"Models\Actors\" + selectedActor.TextureName + "_portrait");
 
                     orderQueueButtons[i].Content = new OrderButton(orderQueueButtons[i], selectedActor, order, abilityTexture, BlankTexture, targetTexture, kootenayFont);
                     orderQueueButtons[i].Tooltip = new AbilityTooltip(selectedActor, order.Ability) { Font = kootenaySmallFont };

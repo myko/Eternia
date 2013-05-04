@@ -40,7 +40,7 @@ namespace Eternia.XnaClient
 
         public override void Draw(Matrix view, Matrix projection)
         {
-            if (actor.CurrentOrder != null && actor.CurrentOrder.Target != actor)
+            if (actor.CurrentOrder != null && actor.CurrentOrder.TargetActor != actor)
             {
                 var color = Color.White;
                 
@@ -51,8 +51,9 @@ namespace Eternia.XnaClient
                 billboardEffect.Parameters["Projection"].SetValue(projection);
                 billboardEffect.Parameters["Alpha"].SetValue(1f);
 
-                var position = actor.Position + (actor.CurrentOrder.Target.Position - actor.Position) * (1f - (actor.CastingProgress.Current / actor.CastingProgress.Duration));
-                var direction = Vector2.Normalize(actor.CurrentOrder.Target.Position - position);
+                var targetPosition = actor.CurrentOrder.GetTargetLocation();
+                var position = actor.Position + (targetPosition - actor.Position) * (1f - (actor.CastingProgress.Current / actor.CastingProgress.Duration));
+                var direction = Vector2.Normalize(targetPosition - position);
                 var world = Matrix.CreateScale(0.5f) * Matrix.CreateWorld(new Vector3(position.X, 2.0f, position.Y), new Vector3(direction.X, 0, direction.Y), new Vector3(0, 1, 0));
 
                 billboardEffect.Parameters["World"].SetValue(world);

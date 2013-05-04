@@ -107,6 +107,36 @@ namespace Eternia.XnaClient
             }
         }
 
+        public void DrawBillboard(Vector3 position, Texture2D texture, float scale)
+        {
+            var vertices = new VertexPositionTexture[6];
+            vertices[0] = new VertexPositionTexture(new Vector3(-1, 0, -1), new Vector2(0, 0));
+            vertices[1] = new VertexPositionTexture(new Vector3(1, 0, -1), new Vector2(1, 0));
+            vertices[2] = new VertexPositionTexture(new Vector3(-1, 0, 1), new Vector2(0, 1));
+            vertices[3] = new VertexPositionTexture(new Vector3(1, 0, -1), new Vector2(1, 0));
+            vertices[4] = new VertexPositionTexture(new Vector3(1, 0, 1), new Vector2(1, 1));
+            vertices[5] = new VertexPositionTexture(new Vector3(-1, 0, 1), new Vector2(0, 1));
+
+            var color = Color.Salmon;
+
+            graphicsDevice.BlendState = BlendState.AlphaBlend;
+            graphicsDevice.DepthStencilState = DepthStencilState.None;
+
+            billboardEffect.Parameters["View"].SetValue(view);
+            billboardEffect.Parameters["Projection"].SetValue(projection);
+            billboardEffect.Parameters["Alpha"].SetValue(1);
+            
+            billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(scale) * Matrix.CreateTranslation(position));
+            billboardEffect.Parameters["Diffuse"].SetValue(color.ToVector4());
+            billboardEffect.Parameters["Texture"].SetValue(texture);
+
+            foreach (var pass in billboardEffect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+                graphicsDevice.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, vertices, 0, 2);
+            }
+        }
+
         public Vector2 Unproject(MouseState mouseState)
         {
             var near = graphicsDevice.Viewport.Unproject(new Vector3(mouseState.X, mouseState.Y, 0), projection, view, Matrix.Identity);
