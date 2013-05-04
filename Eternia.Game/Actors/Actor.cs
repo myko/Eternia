@@ -183,7 +183,6 @@ namespace Eternia.Game.Actors
 
             CurrentHealth = MaximumHealth;
             CurrentMana = MaximumMana;
-            ThreatList.Clear();
         }
 
         public void SelectTarget(IEnumerable<Actor> availableTargets)
@@ -291,29 +290,26 @@ namespace Eternia.Game.Actors
             else
             {
                 // Move actor towards enemy targets.
-                if (Targets.Any()) // && Faction != Targets.Peek().Faction)
+                if (Orders.Any()) // && Faction != Targets.Peek().Faction)
                 {
-                    var target = Targets.Peek();
-                    var direction = target.Position - Position;
+                    var order = Orders.First();
+                    var direction = order.Target.Position - Position;
                     var distance = direction.Length();
 
-                    var availableAbilities = Abilities
-                        .Where(x => 
-                            x.Cooldown.IsReady && 
-                            x.ManaCost <= CurrentMana && x.EnergyCost <= CurrentEnergy && 
-                            x.DamageType != DamageTypes.PointBlankArea &&
-                            ((x.TargettingType == TargettingTypes.Hostile && Faction != target.Faction) || 
-                            (x.TargettingType == TargettingTypes.Friendly && Faction == target.Faction)));
+                    //var availableAbilities = Abilities
+                    //    .Where(x => 
+                    //        x.Cooldown.IsReady && 
+                    //        x.ManaCost <= CurrentMana && x.EnergyCost <= CurrentEnergy && 
+                    //        x.DamageType != DamageTypes.PointBlankArea &&
+                    //        ((x.TargettingType == TargettingTypes.Hostile && Faction != target.Faction) || 
+                    //        (x.TargettingType == TargettingTypes.Friendly && Faction == target.Faction)));
 
-                    if (availableAbilities.Any())
-                    {
-                        var minimumRange = availableAbilities.Max(x => x.Range.Maximum + Radius + target.Radius - 0.2f);
+                    var minimumRange = order.Ability.Range.Maximum + Radius + order.Target.Radius - 0.2f;
 
-                        if (distance > minimumRange)
-                            Destination = Position + Vector2.Normalize(direction) * (distance - minimumRange);
-                        else
-                            Destination = null;
-                    }
+                    if (distance > minimumRange)
+                        Destination = Position + Vector2.Normalize(direction) * (distance - minimumRange);
+                    else
+                        Destination = null;
                 }
             }
 
@@ -336,9 +332,23 @@ namespace Eternia.Game.Actors
                 {
                     direction.Normalize();
                     var newPosition = Position + direction * Math.Min(distance, MovementSpeed * deltaTime);
-                    if (!otherActors.Any(x => x.DistanceFrom(newPosition) < (x.Radius + Radius) * 1.05f))
+
+                    var collidingActors = otherActors.Where(x => x.DistanceFrom(newPosition) < (x.Radius + Radius) * 1.05f);
+                    if (!collidingActors.Any())
                     {
                         Position = newPosition;
+                        Direction = direction;
+                        CurrentOrder = null;
+                        CastingProgress = null;
+
+                        return true;
+                    }
+                    else
+                    {
+                        var collidingActor = collidingActors.OrderBy(x => x.DistanceFrom(newPosition)).First();
+                        var intersection = collidingActor.DistanceFrom(newPosition) - (collidingActor.Radius + Radius) * 1.05f;
+
+                        Position = newPosition + (newPosition - collidingActor.Position) * -intersection;
                         Direction = direction;
                         CurrentOrder = null;
                         CastingProgress = null;

@@ -147,6 +147,12 @@ namespace Eternia.Game
             // Drop dead actors from threat lists
             actor.ThreatList.RemoveAll(t => !t.Actor.IsAlive);
 
+            // Drop dead targets from order lists
+            actor.Orders.RemoveAll(o => !o.Target.IsAlive);
+
+            while (actor.Targets.Any() && !actor.Targets.Peek().IsAlive)
+                actor.Targets.Dequeue();
+            
             // TODO: Remove hard coded mana regen
             actor.CurrentMana += 1f * deltaTime;
             // TODO: Remove hard coded energy regen

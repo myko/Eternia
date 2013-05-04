@@ -260,7 +260,12 @@ namespace EterniaXna.Screens
             FindMouseOverActor(mouseState);
 
             var form = System.Windows.Forms.Form.FromHandle(ScreenManager.Game.Window.Handle);
-            if (mouseOverActor != null)
+            if (isTargetting != null)
+            {
+                if (form.Cursor != System.Windows.Forms.Cursors.Cross)
+                    form.Cursor = System.Windows.Forms.Cursors.Cross;
+            }
+            else if (mouseOverActor != null)
             {
                 if (form.Cursor != System.Windows.Forms.Cursors.Hand)
                     form.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -346,7 +351,10 @@ namespace EterniaXna.Screens
                     selectedActors.Where(x => x.IsAlive).ToList().ForEach(x =>
                     {
                         if (keyboardState.IsKeyUp(Keys.LeftShift))
+                        {
                             x.Targets.Clear();
+                            x.Orders.Clear();
+                        }
                         if (!x.Targets.Contains(mouseOverActor))
                             x.Targets.Enqueue(mouseOverActor);
                     });
@@ -357,7 +365,16 @@ namespace EterniaXna.Screens
                     {
                         x.OrderedDestination = scene.Unproject(mouseState);
                         x.Targets.Clear();
+                        x.Orders.Clear();
                     });
+                }
+            }
+
+            if (keyboardState.IsKeyDown(Keys.Escape))
+            {
+                foreach (var actor in battle.Actors.Where(x => x.Faction == Factions.Friend))
+                {
+                    actor.IsAlive = false;
                 }
             }
 
@@ -376,7 +393,19 @@ namespace EterniaXna.Screens
                 if (!System.IO.File.Exists(System.IO.Path.Combine(ContentManager.RootDirectory, modelFileName + ".xnb")))
                     modelFileName = @"Models\Actors\warrior_portrait";
 
-                scene.Nodes.Insert(0, new ActorModel(actor, ContentManager.Load<Texture2D>(modelFileName), ContentManager, ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\Particle")));
+                var actorModel = new ActorModel(actor, ContentManager.Load<Texture2D>(modelFileName), ContentManager, ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\Particle"));
+                actorModel.Nodes.Add(new Shadow(ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\billboard"), ContentManager.Load<Texture2D>(@"Sprites\shadow"), actor));
+                actorModel.Nodes.Add(new RangeIndicator(actor, ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\billboard"), ContentManager.Load<Texture2D>(@"Interface\circlearea")));
+                actorModel.Nodes.Add(new ActorWidgets(ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\billboard"), ContentManager.Load<Texture2D>(@"Interface\selection"), ContentManager.Load<Texture2D>(@"Interface\destination"), ContentManager.Load<Texture2D>(@"Interface\destination2"), actorModel));
+                scene.Nodes.Add(actorModel);
+            }
+
+            foreach (var actorModel in scene.Nodes.OfType<ActorModel>().OrderBy(a => a.Actor.Position.Y))
+            {
+                actorModel.IsMouseOver = actorModel.Actor == mouseOverActor;
+                actorModel.IsTargeted = selectedActors.Any(x => x.Targets.FirstOrDefault() == actorModel.Actor);
+                actorModel.HasSelection = selectedActors.Any();
+                actorModel.IsSelected = selectedActors.Contains(actorModel.Actor);
             }
 
             // TODO: Projectiles should not all look the same
@@ -480,7 +509,7 @@ namespace EterniaXna.Screens
         {
             //DrawHelpers();
 
-            scene.Draw(selectedActors, mouseOverActor, battle, ContentManager);
+            scene.Draw();
 
             foreach (var actorModel in scene.Nodes.OfType<ActorModel>().OrderBy(a => a.Actor.Position.Y))
             {
@@ -509,6 +538,7 @@ namespace EterniaXna.Screens
                 SpriteBatch.Draw(BlankTexture, new Rectangle(x1, y1, x2 - x1, y2 - y1), Color.Green * 0.33f);
             }
 
+            SpriteBatch.DrawString(Font, scene.CountNodes().ToString(), new Vector2(Width - 50, Height - Font.LineSpacing * 2), Color.White);
             SpriteBatch.DrawString(Font, fps.ToString("0"), new Vector2(Width - 50, Height - Font.LineSpacing), Color.White);
             fps = (float)((fps + (1000.0 / gameTime.ElapsedGameTime.TotalMilliseconds)) / 2.0);
         }
@@ -671,8 +701,12 @@ namespace EterniaXna.Screens
 
         private void DrawHealthBar(int x, int y, int width, int height, float fraction, Color color)
         {
-            SpriteBatch.Draw(healthBarTexture, new Rectangle(x, y, width, height), Color.DarkGray, ZIndex + 0.001f);
-            SpriteBatch.Draw(healthBarTexture, new Rectangle(x, y, (int)(fraction * width), height), color, ZIndex + 0.002f);
+            if (width > 0)
+            {
+                SpriteBatch.Draw(healthBarTexture, new Rectangle(x, y, width, height), Color.DarkGray, ZIndex + 0.001f);
+                if (fraction > 0)
+                    SpriteBatch.Draw(healthBarTexture, new Rectangle(x, y, (int)(fraction * width), height), color, ZIndex + 0.002f);
+            }
         }
 
         private void pauseButton_Click(Button pauseButton)

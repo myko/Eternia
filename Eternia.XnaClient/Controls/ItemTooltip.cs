@@ -77,9 +77,12 @@ namespace EterniaXna
             {
                 var text = stat.ToItemUpgradeString();
 
-                SpriteBatch.DrawString(Font, text, new Vector2(x, y), stat.Color, ZIndex + 0.003f);
+                if (!string.IsNullOrWhiteSpace(text))
+                {
+                    SpriteBatch.DrawString(Font, text, new Vector2(x, y), stat.Color, ZIndex + 0.003f);
 
-                y += (int)Font.MeasureString(text).Y;
+                    y += (int)Font.MeasureString(text).Y;
+                }
             }
 
             return y;
@@ -89,10 +92,10 @@ namespace EterniaXna
         {
             switch (rarity)
             {
-                //case ItemRarities.Common:
-                //    return Color.Gray;
-                //case ItemRarities.Uncommon:
-                //    return Color.White;
+                case ItemRarities.Common:
+                    return Color.Gray;
+                case ItemRarities.Uncommon:
+                    return Color.White;
                 case ItemRarities.Rare:
                     return Color.MediumAquamarine;
                 case ItemRarities.Heroic:

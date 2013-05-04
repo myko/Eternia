@@ -22,6 +22,7 @@ namespace Eternia.XnaClient
 
         public virtual void Update(GameTime gameTime, bool isPaused)
         {
+            Nodes.RemoveAll(x => x.IsExpired());
             Nodes.ForEach(x => x.Update(gameTime, isPaused));
         }
 

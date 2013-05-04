@@ -86,6 +86,7 @@ namespace EterniaXna.Screens
                 actor.IsAlive = true;
                 actor.CurrentHealth = actor.MaximumHealth;
                 actor.CurrentMana = actor.MaximumMana;
+                actor.Orders.Clear();
                 actor.ThreatList.Clear();
                 actor.Targets.Clear();
                 actor.CurrentOrder = null;

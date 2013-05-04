@@ -97,6 +97,8 @@ namespace Eternia.XnaClient
                 pass.Apply();
                 graphicsDevice.DrawUserPrimitives<VertexPositionColorTexture>(PrimitiveType.TriangleList, vertices, 0, 2);
             }
+
+            base.Draw(view, projection);
         }
     }
 }

@@ -62,10 +62,32 @@ namespace Eternia.XnaClient
 
         public void Update(GameTime gameTime, bool isPaused)
         {
-            Nodes.RemoveAll(st => st.IsExpired());
-            Nodes.ForEach(st => st.Update(gameTime, isPaused));
+            Nodes.RemoveAll(x => x.IsExpired());
+            Nodes.ForEach(x => x.Update(gameTime, isPaused));
         }
 
+        public void Draw()
+        {
+            float aspectRatio = (float)graphicsDevice.Viewport.Width / (float)graphicsDevice.Viewport.Height;
+
+            var cameraWorldPosition = new Vector3(cameraPosition.X, cameraDistance, cameraPosition.Y);
+            var cameraWorldTarget = new Vector3(cameraPosition.X, 0, cameraPosition.Y);
+            view = Matrix.CreateLookAt(cameraWorldPosition,
+                                       cameraWorldTarget,
+                                       Vector3.Cross(Vector3.Normalize(cameraWorldTarget - cameraWorldPosition), new Vector3(-1, 0, 0)));
+
+            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4,
+                                                                    aspectRatio,
+                                                                    0.1f,
+                                                                    1000f);
+
+            projection = Matrix.CreateOrthographic(54, 30, 0.1f, 1000f);
+
+            graphicsDevice.DepthStencilState = DepthStencilState.Default;
+
+            Nodes.ForEach(x => x.Draw(view, projection));
+        }
+        
         public void DrawHelperBox(Vector3 position, Color color, ContentManager contentManager)
         {
             graphicsDevice.DepthStencilState = DepthStencilState.Default;
@@ -85,166 +107,6 @@ namespace Eternia.XnaClient
             }
         }
 
-        public void Draw(IEnumerable<Actor> selectedActors, Actor mouseOverActor, Battle battle, ContentManager contentManager)
-        {
-            float aspectRatio = (float)graphicsDevice.Viewport.Width / (float)graphicsDevice.Viewport.Height;
-
-            var cameraWorldPosition = new Vector3(cameraPosition.X, cameraDistance, cameraPosition.Y);
-            var cameraWorldTarget = new Vector3(cameraPosition.X, 0, cameraPosition.Y);
-            view = Matrix.CreateLookAt(cameraWorldPosition,
-                                       cameraWorldTarget,
-                                       Vector3.Cross(Vector3.Normalize(cameraWorldTarget - cameraWorldPosition), new Vector3(-1, 0, 0)));
-
-            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4,
-                                                                    aspectRatio,
-                                                                    0.1f,
-                                                                    1000f);
-
-            projection = Matrix.CreateOrthographic(54, 30, 0.1f, 1000f);
-
-            graphicsDevice.DepthStencilState = DepthStencilState.Default;
-
-            foreach (var actorModel in Nodes.OfType<ActorModel>().OrderBy(a => a.Actor.Position.Y))
-            {
-                actorModel.IsMouseOver = actorModel.Actor == mouseOverActor;
-                actorModel.IsTargeted = selectedActors.Any(x => x.Targets.FirstOrDefault() == actorModel.Actor);
-                actorModel.HasSelection = selectedActors.Any();
-                actorModel.IsSelected = selectedActors.Contains(actorModel.Actor);
-            }
-
-            Nodes.ForEach(x => x.Draw(view, projection));
-            
-            foreach (var selectedActor in selectedActors)
-            {
-                var vertices = new VertexPositionTexture[6];
-                vertices[0] = new VertexPositionTexture(new Vector3(-1, 0, -1), new Vector2(0, 0));
-                vertices[1] = new VertexPositionTexture(new Vector3(1, 0, -1), new Vector2(1, 0));
-                vertices[2] = new VertexPositionTexture(new Vector3(-1, 0, 1), new Vector2(0, 1));
-                vertices[3] = new VertexPositionTexture(new Vector3(1, 0, -1), new Vector2(1, 0));
-                vertices[4] = new VertexPositionTexture(new Vector3(1, 0, 1), new Vector2(1, 1));
-                vertices[5] = new VertexPositionTexture(new Vector3(-1, 0, 1), new Vector2(0, 1));
-
-                graphicsDevice.BlendState = BlendState.AlphaBlend;
-                graphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
-
-                billboardEffect.Parameters["View"].SetValue(view);
-                billboardEffect.Parameters["Projection"].SetValue(projection);
-                billboardEffect.Parameters["Alpha"].SetValue(1f);
-
-                billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(selectedActor.Radius * 1.4f) * Matrix.CreateTranslation(new Vector3(selectedActor.Position.X, 0.06f, selectedActor.Position.Y)));
-                if (selectedActor.Faction == Factions.Friend)
-                    billboardEffect.Parameters["Diffuse"].SetValue(Color.Green.ToVector4());
-                else
-                    billboardEffect.Parameters["Diffuse"].SetValue(Color.Red.ToVector4());
-                billboardEffect.Parameters["Texture"].SetValue(selectionTexture);
-
-                foreach (var pass in billboardEffect.CurrentTechnique.Passes)
-                {
-                    pass.Apply();
-                    graphicsDevice.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, vertices, 0, 2);
-                }
-
-                if (selectedActor.Destination.HasValue || selectedActor.OrderedDestination.HasValue)
-                {
-                    if (selectedActor.Destination.HasValue)
-                        billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(selectedActor.Radius * 1.4f) * Matrix.CreateTranslation(new Vector3(selectedActor.Destination.Value.X, 0.05f, selectedActor.Destination.Value.Y)));
-                    if (selectedActor.OrderedDestination.HasValue)
-                        billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(selectedActor.Radius * 1.4f) * Matrix.CreateTranslation(new Vector3(selectedActor.OrderedDestination.Value.X, 0.05f, selectedActor.OrderedDestination.Value.Y)));
-                    billboardEffect.Parameters["Diffuse"].SetValue(Color.White.ToVector4());
-                    if (selectedActor.OrderedDestination.HasValue)
-                        billboardEffect.Parameters["Texture"].SetValue(contentManager.Load<Texture2D>(@"Interface\destination2"));
-                    else
-                        billboardEffect.Parameters["Texture"].SetValue(contentManager.Load<Texture2D>(@"Interface\destination"));
-
-                    foreach (var pass in billboardEffect.CurrentTechnique.Passes)
-                    {
-                        pass.Apply();
-                        graphicsDevice.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, vertices, 0, 2);
-                    }
-                }
-            }
-
-            DrawShadows(battle, contentManager);
-
-            foreach (var actor in battle.Actors.Where(x => x.IsAlive && x.CurrentOrder != null))
-            {
-                if (actor.CurrentOrder.Ability.DamageType == DamageTypes.PointBlankArea || actor.CurrentOrder.Ability.DamageType == DamageTypes.Cleave)
-                {
-                    var color = Color.Red;
-                    if (actor.Faction == Factions.Friend)
-                    {
-                        color = Color.Blue;
-                        if (actor.CurrentOrder.Ability.Healing.Any())
-                            color = Color.Green;
-                    }
-
-                    var vertices = new VertexPositionTexture[6];
-                    vertices[0] = new VertexPositionTexture(new Vector3(-1, 0, -1), new Vector2(0, 0));
-                    vertices[1] = new VertexPositionTexture(new Vector3(1, 0, -1), new Vector2(1, 0));
-                    vertices[2] = new VertexPositionTexture(new Vector3(-1, 0, 1), new Vector2(0, 1));
-                    vertices[3] = new VertexPositionTexture(new Vector3(1, 0, -1), new Vector2(1, 0));
-                    vertices[4] = new VertexPositionTexture(new Vector3(1, 0, 1), new Vector2(1, 1));
-                    vertices[5] = new VertexPositionTexture(new Vector3(-1, 0, 1), new Vector2(0, 1));
-
-                    graphicsDevice.BlendState = BlendState.AlphaBlend;
-                    graphicsDevice.DepthStencilState = DepthStencilState.None;
-
-                    billboardEffect.Parameters["View"].SetValue(view);
-                    billboardEffect.Parameters["Projection"].SetValue(projection);
-                    billboardEffect.Parameters["Alpha"].SetValue(0.5f);
-
-                    var position = new Vector3(actor.Position.X, 0.04f, actor.Position.Y);
-                    if (actor.CurrentOrder.Ability.DamageType == DamageTypes.Cleave)
-                        position = new Vector3(actor.Targets.Peek().Position.X, 0.04f, actor.Targets.Peek().Position.Y);
-
-                    var scale = actor.CurrentOrder.Ability.Range.Maximum;
-                    if (actor.CurrentOrder.Ability.DamageType == DamageTypes.Cleave)
-                        scale = actor.Radius + 1;
-
-                    billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(scale) * Matrix.CreateTranslation(position));
-                    billboardEffect.Parameters["Diffuse"].SetValue(color.ToVector4());
-                    billboardEffect.Parameters["Texture"].SetValue(contentManager.Load<Texture2D>(@"Interface\circlearea"));
-
-                    foreach (var pass in billboardEffect.CurrentTechnique.Passes)
-                    {
-                        pass.Apply();
-                        graphicsDevice.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, vertices, 0, 2);
-                    }
-                }
-            }
-        }
-
-        private void DrawShadows(Battle battle, ContentManager contentManager)
-        {
-            foreach (var actor in battle.Actors)
-            {
-                var vertices = new VertexPositionTexture[6];
-                vertices[0] = new VertexPositionTexture(new Vector3(-1, 0, -1), new Vector2(0, 0));
-                vertices[1] = new VertexPositionTexture(new Vector3(1, 0, -1), new Vector2(1, 0));
-                vertices[2] = new VertexPositionTexture(new Vector3(-1, 0, 1), new Vector2(0, 1));
-                vertices[3] = new VertexPositionTexture(new Vector3(1, 0, -1), new Vector2(1, 0));
-                vertices[4] = new VertexPositionTexture(new Vector3(1, 0, 1), new Vector2(1, 1));
-                vertices[5] = new VertexPositionTexture(new Vector3(-1, 0, 1), new Vector2(0, 1));
-
-                graphicsDevice.BlendState = BlendState.AlphaBlend;
-                graphicsDevice.DepthStencilState = DepthStencilState.Default;
-
-                billboardEffect.Parameters["View"].SetValue(view);
-                billboardEffect.Parameters["Projection"].SetValue(projection);
-                billboardEffect.Parameters["Alpha"].SetValue(0.5f);
-
-                billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(actor.Radius * 0.85f) * Matrix.CreateTranslation(new Vector3(actor.Position.X, 0.03f, actor.Position.Y)));
-                billboardEffect.Parameters["Diffuse"].SetValue(Color.White.ToVector4());
-                billboardEffect.Parameters["Texture"].SetValue(contentManager.Load<Texture2D>(@"Sprites\shadow"));
-
-                foreach (var pass in billboardEffect.CurrentTechnique.Passes)
-                {
-                    pass.Apply();
-                    graphicsDevice.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, vertices, 0, 2);
-                }
-            }
-        }
-
         public Vector2 Unproject(MouseState mouseState)
         {
             var near = graphicsDevice.Viewport.Unproject(new Vector3(mouseState.X, mouseState.Y, 0), projection, view, Matrix.Identity);
@@ -259,6 +121,24 @@ namespace Eternia.XnaClient
         {
             var r = graphicsDevice.Viewport.Project(new Vector3(v.X, 0, v.Y), projection, view, Matrix.Identity);
             return new Vector2(r.X, r.Y);
+        }
+
+        public int CountNodes()
+        {
+            int result = 0;
+            Stack<SceneNode> nodesToCount = new Stack<SceneNode>(Nodes);
+
+            while (nodesToCount.Any())
+            {
+                var currentNode = nodesToCount.Pop();
+                foreach (var child in currentNode.Nodes)
+                {
+                    nodesToCount.Push(child);
+                }
+                result++;
+            }
+
+            return result;
         }
     }
 }

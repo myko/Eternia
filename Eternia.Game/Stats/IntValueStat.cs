@@ -34,6 +34,9 @@ namespace Eternia.Game.Stats
 
         public override string ToItemUpgradeString()
         {
+            if (Value == 0)
+                return "";
+
             if (Value >= 0)
                 return Name + ": " + "+" + Value.ToString();
             else

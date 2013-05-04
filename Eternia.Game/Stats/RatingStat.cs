@@ -35,6 +35,9 @@ namespace Eternia.Game.Stats
 
         public override string ToItemUpgradeString()
         {
+            if (Rating == 0)
+                return "";
+
             if (Rating >= 0)
                 return Name + ": " + "+" + Rating.ToString();
             else
