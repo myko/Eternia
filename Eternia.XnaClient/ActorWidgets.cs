@@ -36,6 +36,11 @@ namespace Eternia.XnaClient
             vertices[5] = new VertexPositionTexture(new Vector3(-1, 0, 1), new Vector2(0, 1));
         }
 
+        public override bool IsExpired()
+        {
+            return !selectedActor.Actor.IsAlive;
+        }
+
         public override void Draw(Matrix view, Matrix projection)
         {
             if (selectedActor.IsSelected)
@@ -47,7 +52,7 @@ namespace Eternia.XnaClient
                 billboardEffect.Parameters["Projection"].SetValue(projection);
                 billboardEffect.Parameters["Alpha"].SetValue(1f);
 
-                billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(selectedActor.Actor.Radius * 1.4f) * Matrix.CreateTranslation(new Vector3(selectedActor.Actor.Position.X, 0.06f, selectedActor.Actor.Position.Y)));
+                billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(selectedActor.Actor.Radius * 1.6f) * Matrix.CreateTranslation(new Vector3(selectedActor.Actor.Position.X, 0.06f, selectedActor.Actor.Position.Y)));
                 if (selectedActor.Actor.Faction == Factions.Friend)
                     billboardEffect.Parameters["Diffuse"].SetValue(Color.Green.ToVector4());
                 else
@@ -63,9 +68,9 @@ namespace Eternia.XnaClient
                 if (selectedActor.Actor.Destination.HasValue || selectedActor.Actor.OrderedDestination.HasValue)
                 {
                     if (selectedActor.Actor.Destination.HasValue)
-                        billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(selectedActor.Actor.Radius * 1.4f) * Matrix.CreateTranslation(new Vector3(selectedActor.Actor.Destination.Value.X, 0.05f, selectedActor.Actor.Destination.Value.Y)));
+                        billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(selectedActor.Actor.Radius * 1.6f) * Matrix.CreateTranslation(new Vector3(selectedActor.Actor.Destination.Value.X, 0.05f, selectedActor.Actor.Destination.Value.Y)));
                     if (selectedActor.Actor.OrderedDestination.HasValue)
-                        billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(selectedActor.Actor.Radius * 1.4f) * Matrix.CreateTranslation(new Vector3(selectedActor.Actor.OrderedDestination.Value.X, 0.05f, selectedActor.Actor.OrderedDestination.Value.Y)));
+                        billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(selectedActor.Actor.Radius * 1.6f) * Matrix.CreateTranslation(new Vector3(selectedActor.Actor.OrderedDestination.Value.X, 0.05f, selectedActor.Actor.OrderedDestination.Value.Y)));
                     billboardEffect.Parameters["Diffuse"].SetValue(Color.White.ToVector4());
                     if (selectedActor.Actor.OrderedDestination.HasValue)
                         billboardEffect.Parameters["Texture"].SetValue(orderedDestinationTexture);

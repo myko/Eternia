@@ -397,6 +397,7 @@ namespace EterniaXna.Screens
                 actorModel.Nodes.Add(new Shadow(ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\billboard"), ContentManager.Load<Texture2D>(@"Sprites\shadow"), actor));
                 actorModel.Nodes.Add(new RangeIndicator(actor, ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\billboard"), ContentManager.Load<Texture2D>(@"Interface\circlearea")));
                 actorModel.Nodes.Add(new ActorWidgets(ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\billboard"), ContentManager.Load<Texture2D>(@"Interface\selection"), ContentManager.Load<Texture2D>(@"Interface\destination"), ContentManager.Load<Texture2D>(@"Interface\destination2"), actorModel));
+                actorModel.Nodes.Add(new AbilityAnimation(actor, ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\billboard"), ContentManager.Load<Texture2D>(@"Sprites\attack_sword_1")));
                 scene.Nodes.Add(actorModel);
             }
 

@@ -9,7 +9,7 @@ using Eternia.Game;
 
 namespace Eternia.XnaClient
 {
-    public class RangeIndicator: SceneNode
+    public class AbilityAnimation: SceneNode
     {
         private Actor actor;
         private GraphicsDevice graphicsDevice;
@@ -17,7 +17,7 @@ namespace Eternia.XnaClient
         private Texture2D texture;
         private VertexPositionTexture[] vertices;
 
-        public RangeIndicator(Actor actor, GraphicsDevice graphicsDevice, Effect billboardEffect, Texture2D texture)
+        public AbilityAnimation(Actor actor, GraphicsDevice graphicsDevice, Effect billboardEffect, Texture2D texture)
         {
             this.actor = actor;
             this.graphicsDevice = graphicsDevice;
@@ -40,32 +40,22 @@ namespace Eternia.XnaClient
 
         public override void Draw(Matrix view, Matrix projection)
         {
-            if (actor.CurrentOrder != null && (actor.CurrentOrder.Ability.DamageType == DamageTypes.Cleave || actor.CurrentOrder.Ability.DamageType == DamageTypes.PointBlankArea))
+            if (actor.CurrentOrder != null && actor.CurrentOrder.Target != actor)
             {
-                var color = Color.Red;
-                if (actor.Faction == Factions.Friend)
-                {
-                    color = Color.Blue;
-                    if (actor.CurrentOrder.Ability.Healing.Any())
-                        color = Color.Green;
-                }
+                var color = Color.White;
                 
                 graphicsDevice.BlendState = BlendState.AlphaBlend;
-                graphicsDevice.DepthStencilState = DepthStencilState.None;
+                graphicsDevice.DepthStencilState = DepthStencilState.Default;
 
                 billboardEffect.Parameters["View"].SetValue(view);
                 billboardEffect.Parameters["Projection"].SetValue(projection);
-                billboardEffect.Parameters["Alpha"].SetValue(0.5f);
+                billboardEffect.Parameters["Alpha"].SetValue(1f);
 
-                var position = new Vector3(actor.Position.X, 0.04f, actor.Position.Y);
-                if (actor.CurrentOrder.Ability.DamageType == DamageTypes.Cleave)
-                    position = new Vector3(actor.Targets.Peek().Position.X, 0.04f, actor.Targets.Peek().Position.Y);
+                var position = actor.Position + (actor.CurrentOrder.Target.Position - actor.Position) * (1f - (actor.CastingProgress.Current / actor.CastingProgress.Duration));
+                var direction = Vector2.Normalize(actor.CurrentOrder.Target.Position - position);
+                var world = Matrix.CreateScale(0.5f) * Matrix.CreateWorld(new Vector3(position.X, 2.0f, position.Y), new Vector3(direction.X, 0, direction.Y), new Vector3(0, 1, 0));
 
-                var scale = actor.CurrentOrder.Ability.Range.Maximum;
-                if (actor.CurrentOrder.Ability.DamageType == DamageTypes.Cleave)
-                    scale = actor.Radius + 1;
-
-                billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(scale) * Matrix.CreateTranslation(position));
+                billboardEffect.Parameters["World"].SetValue(world);
                 billboardEffect.Parameters["Diffuse"].SetValue(color.ToVector4());
                 billboardEffect.Parameters["Texture"].SetValue(texture);
 
