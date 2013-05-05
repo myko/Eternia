@@ -7,7 +7,7 @@
     <ResourceType>Energy</ResourceType>
     <Cost>0</Cost>
     <Diameter>1.5</Diameter>
-    <MovementSpeed>7</MovementSpeed>
+    <MovementSpeed>5</MovementSpeed>
     <TextureName>warrior</TextureName>
     <BaseStatistics>
       <Item Type="Stats:Health">
@@ -30,8 +30,8 @@
         <AnimationName>Ability2</AnimationName>
         <TextureName>Ability_meleedamage</TextureName>
         <Damage>
-          <Value>5</Value>
-          <AttackPowerScale>0.8</AttackPowerScale>
+          <Value>50</Value>
+          <AttackPowerScale>1</AttackPowerScale>
           <SpellPowerScale>0</SpellPowerScale>
           <School>Physical</School>
         </Damage>
@@ -69,8 +69,8 @@
         <AnimationName>Ability1</AnimationName>
         <TextureName>Ability_Warrior_SecondWind</TextureName>
         <Damage>
-          <Value>15</Value>
-          <AttackPowerScale>2.5</AttackPowerScale>
+          <Value>50</Value>
+          <AttackPowerScale>1</AttackPowerScale>
           <SpellPowerScale>0</SpellPowerScale>
           <School>Physical</School>
         </Damage>

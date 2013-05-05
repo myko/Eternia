@@ -20,6 +20,8 @@ namespace Eternia.XnaClient
         private readonly SpriteFont smallFont;
         private readonly SpriteFont largeFont;
 
+        public Actor Filter { get; set; }
+
         public ScrollingTextSystem(Scene scene, SpriteBatch spriteBatch, SpriteFont smallFont, SpriteFont largeFont)
         {
             this.scene = scene;
@@ -34,10 +36,11 @@ namespace Eternia.XnaClient
         {
             var font = ev.IsCrit ? largeFont : smallFont;
 
-            Nodes.Add(new ScrollingText(spriteBatch, ev.Damage.ToString("0"), font)
+            Nodes.Add(new ScrollingText(spriteBatch, this, ev.Damage.ToString("0"), font)
             {
-                Target = ev.Actor,
-                Color = ev.Actor.Faction == Factions.Enemy ? Color.Yellow : Color.Salmon
+                Source = ev.Source,
+                Target = ev.Target,
+                Color = ev.Target.Faction == Factions.Enemy ? Color.Yellow : Color.Salmon
             });
         }
 
@@ -45,37 +48,41 @@ namespace Eternia.XnaClient
         {
             var font = ev.IsCrit ? largeFont : smallFont;
 
-            Nodes.Add(new ScrollingText(spriteBatch, ev.Healing.ToString("0"), font)
+            Nodes.Add(new ScrollingText(spriteBatch, this, ev.Healing.ToString("0"), font)
             {
-                Target = ev.Actor,
+                Source = ev.Source,
+                Target = ev.Target,
                 Color = Color.LightGreen
             });
         }
 
         public void Handle(ActorDodged ev)
         {
-            Nodes.Add(new ScrollingText(spriteBatch, "Dodge", smallFont)
+            Nodes.Add(new ScrollingText(spriteBatch, this, "Dodge", smallFont)
             {
-                Target = ev.Actor,
-                Color = ev.Actor.Faction == Factions.Enemy ? Color.Yellow : Color.Salmon
+                Source = ev.Source,
+                Target = ev.Target,
+                Color = ev.Target.Faction == Factions.Enemy ? Color.Yellow : Color.Salmon
             });
         }
 
         public void Handle(ActorBlocked ev)
         {
-            Nodes.Add(new ScrollingText(spriteBatch, "Block", smallFont)
+            Nodes.Add(new ScrollingText(spriteBatch, this, "Block", smallFont)
             {
-                Target = ev.Actor,
-                Color = ev.Actor.Faction == Factions.Enemy ? Color.Yellow : Color.Salmon
+                Source = ev.Source,
+                Target = ev.Target,
+                Color = ev.Target.Faction == Factions.Enemy ? Color.Yellow : Color.Salmon
             });
         }
 
         public void Handle(ActorMissed ev)
         {
-            Nodes.Add(new ScrollingText(spriteBatch, "Miss", smallFont)
+            Nodes.Add(new ScrollingText(spriteBatch, this, "Miss", smallFont)
             {
-                Target = ev.Actor,
-                Color = ev.Actor.Faction == Factions.Enemy ? Color.Yellow : Color.Salmon
+                Source = ev.Source,
+                Target = ev.Target,
+                Color = ev.Target.Faction == Factions.Enemy ? Color.Yellow : Color.Salmon
             });
         }
 
@@ -123,12 +130,14 @@ namespace Eternia.XnaClient
     public class ScrollingText: SceneNode
     {
         private readonly SpriteBatch spriteBatch;
+        private readonly ScrollingTextSystem system;
 
         public string Text { get; private set; }
         public float Width { get; private set; }
         public float Height { get; private set; }
         public SpriteFont Font { get; private set; }
 
+        public Actor Source { get; set; }
         public Actor Target { get; set; }
         public Vector2 Position { get; set; }
         public Color Color { get; set; }
@@ -136,9 +145,10 @@ namespace Eternia.XnaClient
         public float Speed { get; set; }
         public float Life { get; set; }
 
-        public ScrollingText(SpriteBatch spriteBatch, string text, SpriteFont font)
+        public ScrollingText(SpriteBatch spriteBatch, ScrollingTextSystem system, string text, SpriteFont font)
         {
             this.spriteBatch = spriteBatch;
+            this.system = system;
             this.Text = text;
             this.Font = font;
 
@@ -167,7 +177,11 @@ namespace Eternia.XnaClient
 
         public override void Draw(Matrix view, Matrix projection)
         {
-            //if (selectedActors.Contains(st.Source) || selectedActors.Contains(st.Target))
+            if (system.Filter == null)
+                return;
+
+            if (system.Filter != Source && system.Filter != Target)
+                return;
 
             spriteBatch.DrawString(Font, Text, Position + new Vector2(-1, -1), Color.Black * Alpha, 0.01f);
             //spriteBatch.DrawString(Font, Text, Position + new Vector2(1, -1), Color.Black * Alpha);

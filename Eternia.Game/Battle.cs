@@ -279,13 +279,13 @@ namespace Eternia.Game
 
                     if (damage > 0)
                     {
-                        Event.Raise(new ActorTookDamage { Actor = actor, Damage = damage, IsCrit = roll.IsCrit });
+                        Event.Raise(new ActorTookDamage { Source = aura.Owner, Target = actor, Damage = damage, IsCrit = roll.IsCrit });
                         turn.Events.Add(new OldEvent(EventTypes.AuraDamage) { Actor = aura.Owner, Target = actor, Damage = damage });
                         actor.CurrentHealth -= damage;
                     }
                     if (healing > 0)
                     {
-                        Event.Raise(new ActorWasHealed { Actor = actor, Healing = healing, IsCrit = roll.IsCrit });
+                        Event.Raise(new ActorWasHealed { Source = aura.Owner, Target = actor, Healing = healing, IsCrit = roll.IsCrit });
                         turn.Events.Add(new OldEvent(EventTypes.AuraHealing) { Actor = aura.Owner, Target = actor, Healing = healing });
                         actor.CurrentHealth += healing;
                     }
@@ -646,10 +646,10 @@ namespace Eternia.Game
             var blocked = 0f;
 
             if (combatOutcome.IsMiss)
-                Event.Raise(new ActorMissed { Actor = target });
+                Event.Raise(new ActorMissed { Source = actor, Target = target });
 
             if (combatOutcome.IsDodge)
-                Event.Raise(new ActorDodged { Actor = target });
+                Event.Raise(new ActorDodged { Source = actor, Target = target });
 
             if (combatOutcome.IsHit)
             {
@@ -667,7 +667,7 @@ namespace Eternia.Game
             {
                 blocked = Math.Min(damage, actor.CurrentStatistics.For<Armor>().Rating * 0.1f);
                 damage -= blocked;
-                Event.Raise(new ActorBlocked { Actor = target });
+                Event.Raise(new ActorBlocked { Source = actor, Target = target });
             }
 
             actor.CurrentMana -= ability.ManaCost;
@@ -676,13 +676,13 @@ namespace Eternia.Game
             if (damage > 0)
             {
                 target.CurrentHealth -= (damage);
-                Event.Raise(new ActorTookDamage { Actor = target, Damage = damage, IsCrit = combatOutcome.IsCrit });
+                Event.Raise(new ActorTookDamage { Source = actor, Target = target, Damage = damage, IsCrit = combatOutcome.IsCrit });
             }
 
             if (healing > 0)
             {
                 target.CurrentHealth += (healing);
-                Event.Raise(new ActorWasHealed { Actor = target, Healing = healing, IsCrit = combatOutcome.IsCrit });
+                Event.Raise(new ActorWasHealed { Source = actor, Target = target, Healing = healing, IsCrit = combatOutcome.IsCrit });
             }
 
             // Calculate damage threat

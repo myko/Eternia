@@ -8,6 +8,7 @@ namespace Eternia.Game.Events
 {
     public class ActorDodged
     {
-        public Actor Actor { get; set; }
+        public Actor Source { get; set; }
+        public Actor Target { get; set; }
     }
 }

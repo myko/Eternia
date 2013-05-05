@@ -124,7 +124,8 @@ namespace EterniaXna.Screens
                     LifeSpan = float.PositiveInfinity
                 },
             });
-            scene.Nodes.Add(scrollingTextSystem = new ScrollingTextSystem(scene, SpriteBatch, kootenaySmallFont, kootenayFont));
+            scrollingTextSystem = new ScrollingTextSystem(scene, SpriteBatch, kootenaySmallFont, kootenayFont);
+            scene.Nodes.Add(scrollingTextSystem);
 
             // TODO: This is map specific
             AddFire(new Vector3(-10.5f, 0.5f, -10.5f));
@@ -414,7 +415,7 @@ namespace EterniaXna.Screens
 
                 var actorModel = new ActorModel(actor, ContentManager.Load<Texture2D>(modelFileName), ContentManager, ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\Particle"));
                 actorModel.Nodes.Add(new Shadow(ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\billboard"), ContentManager.Load<Texture2D>(@"Sprites\shadow"), actor));
-                actorModel.Nodes.Add(new RangeIndicator(actor, ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\billboard"), ContentManager.Load<Texture2D>(@"Interface\circlearea")));
+                actorModel.Nodes.Add(new RangeIndicator(actorModel, ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\billboard"), ContentManager.Load<Texture2D>(@"Interface\circlearea")));
                 actorModel.Nodes.Add(new ActorWidgets(ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\billboard"), ContentManager.Load<Texture2D>(@"Interface\selection"), ContentManager.Load<Texture2D>(@"Interface\destination"), ContentManager.Load<Texture2D>(@"Interface\destination2"), actorModel));
                 actorModel.Nodes.Add(new AbilityAnimation(actor, ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\billboard"), ContentManager.Load<Texture2D>(@"Sprites\attack_sword_1")));
                 scene.Nodes.Add(actorModel);
@@ -494,7 +495,9 @@ namespace EterniaXna.Screens
                     });
                 }
             }
-            
+
+            scrollingTextSystem.Filter = selectedActors.FirstOrDefault();
+
             UpdateAbilityButtons();
             UpdateOrderQueueButtons();
             //UpdateStrategyButtons();
@@ -596,7 +599,10 @@ namespace EterniaXna.Screens
                 for (int i = 0; i < selectedActor.Abilities.Count; i++)
                 {
                     var ability = selectedActor.Abilities.ElementAt(i);
-                    var abilityTexture = ContentManager.Load<Texture2D>(@"Icons\" + ability.TextureName) ?? defaultAbilityTexture;
+                    var abilityTextureFileName = @"Icons\" + ability.TextureName;
+                    var abilityTexture = defaultAbilityTexture;
+                    if (System.IO.File.Exists(System.IO.Path.Combine(ContentManager.RootDirectory, abilityTextureFileName + ".xnb")))
+                        abilityTexture = ContentManager.Load<Texture2D>(abilityTextureFileName);
 
                     abilityButtons[i].Content = new AbilityButton(abilityButtons[i], selectedActor, ability, abilityTexture, BlankTexture, kootenayFont);
                     abilityButtons[i].Tooltip = new AbilityTooltip(selectedActor, ability) { Font = kootenaySmallFont };
@@ -614,7 +620,10 @@ namespace EterniaXna.Screens
                 for (int i = 0; i < selectedActor.Orders.Count; i++)
                 {
                     var order = selectedActor.Orders.ElementAt(i);
-                    var abilityTexture = ContentManager.Load<Texture2D>(@"Icons\" + order.Ability.TextureName) ?? defaultAbilityTexture;
+                    var abilityTextureFileName = @"Icons\" + order.Ability.TextureName;
+                    var abilityTexture = defaultAbilityTexture;
+                    if (System.IO.File.Exists(System.IO.Path.Combine(ContentManager.RootDirectory, abilityTextureFileName + ".xnb")))
+                        abilityTexture = ContentManager.Load<Texture2D>(abilityTextureFileName);
                     var targetTexture = order.TargetActor != null ? ContentManager.Load<Texture2D>(@"Models\Actors\" + order.TargetActor.TextureName + "_portrait") : ContentManager.Load<Texture2D>(@"Models\Actors\" + selectedActor.TextureName + "_portrait");
 
                     orderQueueButtons[i].Content = new OrderButton(orderQueueButtons[i], selectedActor, order, abilityTexture, BlankTexture, targetTexture, kootenayFont);
@@ -725,7 +734,10 @@ namespace EterniaXna.Screens
                     DrawHealthBar(50, 25 + i * 50 + 20, 100, 5, (actor.CastingProgress.Duration - actor.CastingProgress.Current) / actor.CastingProgress.Duration, Color.Goldenrod);
                     if (isFirstSelected)
                     {
-                        var abilityTexture = ContentManager.Load<Texture2D>(@"Icons\" + actor.CurrentOrder.Ability.TextureName) ?? defaultAbilityTexture;
+                        var abilityTextureFileName = @"Icons\" + actor.CurrentOrder.Ability.TextureName;
+                        var abilityTexture = defaultAbilityTexture;
+                        if (System.IO.File.Exists(System.IO.Path.Combine(ContentManager.RootDirectory, abilityTextureFileName + ".xnb")))
+                            abilityTexture = ContentManager.Load<Texture2D>(abilityTextureFileName);
                         SpriteBatch.Draw(abilityTexture, new Rectangle((int)Width / 2 - 25, (int)Height - 200, 50, 50), Color.White);
                         DrawHealthBar((int)Width / 2 - 100, (int)Height - 140, 200, 10, (actor.CastingProgress.Duration - actor.CastingProgress.Current) / actor.CastingProgress.Duration, Color.Goldenrod);
                     }

@@ -11,15 +11,15 @@ namespace Eternia.XnaClient
 {
     public class RangeIndicator: SceneNode
     {
-        private Actor actor;
+        private ActorModel actorModel;
         private GraphicsDevice graphicsDevice;
         private Effect billboardEffect;
         private Texture2D texture;
         private VertexPositionTexture[] vertices;
 
-        public RangeIndicator(Actor actor, GraphicsDevice graphicsDevice, Effect billboardEffect, Texture2D texture)
+        public RangeIndicator(ActorModel actorModel, GraphicsDevice graphicsDevice, Effect billboardEffect, Texture2D texture)
         {
-            this.actor = actor;
+            this.actorModel = actorModel;
             this.graphicsDevice = graphicsDevice;
             this.billboardEffect = billboardEffect;
             this.texture = texture;
@@ -35,54 +35,55 @@ namespace Eternia.XnaClient
 
         public override bool IsExpired()
         {
-            return !actor.IsAlive;
+            return !actorModel.Actor.IsAlive;
         }
 
         public override void Draw(Matrix view, Matrix projection)
         {
-            if (actor.CurrentOrder != null)
+            base.Draw(view, projection);
+
+            if (actorModel.Actor.CurrentOrder == null)
+                return;
+
+            if (actorModel.Actor.CurrentOrder.Ability.DamageType == DamageTypes.SingleTarget)
+                return;
+
+            if (actorModel.Actor.CurrentOrder.Ability.TargettingType == TargettingTypes.Self)
+                return;
+
+            if (actorModel.Actor.Faction == Factions.Friend && !actorModel.IsSelected)
+                return;
+
+            var color = Color.Salmon;
+            if (actorModel.Actor.Faction == Factions.Friend)
             {
-                if (actor.CurrentOrder.Ability.DamageType == DamageTypes.SingleTarget)
-                    return;
-
-                if (actor.CurrentOrder.Ability.TargettingType == TargettingTypes.Self)
-                    return;
-
-                var color = Color.Salmon;
-                if (actor.Faction == Factions.Friend)
-                {
-                    color = Color.CornflowerBlue;
-                    if (actor.CurrentOrder.Ability.Healing.Any())
-                        color = Color.LightGreen;
-                }
-                
-                graphicsDevice.BlendState = BlendState.AlphaBlend;
-                graphicsDevice.DepthStencilState = DepthStencilState.None;
-
-                billboardEffect.Parameters["View"].SetValue(view);
-                billboardEffect.Parameters["Projection"].SetValue(projection);
-                billboardEffect.Parameters["Alpha"].SetValue(0.5f);
-
-                var position = actor.CurrentOrder.GetTargetLocation();
-                if (actor.CurrentOrder.Ability.DamageType == DamageTypes.PointBlankArea)
-                    position = actor.Position;
-
-                var scale = actor.CurrentOrder.Ability.Area;
-                //if (actor.CurrentOrder.Ability.DamageType == DamageTypes.Cleave)
-                //    scale = actor.Radius + 1;
-
-                billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(scale) * Matrix.CreateTranslation(new Vector3(position.X, 0.04f, position.Y)));
-                billboardEffect.Parameters["Diffuse"].SetValue(color.ToVector4());
-                billboardEffect.Parameters["Texture"].SetValue(texture);
-
-                foreach (var pass in billboardEffect.CurrentTechnique.Passes)
-                {
-                    pass.Apply();
-                    graphicsDevice.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, vertices, 0, 2);
-                }
+                color = Color.CornflowerBlue;
+                if (actorModel.Actor.CurrentOrder.Ability.Healing.Any())
+                    color = Color.LightGreen;
             }
 
-            base.Draw(view, projection);
+            graphicsDevice.BlendState = BlendState.AlphaBlend;
+            graphicsDevice.DepthStencilState = DepthStencilState.None;
+
+            billboardEffect.Parameters["View"].SetValue(view);
+            billboardEffect.Parameters["Projection"].SetValue(projection);
+            billboardEffect.Parameters["Alpha"].SetValue(0.5f);
+
+            var position = actorModel.Actor.CurrentOrder.GetTargetLocation();
+            if (actorModel.Actor.CurrentOrder.Ability.DamageType == DamageTypes.PointBlankArea)
+                position = actorModel.Actor.Position;
+
+            var scale = actorModel.Actor.CurrentOrder.Ability.Area;
+
+            billboardEffect.Parameters["World"].SetValue(Matrix.CreateScale(scale) * Matrix.CreateTranslation(new Vector3(position.X, 0.04f, position.Y)));
+            billboardEffect.Parameters["Diffuse"].SetValue(color.ToVector4());
+            billboardEffect.Parameters["Texture"].SetValue(texture);
+
+            foreach (var pass in billboardEffect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+                graphicsDevice.DrawUserPrimitives<VertexPositionTexture>(PrimitiveType.TriangleList, vertices, 0, 2);
+            }
         }
     }
 }

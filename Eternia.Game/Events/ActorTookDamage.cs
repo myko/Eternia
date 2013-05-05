@@ -8,7 +8,8 @@ namespace Eternia.Game.Events
 {
     public class ActorTookDamage
     {
-        public Actor Actor { get; set; }
+        public Actor Source { get; set; }
+        public Actor Target { get; set; }
         public float Damage { get; set; }
         public bool IsCrit { get; set; }
     }

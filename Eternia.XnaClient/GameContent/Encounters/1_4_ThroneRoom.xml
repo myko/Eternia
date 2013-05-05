@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<XnaContent xmlns:Stats="Eternia.Game.Stats" xmlns:Actions="Eternia.Game.Triggers.Actions">
-  <Asset Type="Eternia.Game.EncounterDefinition">
+<XnaContent xmlns:Game="Eternia.Game" xmlns:Stats="Eternia.Game.Stats" xmlns:Actions="Eternia.Game.Triggers.Actions">
+  <Asset Type="Game:EncounterDefinition">
     <Name>Throne Room</Name>
     <HeroLimit>4</HeroLimit>
     <ItemLevel>15</ItemLevel>
@@ -13,8 +13,10 @@
         <Id>king</Id>
         <Name>King</Name>
         <Faction>Enemy</Faction>
-        <Diameter>2</Diameter>
-        <MovementSpeed>5</MovementSpeed>
+        <ResourceType>Mana</ResourceType>
+        <Cost>0</Cost>
+        <Diameter>1.8</Diameter>
+        <MovementSpeed>3</MovementSpeed>
         <TextureName>king</TextureName>
         <BaseStatistics>
           <Item Type="Stats:CriticalStrike">
@@ -62,11 +64,13 @@
               <Minimum>0</Minimum>
               <Maximum>10</Maximum>
             </Range>
+            <Area>1</Area>
             <DamageType>SingleTarget</DamageType>
             <TargettingType>Hostile</TargettingType>
             <ThreatModifier>1</ThreatModifier>
             <CanMiss>true</CanMiss>
             <CanBeDodged>true</CanBeDodged>
+            <CanBeBlocked>true</CanBeBlocked>
             <CanCrit>true</CanCrit>
             <SpawnsProjectile>
               <ModelName>projectile1</ModelName>
@@ -96,15 +100,19 @@
                 <Statistics />
               </Item>
             </AurasApplied>
+            <IsChanneled>false</IsChanneled>
           </Item>
         </Abilities>
+        <Equipment />
       </Item>
       <Item>
         <Id>executioner</Id>
         <Name>The Executioner</Name>
         <Faction>Enemy</Faction>
-        <Diameter>2.5</Diameter>
-        <MovementSpeed>5</MovementSpeed>
+        <ResourceType>Mana</ResourceType>
+        <Cost>0</Cost>
+        <Diameter>2.1</Diameter>
+        <MovementSpeed>3</MovementSpeed>
         <TextureName>executioner</TextureName>
         <BaseStatistics>
           <Item Type="Stats:CriticalStrike">
@@ -152,13 +160,16 @@
               <Minimum>0</Minimum>
               <Maximum>2</Maximum>
             </Range>
+            <Area>1</Area>
             <DamageType>SingleTarget</DamageType>
             <TargettingType>Hostile</TargettingType>
             <ThreatModifier>1</ThreatModifier>
             <CanMiss>true</CanMiss>
             <CanBeDodged>true</CanBeDodged>
+            <CanBeBlocked>true</CanBeBlocked>
             <CanCrit>true</CanCrit>
             <AurasApplied />
+            <IsChanneled>false</IsChanneled>
           </Item>
           <Item>
             <Name>Beast Cleave</Name>
@@ -188,13 +199,16 @@
               <Minimum>0</Minimum>
               <Maximum>2</Maximum>
             </Range>
+            <Area>1</Area>
             <DamageType>Cleave</DamageType>
             <TargettingType>Hostile</TargettingType>
             <ThreatModifier>1</ThreatModifier>
             <CanMiss>true</CanMiss>
             <CanBeDodged>true</CanBeDodged>
+            <CanBeBlocked>true</CanBeBlocked>
             <CanCrit>true</CanCrit>
             <AurasApplied />
+            <IsChanneled>false</IsChanneled>
           </Item>
           <Item>
             <Name>Frenzy</Name>
@@ -224,11 +238,13 @@
               <Minimum>0</Minimum>
               <Maximum>20</Maximum>
             </Range>
+            <Area>1</Area>
             <DamageType>SingleTarget</DamageType>
             <TargettingType>Self</TargettingType>
             <ThreatModifier>1</ThreatModifier>
             <CanMiss>false</CanMiss>
             <CanBeDodged>false</CanBeDodged>
+            <CanBeBlocked>true</CanBeBlocked>
             <CanCrit>false</CanCrit>
             <AurasApplied>
               <Item>
@@ -253,8 +269,10 @@
                 <Statistics />
               </Item>
             </AurasApplied>
+            <IsChanneled>false</IsChanneled>
           </Item>
         </Abilities>
+        <Equipment />
       </Item>
     </Actors>
     <Triggers>

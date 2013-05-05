@@ -7,7 +7,7 @@
     <ResourceType>Mana</ResourceType>
     <Cost>0</Cost>
     <Diameter>1.5</Diameter>
-    <MovementSpeed>5</MovementSpeed>
+    <MovementSpeed>3</MovementSpeed>
     <TextureName>cleric</TextureName>
     <BaseStatistics>
       <Item Type="Stats:Health">
@@ -123,7 +123,7 @@
       </Item>
       <Item>
         <Name>Sermon</Name>
-        <Description>Place a heal over time on a friendly target which multiplies and spreads to nearby allies.</Description>
+        <Description>Heal a friendly target and all targets within 4 meters</Description>
         <AnimationName>ReadySpellCastOmni</AnimationName>
         <TextureName>Ability_paladin_sacredcleansing</TextureName>
         <Damage>
@@ -151,7 +151,7 @@
         </Range>
         <Area>4</Area>
         <DamageType>Cleave</DamageType>
-        <TargettingType>Location</TargettingType>
+        <TargettingType>Friendly</TargettingType>
         <ThreatModifier>1</ThreatModifier>
         <CanMiss>false</CanMiss>
         <CanBeDodged>false</CanBeDodged>

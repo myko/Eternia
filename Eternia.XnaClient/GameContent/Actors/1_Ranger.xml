@@ -7,7 +7,7 @@
     <ResourceType>Energy</ResourceType>
     <Cost>100</Cost>
     <Diameter>1.5</Diameter>
-    <MovementSpeed>5</MovementSpeed>
+    <MovementSpeed>3</MovementSpeed>
     <TextureName>ranger</TextureName>
     <BaseStatistics>
       <Item Type="Stats:Energy">
@@ -16,8 +16,287 @@
       <Item Type="Stats:Health">
         <Value>125</Value>
       </Item>
+      <Item Type="Stats:Hit">
+        <Rating>48</Rating>
+      </Item>
     </BaseStatistics>
-    <Abilities />
+    <Abilities>
+      <Item>
+        <Name>Shoot</Name>
+        <Description></Description>
+        <AnimationName Null="true" />
+        <TextureName Null="true" />
+        <Damage>
+          <Value>50</Value>
+          <AttackPowerScale>1</AttackPowerScale>
+          <SpellPowerScale>0</SpellPowerScale>
+          <School>Physical</School>
+        </Damage>
+        <Healing>
+          <Value>0</Value>
+          <AttackPowerScale>0</AttackPowerScale>
+          <SpellPowerScale>0</SpellPowerScale>
+          <School>Physical</School>
+        </Healing>
+        <ManaCost>0</ManaCost>
+        <EnergyCost>10</EnergyCost>
+        <Cooldown>
+          <Duration>0</Duration>
+          <Current>0</Current>
+        </Cooldown>
+        <Duration>1</Duration>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>20</Maximum>
+        </Range>
+        <Area>1</Area>
+        <DamageType>SingleTarget</DamageType>
+        <TargettingType>Hostile</TargettingType>
+        <ThreatModifier>1</ThreatModifier>
+        <CanMiss>true</CanMiss>
+        <CanBeDodged>true</CanBeDodged>
+        <CanBeBlocked>true</CanBeBlocked>
+        <CanCrit>true</CanCrit>
+        <AurasApplied />
+        <IsChanneled>false</IsChanneled>
+      </Item>
+      <Item>
+        <Name>Barrage</Name>
+        <Description></Description>
+        <AnimationName Null="true" />
+        <TextureName Null="true" />
+        <Damage>
+          <Value>50</Value>
+          <AttackPowerScale>1</AttackPowerScale>
+          <SpellPowerScale>0</SpellPowerScale>
+          <School>Physical</School>
+        </Damage>
+        <Healing>
+          <Value>0</Value>
+          <AttackPowerScale>0</AttackPowerScale>
+          <SpellPowerScale>0</SpellPowerScale>
+          <School>Physical</School>
+        </Healing>
+        <ManaCost>0</ManaCost>
+        <EnergyCost>20</EnergyCost>
+        <Cooldown>
+          <Duration>0</Duration>
+          <Current>0</Current>
+        </Cooldown>
+        <Duration>2</Duration>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>20</Maximum>
+        </Range>
+        <Area>3</Area>
+        <DamageType>Cleave</DamageType>
+        <TargettingType>Hostile</TargettingType>
+        <ThreatModifier>1</ThreatModifier>
+        <CanMiss>true</CanMiss>
+        <CanBeDodged>true</CanBeDodged>
+        <CanBeBlocked>true</CanBeBlocked>
+        <CanCrit>true</CanCrit>
+        <AurasApplied />
+        <IsChanneled>false</IsChanneled>
+      </Item>
+      <Item>
+        <Name>Cripple</Name>
+        <Description></Description>
+        <AnimationName Null="true" />
+        <TextureName Null="true" />
+        <Damage>
+          <Value>0</Value>
+          <AttackPowerScale>0</AttackPowerScale>
+          <SpellPowerScale>0</SpellPowerScale>
+          <School>Physical</School>
+        </Damage>
+        <Healing>
+          <Value>0</Value>
+          <AttackPowerScale>0</AttackPowerScale>
+          <SpellPowerScale>0</SpellPowerScale>
+          <School>Physical</School>
+        </Healing>
+        <ManaCost>0</ManaCost>
+        <EnergyCost>20</EnergyCost>
+        <Cooldown>
+          <Duration>0</Duration>
+          <Current>0</Current>
+        </Cooldown>
+        <Duration>1</Duration>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>20</Maximum>
+        </Range>
+        <Area>1</Area>
+        <DamageType>SingleTarget</DamageType>
+        <TargettingType>Hostile</TargettingType>
+        <ThreatModifier>1</ThreatModifier>
+        <CanMiss>true</CanMiss>
+        <CanBeDodged>true</CanBeDodged>
+        <CanBeBlocked>true</CanBeBlocked>
+        <CanCrit>true</CanCrit>
+        <AurasApplied>
+          <Item>
+            <Name>Crippled</Name>
+            <Duration>8</Duration>
+            <Damage>
+              <Value>0</Value>
+              <AttackPowerScale>0</AttackPowerScale>
+              <SpellPowerScale>0</SpellPowerScale>
+              <School>Physical</School>
+            </Damage>
+            <Healing>
+              <Value>0</Value>
+              <AttackPowerScale>0</AttackPowerScale>
+              <SpellPowerScale>0</SpellPowerScale>
+              <School>Physical</School>
+            </Healing>
+            <Cooldown>
+              <Duration>1</Duration>
+              <Current>0</Current>
+            </Cooldown>
+            <Statistics />
+          </Item>
+        </AurasApplied>
+        <IsChanneled>false</IsChanneled>
+      </Item>
+      <Item>
+        <Name>Expose</Name>
+        <Description></Description>
+        <AnimationName Null="true" />
+        <TextureName Null="true" />
+        <Damage>
+          <Value>0</Value>
+          <AttackPowerScale>0</AttackPowerScale>
+          <SpellPowerScale>0</SpellPowerScale>
+          <School>Physical</School>
+        </Damage>
+        <Healing>
+          <Value>0</Value>
+          <AttackPowerScale>0</AttackPowerScale>
+          <SpellPowerScale>0</SpellPowerScale>
+          <School>Physical</School>
+        </Healing>
+        <ManaCost>0</ManaCost>
+        <EnergyCost>20</EnergyCost>
+        <Cooldown>
+          <Duration>0</Duration>
+          <Current>0</Current>
+        </Cooldown>
+        <Duration>1.5</Duration>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>20</Maximum>
+        </Range>
+        <Area>1</Area>
+        <DamageType>SingleTarget</DamageType>
+        <TargettingType>Hostile</TargettingType>
+        <ThreatModifier>1</ThreatModifier>
+        <CanMiss>true</CanMiss>
+        <CanBeDodged>true</CanBeDodged>
+        <CanBeBlocked>true</CanBeBlocked>
+        <CanCrit>true</CanCrit>
+        <AurasApplied>
+          <Item>
+            <Name>Exposed</Name>
+            <Duration>16</Duration>
+            <Damage>
+              <Value>0</Value>
+              <AttackPowerScale>0</AttackPowerScale>
+              <SpellPowerScale>0</SpellPowerScale>
+              <School>Physical</School>
+            </Damage>
+            <Healing>
+              <Value>0</Value>
+              <AttackPowerScale>0</AttackPowerScale>
+              <SpellPowerScale>0</SpellPowerScale>
+              <School>Physical</School>
+            </Healing>
+            <Cooldown>
+              <Duration>1</Duration>
+              <Current>0</Current>
+            </Cooldown>
+            <Statistics>
+              <Item Type="Stats:DamageTaken">
+                <Value>1.1</Value>
+              </Item>
+            </Statistics>
+          </Item>
+        </AurasApplied>
+        <IsChanneled>false</IsChanneled>
+      </Item>
+      <Item>
+        <Name>Steady Aim</Name>
+        <Description></Description>
+        <AnimationName Null="true" />
+        <TextureName Null="true" />
+        <Damage>
+          <Value>0</Value>
+          <AttackPowerScale>0</AttackPowerScale>
+          <SpellPowerScale>0</SpellPowerScale>
+          <School>Physical</School>
+        </Damage>
+        <Healing>
+          <Value>0</Value>
+          <AttackPowerScale>0</AttackPowerScale>
+          <SpellPowerScale>0</SpellPowerScale>
+          <School>Physical</School>
+        </Healing>
+        <ManaCost>0</ManaCost>
+        <EnergyCost>40</EnergyCost>
+        <Cooldown>
+          <Duration>0</Duration>
+          <Current>0</Current>
+        </Cooldown>
+        <Duration>1</Duration>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>20</Maximum>
+        </Range>
+        <Area>1</Area>
+        <DamageType>SingleTarget</DamageType>
+        <TargettingType>Self</TargettingType>
+        <ThreatModifier>1</ThreatModifier>
+        <CanMiss>false</CanMiss>
+        <CanBeDodged>false</CanBeDodged>
+        <CanBeBlocked>false</CanBeBlocked>
+        <CanCrit>false</CanCrit>
+        <AurasApplied>
+          <Item>
+            <Name>Steady Aim</Name>
+            <Duration>1</Duration>
+            <Damage>
+              <Value>0</Value>
+              <AttackPowerScale>0</AttackPowerScale>
+              <SpellPowerScale>0</SpellPowerScale>
+              <School>Physical</School>
+            </Damage>
+            <Healing>
+              <Value>0</Value>
+              <AttackPowerScale>0</AttackPowerScale>
+              <SpellPowerScale>0</SpellPowerScale>
+              <School>Physical</School>
+            </Healing>
+            <Cooldown>
+              <Duration>1</Duration>
+              <Current>0</Current>
+            </Cooldown>
+            <Statistics>
+              <Item Type="Stats:DamageDone">
+                <Value>1.2</Value>
+              </Item>
+              <Item Type="Stats:Hit">
+                <Rating>150</Rating>
+              </Item>
+              <Item Type="Stats:CriticalStrike">
+                <Rating>150</Rating>
+              </Item>
+            </Statistics>
+          </Item>
+        </AurasApplied>
+        <IsChanneled>false</IsChanneled>
+      </Item>
+    </Abilities>
     <Equipment />
   </Asset>
 </XnaContent>

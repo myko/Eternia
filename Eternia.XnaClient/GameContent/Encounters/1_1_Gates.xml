@@ -13,7 +13,7 @@
         <ResourceType>Mana</ResourceType>
         <Cost>0</Cost>
         <Diameter>2</Diameter>
-        <MovementSpeed>5</MovementSpeed>
+        <MovementSpeed>2</MovementSpeed>
         <TextureName>gatekeeper</TextureName>
         <BaseStatistics>
           <Item Type="Stats:Health">
@@ -67,6 +67,7 @@
               <Minimum>0</Minimum>
               <Maximum>2</Maximum>
             </Range>
+            <Area>1</Area>
             <DamageType>SingleTarget</DamageType>
             <TargettingType>Hostile</TargettingType>
             <ThreatModifier>1</ThreatModifier>
@@ -75,6 +76,7 @@
             <CanBeBlocked>true</CanBeBlocked>
             <CanCrit>true</CanCrit>
             <AurasApplied />
+            <IsChanneled>false</IsChanneled>
           </Item>
           <Item>
             <Name>Bolt</Name>
@@ -104,6 +106,7 @@
               <Minimum>0</Minimum>
               <Maximum>10</Maximum>
             </Range>
+            <Area>1</Area>
             <DamageType>SingleTarget</DamageType>
             <TargettingType>Hostile</TargettingType>
             <ThreatModifier>1</ThreatModifier>
@@ -117,6 +120,7 @@
               <Speed>80</Speed>
             </SpawnsProjectile>
             <AurasApplied />
+            <IsChanneled>false</IsChanneled>
           </Item>
         </Abilities>
         <Equipment />

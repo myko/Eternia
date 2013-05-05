@@ -113,7 +113,7 @@ namespace EterniaXna
         {
             if (lines.Any())
             {
-                Height = 20 + (lines.Count + 2) * Font.LineSpacing;
+                Height = 20 + (lines.Count + 3) * Font.LineSpacing;
                 Width = Math.Max(Width, Font.MeasureString(ability.Name).X + 20);
                 Width = Math.Max(Width, lines.Select(l => Font.MeasureString(l.Text).X).Max() + 20);
 
@@ -144,11 +144,11 @@ namespace EterniaXna
 
         private Color GetRangeColor(Actor actor)
         {
-            if (!actor.Targets.Any())
+            if (actor.CurrentOrder == null)
                 return Color.LightGray;
 
-            var target = actor.Targets.Peek();
-            if (target.DistanceFrom(actor).In(ability.Range + actor.Radius + target.Radius))
+            var target = actor.CurrentOrder.GetTargetLocation();
+            if (target.DistanceFrom(actor).In(ability.Range + actor.Radius + actor.CurrentOrder.GetTargetRadius()))
                 return Color.LightGray;
 
             return Color.Tomato;

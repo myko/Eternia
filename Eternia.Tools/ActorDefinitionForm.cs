@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
 using Eternia.Tools.Properties;
 using Eternia.Game.Stats;
 using System.IO;
+using Eternia.Game.Abilities;
 
 namespace Eternia.Tools
 {
@@ -40,8 +41,13 @@ namespace Eternia.Tools
 
         private void ActorForm_Load(object sender, EventArgs e)
         {
-            propertyGrid1.SelectedObject = actor;
-            statisticsViewerControl1.Statistics = actor.BaseStatistics;
+            actorPropertyGrid.SelectedObject = actor;
+            actorStatisticsViewerControl.Statistics = actor.BaseStatistics;
+
+            foreach (var ability in actor.Abilities)
+            {
+                abilitiesListBox.Items.Add(ability);
+            }
         }
 
         private void saveButton_Click(object sender, EventArgs e)
@@ -52,9 +58,23 @@ namespace Eternia.Tools
             }
         }
 
-        private void propertyGrid1_SelectedGridItemChanged(object sender, SelectedGridItemChangedEventArgs e)
+        private void actorPropertyGrid_SelectedGridItemChanged(object sender, SelectedGridItemChangedEventArgs e)
         {
-            statisticsViewerControl1.Statistics = actor.BaseStatistics;
+            actorStatisticsViewerControl.Statistics = actor.BaseStatistics;
+        }
+
+        private void addAbilityButton_Click(object sender, EventArgs e)
+        {
+            var ability = new Ability();
+            abilitiesListBox.Items.Add(ability);
+            actor.Abilities.Add(ability);
+        }
+
+        private void removeAbilityButton_Click(object sender, EventArgs e)
+        {
+            var ability = (Ability)abilitiesListBox.SelectedItem;
+            abilitiesListBox.Items.Remove(ability);
+            actor.Abilities.Remove(ability);
         }
     }
 }

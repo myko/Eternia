@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<XnaContent xmlns:Stats="Eternia.Game.Stats" xmlns:Actions="Eternia.Game.Triggers.Actions">
-  <Asset Type="Eternia.Game.EncounterDefinition">
+<XnaContent xmlns:Game="Eternia.Game" xmlns:Stats="Eternia.Game.Stats" xmlns:Actions="Eternia.Game.Triggers.Actions">
+  <Asset Type="Game:EncounterDefinition">
     <Name>Outer Courtyard</Name>
     <HeroLimit>4</HeroLimit>
     <ItemLevel>10</ItemLevel>
@@ -12,8 +12,10 @@
         <Id>guardcaptain</Id>
         <Name>Guard Captain</Name>
         <Faction>Enemy</Faction>
+        <ResourceType>Mana</ResourceType>
+        <Cost>0</Cost>
         <Diameter>2</Diameter>
-        <MovementSpeed>5</MovementSpeed>
+        <MovementSpeed>3</MovementSpeed>
         <TextureName>guardcaptain</TextureName>
         <BaseStatistics>
           <Item Type="Stats:Health">
@@ -61,13 +63,16 @@
               <Minimum>0</Minimum>
               <Maximum>2</Maximum>
             </Range>
+            <Area>1</Area>
             <DamageType>SingleTarget</DamageType>
             <TargettingType>Hostile</TargettingType>
             <ThreatModifier>1</ThreatModifier>
             <CanMiss>true</CanMiss>
             <CanBeDodged>true</CanBeDodged>
+            <CanBeBlocked>true</CanBeBlocked>
             <CanCrit>true</CanCrit>
             <AurasApplied />
+            <IsChanneled>false</IsChanneled>
           </Item>
           <Item>
             <Name>Water Bolt</Name>
@@ -97,11 +102,13 @@
               <Minimum>0</Minimum>
               <Maximum>10</Maximum>
             </Range>
+            <Area>1</Area>
             <DamageType>SingleTarget</DamageType>
             <TargettingType>Hostile</TargettingType>
             <ThreatModifier>1</ThreatModifier>
             <CanMiss>true</CanMiss>
             <CanBeDodged>true</CanBeDodged>
+            <CanBeBlocked>true</CanBeBlocked>
             <CanCrit>true</CanCrit>
             <SpawnsProjectile>
               <ModelName>projectile1</ModelName>
@@ -109,6 +116,7 @@
               <Speed>8</Speed>
             </SpawnsProjectile>
             <AurasApplied />
+            <IsChanneled>false</IsChanneled>
           </Item>
           <Item>
             <Name>Scalding Splash</Name>
@@ -138,15 +146,19 @@
               <Minimum>0</Minimum>
               <Maximum>4</Maximum>
             </Range>
+            <Area>1</Area>
             <DamageType>PointBlankArea</DamageType>
             <TargettingType>Hostile</TargettingType>
             <ThreatModifier>1</ThreatModifier>
             <CanMiss>true</CanMiss>
             <CanBeDodged>false</CanBeDodged>
+            <CanBeBlocked>true</CanBeBlocked>
             <CanCrit>true</CanCrit>
             <AurasApplied />
+            <IsChanneled>false</IsChanneled>
           </Item>
         </Abilities>
+        <Equipment />
       </Item>
     </Actors>
     <Triggers>
