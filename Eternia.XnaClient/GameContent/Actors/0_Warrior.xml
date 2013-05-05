@@ -25,72 +25,7 @@
     </BaseStatistics>
     <Abilities>
       <Item>
-        <Name>Shield Block</Name>
-        <Description>Reduces damage taken by 20% for 10 seconds.</Description>
-        <AnimationName>Defend1</AnimationName>
-        <TextureName>Ability_defend</TextureName>
-        <Damage>
-          <Value>0</Value>
-          <AttackPowerScale>0</AttackPowerScale>
-          <SpellPowerScale>0</SpellPowerScale>
-          <School>Physical</School>
-        </Damage>
-        <Healing>
-          <Value>0</Value>
-          <AttackPowerScale>0</AttackPowerScale>
-          <SpellPowerScale>0</SpellPowerScale>
-          <School>Physical</School>
-        </Healing>
-        <ManaCost>0</ManaCost>
-        <EnergyCost>20</EnergyCost>
-        <Cooldown>
-          <Duration>30</Duration>
-          <Current>0</Current>
-        </Cooldown>
-        <Duration>1</Duration>
-        <Range>
-          <Minimum>0</Minimum>
-          <Maximum>20</Maximum>
-        </Range>
-        <Area>1</Area>
-        <DamageType>SingleTarget</DamageType>
-        <TargettingType>Self</TargettingType>
-        <ThreatModifier>1</ThreatModifier>
-        <CanMiss>false</CanMiss>
-        <CanBeDodged>false</CanBeDodged>
-        <CanBeBlocked>false</CanBeBlocked>
-        <CanCrit>false</CanCrit>
-        <AurasApplied>
-          <Item>
-            <Name>Shield Block</Name>
-            <Duration>10</Duration>
-            <Damage>
-              <Value>0</Value>
-              <AttackPowerScale>0</AttackPowerScale>
-              <SpellPowerScale>0</SpellPowerScale>
-              <School>Physical</School>
-            </Damage>
-            <Healing>
-              <Value>0</Value>
-              <AttackPowerScale>0</AttackPowerScale>
-              <SpellPowerScale>0</SpellPowerScale>
-              <School>Physical</School>
-            </Healing>
-            <Cooldown>
-              <Duration>1</Duration>
-              <Current>0</Current>
-            </Cooldown>
-            <Statistics>
-              <Item Type="Stats:DamageTaken">
-                <Value>0.8</Value>
-              </Item>
-            </Statistics>
-          </Item>
-        </AurasApplied>
-        <IsChanneled>false</IsChanneled>
-      </Item>
-      <Item>
-        <Name>Heroic Strike</Name>
+        <Name>Slash</Name>
         <Description>A powerful melee attack. Causes a high amount of threat.</Description>
         <AnimationName>Ability2</AnimationName>
         <TextureName>Ability_meleedamage</TextureName>
@@ -168,13 +103,13 @@
         <IsChanneled>false</IsChanneled>
       </Item>
       <Item>
-        <Name>Thunderclap</Name>
-        <Description>Stomp the ground and damage all nearby targets. Causes a high amount of threat.</Description>
-        <AnimationName>Ability1</AnimationName>
-        <TextureName>Ability_thunderclap</TextureName>
+        <Name>Shield Block</Name>
+        <Description>Reduces damage taken by 20% for 10 seconds.</Description>
+        <AnimationName>Defend1</AnimationName>
+        <TextureName>Ability_defend</TextureName>
         <Damage>
-          <Value>10</Value>
-          <AttackPowerScale>1.3</AttackPowerScale>
+          <Value>0</Value>
+          <AttackPowerScale>0</AttackPowerScale>
           <SpellPowerScale>0</SpellPowerScale>
           <School>Physical</School>
         </Damage>
@@ -185,24 +120,157 @@
           <School>Physical</School>
         </Healing>
         <ManaCost>0</ManaCost>
-        <EnergyCost>30</EnergyCost>
+        <EnergyCost>20</EnergyCost>
         <Cooldown>
-          <Duration>6</Duration>
+          <Duration>30</Duration>
           <Current>0</Current>
         </Cooldown>
         <Duration>1</Duration>
         <Range>
           <Minimum>0</Minimum>
-          <Maximum>4</Maximum>
+          <Maximum>20</Maximum>
         </Range>
-        <Area>4</Area>
-        <DamageType>PointBlankArea</DamageType>
-        <TargettingType>Hostile</TargettingType>
-        <ThreatModifier>2.5</ThreatModifier>
-        <CanMiss>true</CanMiss>
+        <Area>1</Area>
+        <DamageType>SingleTarget</DamageType>
+        <TargettingType>Self</TargettingType>
+        <ThreatModifier>1</ThreatModifier>
+        <CanMiss>false</CanMiss>
         <CanBeDodged>false</CanBeDodged>
         <CanBeBlocked>false</CanBeBlocked>
-        <CanCrit>true</CanCrit>
+        <CanCrit>false</CanCrit>
+        <AurasApplied>
+          <Item>
+            <Name>Shield Block</Name>
+            <Duration>10</Duration>
+            <Damage>
+              <Value>0</Value>
+              <AttackPowerScale>0</AttackPowerScale>
+              <SpellPowerScale>0</SpellPowerScale>
+              <School>Physical</School>
+            </Damage>
+            <Healing>
+              <Value>0</Value>
+              <AttackPowerScale>0</AttackPowerScale>
+              <SpellPowerScale>0</SpellPowerScale>
+              <School>Physical</School>
+            </Healing>
+            <Cooldown>
+              <Duration>1</Duration>
+              <Current>0</Current>
+            </Cooldown>
+            <Statistics>
+              <Item Type="Stats:Block">
+                <Rating>2500</Rating>
+              </Item>
+            </Statistics>
+          </Item>
+        </AurasApplied>
+        <IsChanneled>false</IsChanneled>
+      </Item>
+      <Item>
+        <Name>Shield Wall</Name>
+        <Description></Description>
+        <AnimationName Null="true" />
+        <TextureName>Ability_defend</TextureName>
+        <Damage>
+          <Value>0</Value>
+          <AttackPowerScale>0</AttackPowerScale>
+          <SpellPowerScale>0</SpellPowerScale>
+          <School>Physical</School>
+        </Damage>
+        <Healing>
+          <Value>0</Value>
+          <AttackPowerScale>0</AttackPowerScale>
+          <SpellPowerScale>0</SpellPowerScale>
+          <School>Physical</School>
+        </Healing>
+        <ManaCost>0</ManaCost>
+        <EnergyCost>0</EnergyCost>
+        <Cooldown>
+          <Duration>60</Duration>
+          <Current>0</Current>
+        </Cooldown>
+        <Duration>1</Duration>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>20</Maximum>
+        </Range>
+        <Area>1</Area>
+        <DamageType>SingleTarget</DamageType>
+        <TargettingType>Self</TargettingType>
+        <ThreatModifier>1</ThreatModifier>
+        <CanMiss>false</CanMiss>
+        <CanBeDodged>false</CanBeDodged>
+        <CanBeBlocked>false</CanBeBlocked>
+        <CanCrit>false</CanCrit>
+        <AurasApplied>
+          <Item>
+            <Name>Shield Wall</Name>
+            <Duration>5</Duration>
+            <Damage>
+              <Value>0</Value>
+              <AttackPowerScale>0</AttackPowerScale>
+              <SpellPowerScale>0</SpellPowerScale>
+              <School>Physical</School>
+            </Damage>
+            <Healing>
+              <Value>0</Value>
+              <AttackPowerScale>0</AttackPowerScale>
+              <SpellPowerScale>0</SpellPowerScale>
+              <School>Physical</School>
+            </Healing>
+            <Cooldown>
+              <Duration>1</Duration>
+              <Current>0</Current>
+            </Cooldown>
+            <Statistics>
+              <Item Type="Stats:Block">
+                <Rating>9000</Rating>
+              </Item>
+              <Item Type="Stats:DamageTaken">
+                <Value>0.6</Value>
+              </Item>
+            </Statistics>
+          </Item>
+        </AurasApplied>
+        <IsChanneled>false</IsChanneled>
+      </Item>
+      <Item>
+        <Name>Charge NYI</Name>
+        <Description></Description>
+        <AnimationName Null="true" />
+        <TextureName>Ability_defend</TextureName>
+        <Damage>
+          <Value>0</Value>
+          <AttackPowerScale>0</AttackPowerScale>
+          <SpellPowerScale>0</SpellPowerScale>
+          <School>Physical</School>
+        </Damage>
+        <Healing>
+          <Value>0</Value>
+          <AttackPowerScale>0</AttackPowerScale>
+          <SpellPowerScale>0</SpellPowerScale>
+          <School>Physical</School>
+        </Healing>
+        <ManaCost>0</ManaCost>
+        <EnergyCost>0</EnergyCost>
+        <Cooldown>
+          <Duration>0</Duration>
+          <Current>0</Current>
+        </Cooldown>
+        <Duration>1</Duration>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>20</Maximum>
+        </Range>
+        <Area>1</Area>
+        <DamageType>SingleTarget</DamageType>
+        <TargettingType>Self</TargettingType>
+        <ThreatModifier>1</ThreatModifier>
+        <CanMiss>false</CanMiss>
+        <CanBeDodged>false</CanBeDodged>
+        <CanBeBlocked>false</CanBeBlocked>
+        <CanCrit>false</CanCrit>
         <AurasApplied />
         <IsChanneled>false</IsChanneled>
       </Item>

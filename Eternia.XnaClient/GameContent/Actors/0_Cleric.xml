@@ -61,7 +61,7 @@
         <IsChanneled>false</IsChanneled>
       </Item>
       <Item>
-        <Name>Renew</Name>
+        <Name>Blessing</Name>
         <Description>Heal one friendly target over time.</Description>
         <AnimationName>ReadySpellCastOmni</AnimationName>
         <TextureName>Ability_paladin_blessedmending</TextureName>
@@ -98,7 +98,7 @@
         <CanCrit>true</CanCrit>
         <AurasApplied>
           <Item>
-            <Name>Renew</Name>
+            <Name>Blessed</Name>
             <Duration>10</Duration>
             <Damage>
               <Value>0</Value>
@@ -122,7 +122,7 @@
         <IsChanneled>false</IsChanneled>
       </Item>
       <Item>
-        <Name>Infectious Healing</Name>
+        <Name>Sermon</Name>
         <Description>Place a heal over time on a friendly target which multiplies and spreads to nearby allies.</Description>
         <AnimationName>ReadySpellCastOmni</AnimationName>
         <TextureName>Ability_paladin_sacredcleansing</TextureName>
@@ -151,7 +151,7 @@
         </Range>
         <Area>4</Area>
         <DamageType>Cleave</DamageType>
-        <TargettingType>Friendly</TargettingType>
+        <TargettingType>Location</TargettingType>
         <ThreatModifier>1</ThreatModifier>
         <CanMiss>false</CanMiss>
         <CanBeDodged>false</CanBeDodged>
@@ -159,6 +159,110 @@
         <CanCrit>true</CanCrit>
         <AurasApplied />
         <IsChanneled>false</IsChanneled>
+      </Item>
+      <Item>
+        <Name>Aegis</Name>
+        <Description></Description>
+        <AnimationName Null="true" />
+        <TextureName>Ability_paladin_sacredcleansing</TextureName>
+        <Damage>
+          <Value>0</Value>
+          <AttackPowerScale>0</AttackPowerScale>
+          <SpellPowerScale>0</SpellPowerScale>
+          <School>Physical</School>
+        </Damage>
+        <Healing>
+          <Value>0</Value>
+          <AttackPowerScale>0</AttackPowerScale>
+          <SpellPowerScale>0</SpellPowerScale>
+          <School>Physical</School>
+        </Healing>
+        <ManaCost>0</ManaCost>
+        <EnergyCost>0</EnergyCost>
+        <Cooldown>
+          <Duration>0</Duration>
+          <Current>0</Current>
+        </Cooldown>
+        <Duration>1</Duration>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>20</Maximum>
+        </Range>
+        <Area>1</Area>
+        <DamageType>SingleTarget</DamageType>
+        <TargettingType>Friendly</TargettingType>
+        <ThreatModifier>1</ThreatModifier>
+        <CanMiss>true</CanMiss>
+        <CanBeDodged>true</CanBeDodged>
+        <CanBeBlocked>true</CanBeBlocked>
+        <CanCrit>true</CanCrit>
+        <AurasApplied>
+          <Item>
+            <Name>Aegis</Name>
+            <Duration>5</Duration>
+            <Damage>
+              <Value>0</Value>
+              <AttackPowerScale>0</AttackPowerScale>
+              <SpellPowerScale>0</SpellPowerScale>
+              <School>Physical</School>
+            </Damage>
+            <Healing>
+              <Value>0</Value>
+              <AttackPowerScale>0</AttackPowerScale>
+              <SpellPowerScale>0</SpellPowerScale>
+              <School>Physical</School>
+            </Healing>
+            <Cooldown>
+              <Duration>1</Duration>
+              <Current>0</Current>
+            </Cooldown>
+            <Statistics>
+              <Item Type="Stats:DamageTaken">
+                <Value>0.8</Value>
+              </Item>
+            </Statistics>
+          </Item>
+        </AurasApplied>
+        <IsChanneled>false</IsChanneled>
+      </Item>
+      <Item>
+        <Name>Intense Prayer</Name>
+        <Description></Description>
+        <AnimationName Null="true" />
+        <TextureName>Ability_paladin_sacredcleansing</TextureName>
+        <Damage>
+          <Value>0</Value>
+          <AttackPowerScale>0</AttackPowerScale>
+          <SpellPowerScale>0</SpellPowerScale>
+          <School>Physical</School>
+        </Damage>
+        <Healing>
+          <Value>120</Value>
+          <AttackPowerScale>0</AttackPowerScale>
+          <SpellPowerScale>1.8</SpellPowerScale>
+          <School>Holy</School>
+        </Healing>
+        <ManaCost>34</ManaCost>
+        <EnergyCost>0</EnergyCost>
+        <Cooldown>
+          <Duration>0</Duration>
+          <Current>0</Current>
+        </Cooldown>
+        <Duration>8</Duration>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>20</Maximum>
+        </Range>
+        <Area>8</Area>
+        <DamageType>Location</DamageType>
+        <TargettingType>Location</TargettingType>
+        <ThreatModifier>1</ThreatModifier>
+        <CanMiss>false</CanMiss>
+        <CanBeDodged>false</CanBeDodged>
+        <CanBeBlocked>false</CanBeBlocked>
+        <CanCrit>true</CanCrit>
+        <AurasApplied />
+        <IsChanneled>true</IsChanneled>
       </Item>
     </Abilities>
     <Equipment>

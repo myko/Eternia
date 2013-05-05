@@ -39,7 +39,7 @@ namespace Eternia.XnaClient
             {
                 Age += (float)time.ElapsedGameTime.TotalSeconds;
                 Scale = Size * (Age / LifeTime);
-                Alpha = 1f - (Age / LifeTime);
+                Alpha = 1f - (Age / LifeTime) * (Age / LifeTime);
             }
         }
 

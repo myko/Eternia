@@ -65,14 +65,9 @@ namespace EterniaXna.Screens
                 {
                     var ability = abilityButton.Ability;
                     var actor = abilityButton.Actor;
-                    //var target = actor.Targets.FirstOrDefault();
 
                     if (ability.TargettingType == TargettingTypes.Self)
-                        actor.Orders.Insert(0, new Order(ability, actor, actor));
-                    //else if (ability.TargettingType == TargettingTypes.Hostile && target != null && target.Faction != actor.Faction)
-                    //    actor.Orders.Insert(0, new Order(ability, actor, target));
-                    //else if (ability.TargettingType == TargettingTypes.Friendly && target != null && target.Faction == actor.Faction)
-                    //    actor.Orders.Insert(0, new Order(ability, actor, target));
+                        IssueOrder(actor, new Order(ability, actor, actor));
                     else
                         isTargetting = abilityButton;
                 }
@@ -311,13 +306,13 @@ namespace EterniaXna.Screens
                         var target = mouseOverActor;
 
                         if (ability.TargettingType == TargettingTypes.Self)
-                            actor.Orders.Insert(0, new Order(ability, actor, actor));
+                            IssueOrder(actor, new Order(ability, actor, actor));
                         else if (ability.TargettingType == TargettingTypes.Hostile && target != null && target.Faction != actor.Faction)
-                            actor.Orders.Insert(0, new Order(ability, actor, target));
+                            IssueOrder(actor, new Order(ability, actor, target));
                         else if (ability.TargettingType == TargettingTypes.Friendly && target != null && target.Faction == actor.Faction)
-                            actor.Orders.Insert(0, new Order(ability, actor, target));
+                            IssueOrder(actor, new Order(ability, actor, target));
                         else if (ability.TargettingType == TargettingTypes.Location)
-                            actor.Orders.Insert(0, new Order(ability, actor, null, scene.Unproject(mouseState)));
+                            IssueOrder(actor, new Order(ability, actor, null, scene.Unproject(mouseState)));
 
                         isTargetting = null;
                     }
@@ -517,6 +512,14 @@ namespace EterniaXna.Screens
             }
         }
 
+        private void IssueOrder(Actor actor, Order order)
+        {
+            if (isPaused)
+                actor.Orders.Add(order);
+            else
+                actor.Orders.Insert(0, order);
+        }
+
         private void FindMouseOverActor(MouseState mouseState)
         {
             if (mouseState.X > 0 && mouseState.X < 150 && mouseState.Y > 0 && mouseState.Y < 50 * battle.Actors.Count)
@@ -564,7 +567,7 @@ namespace EterniaXna.Screens
                 SpriteBatch.Draw(BlankTexture, new Rectangle(x1, y1, x2 - x1, y2 - y1), Color.Green * 0.33f);
             }
 
-            if (isTargetting != null)
+            if (isTargetting != null && isTargetting.Ability.TargettingType == TargettingTypes.Location)
             {
                 var position = scene.Unproject(Mouse.GetState());
                 scene.DrawBillboard(new Vector3(position.X, 0.05f, position.Y), ContentManager.Load<Texture2D>(@"Interface\circlearea"), isTargetting.Ability.Area);

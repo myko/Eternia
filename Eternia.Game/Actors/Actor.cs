@@ -332,12 +332,6 @@ namespace Eternia.Game.Actors
                     if (!collidingActors.Any())
                     {
                         Position = newPosition;
-                        Direction = direction;
-                        CurrentOrder = null;
-                        CastingProgress = null;
-                        ChannelProgress = null;
-
-                        return true;
                     }
                     else
                     {
@@ -345,13 +339,14 @@ namespace Eternia.Game.Actors
                         var intersection = collidingActor.DistanceFrom(newPosition) - (collidingActor.Radius + Radius) * 1.05f;
 
                         Position = newPosition + (newPosition - collidingActor.Position) * -intersection;
-                        Direction = direction;
-                        CurrentOrder = null;
-                        CastingProgress = null;
-                        ChannelProgress = null;
-
-                        return true;
                     }
+
+                    Direction = direction;
+                    CurrentOrder = null;
+                    CastingProgress = null;
+                    ChannelProgress = null;
+
+                    return true;
                 }
             }
 
