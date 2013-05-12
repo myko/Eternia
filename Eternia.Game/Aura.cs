@@ -22,6 +22,8 @@ namespace Eternia.Game
         public Cooldown Cooldown { get; set; }
         [ContentSerializer(Optional = true)]
         public Statistics Statistics { get; set; }
+        [ContentSerializer(Optional = true)]
+        public bool BreaksOnDamage { get; set; }
         [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
         public Actor Owner { get; set; }
 

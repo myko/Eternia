@@ -122,7 +122,7 @@ namespace EterniaXna.Screens
             {
                 player.Inventory.Add(item);
             }
-            player.Gold += (int)(encounterDefinition.ItemLevel * new Random().Between(9f, 11f));
+            player.Gold += (int)(encounterDefinition.ItemLevel * new Random().Between(10f, 12f));
 
             SaveActors(ScreenManager, player);
 

@@ -27,9 +27,9 @@
         <AnimationName Null="true" />
         <TextureName Null="true" />
         <Damage>
-          <Value>50</Value>
+          <Value>78</Value>
           <AttackPowerScale>0</AttackPowerScale>
-          <SpellPowerScale>1</SpellPowerScale>
+          <SpellPowerScale>3.78</SpellPowerScale>
           <School>Fire</School>
         </Damage>
         <Healing>
@@ -44,7 +44,7 @@
           <Duration>0</Duration>
           <Current>0</Current>
         </Cooldown>
-        <Duration>1</Duration>
+        <Duration>2</Duration>
         <Range>
           <Minimum>0</Minimum>
           <Maximum>20</Maximum>
@@ -66,9 +66,9 @@
         <AnimationName Null="true" />
         <TextureName Null="true" />
         <Damage>
-          <Value>50</Value>
+          <Value>95</Value>
           <AttackPowerScale>0</AttackPowerScale>
-          <SpellPowerScale>1</SpellPowerScale>
+          <SpellPowerScale>6.12</SpellPowerScale>
           <School>Nature</School>
         </Damage>
         <Healing>
@@ -80,7 +80,7 @@
         <ManaCost>0</ManaCost>
         <EnergyCost>0</EnergyCost>
         <Cooldown>
-          <Duration>0</Duration>
+          <Duration>4</Duration>
           <Current>0</Current>
         </Cooldown>
         <Duration>1</Duration>
@@ -105,9 +105,9 @@
         <AnimationName Null="true" />
         <TextureName>Ability_warrior_weaponmastery</TextureName>
         <Damage>
-          <Value>100</Value>
+          <Value>24</Value>
           <AttackPowerScale>0</AttackPowerScale>
-          <SpellPowerScale>1</SpellPowerScale>
+          <SpellPowerScale>1.12</SpellPowerScale>
           <School>Frost</School>
         </Damage>
         <Healing>
@@ -195,6 +195,7 @@
               <Current>0</Current>
             </Cooldown>
             <Statistics />
+            <BreaksOnDamage>true</BreaksOnDamage>
           </Item>
         </AurasApplied>
         <IsChanneled>false</IsChanneled>

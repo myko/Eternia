@@ -33,10 +33,10 @@
           <School>Physical</School>
         </Damage>
         <Healing>
-          <Value>22</Value>
+          <Value>21</Value>
           <AttackPowerScale>0</AttackPowerScale>
-          <SpellPowerScale>2.8</SpellPowerScale>
-          <School>Physical</School>
+          <SpellPowerScale>3.71</SpellPowerScale>
+          <School>Holy</School>
         </Healing>
         <ManaCost>8</ManaCost>
         <EnergyCost>0</EnergyCost>
@@ -58,67 +58,6 @@
         <CanBeBlocked>false</CanBeBlocked>
         <CanCrit>true</CanCrit>
         <AurasApplied />
-        <IsChanneled>false</IsChanneled>
-      </Item>
-      <Item>
-        <Name>Blessing</Name>
-        <Description>Heal one friendly target over time.</Description>
-        <AnimationName>ReadySpellCastOmni</AnimationName>
-        <TextureName>Ability_paladin_blessedmending</TextureName>
-        <Damage>
-          <Value>0</Value>
-          <AttackPowerScale>0</AttackPowerScale>
-          <SpellPowerScale>0</SpellPowerScale>
-          <School>Physical</School>
-        </Damage>
-        <Healing>
-          <Value>0</Value>
-          <AttackPowerScale>0</AttackPowerScale>
-          <SpellPowerScale>0</SpellPowerScale>
-          <School>Physical</School>
-        </Healing>
-        <ManaCost>4</ManaCost>
-        <EnergyCost>0</EnergyCost>
-        <Cooldown>
-          <Duration>10</Duration>
-          <Current>0</Current>
-        </Cooldown>
-        <Duration>1</Duration>
-        <Range>
-          <Minimum>0</Minimum>
-          <Maximum>20</Maximum>
-        </Range>
-        <Area>1</Area>
-        <DamageType>SingleTarget</DamageType>
-        <TargettingType>Friendly</TargettingType>
-        <ThreatModifier>1</ThreatModifier>
-        <CanMiss>false</CanMiss>
-        <CanBeDodged>false</CanBeDodged>
-        <CanBeBlocked>false</CanBeBlocked>
-        <CanCrit>true</CanCrit>
-        <AurasApplied>
-          <Item>
-            <Name>Blessed</Name>
-            <Duration>10</Duration>
-            <Damage>
-              <Value>0</Value>
-              <AttackPowerScale>0</AttackPowerScale>
-              <SpellPowerScale>0</SpellPowerScale>
-              <School>Physical</School>
-            </Damage>
-            <Healing>
-              <Value>16</Value>
-              <AttackPowerScale>0</AttackPowerScale>
-              <SpellPowerScale>1.2</SpellPowerScale>
-              <School>Physical</School>
-            </Healing>
-            <Cooldown>
-              <Duration>2</Duration>
-              <Current>0</Current>
-            </Cooldown>
-            <Statistics />
-          </Item>
-        </AurasApplied>
         <IsChanneled>false</IsChanneled>
       </Item>
       <Item>
@@ -161,8 +100,69 @@
         <IsChanneled>false</IsChanneled>
       </Item>
       <Item>
+        <Name>Blessing</Name>
+        <Description>Heal one friendly target over time.</Description>
+        <AnimationName>ReadySpellCastOmni</AnimationName>
+        <TextureName>Ability_paladin_blessedmending</TextureName>
+        <Damage>
+          <Value>0</Value>
+          <AttackPowerScale>0</AttackPowerScale>
+          <SpellPowerScale>0</SpellPowerScale>
+          <School>Physical</School>
+        </Damage>
+        <Healing>
+          <Value>0</Value>
+          <AttackPowerScale>0</AttackPowerScale>
+          <SpellPowerScale>0</SpellPowerScale>
+          <School>Holy</School>
+        </Healing>
+        <ManaCost>4</ManaCost>
+        <EnergyCost>0</EnergyCost>
+        <Cooldown>
+          <Duration>10</Duration>
+          <Current>0</Current>
+        </Cooldown>
+        <Duration>1</Duration>
+        <Range>
+          <Minimum>0</Minimum>
+          <Maximum>20</Maximum>
+        </Range>
+        <Area>1</Area>
+        <DamageType>SingleTarget</DamageType>
+        <TargettingType>Friendly</TargettingType>
+        <ThreatModifier>1</ThreatModifier>
+        <CanMiss>false</CanMiss>
+        <CanBeDodged>false</CanBeDodged>
+        <CanBeBlocked>false</CanBeBlocked>
+        <CanCrit>true</CanCrit>
+        <AurasApplied>
+          <Item>
+            <Name>Blessed</Name>
+            <Duration>10</Duration>
+            <Damage>
+              <Value>0</Value>
+              <AttackPowerScale>0</AttackPowerScale>
+              <SpellPowerScale>0</SpellPowerScale>
+              <School>Physical</School>
+            </Damage>
+            <Healing>
+              <Value>17</Value>
+              <AttackPowerScale>0</AttackPowerScale>
+              <SpellPowerScale>0.9</SpellPowerScale>
+              <School>Physical</School>
+            </Healing>
+            <Cooldown>
+              <Duration>2</Duration>
+              <Current>0</Current>
+            </Cooldown>
+            <Statistics />
+          </Item>
+        </AurasApplied>
+        <IsChanneled>false</IsChanneled>
+      </Item>
+      <Item>
         <Name>Aegis</Name>
-        <Description></Description>
+        <Description>Place a protective barrier on a friendly target.</Description>
         <AnimationName Null="true" />
         <TextureName>Ability_paladin_sacredcleansing</TextureName>
         <Damage>
@@ -180,7 +180,7 @@
         <ManaCost>0</ManaCost>
         <EnergyCost>0</EnergyCost>
         <Cooldown>
-          <Duration>0</Duration>
+          <Duration>15</Duration>
           <Current>0</Current>
         </Cooldown>
         <Duration>1</Duration>
@@ -227,7 +227,7 @@
       </Item>
       <Item>
         <Name>Intense Prayer</Name>
-        <Description></Description>
+        <Description>Channel a powerful heal on a group of friendly targets.</Description>
         <AnimationName Null="true" />
         <TextureName>Ability_paladin_sacredcleansing</TextureName>
         <Damage>
@@ -237,15 +237,15 @@
           <School>Physical</School>
         </Damage>
         <Healing>
-          <Value>120</Value>
+          <Value>78</Value>
           <AttackPowerScale>0</AttackPowerScale>
-          <SpellPowerScale>1.8</SpellPowerScale>
+          <SpellPowerScale>6.7</SpellPowerScale>
           <School>Holy</School>
         </Healing>
         <ManaCost>34</ManaCost>
         <EnergyCost>0</EnergyCost>
         <Cooldown>
-          <Duration>0</Duration>
+          <Duration>60</Duration>
           <Current>0</Current>
         </Cooldown>
         <Duration>8</Duration>

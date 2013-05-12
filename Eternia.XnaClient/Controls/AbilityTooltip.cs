@@ -64,9 +64,9 @@ namespace EterniaXna
                 lines.Add(new Line { Color = Color.LightGray, Text = ability.Description });
                 lines.Add(new Line { Color = Color.LightGray, Text = ability.DamageType.ToString() });
 
-                if (ability.Damage.Value > 0)
+                if (averageDamage > 0)
                     lines.Add(new Line { Color = Color.LightGray, Text = damageString });
-                if (ability.Healing.Value > 0)
+                if (averageHealing > 0)
                     lines.Add(new Line { Color = Color.LightGray, Text = healingString });
 
                 if (ability.ManaCost > 0)
@@ -75,9 +75,9 @@ namespace EterniaXna
                     lines.Add(new Line { Color = actor.CurrentEnergy >= ability.EnergyCost ? Color.LightGray : Color.Tomato, Text = ability.EnergyCost.ToString() + " energy" });
                 if (ability.EnergyCost < 0)
                     lines.Add(new Line { Color = Color.LightGray, Text = "Generates " + (-ability.EnergyCost).ToString() + " energy" });
-                if (ability.Damage.Value > 0)
+                if (averageDamage > 0)
                     lines.Add(new Line { Color = Color.LightGray, Text = abilityDamageLower.ToString() + " - " + abilityDamageUpper.ToString() + " damage" });
-                if (ability.Healing.Value > 0)
+                if (averageHealing > 0)
                     lines.Add(new Line { Color = Color.LightGray, Text = abilityHealingLower.ToString() + " - " + abilityHealingUpper.ToString() + " healing" });
                 if (ability.Cooldown.Duration > 0)
                     lines.Add(new Line { Color = Color.LightGray, Text = ability.Cooldown.Duration.ToString("0.00") + " seconds cooldown" });
@@ -85,22 +85,24 @@ namespace EterniaXna
                     lines.Add(new Line { Color = Color.LightGray, Text = ability.Duration.ToString("0.00") + " seconds cast" });
 
                 var timeCost = Math.Max(ability.Duration, ability.Cooldown.Duration);
-                if (ability.Damage.Value > 0 && (ability.Duration > 0 || ability.Cooldown.Duration > 0))
+                if (averageDamage > 0 && (ability.Duration > 0 || ability.Cooldown.Duration > 0))
                     lines.Add(new Line { Color = Color.LightGray, Text = (averageDamage / timeCost).ToString("0.00") + " DPS" });
-                if (ability.Damage.Value > 0 && (ability.Duration > 0))
+                if (averageDamage > 0 && (ability.Duration > 0))
                     lines.Add(new Line { Color = Color.LightGray, Text = (averageDamage / ability.Duration).ToString("0.00") + " DPCT" });
-                if (ability.Healing.Value > 0 && (ability.Duration > 0 || ability.Cooldown.Duration > 0))
+                if (averageHealing > 0 && (ability.Duration > 0 || ability.Cooldown.Duration > 0))
                     lines.Add(new Line { Color = Color.LightGray, Text = (averageHealing / timeCost).ToString("0.00") + " HPS" });
-                if (ability.Damage.Value > 0 && ability.ThreatModifier > 1.0f && (ability.Duration > 0 || ability.Cooldown.Duration > 0))
+                if (averageHealing > 0 && ability.Duration > 0)
+                    lines.Add(new Line { Color = Color.LightGray, Text = (averageHealing / ability.Duration).ToString("0.00") + " HPCT" });
+                if (averageDamage > 0 && ability.ThreatModifier > 1.0f && (ability.Duration > 0 || ability.Cooldown.Duration > 0))
                     lines.Add(new Line { Color = Color.LightGray, Text = (ability.ThreatModifier * averageDamage / timeCost).ToString("0.00") + " TPS" });
 
-                if (ability.Damage.Value > 0 && ability.ManaCost > 0)
+                if (averageDamage > 0 && ability.ManaCost > 0)
                     lines.Add(new Line { Color = Color.LightGray, Text = (averageDamage / ability.ManaCost).ToString("0.00") + " DPM" });
-                if (ability.Damage.Value > 0 && ability.EnergyCost > 0)
+                if (averageDamage > 0 && ability.EnergyCost > 0)
                     lines.Add(new Line { Color = Color.LightGray, Text = (averageDamage / ability.EnergyCost).ToString("0.00") + " DPE" });
-                if (ability.Healing.Value > 0 && ability.ManaCost > 0)
+                if (averageHealing > 0 && ability.ManaCost > 0)
                     lines.Add(new Line { Color = Color.LightGray, Text = (averageHealing / ability.ManaCost).ToString("0.00") + " HPM" });
-                if (ability.Healing.Value > 0 && ability.EnergyCost > 0)
+                if (averageHealing > 0 && ability.EnergyCost > 0)
                     lines.Add(new Line { Color = Color.LightGray, Text = (averageHealing / ability.EnergyCost).ToString("0.00") + " HPE" });
             }
 

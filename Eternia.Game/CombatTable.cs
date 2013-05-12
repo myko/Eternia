@@ -7,15 +7,6 @@ using Eternia.Game.Stats;
 
 namespace Eternia.Game
 {
-    //public enum CombatOutcome
-    //{
-    //    None,
-    //    Miss,
-    //    Dodge,
-    //    Crit,
-    //    Hit
-    //}
-
     public class CombatOutcome
     {
         public bool IsMiss { get; set; }

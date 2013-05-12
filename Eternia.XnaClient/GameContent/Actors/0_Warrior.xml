@@ -30,8 +30,8 @@
         <AnimationName>Ability2</AnimationName>
         <TextureName>Ability_meleedamage</TextureName>
         <Damage>
-          <Value>50</Value>
-          <AttackPowerScale>1</AttackPowerScale>
+          <Value>29</Value>
+          <AttackPowerScale>1.38</AttackPowerScale>
           <SpellPowerScale>0</SpellPowerScale>
           <School>Physical</School>
         </Damage>
@@ -69,8 +69,8 @@
         <AnimationName>Ability1</AnimationName>
         <TextureName>Ability_Warrior_SecondWind</TextureName>
         <Damage>
-          <Value>50</Value>
-          <AttackPowerScale>1</AttackPowerScale>
+          <Value>17</Value>
+          <AttackPowerScale>1.1</AttackPowerScale>
           <SpellPowerScale>0</SpellPowerScale>
           <School>Physical</School>
         </Damage>
@@ -83,7 +83,7 @@
         <ManaCost>0</ManaCost>
         <EnergyCost>-10</EnergyCost>
         <Cooldown>
-          <Duration>3</Duration>
+          <Duration>0</Duration>
           <Current>0</Current>
         </Cooldown>
         <Duration>1</Duration>
@@ -255,7 +255,7 @@
         <ManaCost>0</ManaCost>
         <EnergyCost>0</EnergyCost>
         <Cooldown>
-          <Duration>0</Duration>
+          <Duration>20</Duration>
           <Current>0</Current>
         </Cooldown>
         <Duration>1</Duration>

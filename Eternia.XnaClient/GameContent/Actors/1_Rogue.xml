@@ -27,8 +27,8 @@
         <AnimationName Null="true" />
         <TextureName Null="true" />
         <Damage>
-          <Value>50</Value>
-          <AttackPowerScale>1</AttackPowerScale>
+          <Value>25</Value>
+          <AttackPowerScale>1.91</AttackPowerScale>
           <SpellPowerScale>0</SpellPowerScale>
           <School>Physical</School>
         </Damage>
@@ -66,8 +66,8 @@
         <AnimationName Null="true" />
         <TextureName Null="true" />
         <Damage>
-          <Value>100</Value>
-          <AttackPowerScale>2</AttackPowerScale>
+          <Value>67</Value>
+          <AttackPowerScale>3.52</AttackPowerScale>
           <SpellPowerScale>0</SpellPowerScale>
           <School>Physical</School>
         </Damage>
@@ -140,8 +140,8 @@
             <Name>Poison</Name>
             <Duration>18</Duration>
             <Damage>
-              <Value>50</Value>
-              <AttackPowerScale>1</AttackPowerScale>
+              <Value>9</Value>
+              <AttackPowerScale>0.76</AttackPowerScale>
               <SpellPowerScale>0</SpellPowerScale>
               <School>Nature</School>
             </Damage>
@@ -166,8 +166,8 @@
         <AnimationName Null="true" />
         <TextureName Null="true" />
         <Damage>
-          <Value>50</Value>
-          <AttackPowerScale>1</AttackPowerScale>
+          <Value>25</Value>
+          <AttackPowerScale>1.91</AttackPowerScale>
           <SpellPowerScale>0</SpellPowerScale>
           <School>Physical</School>
         </Damage>

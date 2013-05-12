@@ -119,19 +119,6 @@ namespace Eternia.Game
             {
                 RunActor(deltaTime, turn, actor);
             }
-
-            // Collision detection
-            //foreach (var actor in Actors.Where(x => x.IsAlive))
-            //{
-            //    foreach (var otherActor in Actors.Where(x => x != actor && x.IsAlive))
-            //    {
-            //        if (Vector2.Distance(actor.Position, otherActor.Position) < (actor.Radius + otherActor.Radius - 0.01f))
-            //        {
-            //            var direction = Vector2.Normalize(actor.Position - otherActor.Position);
-            //            actor.Position = otherActor.Position + direction * (actor.Radius + otherActor.Radius);
-            //        }
-            //    }
-            //}
         }
 
         private void RunActor(float deltaTime, Turn turn, Actor actor)
@@ -163,10 +150,16 @@ namespace Eternia.Game
 
             if (actor.IsAlive)
             {
+                if (!actor.PlayerControlled)
+                    actor.Orders.Clear();
+
+                if (!actor.Orders.Any())
+                    actor.FillOrderQueue();
+
                 actor.SelectTarget(Actors.Where(x => x != actor));
                 actor.PickDestination();
 
-                if (actor.CurrentOrder != null)
+                if (actor.CastingProgress != null)
                 {
                     RunAbilityCast(deltaTime, turn, actor);
                 }
@@ -176,9 +169,6 @@ namespace Eternia.Game
                 }
                 else
                 {
-                    if (!actor.Orders.Any())
-                        actor.FillOrderQueue();
-
                     if (actor.Orders.Any())
                     {
                         var order = actor.Orders.First();
@@ -189,35 +179,6 @@ namespace Eternia.Game
                         }
                     }
                 }
-
-                //actor.PickDestination();
-                        
-                //if (actor.Targets.Any())
-                //{
-                //    var target = actor.Targets.Peek();
-                //    if (target.DistanceFrom(actor) > 0.01f)
-                //        actor.Direction = Vector2.Normalize(target.Position - actor.Position);
-                //}
-                //actor.BaseAnimationState = BaseAnimationState.Casting;
-                //if (actor.CastingAbility != null)
-                //{
-                //    RunAbilityCast(deltaTime, turn, actor);
-                //}
-                //else
-                //{
-                //    var ability = actor.SelectAbility();
-                //    if (actor.Destination == null && ability != null)
-                //    {
-                //        UseAbility(turn, actor, ability);
-                //    }
-                //    else
-                //    {
-                //        if (actor.Move(deltaTime, Actors.Where(x => x.IsAlive && x != actor)))
-                //            actor.BaseAnimationState = BaseAnimationState.Walking;
-                //        else
-                //            actor.BaseAnimationState = BaseAnimationState.Idle;
-                //    }
-                //}
             }
             else
             {
@@ -260,6 +221,8 @@ namespace Eternia.Game
 
         private void RunActorAuras(float deltaTime, Turn turn, Actor actor)
         {
+            var damageDone = 0f;
+
             foreach (var aura in actor.Auras)
             {
                 aura.Cooldown.Cool(deltaTime);
@@ -279,6 +242,7 @@ namespace Eternia.Game
 
                     if (damage > 0)
                     {
+                        damageDone += damage;
                         Event.Raise(new ActorTookDamage { Source = aura.Owner, Target = actor, Damage = damage, IsCrit = roll.IsCrit });
                         turn.Events.Add(new OldEvent(EventTypes.AuraDamage) { Actor = aura.Owner, Target = actor, Damage = damage });
                         actor.CurrentHealth -= damage;
@@ -293,16 +257,18 @@ namespace Eternia.Game
                 }
             }
 
+            if (damageDone > 0)
+                actor.Auras.RemoveAll(x => x.BreaksOnDamage);
+
             actor.Auras.ForEach(aura =>
             {
                 if (aura.Duration <= 0f)
                 {
-                    actor.Auras.Remove(aura);
                     turn.Events.Add(new OldEvent(EventTypes.AuraExpired) { Actor = actor, Target = actor });
                 }
             });
 
-            actor.Auras.RemoveAll(ba => ba.Duration <= 0f);
+            actor.Auras.RemoveAll(aura => aura.Duration <= 0f);
         }
 
         private void CoolAbilities(float deltaTime, Actor actor)
@@ -345,11 +311,6 @@ namespace Eternia.Game
             if (ability.DamageType == DamageTypes.SingleTarget)
             {
                 var abilityTarget = order.TargetActor;
-                //if (ability.TargettingType == TargettingTypes.Self)
-                //    abilityTarget = actor;
-
-                //if (!actor.PlayerControlled)
-                //    abilityTarget = actor.GetAbilityTarget(ability.TargettingType);
 
                 if (abilityTarget != null && abilityTarget.IsAlive)
                 {
@@ -376,8 +337,6 @@ namespace Eternia.Game
             }
             else if (ability.DamageType == DamageTypes.PointBlankArea)
             {
-                //if (Actors.Any(x => ValidPointBlankAreaTarget(actor, x, ability)))
-                {
                     actor.CurrentOrder = order;
                     actor.CastingProgress = new Cooldown(ability.Duration);
                     actor.CastingProgress.Incur();
@@ -388,14 +347,10 @@ namespace Eternia.Game
                     }
 
                     return true;
-                }
             }
             else if (ability.DamageType == DamageTypes.Cleave)
             {
                 var primaryTarget = order.TargetActor;
-
-                //if (!actor.PlayerControlled)
-                //    primaryTarget = actor.GetAbilityTarget(ability.TargettingType);
 
                 if (primaryTarget != null && primaryTarget.IsAlive)
                 {
@@ -677,6 +632,8 @@ namespace Eternia.Game
             {
                 target.CurrentHealth -= (damage);
                 Event.Raise(new ActorTookDamage { Source = actor, Target = target, Damage = damage, IsCrit = combatOutcome.IsCrit });
+
+                actor.Auras.RemoveAll(x => x.BreaksOnDamage);
             }
 
             if (healing > 0)
@@ -697,7 +654,7 @@ namespace Eternia.Game
             // Apply auras
             foreach (var aura in ability.AurasApplied)
             {
-                target.Auras.Add(new Aura { Owner = actor, Cooldown = aura.Cooldown, Damage = aura.Damage, Healing = aura.Healing, Duration = aura.Duration, Name = aura.Name, Statistics = aura.Statistics });
+                target.Auras.Add(new Aura { Owner = actor, Cooldown = aura.Cooldown, Damage = aura.Damage, Healing = aura.Healing, Duration = aura.Duration, Name = aura.Name, Statistics = aura.Statistics, BreaksOnDamage = aura.BreaksOnDamage });
             }
 
             turn.Events.Add(new OldEvent(EventTypes.Ability)
