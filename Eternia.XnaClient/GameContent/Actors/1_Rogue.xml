@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<XnaContent xmlns:Actors="Eternia.Game.Actors" xmlns:Stats="Eternia.Game.Stats">
+<XnaContent xmlns:Actors="Eternia.Game.Actors" xmlns:Stats="Eternia.Game.Stats" xmlns:Game="Eternia.Game">
   <Asset Type="Actors:ActorDefinition">
     <Id>rogue</Id>
     <Name>Rogue</Name>
@@ -26,6 +26,7 @@
         <Description></Description>
         <AnimationName Null="true" />
         <TextureName Null="true" />
+        <Animations />
         <Damage>
           <Value>25</Value>
           <AttackPowerScale>1.91</AttackPowerScale>
@@ -65,6 +66,7 @@
         <Description></Description>
         <AnimationName Null="true" />
         <TextureName Null="true" />
+        <Animations />
         <Damage>
           <Value>67</Value>
           <AttackPowerScale>3.52</AttackPowerScale>
@@ -104,6 +106,7 @@
         <Description></Description>
         <AnimationName Null="true" />
         <TextureName Null="true" />
+        <Animations />
         <Damage>
           <Value>0</Value>
           <AttackPowerScale>0</AttackPowerScale>
@@ -156,6 +159,7 @@
               <Current>0</Current>
             </Cooldown>
             <Statistics />
+            <BreaksOnDamage>false</BreaksOnDamage>
           </Item>
         </AurasApplied>
         <IsChanneled>false</IsChanneled>
@@ -165,6 +169,46 @@
         <Description></Description>
         <AnimationName Null="true" />
         <TextureName Null="true" />
+        <Animations>
+          <Item Type="Game:BillboardDefinition">
+            <Position>0 0</Position>
+            <Scale>1</Scale>
+            <TextureName>attack_fanofknives_1</TextureName>
+            <LifeTime>0.75</LifeTime>
+            <Angle>0.79</Angle>
+            <AlphaFunc Type="Game:QuadraticFloatInterpolator">
+              <From>1</From>
+              <To>0.2</To>
+            </AlphaFunc>
+            <AngleFunc Type="Game:LinearFloatInterpolator">
+              <From>1</From>
+              <To>3</To>
+            </AngleFunc>
+            <ScaleFunc Type="Game:LinearFloatInterpolator">
+              <From>0</From>
+              <To>2.5</To>
+            </ScaleFunc>
+          </Item>
+          <Item Type="Game:BillboardDefinition">
+            <Position>0 0</Position>
+            <Scale>1</Scale>
+            <TextureName>attack_fanofknives_1</TextureName>
+            <LifeTime>0.5</LifeTime>
+            <Angle>0</Angle>
+            <AlphaFunc Type="Game:QuadraticFloatInterpolator">
+              <From>1</From>
+              <To>0.2</To>
+            </AlphaFunc>
+            <AngleFunc Type="Game:LinearFloatInterpolator">
+              <From>0</From>
+              <To>1</To>
+            </AngleFunc>
+            <ScaleFunc Type="Game:LinearFloatInterpolator">
+              <From>0</From>
+              <To>2.5</To>
+            </ScaleFunc>
+          </Item>
+        </Animations>
         <Damage>
           <Value>25</Value>
           <AttackPowerScale>1.91</AttackPowerScale>
@@ -204,6 +248,7 @@
         <Description></Description>
         <AnimationName Null="true" />
         <TextureName Null="true" />
+        <Animations />
         <Damage>
           <Value>0</Value>
           <AttackPowerScale>0</AttackPowerScale>
@@ -256,6 +301,7 @@
               <Current>0</Current>
             </Cooldown>
             <Statistics />
+            <BreaksOnDamage>false</BreaksOnDamage>
           </Item>
         </AurasApplied>
         <IsChanneled>false</IsChanneled>

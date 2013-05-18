@@ -128,7 +128,7 @@
     <Compile Include="DamageTypes.cs" />
     <Compile Include="Encounter.cs" />
     <Compile Include="EncounterDefinition.cs" />
-    <Compile Include="GraphicsEffectDefinition.cs" />
+    <Compile Include="BillboardDefinition.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Items\ItemArmorClasses.cs" />
     <Compile Include="Items\ItemGenerator.cs" />

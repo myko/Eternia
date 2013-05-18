@@ -38,6 +38,13 @@ namespace Eternia.Game
         {
             return new Vector3(Between(random, min, max), Between(random, min, max), Between(random, min, max));
         }
+
+        public static Vector2 NextUnitVector2(this Random random)
+        {
+            var result = new Vector2((float)random.NextDouble() - 0.5f, (float)random.NextDouble() - 0.5f);
+            result.Normalize();
+            return result;
+        }
     }
 
     public class Randomizer

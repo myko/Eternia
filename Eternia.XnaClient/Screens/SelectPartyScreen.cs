@@ -92,6 +92,7 @@ namespace EterniaXna.Screens
                 actor.CurrentOrder = null;
                 actor.CastingProgress = null;
                 actor.BaseAnimationState = BaseAnimationState.Idle;
+                actor.PlayerControlled = true;
 
                 foreach (var ability in actor.Abilities)
                 {

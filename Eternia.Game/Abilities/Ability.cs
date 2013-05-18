@@ -17,6 +17,15 @@ namespace Eternia.Game.Abilities
         public string AnimationName { get; set; }
         public string TextureName { get; set; }
 
+        [ContentSerializer(Optional = true)]
+        public List<GraphicsEffectDefinition> Animations { get; set; }
+
+        [ContentSerializer(Optional = true)]
+        public List<GraphicsEffectDefinition> CastingAnimations { get; set; }
+
+        [ContentSerializer(Optional = true)]
+        public List<GraphicsEffectDefinition> ImpactAnimations { get; set; }
+
         [ContentSerializer(Optional = true)] public Damage Damage { get; set; }
         [ContentSerializer(Optional = true)] public Damage Healing { get; set; }
         [ContentSerializer(Optional = true)] public int ManaCost { get; set; }
@@ -40,6 +49,10 @@ namespace Eternia.Game.Abilities
         {
             Name = "!!! Unnamed Ability !!!";
             Description = "";
+
+            Animations = new List<GraphicsEffectDefinition>();
+            CastingAnimations = new List<GraphicsEffectDefinition>();
+            ImpactAnimations = new List<GraphicsEffectDefinition>();
 
             Damage = new Damage();
             Healing = new Damage();

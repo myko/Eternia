@@ -130,7 +130,7 @@
     <Compile Include="ActorModel.cs" />
     <Compile Include="ActorWidgets.cs" />
     <Compile Include="AbilityAnimation.cs" />
-    <Compile Include="GraphicEffect.cs" />
+    <Compile Include="Billboard.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="ParticleSystem.cs" />
     <Compile Include="ProjectileModel.cs" />

@@ -108,7 +108,7 @@ namespace EterniaXna.Screens
             scene = new Scene(ScreenManager.GraphicsDevice);
             scene.LoadContent(ContentManager);
             scene.Nodes.Add(new Level(ScreenManager.GraphicsDevice, ContentManager.Load<Model>(@"Models\Levels\pillarlevel")));
-            scene.Nodes.Add(new ParticleSystem(ContentManager.Load<Effect>(@"Shaders\Particle"), ScreenManager.GraphicsDevice)
+            scene.Nodes.Add(new ParticleSystem(ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\Particle"))
             {
                 BlendState = BlendState.NonPremultiplied,
                 Texture = ContentManager.Load<Texture2D>(@"Sprites\fog"),
@@ -118,9 +118,9 @@ namespace EterniaXna.Screens
                 Emitter = () => new Particle()
                 {
                     Position = random.NextVector3(-40, 40) - new Vector3(0, 2, 0),
-                    Opacity = random.Between(0.1f, 0.16f),
-                    Size = random.Between(15f, 18f),
-                    Rotation = random.Between(0f, 6f),
+                    Alpha = random.Between(0.1f, 0.16f),
+                    Scale = random.Between(15f, 18f),
+                    Angle = random.Between(0f, 6f),
                     LifeSpan = float.PositiveInfinity
                 },
             });
@@ -209,12 +209,12 @@ namespace EterniaXna.Screens
         // TODO: This is map specific
         private void AddFire(Vector3 position)
         {
-            scene.Nodes.Add(new ParticleSystem(ContentManager.Load<Effect>(@"Shaders\Particle"), ScreenManager.GraphicsDevice)
+            scene.Nodes.Add(new ParticleSystem(ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\Particle"))
             {
                 BlendState = BlendState.Additive,
                 Texture = ContentManager.Load<Texture2D>(@"Sprites\fire"),
-                OpacityFunction = p => p.InverseAgeFraction * 0.3f,
-                SizeFunction = p => p.InverseAgeFraction * 0.6f,
+                AlphaFunc = p => p.InverseAgeFraction * 0.3f,
+                ScaleFunc = p => p.InverseAgeFraction * 0.6f,
                 RotationSpeed = 1f,
                 SpawnRate = 0.0005f,
                 MaxParticles = 300,
@@ -222,22 +222,22 @@ namespace EterniaXna.Screens
                 {
                     Position = position + random.NextVector3(-0.3f, 0.3f),
                     Velocity = new Vector3(0, 1, 0) * random.Between(0.9f, 2.5f),
-                    Opacity = random.Between(0.2f, 0.8f),
+                    Alpha = random.Between(0.2f, 0.8f),
                     LifeSpan = random.Between(0.75f, 1.5f)
                 },
             });
-            scene.Nodes.Add(new ParticleSystem(ContentManager.Load<Effect>(@"Shaders\Particle"), ScreenManager.GraphicsDevice)
+            scene.Nodes.Add(new ParticleSystem(ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\Particle"))
             {
                 BlendState = BlendState.Additive,
                 Texture = ContentManager.Load<Texture2D>(@"Sprites\light"),
                 SpawnRate = 0,
                 MaxParticles = 1,
-                OpacityFunction = p => 0.25f + (float)Math.Sin(p.Age * 10f + random.NextDouble()) * 0.04f,
-                SizeFunction = p => 8 + (float)Math.Sin(p.Age * 20f + random.NextDouble()) * 0.2f,
+                AlphaFunc = p => 0.25f + (float)Math.Sin(p.Age * 10f + random.NextDouble()) * 0.04f,
+                ScaleFunc = p => 8 + (float)Math.Sin(p.Age * 20f + random.NextDouble()) * 0.2f,
                 Emitter = () => new Particle()
                 {
                     Position = position + new Vector3(0, 1, 0),
-                    Rotation = random.Between(0f, 6f),
+                    Angle = random.Between(0f, 6f),
                     LifeSpan = float.PositiveInfinity,
                 },
             });
@@ -405,19 +405,16 @@ namespace EterniaXna.Screens
         {
             selectedActors.RemoveAll(x => !x.IsAlive);
 
-            scene.Update(gameTime, isPaused);
-
             foreach (var actor in battle.Actors.Where(x => !scene.Nodes.OfType<ActorModel>().Any(y => y.Actor == x)))
             {
-                var modelFileName = @"Models\Actors\" + actor.TextureName + "_portrait";
-                if (!System.IO.File.Exists(System.IO.Path.Combine(ContentManager.RootDirectory, modelFileName + ".xnb")))
-                    modelFileName = @"Models\Actors\warrior_portrait";
+                var actorTexture = ContentManager.SafeLoad<Texture2D>(@"Models\Actors\" + actor.TextureName + "_portrait", @"Models\Actors\warrior_portrait");
+                var actorModel = new ActorModel(actor, actorTexture, ContentManager, ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\Particle"));
 
-                var actorModel = new ActorModel(actor, ContentManager.Load<Texture2D>(modelFileName), ContentManager, ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\Particle"));
                 actorModel.Nodes.Add(new Shadow(ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\billboard"), ContentManager.Load<Texture2D>(@"Sprites\shadow"), actor));
                 actorModel.Nodes.Add(new RangeIndicator(actorModel, ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\billboard"), ContentManager.Load<Texture2D>(@"Interface\circlearea")));
                 actorModel.Nodes.Add(new ActorWidgets(ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\billboard"), ContentManager.Load<Texture2D>(@"Interface\selection"), ContentManager.Load<Texture2D>(@"Interface\destination"), ContentManager.Load<Texture2D>(@"Interface\destination2"), actorModel));
                 actorModel.Nodes.Add(new AbilityAnimation(actor, ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\billboard"), ContentManager.Load<Texture2D>(@"Sprites\attack_sword_1")));
+                
                 scene.Nodes.Add(actorModel);
             }
 
@@ -433,38 +430,38 @@ namespace EterniaXna.Screens
             foreach (var projectile in battle.Projectiles.Where(x => !scene.Nodes.OfType<ProjectileModel>().Any(y => y.Projectile == x)))
             {
                 var proj = projectile;
-                
-                var smokeTrail = new ParticleSystem(ContentManager.Load<Effect>(@"Shaders\Particle"), ScreenManager.GraphicsDevice)
+
+                var smokeTrail = new ParticleSystem(ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\Particle"))
                 {
                     Position = projectile.Position,
                     Texture = ContentManager.Load<Texture2D>(@"Sprites\smoke_particle"),
                     SpawnRate = 0.005f,
                     Forces = { new Vector3(random.Between(-0.5f, 0.5f), random.Between(-2.5f, 0.5f), random.Between(-0.5f, 0.5f)) },
-                    OpacityFunction = p => p.InverseAgeFraction * 0.5f,
-                    SizeFunction = p => 0.2f + p.Age,
+                    AlphaFunc = p => p.InverseAgeFraction * 0.5f,
+                    ScaleFunc = p => 0.2f + p.Age,
                     RotationSpeed = 1f,
                     Emitter = () => new Particle
                     {
                         Position = new Vector3(projectile.Position.X, projectile.Position.Z, projectile.Position.Y),
                         LifeSpan = 0.8f,
-                        Rotation = random.Between(0, 6)
+                        Angle = random.Between(0, 6)
                     }
                 };
 
-                var fireBall = new ParticleSystem(ContentManager.Load<Effect>(@"Shaders\Particle"), ScreenManager.GraphicsDevice)
+                var fireBall = new ParticleSystem(ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\Particle"))
                 {
                     Position = projectile.Position,
                     Texture = ContentManager.Load<Texture2D>(@"Sprites\fireball"),
                     BlendState = BlendState.Additive,
                     SpawnRate = 0.005f,
-                    OpacityFunction = p => p.InverseAgeFraction * 0.8f,
-                    SizeFunction = p => p.InverseAgeFraction * 0.7f,
+                    AlphaFunc = p => p.InverseAgeFraction * 0.8f,
+                    ScaleFunc = p => p.InverseAgeFraction * 0.7f,
                     RotationSpeed = 1f,
                     Emitter = () => new Particle
                     {
                         Position = new Vector3(projectile.Position.X, projectile.Position.Z, projectile.Position.Y),
                         LifeSpan = 0.2f,
-                        Rotation = random.Between(0, 6)
+                        Angle = random.Between(0, 6)
                     }
                 };
                 
@@ -486,13 +483,48 @@ namespace EterniaXna.Screens
                 while (battle.GraphicEffects.Any())
                 {
                     var graphicsEffect = battle.GraphicEffects.Dequeue();
-                    scene.Nodes.Add(new GraphicEffect(ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\Billboard"))
+
+                    if (graphicsEffect is BillboardDefinition)
                     {
-                        Alpha = 1f,
-                        Size = graphicsEffect.Scale,
-                        Position = graphicsEffect.Position,
-                        Texture = ContentManager.Load<Texture2D>(@"Models\Objects\splash_diffuse")
-                    });
+                        var billboardDefinition = graphicsEffect as BillboardDefinition;
+
+                        scene.Nodes.Add(new Billboard(ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\Billboard"))
+                        {
+                            Position = billboardDefinition.Position,
+                            Texture = ContentManager.SafeLoad<Texture2D>(@"Sprites\" + billboardDefinition.TextureName, BlankTexture),
+                            LifeTime = billboardDefinition.LifeTime,
+                            Angle = billboardDefinition.Angle,
+
+                            AngleFunc = billboardDefinition.AngleFunc.ToFunc(),
+                            AlphaFunc = billboardDefinition.AlphaFunc.ToFunc(),
+                            ScaleFunc = billboardDefinition.ScaleFunc.ToFunc(),
+                        });
+                    }
+
+                    if (graphicsEffect is ParticleSystemDefinition)
+                    {
+                        var particleSystemDefinition = graphicsEffect as ParticleSystemDefinition;
+
+                        scene.Nodes.Add(new ParticleSystem(ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\Particle"))
+                        {
+                            Position = new Vector3(particleSystemDefinition.Position.X, 1f, particleSystemDefinition.Position.Y),
+                            Texture = ContentManager.SafeLoad<Texture2D>(@"Sprites\" + particleSystemDefinition.TextureName, BlankTexture),
+                            SpawnRate = 0.0001f,
+                            BlendState = BlendState.Additive,
+                            LifeSpan = particleSystemDefinition.LifeSpan,
+
+                            AngleFunc = p => particleSystemDefinition.AngleFunc.ToFunc()(p.AgeFraction),
+                            AlphaFunc = p => particleSystemDefinition.AlphaFunc.ToFunc()(p.AgeFraction),
+                            ScaleFunc = p => particleSystemDefinition.ScaleFunc.ToFunc()(p.AgeFraction),
+
+                            Emitter = () => new Particle()
+                            {
+                                Position = new Vector3(particleSystemDefinition.Position.X, 1f, particleSystemDefinition.Position.Y),
+                                Velocity = random.NextUnitVector2().Project(1f) * random.Between(1f, 4f),
+                                LifeSpan = 1f,
+                            }
+                        });
+                    }
                 }
             }
 
@@ -513,6 +545,8 @@ namespace EterniaXna.Screens
                 ScreenManager.AddScreen(new VictoryScreen(player, encounterDefinition, battle, turns));
                 ScreenManager.RemoveScreen(this);
             }
+
+            scene.Update(gameTime, isPaused);
         }
 
         private void IssueOrder(Actor actor, Order order)
@@ -599,10 +633,7 @@ namespace EterniaXna.Screens
                 for (int i = 0; i < selectedActor.Abilities.Count; i++)
                 {
                     var ability = selectedActor.Abilities.ElementAt(i);
-                    var abilityTextureFileName = @"Icons\" + ability.TextureName;
-                    var abilityTexture = defaultAbilityTexture;
-                    if (System.IO.File.Exists(System.IO.Path.Combine(ContentManager.RootDirectory, abilityTextureFileName + ".xnb")))
-                        abilityTexture = ContentManager.Load<Texture2D>(abilityTextureFileName);
+                    var abilityTexture = ContentManager.SafeLoad<Texture2D>(@"Icons\" + ability.TextureName, defaultAbilityTexture);
 
                     abilityButtons[i].Content = new AbilityButton(abilityButtons[i], selectedActor, ability, abilityTexture, BlankTexture, kootenayFont);
                     abilityButtons[i].Tooltip = new AbilityTooltip(selectedActor, ability) { Font = kootenaySmallFont };
@@ -621,10 +652,8 @@ namespace EterniaXna.Screens
                 {
                     var order = selectedActor.Orders.ElementAt(i);
                     var abilityTextureFileName = @"Icons\" + order.Ability.TextureName;
-                    var abilityTexture = defaultAbilityTexture;
-                    if (System.IO.File.Exists(System.IO.Path.Combine(ContentManager.RootDirectory, abilityTextureFileName + ".xnb")))
-                        abilityTexture = ContentManager.Load<Texture2D>(abilityTextureFileName);
-                    var targetTexture = order.TargetActor != null ? ContentManager.Load<Texture2D>(@"Models\Actors\" + order.TargetActor.TextureName + "_portrait") : ContentManager.Load<Texture2D>(@"Models\Actors\" + selectedActor.TextureName + "_portrait");
+                    var abilityTexture = ContentManager.SafeLoad<Texture2D>(abilityTextureFileName, defaultAbilityTexture);
+                    var targetTexture = order.TargetActor != null ? ContentManager.SafeLoad<Texture2D>(@"Models\Actors\" + order.TargetActor.TextureName + "_portrait") : ContentManager.SafeLoad<Texture2D>(@"Models\Actors\" + selectedActor.TextureName + "_portrait");
 
                     orderQueueButtons[i].Content = new OrderButton(orderQueueButtons[i], selectedActor, order, abilityTexture, BlankTexture, targetTexture, kootenayFont);
                     orderQueueButtons[i].Tooltip = new AbilityTooltip(selectedActor, order.Ability) { Font = kootenaySmallFont };
@@ -735,9 +764,7 @@ namespace EterniaXna.Screens
                     if (isFirstSelected)
                     {
                         var abilityTextureFileName = @"Icons\" + actor.CurrentOrder.Ability.TextureName;
-                        var abilityTexture = defaultAbilityTexture;
-                        if (System.IO.File.Exists(System.IO.Path.Combine(ContentManager.RootDirectory, abilityTextureFileName + ".xnb")))
-                            abilityTexture = ContentManager.Load<Texture2D>(abilityTextureFileName);
+                        var abilityTexture = ContentManager.SafeLoad<Texture2D>(abilityTextureFileName, defaultAbilityTexture);
                         SpriteBatch.Draw(abilityTexture, new Rectangle((int)Width / 2 - 25, (int)Height - 200, 50, 50), Color.White);
                         DrawHealthBar((int)Width / 2 - 100, (int)Height - 140, 200, 10, (actor.CastingProgress.Duration - actor.CastingProgress.Current) / actor.CastingProgress.Duration, Color.Goldenrod);
                     }

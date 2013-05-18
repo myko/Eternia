@@ -27,12 +27,12 @@ namespace EterniaXna.Screens
 
             Random random = new Random();
 
-            particleSystem = new ParticleSystem(ContentManager.Load<Effect>(@"Shaders\Particle"), ScreenManager.GraphicsDevice)
+            particleSystem = new ParticleSystem(ScreenManager.GraphicsDevice, ContentManager.Load<Effect>(@"Shaders\Particle"))
             {
                 BlendState = BlendState.AlphaBlend,
                 Texture = ContentManager.Load<Texture2D>(@"Sprites\star"),
-                OpacityFunction = p => p.InverseAgeFraction * p.AgeFraction * 2f,
-                SizeFunction = p => p.InverseAgeFraction * 1.0f,
+                AlphaFunc = p => p.InverseAgeFraction * p.AgeFraction * 2f,
+                ScaleFunc = p => p.InverseAgeFraction * 1.0f,
                 RotationSpeed = 2f,
                 SpawnRate = 0.005f,
                 MaxParticles = 600,
@@ -40,7 +40,7 @@ namespace EterniaXna.Screens
                 {
                     Position = random.NextVector3(-40, 40) + new Vector3(0, 0, -50),
                     Velocity = new Vector3(0, 1, 0) * random.Between(0.9f, 2.5f),
-                    Opacity = random.Between(0.4f, 0.8f),
+                    Alpha = random.Between(0.4f, 0.8f),
                     LifeSpan = random.Between(3.75f, 7.5f)
                 },
             };

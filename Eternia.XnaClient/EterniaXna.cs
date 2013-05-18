@@ -70,12 +70,10 @@ namespace Eternia.XnaClient
                     StreamReader reader = new StreamReader(stream);
 
                     // Read the data from the file
-                    //XmlSerializer serializer = new XmlSerializer(typeof(Player));
                     try
                     {
                         var json = reader.ReadToEnd();
                         player = JsonConvert.DeserializeObject<Player>(json, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
-                        //player = (Player)serializer.Deserialize(stream);
                     }
                     catch
                     {

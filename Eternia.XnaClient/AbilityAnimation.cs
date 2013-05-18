@@ -53,8 +53,9 @@ namespace Eternia.XnaClient
 
                 var targetPosition = actor.CurrentOrder.GetTargetLocation();
                 var position = actor.Position + (targetPosition - actor.Position) * (1f - (actor.CastingProgress.Current / actor.CastingProgress.Duration));
+                var angle = Microsoft.Xna.Framework.MathHelper.PiOver2 * (actor.CastingProgress.Current / actor.CastingProgress.Duration);
                 var direction = Vector2.Normalize(targetPosition - position);
-                var world = Matrix.CreateScale(0.5f) * Matrix.CreateWorld(new Vector3(position.X, 2.0f, position.Y), new Vector3(direction.X, 0, direction.Y), new Vector3(0, 1, 0));
+                var world = Matrix.CreateRotationY(angle) * Matrix.CreateWorld(new Vector3(position.X, 2.0f, position.Y), new Vector3(direction.X, 0, direction.Y), new Vector3(0, 1, 0));
 
                 billboardEffect.Parameters["World"].SetValue(world);
                 billboardEffect.Parameters["Diffuse"].SetValue(color.ToVector4());

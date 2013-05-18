@@ -16,9 +16,9 @@ namespace Eternia.XnaClient
         public float Age { get; set; }
         public float LifeSpan { get; set; }
 
-        public float Opacity { get; set; }
-        public float Size { get; set; }
-        public float Rotation { get; set; }
+        public float Alpha { get; set; }
+        public float Scale { get; set; }
+        public float Angle { get; set; }
 
         public float InverseAge { get { return LifeSpan - Age; } }
         public float AgeFraction { get { return LifeSpan > 0 ? Age / LifeSpan : 0; } }
@@ -26,8 +26,8 @@ namespace Eternia.XnaClient
 
         public Particle()
         {
-            Size = 1f;
-            Opacity = 1f;
+            Scale = 1f;
+            Alpha = 1f;
             LifeSpan = 1f;
         }
     }
@@ -39,6 +39,8 @@ namespace Eternia.XnaClient
 
         public static Random random = new Random();
 
+        public float Age { get; set; }
+        public float LifeSpan { get; set; }
         public bool IsAlive { get; set; }
         public Vector3 Position { get; set; }
         public List<Particle> Particles { get; set; }
@@ -50,17 +52,16 @@ namespace Eternia.XnaClient
         public int MaxParticles { get; set; }
         public float SpawnRate { get; set; }
         
-        //public float DecayRate { get; set; }
-        //public float GrowthRate { get; set; }
         public float RotationSpeed { get; set; }
         public List<Vector3> Forces { get; set; }
 
-        public Func<Particle, float> OpacityFunction;
-        public Func<Particle, float> SizeFunction;
+        public Func<Particle, float> AlphaFunc;
+        public Func<Particle, float> ScaleFunc;
+        public Func<Particle, float> AngleFunc;
 
         private float spawn;
 
-        public ParticleSystem(Effect effect, GraphicsDevice graphicsDevice)
+        public ParticleSystem(GraphicsDevice graphicsDevice, Effect effect)
         {
             this.effect = effect;
             this.graphicsDevice = graphicsDevice;
@@ -75,8 +76,12 @@ namespace Eternia.XnaClient
             SpawnRate = 1.0f;
             spawn = 0;
 
-            OpacityFunction = p => p.Opacity;
-            SizeFunction = p => p.Size;
+            Age = 0;
+            LifeSpan = float.PositiveInfinity;
+
+            AlphaFunc = x => x.Alpha;
+            ScaleFunc = x => x.Scale;
+            AngleFunc = x => x.Angle;
 
             Forces = new List<Vector3>();
         }
@@ -97,6 +102,8 @@ namespace Eternia.XnaClient
             if (!isPaused)
             {
                 float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+                Age += deltaTime;
+                IsAlive = Age < LifeSpan;
 
                 foreach (var particle in Particles)
                 {
@@ -108,9 +115,9 @@ namespace Eternia.XnaClient
                     //if (particle.Position.Y < 0 && particle.Velocity.Y < 0)
                     //    particle.Velocity = new Vector3(particle.Velocity.X, -particle.Velocity.Y, particle.Velocity.Z);
 
-                    particle.Opacity = OpacityFunction(particle); // particle.Opacity - deltaTime * DecayRate;
-                    particle.Size = SizeFunction(particle); // particle.Size + deltaTime * GrowthRate;
-                    particle.Rotation = particle.Rotation + deltaTime * RotationSpeed;
+                    particle.Alpha = AlphaFunc(particle); // particle.Opacity - deltaTime * DecayRate;
+                    particle.Scale = ScaleFunc(particle); // particle.Size + deltaTime * GrowthRate;
+                    particle.Angle = AngleFunc(particle);
                 }
 
                 Particles.RemoveAll(p => p.Age > p.LifeSpan);
@@ -128,10 +135,10 @@ namespace Eternia.XnaClient
                 var vertices = new VertexPositionColorTexture[6 * Particles.Count];
                 for (int i = 0; i < Particles.Count; i++)
                 {
-                    var s = Particles[i].Size;
+                    var s = Particles[i].Scale;
                     var p = Particles[i].Position;
-                    var color = new Color(Particles[i].Opacity, Particles[i].Opacity, Particles[i].Opacity, Particles[i].Opacity);
-                    var invView = Matrix.CreateRotationZ(Particles[i].Rotation) * Matrix.Invert(view);
+                    var color = new Color(Particles[i].Alpha, Particles[i].Alpha, Particles[i].Alpha, Particles[i].Alpha);
+                    var invView = Matrix.CreateRotationZ(Particles[i].Angle) * Matrix.Invert(view);
                     vertices[i * 6 + 0] = new VertexPositionColorTexture(p + invView.Left * s, color, new Vector2(0, 0));
                     vertices[i * 6 + 1] = new VertexPositionColorTexture(p + invView.Up * s, color, new Vector2(1, 0));
                     vertices[i * 6 + 2] = new VertexPositionColorTexture(p + invView.Down * s, color, new Vector2(0, 1));

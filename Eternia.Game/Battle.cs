@@ -498,7 +498,14 @@ namespace Eternia.Game
                 }
             }
 
-            GraphicEffects.Enqueue(new GraphicsEffectDefinition { Position = actor.Position, Scale = ability.Area });
+            foreach (var animation in ability.Animations)
+            {
+                // TODO: This wont work if the same animation triggers on the same frame
+                animation.Position = actor.Position;
+                animation.Scale = ability.Area;
+                GraphicEffects.Enqueue(animation);
+            }
+
             ability.Cooldown.Incur();
         }
 
@@ -526,7 +533,7 @@ namespace Eternia.Game
                 }
             }
 
-            GraphicEffects.Enqueue(new GraphicsEffectDefinition { Position = location, Scale = ability.Area });
+            GraphicEffects.Enqueue(new BillboardDefinition { Position = location, Scale = ability.Area });
             ability.Cooldown.Incur();
         }
 

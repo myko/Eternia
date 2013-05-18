@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<XnaContent xmlns:Actors="Eternia.Game.Actors" xmlns:Stats="Eternia.Game.Stats">
+<XnaContent xmlns:Actors="Eternia.Game.Actors" xmlns:Stats="Eternia.Game.Stats" xmlns:Game="Eternia.Game">
   <Asset Type="Actors:ActorDefinition">
     <Id>wizard</Id>
     <Name>Wizard</Name>
@@ -26,6 +26,28 @@
         <Description></Description>
         <AnimationName Null="true" />
         <TextureName Null="true" />
+        <Animations />
+        <CastingAnimations />
+        <ImpactAnimations>
+          <Item Type="Game:ParticleSystemDefinition">
+            <Position>0 0</Position>
+            <Scale>1</Scale>
+            <TextureName>fire</TextureName>
+            <LifeSpan>0.5</LifeSpan>
+            <AlphaFunc Type="Game:QuadraticFloatInterpolator">
+              <From>1</From>
+              <To>0.2</To>
+            </AlphaFunc>
+            <AngleFunc Type="Game:LinearFloatInterpolator">
+              <From>0</From>
+              <To>1</To>
+            </AngleFunc>
+            <ScaleFunc Type="Game:LinearFloatInterpolator">
+              <From>0</From>
+              <To>2.5</To>
+            </ScaleFunc>
+          </Item>
+        </ImpactAnimations>
         <Damage>
           <Value>78</Value>
           <AttackPowerScale>0</AttackPowerScale>
@@ -65,6 +87,9 @@
         <Description></Description>
         <AnimationName Null="true" />
         <TextureName Null="true" />
+        <Animations />
+        <CastingAnimations />
+        <ImpactAnimations />
         <Damage>
           <Value>95</Value>
           <AttackPowerScale>0</AttackPowerScale>
@@ -104,6 +129,9 @@
         <Description>Pelts an area with frosty shards.</Description>
         <AnimationName Null="true" />
         <TextureName>Ability_warrior_weaponmastery</TextureName>
+        <Animations />
+        <CastingAnimations />
+        <ImpactAnimations />
         <Damage>
           <Value>24</Value>
           <AttackPowerScale>0</AttackPowerScale>
@@ -143,6 +171,9 @@
         <Description></Description>
         <AnimationName Null="true" />
         <TextureName Null="true" />
+        <Animations />
+        <CastingAnimations />
+        <ImpactAnimations />
         <Damage>
           <Value>0</Value>
           <AttackPowerScale>0</AttackPowerScale>
@@ -205,6 +236,9 @@
         <Description></Description>
         <AnimationName Null="true" />
         <TextureName Null="true" />
+        <Animations />
+        <CastingAnimations />
+        <ImpactAnimations />
         <Damage>
           <Value>0</Value>
           <AttackPowerScale>0</AttackPowerScale>
