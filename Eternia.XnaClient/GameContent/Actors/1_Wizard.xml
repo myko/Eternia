@@ -113,7 +113,7 @@
           <Minimum>0</Minimum>
           <Maximum>20</Maximum>
         </Range>
-        <Area>2</Area>
+        <Area>4</Area>
         <DamageType>Cleave</DamageType>
         <TargettingType>Hostile</TargettingType>
         <ThreatModifier>1</ThreatModifier>

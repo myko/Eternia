@@ -41,6 +41,9 @@
             <Description>Hurls a bolt of shadow magic at the enemy.</Description>
             <AnimationName>Spell1</AnimationName>
             <TextureName>Spell_Shadow_ShadowBolt</TextureName>
+            <Animations />
+            <CastingAnimations />
+            <ImpactAnimations />
             <Damage>
               <Value>70</Value>
               <AttackPowerScale>0</AttackPowerScale>
@@ -98,6 +101,7 @@
                   <Current>0</Current>
                 </Cooldown>
                 <Statistics />
+                <BreaksOnDamage>false</BreaksOnDamage>
               </Item>
             </AurasApplied>
             <IsChanneled>false</IsChanneled>
@@ -137,6 +141,9 @@
             <Description>A moderate single-target attack.</Description>
             <AnimationName>Ability1</AnimationName>
             <TextureName>Ability_druid_maul</TextureName>
+            <Animations />
+            <CastingAnimations />
+            <ImpactAnimations />
             <Damage>
               <Value>10</Value>
               <AttackPowerScale>0.7</AttackPowerScale>
@@ -176,6 +183,9 @@
             <Description>A powerful attack hitting all nearby enemies in front of Beastman.</Description>
             <AnimationName>Ability2</AnimationName>
             <TextureName>Ability_druid_maul</TextureName>
+            <Animations />
+            <CastingAnimations />
+            <ImpactAnimations />
             <Damage>
               <Value>30</Value>
               <AttackPowerScale>0.9</AttackPowerScale>
@@ -215,6 +225,9 @@
             <Description>Increase Attack Power by 50 for 10 seconds.</Description>
             <AnimationName>Spell2</AnimationName>
             <TextureName>Ability_physical_taunt</TextureName>
+            <Animations />
+            <CastingAnimations />
+            <ImpactAnimations />
             <Damage>
               <Value>0</Value>
               <AttackPowerScale>0</AttackPowerScale>
@@ -267,6 +280,7 @@
                   <Current>0</Current>
                 </Cooldown>
                 <Statistics />
+                <BreaksOnDamage>false</BreaksOnDamage>
               </Item>
             </AurasApplied>
             <IsChanneled>false</IsChanneled>

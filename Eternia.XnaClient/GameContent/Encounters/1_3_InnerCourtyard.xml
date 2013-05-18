@@ -40,6 +40,9 @@
             <Description>A moderate single-target attack.</Description>
             <AnimationName>Ability1</AnimationName>
             <TextureName>Ability_druid_maul</TextureName>
+            <Animations />
+            <CastingAnimations />
+            <ImpactAnimations />
             <Damage>
               <Value>10</Value>
               <AttackPowerScale>0.7</AttackPowerScale>
@@ -79,6 +82,9 @@
             <Description>Increase Attack Power by 50 for 10 seconds.</Description>
             <AnimationName>Spell2</AnimationName>
             <TextureName>Ability_physical_taunt</TextureName>
+            <Animations />
+            <CastingAnimations />
+            <ImpactAnimations />
             <Damage>
               <Value>0</Value>
               <AttackPowerScale>0</AttackPowerScale>
@@ -100,7 +106,7 @@
             <Duration>0.5</Duration>
             <Range>
               <Minimum>0</Minimum>
-              <Maximum>20</Maximum>
+              <Maximum>1</Maximum>
             </Range>
             <Area>1</Area>
             <DamageType>SingleTarget</DamageType>
@@ -131,6 +137,7 @@
                   <Current>0</Current>
                 </Cooldown>
                 <Statistics />
+                <BreaksOnDamage>false</BreaksOnDamage>
               </Item>
             </AurasApplied>
             <IsChanneled>false</IsChanneled>
@@ -140,6 +147,9 @@
             <Description>Whips the target, causing damage and decreasing hit and crit ratings by 5.</Description>
             <AnimationName>Ability2</AnimationName>
             <TextureName>INV_Misc_Crop_01</TextureName>
+            <Animations />
+            <CastingAnimations />
+            <ImpactAnimations />
             <Damage>
               <Value>10</Value>
               <AttackPowerScale>1.5</AttackPowerScale>
@@ -192,6 +202,7 @@
                   <Current>0</Current>
                 </Cooldown>
                 <Statistics />
+                <BreaksOnDamage>false</BreaksOnDamage>
               </Item>
             </AurasApplied>
             <IsChanneled>false</IsChanneled>
@@ -231,6 +242,9 @@
             <Description>A moderate single-target attack.</Description>
             <AnimationName>Ability1</AnimationName>
             <TextureName>Ability_druid_maul</TextureName>
+            <Animations />
+            <CastingAnimations />
+            <ImpactAnimations />
             <Damage>
               <Value>8</Value>
               <AttackPowerScale>0.5</AttackPowerScale>
@@ -270,6 +284,9 @@
             <Description>Rends the target, doing a small amount of damage over time.</Description>
             <AnimationName>Ability2</AnimationName>
             <TextureName>Ability_ghoulfrenzy</TextureName>
+            <Animations />
+            <CastingAnimations />
+            <ImpactAnimations />
             <Damage>
               <Value>0</Value>
               <AttackPowerScale>0</AttackPowerScale>
@@ -291,7 +308,7 @@
             <Duration>0.5</Duration>
             <Range>
               <Minimum>0</Minimum>
-              <Maximum>20</Maximum>
+              <Maximum>2</Maximum>
             </Range>
             <Area>1</Area>
             <DamageType>SingleTarget</DamageType>
@@ -322,6 +339,7 @@
                   <Current>0</Current>
                 </Cooldown>
                 <Statistics />
+                <BreaksOnDamage>false</BreaksOnDamage>
               </Item>
             </AurasApplied>
             <IsChanneled>false</IsChanneled>

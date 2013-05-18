@@ -252,8 +252,9 @@ namespace EterniaXna.Screens
             var mouseState = Mouse.GetState();
             var keyboardState = Keyboard.GetState();
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            FindMouseOverActor(mouseState);
+            var mouseWorldLocation = scene.Unproject(mouseState);
+                    
+            FindMouseOverActor(mouseState, mouseWorldLocation);
 
             var form = System.Windows.Forms.Form.FromHandle(ScreenManager.Game.Window.Handle);
             if (isTargetting != null)
@@ -313,7 +314,7 @@ namespace EterniaXna.Screens
                         else if (ability.TargettingType == TargettingTypes.Friendly && target != null && target.Faction == actor.Faction)
                             IssueOrder(actor, new Order(ability, actor, target));
                         else if (ability.TargettingType == TargettingTypes.Location)
-                            IssueOrder(actor, new Order(ability, actor, null, scene.Unproject(mouseState)));
+                            IssueOrder(actor, new Order(ability, actor, null, mouseWorldLocation));
 
                         isTargetting = null;
                     }
@@ -368,34 +369,26 @@ namespace EterniaXna.Screens
 
                 if (mouseOverActor != null)
                 {
-                    selectedActors.Where(x => x.IsAlive).ToList().ForEach(x =>
+                    foreach (var actor in selectedActors)
                     {
-                        if (keyboardState.IsKeyUp(Keys.LeftShift))
-                        {
-                            x.Targets.Clear();
-                            x.Orders.Clear();
-                        }
-                        if (!x.Targets.Contains(mouseOverActor))
-                            x.Targets.Enqueue(mouseOverActor);
-                    });
+                        if (keyboardState.IsKeyDown(Keys.LeftShift))
+                            actor.QueueTargetActor(mouseOverActor);
+                        else
+                            actor.TargetActor(mouseOverActor);
+                    }
                 }
                 else
                 {
-                    selectedActors.Where(x => x.IsAlive).ToList().ForEach(x =>
+                    foreach (var actor in selectedActors)
                     {
-                        x.OrderedDestination = scene.Unproject(mouseState);
-                        x.Targets.Clear();
-                        x.Orders.Clear();
-                    });
+                        actor.OrderMoveTo(mouseWorldLocation);
+                    }
                 }
             }
 
             if (keyboardState.IsKeyDown(Keys.Escape))
             {
-                foreach (var actor in battle.Actors.Where(x => x.Faction == Factions.Friend))
-                {
-                    actor.IsAlive = false;
-                }
+                battle.Forfeit();
             }
 
             scene.HandleInput(gameTime);
@@ -557,7 +550,7 @@ namespace EterniaXna.Screens
                 actor.Orders.Insert(0, order);
         }
 
-        private void FindMouseOverActor(MouseState mouseState)
+        private void FindMouseOverActor(MouseState mouseState, Vector2 mouseWorldLocation)
         {
             if (mouseState.X > 0 && mouseState.X < 150 && mouseState.Y > 0 && mouseState.Y < 50 * battle.Actors.Count)
                 mouseOverActor = battle.Actors[mouseState.Y / 50];
@@ -566,7 +559,7 @@ namespace EterniaXna.Screens
 
             foreach (var actor in battle.Actors.Where(x => x.IsAlive))
             {
-                if ((actor.Position - scene.Unproject(mouseState)).Length() < actor.Diameter)
+                if ((actor.Position - mouseWorldLocation).Length() < actor.Diameter)
                     mouseOverActor = actor;
             }
         }

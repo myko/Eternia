@@ -153,7 +153,7 @@ namespace Eternia.Game
                 if (!actor.PlayerControlled)
                     actor.Orders.Clear();
 
-                if (!actor.Orders.Any())
+                if (!actor.Orders.Any() && actor.CurrentOrder == null)
                     actor.FillOrderQueue();
 
                 actor.SelectTarget(Actors.Where(x => x != actor));
@@ -675,6 +675,14 @@ namespace Eternia.Game
                 Ability = ability,
                 CombatOutcome = combatOutcome
             });
+        }
+
+        public void Forfeit()
+        {
+            foreach (var actor in Actors.Where(x => x.Faction == Factions.Friend))
+            {
+                actor.IsAlive = false;
+            }
         }
     }
 }

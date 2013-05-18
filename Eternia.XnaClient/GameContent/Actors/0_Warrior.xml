@@ -29,6 +29,9 @@
         <Description>A powerful melee attack. Causes a high amount of threat.</Description>
         <AnimationName>Ability2</AnimationName>
         <TextureName>Ability_meleedamage</TextureName>
+        <Animations />
+        <CastingAnimations />
+        <ImpactAnimations />
         <Damage>
           <Value>29</Value>
           <AttackPowerScale>1.38</AttackPowerScale>
@@ -50,7 +53,7 @@
         <Duration>1</Duration>
         <Range>
           <Minimum>0</Minimum>
-          <Maximum>1</Maximum>
+          <Maximum>2</Maximum>
         </Range>
         <Area>1</Area>
         <DamageType>SingleTarget</DamageType>
@@ -68,6 +71,9 @@
         <Description>A powerful melee attack.</Description>
         <AnimationName>Ability1</AnimationName>
         <TextureName>Ability_Warrior_SecondWind</TextureName>
+        <Animations />
+        <CastingAnimations />
+        <ImpactAnimations />
         <Damage>
           <Value>17</Value>
           <AttackPowerScale>1.1</AttackPowerScale>
@@ -89,9 +95,9 @@
         <Duration>1</Duration>
         <Range>
           <Minimum>0</Minimum>
-          <Maximum>1</Maximum>
+          <Maximum>2</Maximum>
         </Range>
-        <Area>2</Area>
+        <Area>2.5</Area>
         <DamageType>Cleave</DamageType>
         <TargettingType>Hostile</TargettingType>
         <ThreatModifier>2.5</ThreatModifier>
@@ -107,6 +113,9 @@
         <Description>Reduces damage taken by 20% for 10 seconds.</Description>
         <AnimationName>Defend1</AnimationName>
         <TextureName>Ability_defend</TextureName>
+        <Animations />
+        <CastingAnimations />
+        <ImpactAnimations />
         <Damage>
           <Value>0</Value>
           <AttackPowerScale>0</AttackPowerScale>
@@ -163,6 +172,7 @@
                 <Rating>2500</Rating>
               </Item>
             </Statistics>
+            <BreaksOnDamage>false</BreaksOnDamage>
           </Item>
         </AurasApplied>
         <IsChanneled>false</IsChanneled>
@@ -172,6 +182,9 @@
         <Description></Description>
         <AnimationName Null="true" />
         <TextureName>Ability_defend</TextureName>
+        <Animations />
+        <CastingAnimations />
+        <ImpactAnimations />
         <Damage>
           <Value>0</Value>
           <AttackPowerScale>0</AttackPowerScale>
@@ -231,6 +244,7 @@
                 <Value>0.6</Value>
               </Item>
             </Statistics>
+            <BreaksOnDamage>false</BreaksOnDamage>
           </Item>
         </AurasApplied>
         <IsChanneled>false</IsChanneled>
@@ -240,6 +254,9 @@
         <Description></Description>
         <AnimationName Null="true" />
         <TextureName>Ability_defend</TextureName>
+        <Animations />
+        <CastingAnimations />
+        <ImpactAnimations />
         <Damage>
           <Value>0</Value>
           <AttackPowerScale>0</AttackPowerScale>

@@ -7,7 +7,7 @@
     <ResourceType>Mana</ResourceType>
     <Cost>0</Cost>
     <Diameter>1.5</Diameter>
-    <MovementSpeed>3</MovementSpeed>
+    <MovementSpeed>3.5</MovementSpeed>
     <TextureName>cleric</TextureName>
     <BaseStatistics>
       <Item Type="Stats:Health">
@@ -26,6 +26,9 @@
         <Description>Heal one friendly target.</Description>
         <AnimationName>ReadySpellCastOmni</AnimationName>
         <TextureName>Spell_Holy_FlashHeal</TextureName>
+        <Animations />
+        <CastingAnimations />
+        <ImpactAnimations />
         <Damage>
           <Value>0</Value>
           <AttackPowerScale>0</AttackPowerScale>
@@ -65,6 +68,9 @@
         <Description>Heal a friendly target and all targets within 4 meters</Description>
         <AnimationName>ReadySpellCastOmni</AnimationName>
         <TextureName>Ability_paladin_sacredcleansing</TextureName>
+        <Animations />
+        <CastingAnimations />
+        <ImpactAnimations />
         <Damage>
           <Value>0</Value>
           <AttackPowerScale>0</AttackPowerScale>
@@ -104,6 +110,9 @@
         <Description>Heal one friendly target over time.</Description>
         <AnimationName>ReadySpellCastOmni</AnimationName>
         <TextureName>Ability_paladin_blessedmending</TextureName>
+        <Animations />
+        <CastingAnimations />
+        <ImpactAnimations />
         <Damage>
           <Value>0</Value>
           <AttackPowerScale>0</AttackPowerScale>
@@ -156,6 +165,7 @@
               <Current>0</Current>
             </Cooldown>
             <Statistics />
+            <BreaksOnDamage>false</BreaksOnDamage>
           </Item>
         </AurasApplied>
         <IsChanneled>false</IsChanneled>
@@ -165,6 +175,9 @@
         <Description>Place a protective barrier on a friendly target.</Description>
         <AnimationName Null="true" />
         <TextureName>Ability_paladin_sacredcleansing</TextureName>
+        <Animations />
+        <CastingAnimations />
+        <ImpactAnimations />
         <Damage>
           <Value>0</Value>
           <AttackPowerScale>0</AttackPowerScale>
@@ -221,6 +234,7 @@
                 <Value>0.8</Value>
               </Item>
             </Statistics>
+            <BreaksOnDamage>false</BreaksOnDamage>
           </Item>
         </AurasApplied>
         <IsChanneled>false</IsChanneled>
@@ -230,6 +244,9 @@
         <Description>Channel a powerful heal on a group of friendly targets.</Description>
         <AnimationName Null="true" />
         <TextureName>Ability_paladin_sacredcleansing</TextureName>
+        <Animations />
+        <CastingAnimations />
+        <ImpactAnimations />
         <Damage>
           <Value>0</Value>
           <AttackPowerScale>0</AttackPowerScale>

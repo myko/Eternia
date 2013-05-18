@@ -71,7 +71,7 @@ namespace Eternia.Game.Actors
         [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
         public Vector2? Destination { get; set; }
         [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
-        public Vector2? OrderedDestination { get; set; }
+        public Vector2? OrderedDestination { get; internal set; }
         
         [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
         public BaseAnimationState BaseAnimationState { get; set; }
@@ -257,7 +257,7 @@ namespace Eternia.Game.Actors
 
                 Orders.AddRange(Abilities
                     .Where(x => x.Cooldown.IsReady && x.ManaCost <= CurrentMana && x.EnergyCost <= CurrentEnergy)
-                    .Where(x => x.TargettingType == TargettingTypes.Self || abilityTarget != null) // || abilityTarget.DistanceFrom(this).In(x.Range + Radius + abilityTarget.Radius))
+                    .Where(x => x.TargettingType == TargettingTypes.Self || abilityTarget != null)
                     .Where(x =>
                         (x.TargettingType == TargettingTypes.Self) ||
                         (x.TargettingType == TargettingTypes.Hostile && abilityTarget != null && abilityTarget.Faction != Faction) ||
@@ -269,7 +269,8 @@ namespace Eternia.Game.Actors
                             return new Order(x, this, this);
                         else
                             return new Order(x, this, abilityTarget);
-                    }));
+                    })
+                    .Take(1));
             }
         }
 
@@ -285,19 +286,11 @@ namespace Eternia.Game.Actors
             else
             {
                 // Move actor towards enemy targets.
-                if (Orders.Any()) // && Faction != Targets.Peek().Faction)
+                if (Orders.Any())
                 {
                     var order = Orders.First();
                     var direction = order.GetTargetLocation() - Position;
                     var distance = direction.Length();
-
-                    //var availableAbilities = Abilities
-                    //    .Where(x => 
-                    //        x.Cooldown.IsReady && 
-                    //        x.ManaCost <= CurrentMana && x.EnergyCost <= CurrentEnergy && 
-                    //        x.DamageType != DamageTypes.PointBlankArea &&
-                    //        ((x.TargettingType == TargettingTypes.Hostile && Faction != target.Faction) || 
-                    //        (x.TargettingType == TargettingTypes.Friendly && Faction == target.Faction)));
 
                     var minimumRange = order.Ability.Range.Maximum + Radius + order.GetTargetRadius() - 0.2f;
 
@@ -328,7 +321,7 @@ namespace Eternia.Game.Actors
                     direction.Normalize();
                     var newPosition = Position + direction * Math.Min(distance, MovementSpeed * deltaTime);
 
-                    var collidingActors = otherActors.Where(x => x.DistanceFrom(newPosition) < (x.Radius + Radius) * 1.05f);
+                    var collidingActors = otherActors.Where(x => x.DistanceFrom(newPosition) < (x.Radius + Radius) * 1.2f);
                     if (!collidingActors.Any())
                     {
                         Position = newPosition;
@@ -336,7 +329,7 @@ namespace Eternia.Game.Actors
                     else
                     {
                         var collidingActor = collidingActors.OrderBy(x => x.DistanceFrom(newPosition)).First();
-                        var intersection = collidingActor.DistanceFrom(newPosition) - (collidingActor.Radius + Radius) * 1.05f;
+                        var intersection = collidingActor.DistanceFrom(newPosition) - (collidingActor.Radius + Radius) * 1.2f;
 
                         Position = newPosition + (newPosition - collidingActor.Position) * -intersection;
                     }
@@ -390,6 +383,38 @@ namespace Eternia.Game.Actors
             }
 
             return item.Statistics - oldItemStatistics;
+        }
+
+        public void OrderMoveTo(Vector2 destination)
+        {
+            if (IsAlive && PlayerControlled)
+            {
+                OrderedDestination = destination;
+                Targets.Clear();
+                Orders.Clear();
+            }
+        }
+
+        public void TargetActor(Actor target)
+        {
+            if (IsAlive && PlayerControlled)
+            {
+                Targets.Clear();
+                Orders.Clear();
+                OrderedDestination = null;
+
+                if (!Targets.Contains(target))
+                    Targets.Enqueue(target);
+            }
+        }
+
+        public void QueueTargetActor(Actor target)
+        {
+            if (IsAlive && PlayerControlled)
+            {
+                if (!Targets.Contains(target))
+                    Targets.Enqueue(target);
+            }
         }
     }
 

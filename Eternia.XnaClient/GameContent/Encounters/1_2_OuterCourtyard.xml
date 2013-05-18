@@ -40,6 +40,9 @@
             <Description>A moderate sword slash.</Description>
             <AnimationName>Ability2</AnimationName>
             <TextureName>Spell_nature_acid_01</TextureName>
+            <Animations />
+            <CastingAnimations />
+            <ImpactAnimations />
             <Damage>
               <Value>10</Value>
               <AttackPowerScale>0.5</AttackPowerScale>
@@ -79,6 +82,9 @@
             <Description>Hurls a watery bolt at the enemy.</Description>
             <AnimationName>Spell1</AnimationName>
             <TextureName>Spell_nature_acid_01</TextureName>
+            <Animations />
+            <CastingAnimations />
+            <ImpactAnimations />
             <Damage>
               <Value>80</Value>
               <AttackPowerScale>0</AttackPowerScale>
@@ -123,6 +129,9 @@
             <Description>Soak all nearby targets with scalding hot water.</Description>
             <AnimationName>Spell2</AnimationName>
             <TextureName>Spell_shaman_tidalwaves</TextureName>
+            <Animations />
+            <CastingAnimations />
+            <ImpactAnimations />
             <Damage>
               <Value>50</Value>
               <AttackPowerScale>0</AttackPowerScale>
@@ -144,9 +153,9 @@
             <Duration>1.5</Duration>
             <Range>
               <Minimum>0</Minimum>
-              <Maximum>4</Maximum>
+              <Maximum>8</Maximum>
             </Range>
-            <Area>1</Area>
+            <Area>8</Area>
             <DamageType>PointBlankArea</DamageType>
             <TargettingType>Hostile</TargettingType>
             <ThreatModifier>1</ThreatModifier>
