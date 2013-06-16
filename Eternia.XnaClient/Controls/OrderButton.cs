@@ -40,8 +40,8 @@ namespace EterniaXna
 
         public void Draw(Vector2 position, GameTime gameTime)
         {
-            var bounds = new Rectangle((int)position.X, (int)position.Y, (int)container.Width, (int)container.Height);
-            var targetBounds = new Rectangle((int)position.X + 30, (int)position.Y, (int)container.Width, (int)container.Height);
+            var bounds = new Rectangle((int)position.X, (int)position.Y, (int)container.ActualWidth, (int)container.ActualHeight);
+            var targetBounds = new Rectangle((int)position.X + 30, (int)position.Y, (int)container.ActualWidth, (int)container.ActualHeight);
             //if (Order == Actor.CurrentOrder)
             //    container.SpriteBatch.Draw(texture, bounds, Color.Yellow, container.ZIndex + 0.001f);
             //else
@@ -54,7 +54,7 @@ namespace EterniaXna
             {
                 var cooldown = ((int)Order.Ability.Cooldown.Current).ToString();
                 var textSize = font.MeasureString(cooldown);
-                var textPosition = new Vector2((int)(container.Width / 2 - textSize.X / 2), (int)(container.Height / 2 - textSize.Y / 2));
+                var textPosition = new Vector2((int)(container.ActualWidth / 2 - textSize.X / 2), (int)(container.ActualHeight / 2 - textSize.Y / 2));
 
                 container.SpriteBatch.DrawString(font, cooldown, position + textPosition + new Vector2(-1, -1), Color.Black, container.ZIndex + 0.003f);
                 container.SpriteBatch.DrawString(font, cooldown, position + textPosition + new Vector2(1, -1), Color.Black, container.ZIndex + 0.003f);

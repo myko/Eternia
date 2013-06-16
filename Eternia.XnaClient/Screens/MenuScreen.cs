@@ -21,8 +21,8 @@ namespace EterniaXna.Screens
             base.LoadContent();
 
             cloudsBackground = ContentManager.Load<Texture2D>(@"Interface\purpleclouds");
-            buttonTexture = ContentManager.Load<Texture2D>(@"Interface\button1");
-            buttonMouseOverTexture = ContentManager.Load<Texture2D>(@"Interface\button1-mouseover");
+            buttonTexture = ContentManager.Load<Texture2D>(@"Interface\button3");
+            buttonMouseOverTexture = ContentManager.Load<Texture2D>(@"Interface\button3-mouseover");
             borderTexture = ContentManager.Load<Texture2D>(@"Interface\border-1");
 
             Random random = new Random();
@@ -55,7 +55,7 @@ namespace EterniaXna.Screens
 
         public override void DrawBackground(GameTime gameTime)
         {
-            SpriteBatch.Draw(cloudsBackground, new Rectangle(0, 0, (int)Width, (int)Height), Color.DarkGray, 0);
+            SpriteBatch.Draw(cloudsBackground, new Rectangle(0, 0, (int)ActualWidth, (int)ActualHeight), Color.DarkGray, 0);
         }
 
         public override void Draw(GameTime gameTime)
@@ -74,42 +74,42 @@ namespace EterniaXna.Screens
             {
                 Content = text,
                 Position = position,
-                Background = Color.White, // new Color(230, 140, 60),
+                Background = new Color(230, 90, 20),
                 BackgroundTexture = buttonTexture,
                 MouseOverTexture = buttonMouseOverTexture,
-                Width = 150,
-                Height = 40,
+                Width = 200,
+                Height = 60,
                 ZIndex = 0.1f,
                 Sound = ContentManager.Load<SoundEffect>(@"Sounds\157539__nenadsimic__click")
             };
         }
 
-        protected ListBox<T> AddListBox<T>(ControlCollection controls, Vector2 position, float width, float height)
+        protected ListBox<T> AddListBox<T>(ControlCollection controls, Vector2 position, Size width, Size height)
             where T: class
         {
             var listbox = new ListBox<T>
             {
-                Width = width - 12,
-                Height = height - 12,
+                Width = width,
+                Height = height,
                 ZIndex = 0.1f,
                 Background = Color.Transparent
             }; 
 
-            var border = new Border(listbox)
-            {
-                Position = position,
-                Width = width,
-                Height = height,
-                ZIndex = 0.1f,
-                BorderSize = 2,
-                BorderColor = new Color(240, 210, 120),
-                BorderTexture = borderTexture,
-                Background = new Color(40, 40, 149),
-                BackgroundTexture = cloudsBackground,
-                Padding = new Vector2(4, 4)
-            };
+            //var border = new Border(listbox)
+            //{
+            //    Position = position,
+            //    Width = width,
+            //    Height = height,
+            //    ZIndex = 0.1f,
+            //    BorderSize = 2,
+            //    BorderColor = new Color(240, 210, 120),
+            //    BorderTexture = borderTexture,
+            //    Background = new Color(40, 40, 149),
+            //    BackgroundTexture = cloudsBackground,
+            //    Padding = new Vector2(4, 4)
+            //};
 
-            controls.Add(border);
+            controls.Add(listbox);
 
             return listbox;
         }

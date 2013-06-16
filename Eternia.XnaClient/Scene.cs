@@ -20,7 +20,7 @@ namespace Eternia.XnaClient
         Texture2D selectionTexture;
 
         Vector2 cameraPosition;
-        float cameraDistance = 10f;
+        float cameraDistance = 15f;
         Matrix view;
         Matrix projection;
 
@@ -45,7 +45,7 @@ namespace Eternia.XnaClient
             var keyboardState = Keyboard.GetState();
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            cameraDistance = Math.Min(40f, Math.Max(5f, 25f - mouseState.ScrollWheelValue * 0.01f));
+            cameraDistance = Math.Min(60f, Math.Max(10f, 25f - mouseState.ScrollWheelValue * 0.01f));
 
             if (keyboardState.IsKeyDown(Keys.Left))
                 cameraPosition.X = Math.Max(-20, cameraPosition.X - 20f * deltaTime);
@@ -81,7 +81,7 @@ namespace Eternia.XnaClient
                                                                     0.1f,
                                                                     1000f);
 
-            projection = Matrix.CreateOrthographic(54, 30, 0.1f, 1000f);
+            //projection = Matrix.CreateOrthographic(54, 30, 0.1f, 1000f);
 
             graphicsDevice.DepthStencilState = DepthStencilState.Default;
 

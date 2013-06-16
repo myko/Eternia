@@ -179,6 +179,8 @@ namespace Myko.Xna.Ui
         }
 
         public bool EnableCheckBoxes { get; set; }
+        public int ItemHeight { get; set; }
+        public int ItemSpacing { get; set; }
 
         private int scrollOffset;
         private bool draggingScrollBar;
@@ -190,15 +192,16 @@ namespace Myko.Xna.Ui
             Height = 200;
             Background = Color.Black;
             Foreground = Color.LightGray;
+            ItemSpacing = 16;
         }
 
         public override void HandleInput(Vector2 position, GameTime gameTime)
         {
             var mouseState = Mouse.GetState();
             mouseOverItem = null;
-            int visibleItems = Math.Min(items.Count, (int)Height / Font.LineSpacing);
+            int visibleItems = Math.Min(items.Count, (int)ActualHeight / (ItemHeight + ItemSpacing));
 
-            if (mouseState.X > position.X + Width - 10 && mouseState.X < position.X + Width && mouseState.Y > position.Y && mouseState.Y < position.Y + Height)
+            if (mouseState.X > position.X + ActualWidth - 10 && mouseState.X < position.X + ActualWidth && mouseState.Y > position.Y && mouseState.Y < position.Y + ActualHeight)
             {
                 if (mouseState.LeftButton == ButtonState.Pressed)
                     draggingScrollBar = true;
@@ -210,11 +213,11 @@ namespace Myko.Xna.Ui
             if (!draggingScrollBar)
             {
                 if (mouseState.X > position.X &&
-                    mouseState.X < position.X + Width - 10 &&
+                    mouseState.X < position.X + ActualWidth - 10 &&
                     mouseState.Y > position.Y &&
-                    mouseState.Y < position.Y + Font.LineSpacing * visibleItems)
+                    mouseState.Y < position.Y + (ItemHeight + ItemSpacing) * visibleItems)
                 {
-                    mouseOverItem = items[(int)((mouseState.Y - position.Y) / Font.LineSpacing) + scrollOffset];
+                    mouseOverItem = items[(int)((mouseState.Y - position.Y) / (ItemHeight + ItemSpacing)) + scrollOffset];
                 }
 
                 if (mouseState.LeftButton == ButtonState.Pressed)
@@ -244,8 +247,8 @@ namespace Myko.Xna.Ui
             
             if (draggingScrollBar)
             {
-                var itemScrollBarHeight = Height / items.Count;
-                var pixelOffset = (mouseState.Y - position.Y - itemScrollBarHeight * visibleItems / 2) / Height;
+                var itemScrollBarHeight = ActualHeight / items.Count;
+                var pixelOffset = (mouseState.Y - position.Y - itemScrollBarHeight * visibleItems / 2) / ActualHeight;
                 scrollOffset = Math.Max(0, Math.Min((int)(pixelOffset * items.Count), items.Count - visibleItems));
             }
 
@@ -254,10 +257,13 @@ namespace Myko.Xna.Ui
 
         public override void Update(GameTime gameTime)
         {
+            if (ItemHeight == 0)
+                ItemHeight = Font.LineSpacing;
+            
             if (items.Find(li => li.Value == SelectedItem) == null)
                 SelectedItem = null;
 
-            int visibleItems = Math.Min(items.Count, (int)Height / Font.LineSpacing);
+            int visibleItems = Math.Min(items.Count, (int)ActualHeight / (ItemHeight + ItemSpacing));
             if (scrollOffset + visibleItems > items.Count)
                 scrollOffset = items.Count - visibleItems;
 
@@ -268,44 +274,47 @@ namespace Myko.Xna.Ui
         {
             DrawBackground(position);
 
-            int visibleItems = (int)Height / Font.LineSpacing;
+            int visibleItems = (int)ActualHeight / (ItemHeight + ItemSpacing);
 
             for (int i = scrollOffset; i < items.Count && i < scrollOffset + visibleItems; i++)
             {
+                var isMouseOver = items[i] == mouseOverItem;
+                var isSelected = items[i].Value == SelectedItem;
+                var isChecked = EnableCheckBoxes && items[i].Checked;
+
                 var text = items[i].Value.ToString();
-                var itemPosition = new Vector2(position.X, position.Y + (i - scrollOffset) * Font.LineSpacing);
+                var itemPosition = new Vector2(position.X, position.Y + (i - scrollOffset) * (ItemHeight + ItemSpacing));
 
-                var color = items[i].Foreground;
-                if (items[i].Value == SelectedItem)
-                    color = Color.Yellow;
-                else if (items[i] == mouseOverItem)
-                    color = Color.White;
-
-                if (items[i].Value == SelectedItem)
+                var color = items[i].Foreground.GetValue();
+                var markerColor = Color.Gray;
+                if (isSelected)
                 {
-                    SpriteBatch.Draw(BlankTexture, new Rectangle((int)itemPosition.X, (int)itemPosition.Y, (int)Width, Font.LineSpacing), Color.CornflowerBlue * 0.25f, ZIndex + 0.01f);
+                    color = color * 1.5f;
+                    markerColor = Color.LightGray;
                 }
-
-                if (EnableCheckBoxes)
+                else if (isMouseOver)
                 {
-                    if (items[i].Checked)
-                        SpriteBatch.DrawString(Font, "[X]", itemPosition, color, ZIndex + 0.02f);
-                    else
-                        SpriteBatch.DrawString(Font, "[ ]", itemPosition, color, ZIndex + 0.02f);
-
-                    itemPosition = new Vector2(itemPosition.X + 24, itemPosition.Y);
+                    color = color * 1.25f;
                 }
+                                
+                SpriteBatch.Draw(BlankTexture, new Rectangle((int)itemPosition.X, (int)itemPosition.Y, isChecked ? 20 : 10, ItemHeight + ItemSpacing / 2), markerColor * 0.25f, ZIndex + 0.01f);
 
-                SpriteBatch.DrawString(Font, text, itemPosition, color, ZIndex + 0.02f);
+                if (isMouseOver || isSelected)
+                    SpriteBatch.Draw(BlankTexture, new Rectangle((int)itemPosition.X + (isChecked ? 26 : 16), (int)itemPosition.Y, (int)ActualWidth, ItemHeight + ItemSpacing / 2), markerColor * 0.25f, ZIndex + 0.01f);
+
+                if (isChecked)
+                    itemPosition = new Vector2(itemPosition.X + 10, itemPosition.Y);
+
+                SpriteBatch.DrawString(Font, text, new Vector2(itemPosition.X + 16 + ItemSpacing / 4, itemPosition.Y + ItemSpacing / 4), color, ZIndex + 0.02f);
             }
 
             if (visibleItems < items.Count)
             {
-                var itemScrollBarHeight = Height / items.Count;
+                var itemScrollBarHeight = ActualHeight / items.Count;
                 if (draggingScrollBar)
-                    SpriteBatch.Draw(BlankTexture, new Rectangle((int)(position.X + Width - 10), (int)(position.Y + scrollOffset * itemScrollBarHeight), 10, (int)(itemScrollBarHeight * visibleItems)), Color.White, ZIndex + 0.02f);
+                    SpriteBatch.Draw(BlankTexture, new Rectangle((int)(position.X + ActualWidth - 10), (int)(position.Y + scrollOffset * itemScrollBarHeight), 10, (int)(itemScrollBarHeight * visibleItems)), Color.White, ZIndex + 0.02f);
                 else
-                    SpriteBatch.Draw(BlankTexture, new Rectangle((int)(position.X + Width - 10), (int)(position.Y + scrollOffset * itemScrollBarHeight), 10, (int)(itemScrollBarHeight * visibleItems)), Foreground, ZIndex + 0.02f);
+                    SpriteBatch.Draw(BlankTexture, new Rectangle((int)(position.X + ActualWidth - 10), (int)(position.Y + scrollOffset * itemScrollBarHeight), 10, (int)(itemScrollBarHeight * visibleItems)), Foreground, ZIndex + 0.02f);
             }
 
             base.Draw(position, gameTime);

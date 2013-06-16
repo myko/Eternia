@@ -39,19 +39,19 @@ namespace EterniaXna.Screens
             var grid = new Grid();
             grid.Width = Width;
             grid.Height = Height;
-            grid.Rows.Add(GridSize.Fixed(80));
-            grid.Rows.Add(GridSize.Fixed(40));
-            grid.Rows.Add(GridSize.Fill());
-            grid.Rows.Add(GridSize.Fixed(120));
-            grid.Columns.Add(GridSize.Fill());
+            grid.Rows.Add(Size.Fixed(80));
+            grid.Rows.Add(Size.Fixed(40));
+            grid.Rows.Add(Size.Fill());
+            grid.Rows.Add(Size.Fixed(120));
+            grid.Columns.Add(Size.Fill());
             Controls.Add(grid);
 
             grid.Cells[0, 0].Add(new Label { Text = "Store" });
             grid.Cells[1, 0].Add(new Label { Text = Bind(() => "Gold: " + player.Gold) });
 
             var tabControl = new TabControl();
-            tabControl.Width = Width - 40;
-            tabControl.Height = Height - 80 - 40 - 120 - 40;
+            tabControl.Width = ActualWidth - 40;
+            tabControl.Height = ActualHeight - 80 - 40 - 120 - 40;
             tabControl.AddPage("Heroes", BuildHeroesTabPage());
             //tabControl.AddPage("Skills", BuildAbilitiesTabPage());
             tabControl.AddPage("Items", BuildItemsTabPage());
@@ -66,15 +66,15 @@ namespace EterniaXna.Screens
         private Control BuildHeroesTabPage()
         {
             var grid = new Grid();
-            grid.Width = Width - 40;
-            grid.Height = Height - 80 - 40 - 120 - 40 - 20;
-            grid.Rows.Add(GridSize.Fixed(60));
-            grid.Rows.Add(GridSize.Fill());
-            grid.Rows.Add(GridSize.Fixed(100));
-            grid.Columns.Add(GridSize.Fill());
-            grid.Columns.Add(GridSize.Fill());
-            grid.Columns.Add(GridSize.Fill());
-            grid.Columns.Add(GridSize.Fill());
+            grid.Width = ActualWidth - 40;
+            grid.Height = ActualHeight - 80 - 40 - 120 - 40 - 20;
+            grid.Rows.Add(Size.Fixed(60));
+            grid.Rows.Add(Size.Fill());
+            grid.Rows.Add(Size.Fixed(100));
+            grid.Columns.Add(Size.Fill());
+            grid.Columns.Add(Size.Fill());
+            grid.Columns.Add(Size.Fill());
+            grid.Columns.Add(Size.Fill());
 
             grid.Cells[0, 0].Add(new Label { Text = "Current Heroes" });
             grid.Cells[0, 3].Add(new Label { Text = "Available Heroes" });
@@ -107,13 +107,13 @@ namespace EterniaXna.Screens
         private Control BuildAbilitiesTabPage()
         {
             var grid = new Grid();
-            grid.Width = Width - 40;
-            grid.Height = Height - 80 - 40 - 120 - 40 - 20;
-            grid.Rows.Add(GridSize.Fill());
-            grid.Rows.Add(GridSize.Fixed(100));
-            grid.Columns.Add(GridSize.Fill());
-            grid.Columns.Add(GridSize.Fill());
-            grid.Columns.Add(GridSize.Fill());
+            grid.Width = ActualWidth - 40;
+            grid.Height = ActualHeight - 80 - 40 - 120 - 40 - 20;
+            grid.Rows.Add(Size.Fill());
+            grid.Rows.Add(Size.Fixed(100));
+            grid.Columns.Add(Size.Fill());
+            grid.Columns.Add(Size.Fill());
+            grid.Columns.Add(Size.Fill());
 
             var currentHeroesListBox = AddBoundListBox<Actor>(grid.Cells[0, 0], Vector2.Zero, 300, 400);
             currentHeroesListBox.ZIndex = 0.2f;
@@ -149,13 +149,13 @@ namespace EterniaXna.Screens
         private Control BuildItemsTabPage()
         {
             var grid = new Grid();
-            grid.Width = Width - 40;
-            grid.Height = Height - 80 - 40 - 120 - 40 - 20;
-            grid.Rows.Add(GridSize.Fill());
-            grid.Rows.Add(GridSize.Fixed(100));
-            grid.Columns.Add(GridSize.Fill());
-            grid.Columns.Add(GridSize.Fill());
-            grid.Columns.Add(GridSize.Fill());
+            grid.Width = ActualWidth - 40;
+            grid.Height = ActualHeight - 80 - 40 - 120 - 40 - 20;
+            grid.Rows.Add(Size.Fill());
+            grid.Rows.Add(Size.Fixed(100));
+            grid.Columns.Add(Size.Fill());
+            grid.Columns.Add(Size.Fill());
+            grid.Columns.Add(Size.Fill());
 
             var currentHeroesListBox = AddBoundListBox<Actor>(grid.Cells[0, 0], Vector2.Zero, 300, 400);
             currentHeroesListBox.ZIndex = 0.2f;
@@ -191,13 +191,13 @@ namespace EterniaXna.Screens
         private Control BuildTacticsTabPage()
         {
             var grid = new Grid();
-            grid.Width = Width - 40;
-            grid.Height = Height - 80 - 40 - 120 - 40 - 20;
-            grid.Rows.Add(GridSize.Fill());
-            grid.Rows.Add(GridSize.Fixed(100));
-            grid.Columns.Add(GridSize.Fill());
-            grid.Columns.Add(GridSize.Fill());
-            grid.Columns.Add(GridSize.Fill());
+            grid.Width = ActualWidth - 40;
+            grid.Height = ActualHeight - 80 - 40 - 120 - 40 - 20;
+            grid.Rows.Add(Size.Fill());
+            grid.Rows.Add(Size.Fixed(100));
+            grid.Columns.Add(Size.Fill());
+            grid.Columns.Add(Size.Fill());
+            grid.Columns.Add(Size.Fill());
 
             var availableItemsListBox = AddBoundListBox<TargetingStrategy>(grid.Cells[0, 2], Vector2.Zero, 300, 400);
             availableItemsListBox.ZIndex = 0.2f;

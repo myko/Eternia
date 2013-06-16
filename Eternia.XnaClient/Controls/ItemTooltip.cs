@@ -46,10 +46,10 @@ namespace EterniaXna
             if (ShowUpgrade)
                 y = DrawUpgradeStatistics(Upgrade, x, y + 10);
 
-            Width = Math.Max(Width, Font.MeasureString(item.Name).X + 20);
+            Width = Math.Max(ActualWidth, Font.MeasureString(item.Name).X + 20);
             Height = y - position.Y + 10;
 
-            var bounds = new Rectangle((int)position.X, (int)position.Y, (int)Width, (int)Height);
+            var bounds = new Rectangle((int)position.X, (int)position.Y, (int)ActualWidth, (int)ActualHeight);
             var innerBounds = bounds;
             innerBounds.Inflate(-1, -1);
 

@@ -39,17 +39,17 @@ namespace Myko.Xna.Ui
             {
                 int bx1 = (int)position.X;
                 int bx2 = (int)position.X + BorderSize;
-                int bx3 = (int)(position.X + Width) - BorderSize;
+                int bx3 = (int)(position.X + ActualWidth) - BorderSize;
 
                 int by1 = (int)position.Y;
                 int by2 = (int)position.Y + BorderSize;
-                int by3 = (int)(position.Y + Height) - BorderSize;
+                int by3 = (int)(position.Y + ActualHeight) - BorderSize;
 
-                int bw = (int)Width - BorderSize * 2;
-                int bh = (int)Height - BorderSize * 2;
+                int bw = (int)ActualWidth - BorderSize * 2;
+                int bh = (int)ActualHeight - BorderSize * 2;
 
                 // Background
-                var bounds = new Rectangle(bx1 + BorderSize / 2, by1 + BorderSize / 2, (int)Width - BorderSize, (int)Height - BorderSize);
+                var bounds = new Rectangle(bx1 + BorderSize / 2, by1 + BorderSize / 2, (int)ActualWidth - BorderSize, (int)ActualHeight - BorderSize);
                 if (BackgroundTexture != null)
                     SpriteBatch.Draw(BackgroundTexture, bounds, Background, ZIndex);
                 else
@@ -71,7 +71,7 @@ namespace Myko.Xna.Ui
             }
             else
             {
-                var bounds = new Rectangle((int)position.X, (int)position.Y, (int)Width, (int)Height);
+                var bounds = new Rectangle((int)position.X, (int)position.Y, (int)ActualWidth, (int)ActualHeight);
                 SpriteBatch.Draw(BlankTexture, bounds, BorderColor, ZIndex);
 
                 var innerBounds = bounds;

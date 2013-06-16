@@ -57,6 +57,8 @@ namespace Eternia.Game.Actors
         [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
         public ThreatList ThreatList { get; set; }
 
+        [XmlIgnore, ContentSerializerIgnore]
+        public List<Ability> PriorityQueue { get; set; }
         [XmlIgnore, ContentSerializerIgnore, JsonIgnore]
         public List<Order> Orders { get; set; }
         [XmlIgnore, ContentSerializerIgnore, JsonIgnore]

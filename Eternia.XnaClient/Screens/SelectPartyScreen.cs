@@ -31,13 +31,13 @@ namespace EterniaXna.Screens
             var grid = new Grid();
             grid.Width = Width;
             grid.Height = Height;
-            grid.Rows.Add(GridSize.Fill());
-            grid.Rows.Add(GridSize.Fixed(30));
-            grid.Rows.Add(GridSize.Fill(4));
-            grid.Rows.Add(GridSize.Fixed(40));
-            grid.Rows.Add(GridSize.Fixed(80));
-            grid.Rows.Add(GridSize.Fixed(80));
-            grid.Columns.Add(GridSize.Fill());
+            grid.Rows.Add(Size.Fill());
+            grid.Rows.Add(Size.Fixed(30));
+            grid.Rows.Add(Size.Fill(4));
+            grid.Rows.Add(Size.Fixed(40));
+            grid.Rows.Add(Size.Fixed(80));
+            grid.Rows.Add(Size.Fixed(80));
+            grid.Columns.Add(Size.Fill());
             Controls.Add(grid);
 
             grid.Cells[1, 0].Add(new Label { Text = "Select Party Members" });
@@ -67,7 +67,11 @@ namespace EterniaXna.Screens
             grid.Cells[5, 0].Add(backButton);
 
             memberListBox.Items.AddRange(player.Heroes);
-            memberListBox.CheckAllItems();
+            for (int i = 0; i < memberListBox.Items.Count; i++)
+            {
+                if (i < encounterDefinition.HeroLimit)
+                    memberListBox.GetItemContainer(memberListBox.Items[i]).Checked = true;
+            }
         }
 
         private void okButton_Click()

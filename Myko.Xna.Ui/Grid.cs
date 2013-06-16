@@ -6,40 +6,6 @@ using Microsoft.Xna.Framework;
 
 namespace Myko.Xna.Ui
 {
-    public enum GridSizeTypes
-    { 
-        Fill,
-        Fixed
-    }
-
-    public class GridSize
-    {
-        public readonly GridSizeTypes type;
-        public readonly float size;
-
-        public GridSize(GridSizeTypes type, float size)
-        {
-            this.type = type;
-            this.size = size;
-        }
-
-        public static GridSize Fill()
-        {
-            return new GridSize(GridSizeTypes.Fill, 1);
-        }
-
-        public static GridSize Fill(float factor)
-        {
-            return new GridSize(GridSizeTypes.Fill, factor);
-        }
-
-        public static GridSize Fixed(float size)
-        {
-            return new GridSize(GridSizeTypes.Fixed, size);
-        }
-    }
-
-
     public class Grid: Control
     {
         public class GridCellCollection
@@ -83,14 +49,14 @@ namespace Myko.Xna.Ui
             }
         }
 
-        public List<GridSize> Rows { get; private set; }
-        public List<GridSize> Columns { get; private set; }
+        public List<Size> Rows { get; private set; }
+        public List<Size> Columns { get; private set; }
         public GridCellCollection Cells { get; set; }
 
         public Grid()
         {
-            Rows = new List<GridSize>();
-            Columns = new List<GridSize>();
+            Rows = new List<Size>();
+            Columns = new List<Size>();
             Cells = new GridCellCollection(this);
         }
 
@@ -120,31 +86,31 @@ namespace Myko.Xna.Ui
 
         private void DoControlsWithLayout(Vector2 position, GameTime gameTime, Action<Control, Vector2> action)
         {
-            var fixedHeight = Rows.Where(x => x.type == GridSizeTypes.Fixed).Sum(x => x.size);
-            var fillHeight = Height - fixedHeight;
-            if (Rows.Count(x => x.type == GridSizeTypes.Fill) > 0)
-                fillHeight /= Rows.Where(x => x.type == GridSizeTypes.Fill).Sum(x => x.size);
+            var fixedHeight = Rows.Where(x => x.Type == SizeTypes.Fixed).Sum(x => x.Value);
+            var fillHeight = ActualHeight - fixedHeight;
+            if (Rows.Count(x => x.Type == SizeTypes.Fill) > 0)
+                fillHeight /= Rows.Where(x => x.Type == SizeTypes.Fill).Sum(x => x.Value);
 
-            var fixedWidth = Columns.Where(x => x.type == GridSizeTypes.Fixed).Sum(x => x.size);
-            var fillWidth = Width - fixedWidth;
-            if (Columns.Count(x => x.type == GridSizeTypes.Fill) > 0)
-                fillWidth /= Columns.Where(x => x.type == GridSizeTypes.Fill).Sum(x => x.size);
+            var fixedWidth = Columns.Where(x => x.Type == SizeTypes.Fixed).Sum(x => x.Value);
+            var fillWidth = ActualWidth - fixedWidth;
+            if (Columns.Count(x => x.Type == SizeTypes.Fill) > 0)
+                fillWidth /= Columns.Where(x => x.Type == SizeTypes.Fill).Sum(x => x.Value);
 
             float fy = position.Y;
             for (int row = 0; row < Rows.Count; row++)
             {
-                var rowHeight = Rows[row].type == GridSizeTypes.Fixed ? Rows[row].size : fillHeight * Rows[row].size;
+                var rowHeight = Rows[row].Type == SizeTypes.Fixed ? Rows[row].Value : fillHeight * Rows[row].Value;
                 float fx = position.X;
 
                 for (int column = 0; column < Columns.Count; column++)
                 {
-                    var columnWidth = Columns[column].type == GridSizeTypes.Fixed ? Columns[column].size : fillWidth * Columns[column].size;
+                    var columnWidth = Columns[column].Type == SizeTypes.Fixed ? Columns[column].Value : fillWidth * Columns[column].Value;
 
                     foreach (var control in Cells.Controls(row, column))
                     {
                         var controlPosition = new Vector2(
-                            (float)Math.Round(fx + columnWidth / 2f - control.Width / 2f), 
-                            (float)Math.Round(fy + rowHeight / 2f - control.Height / 2f));
+                            (float)Math.Round(fx + columnWidth / 2f - control.ActualWidth / 2f),
+                            (float)Math.Round(fy + rowHeight / 2f - control.ActualHeight / 2f));
                         action(control, controlPosition);
                     }
 

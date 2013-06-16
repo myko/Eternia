@@ -23,12 +23,34 @@ namespace Myko.Xna.Ui
         public Texture2D MouseOverTexture { get; set; }
         public Control Parent { get; set; }
         public Vector2 Position { get; set; }
-        public float Width { get; set; }
-        public float Height { get; set; }
+        public Size Width { get; set; }
+        public Size Height { get; set; }
         public bool IsMouseOver { get; set; }
         public bool IsMouseDown { get; set; }
         public bool IsMouseUp { get; set; }
         public float ZIndex { get; set; }
+
+        public float ActualWidth
+        {
+            get
+            {
+                if (Width.Type == SizeTypes.Fill && Parent != null)
+                    return Width.Value * Parent.ActualWidth;
+
+                return Width.Value;
+            }
+        }
+
+        public float ActualHeight
+        {
+            get
+            {
+                if (Height.Type == SizeTypes.Fill && Parent != null)
+                    return Height.Value * Parent.ActualHeight;
+
+                return Height.Value;
+            }
+        }
 
         public SpriteBatch SpriteBatch 
         {
@@ -122,7 +144,7 @@ namespace Myko.Xna.Ui
 
         public virtual void HandleInput(Vector2 position, GameTime gameTime)
         {
-            var bounds = new Rectangle((int)position.X, (int)position.Y, (int)Width, (int)Height);
+            var bounds = new Rectangle((int)position.X, (int)position.Y, (int)ActualWidth, (int)ActualHeight);
 
             mouseState = Mouse.GetState();
 
@@ -144,7 +166,7 @@ namespace Myko.Xna.Ui
 
         protected void DrawBackground(Vector2 position)
         {
-            var bounds = new Rectangle((int)position.X, (int)position.Y, (int)Width, (int)Height);
+            var bounds = new Rectangle((int)position.X, (int)position.Y, (int)ActualWidth, (int)ActualHeight);
 
             if (BackgroundTexture != null)
                 SpriteBatch.Draw(BackgroundTexture, bounds, Background, ZIndex);

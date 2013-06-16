@@ -34,27 +34,27 @@ namespace EterniaXna.Screens
             smallFont = ContentManager.Load<SpriteFont>(@"Fonts\KootenaySmall");
 
             var grid = new Grid();
-            grid.Width = Width;
-            grid.Height = Height;
-            grid.Rows.Add(GridSize.Fixed(80));
-            grid.Rows.Add(GridSize.Fill());
-            grid.Rows.Add(GridSize.Fixed(60));
-            grid.Rows.Add(GridSize.Fixed(60));
-            grid.Rows.Add(GridSize.Fixed(120));
-            grid.Columns.Add(GridSize.Fill());
-            grid.Columns.Add(GridSize.Fill());
-            grid.Columns.Add(GridSize.Fill());
+            grid.Width = Size.Fill();
+            grid.Height = Size.Fill();
+            grid.Rows.Add(Size.Fixed(60));
+            grid.Rows.Add(Size.Fill());
+            grid.Rows.Add(Size.Fixed(60));
+            grid.Rows.Add(Size.Fixed(60));
+            grid.Rows.Add(Size.Fixed(80));
+            grid.Columns.Add(Size.Fill());
+            grid.Columns.Add(Size.Fill());
+            grid.Columns.Add(Size.Fill());
             Controls.Add(grid);
 
             grid.Cells[0, 1].Add(new Label { Text = Bind(() => currentActor.Name) });
             grid.Cells[1, 0].Add(new Label { Font = smallFont, Foreground = Color.LightGreen, Text = Bind(() => VictoryScreen.GetStatisticsString(currentActor.CurrentStatistics, currentActor.ResourceType, false)) });
 
-            equipmentListBox = AddListBox<Item>(grid.Cells[1, 1], Vector2.Zero, 300, 250);
+            equipmentListBox = AddListBox<Item>(grid.Cells[1, 1], Vector2.Zero, 400, 500);
             equipmentListBox.ZIndex = 0.2f;
             equipmentListBox.Font = smallFont;
             UpdateEquipmentList();
 
-            inventoryListBox = AddListBox<Item>(grid.Cells[1, 2], Vector2.Zero, 300, 250);
+            inventoryListBox = AddListBox<Item>(grid.Cells[1, 2], Vector2.Zero, 400, 500);
             inventoryListBox.ZIndex = 0.2f;
             inventoryListBox.Font = smallFont;
             UpdateInventoryList();

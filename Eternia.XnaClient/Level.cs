@@ -40,8 +40,8 @@ namespace Eternia.XnaClient
                     effect.Projection = projection;
                     effect.FogEnabled = true;
                     effect.FogColor = new Vector3(0.03f, 0.03f, 0.10f);
-                    effect.FogEnd = 60f;
-                    effect.FogStart = 40f;
+                    effect.FogEnd = 80f;
+                    effect.FogStart = 60f;
                 }
                 
                 foreach (var part in mesh.MeshParts)

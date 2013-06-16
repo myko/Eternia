@@ -39,7 +39,7 @@ namespace Myko.Xna.Ui
             {
                 var text = value.ToString();
                 var textSize = container.Font.MeasureString(text);
-                var textPosition = position + new Vector2(container.Width, container.Height) / 2 - textSize / 2;
+                var textPosition = position + new Vector2(container.ActualWidth, container.ActualHeight) / 2 - textSize / 2;
                 container.SpriteBatch.DrawString(container.Font, text, new Vector2((int)textPosition.X, (int)textPosition.Y), container.Foreground, ZIndex);
             }
 
@@ -70,7 +70,7 @@ namespace Myko.Xna.Ui
 
             public void Draw(Vector2 position, GameTime gameTime)
             {
-                container.SpriteBatch.Draw(texture, new Rectangle((int)position.X, (int)position.Y, (int)container.Width, (int)container.Height), Color.White, ZIndex);
+                container.SpriteBatch.Draw(texture, new Rectangle((int)position.X, (int)position.Y, (int)container.ActualWidth, (int)container.ActualHeight), Color.White, ZIndex);
             }
 
             public float ZIndex

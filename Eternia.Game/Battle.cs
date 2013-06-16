@@ -533,7 +533,14 @@ namespace Eternia.Game
                 }
             }
 
-            GraphicEffects.Enqueue(new BillboardDefinition { Position = location, Scale = ability.Area });
+            foreach (var animation in ability.ImpactAnimations)
+            {
+                // TODO: This wont work if the same animation triggers on the same frame
+                animation.Position = actor.Position;
+                animation.Scale = ability.Area;
+                GraphicEffects.Enqueue(animation);
+            }
+
             ability.Cooldown.Incur();
         }
 

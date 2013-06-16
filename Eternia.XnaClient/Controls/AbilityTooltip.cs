@@ -116,10 +116,10 @@ namespace EterniaXna
             if (lines.Any())
             {
                 Height = 20 + (lines.Count + 3) * Font.LineSpacing;
-                Width = Math.Max(Width, Font.MeasureString(ability.Name).X + 20);
-                Width = Math.Max(Width, lines.Select(l => Font.MeasureString(l.Text).X).Max() + 20);
+                Width = Math.Max(ActualWidth, Font.MeasureString(ability.Name).X + 20);
+                Width = Math.Max(ActualWidth, lines.Select(l => Font.MeasureString(l.Text).X).Max() + 20);
 
-                var bounds = new Rectangle((int)position.X, (int)position.Y - (int)Height, (int)Width, (int)Height);
+                var bounds = new Rectangle((int)position.X, (int)position.Y - (int)ActualHeight, (int)ActualWidth, (int)ActualHeight);
                 var innerBounds = bounds;
                 innerBounds.Inflate(-1, -1);
 
@@ -127,14 +127,14 @@ namespace EterniaXna
                 SpriteBatch.Draw(BlankTexture, innerBounds, new Color(20, 20, 20), ZIndex + 0.002f);
 
                 int x = (int)position.X + 10;
-                int y = (int)position.Y - (int)Height + 10;
+                int y = (int)position.Y - (int)ActualHeight + 10;
 
                 SpriteBatch.DrawString(Font, ability.Name, new Vector2(x, y), Color.Yellow, ZIndex + 0.003f);
                 SpriteBatch.DrawString(Font, lines[0].Text, new Vector2(x, y += Font.LineSpacing), lines[0].Color, ZIndex + 0.003f);
                 if (ability.TargettingType != TargettingTypes.Self)
                     SpriteBatch.DrawString(Font, ability.Range.ToString() + " meter range", new Vector2(x, y += Font.LineSpacing), GetRangeColor(actorBinding.GetValue()), ZIndex + 0.003f);
                 else
-                    Height -= Font.LineSpacing;
+                    Height = Height.Value - Font.LineSpacing;
                 SpriteBatch.DrawString(Font, ability.Area.ToString() + " meter area radius", new Vector2(x, y += Font.LineSpacing), Color.White, ZIndex + 0.003f);
 
                 foreach (var line in lines.Skip(1))

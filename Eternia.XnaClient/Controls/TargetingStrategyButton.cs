@@ -33,7 +33,7 @@ namespace EterniaXna
 
         public void Draw(Vector2 position, GameTime gameTime)
         {
-            var bounds = new Rectangle((int)position.X, (int)position.Y, (int)container.Width, (int)container.Height);
+            var bounds = new Rectangle((int)position.X, (int)position.Y, (int)container.ActualWidth, (int)container.ActualHeight);
             if (TargetingStrategy.Value == Actor.TargettingStrategy)
                 container.SpriteBatch.Draw(texture, bounds, Color.Yellow, container.ZIndex + 0.001f);
             else

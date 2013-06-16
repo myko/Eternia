@@ -23,13 +23,13 @@ namespace EterniaXna.Screens
             var grid = new Grid();
             grid.Width = Width;
             grid.Height = Height;
-            grid.Rows.Add(GridSize.Fixed(80));
-            grid.Rows.Add(GridSize.Fill());
-            grid.Rows.Add(GridSize.Fixed(80));
-            grid.Rows.Add(GridSize.Fixed(80));
-            grid.Rows.Add(GridSize.Fixed(80));
-            grid.Rows.Add(GridSize.Fixed(80));
-            grid.Columns.Add(GridSize.Fill());
+            grid.Rows.Add(Size.Fixed(80));
+            grid.Rows.Add(Size.Fill());
+            grid.Rows.Add(Size.Fixed(80));
+            grid.Rows.Add(Size.Fixed(80));
+            grid.Rows.Add(Size.Fixed(80));
+            grid.Rows.Add(Size.Fixed(80));
+            grid.Columns.Add(Size.Fill());
             Controls.Add(grid);
 
             grid.Cells[0, 0].Add(new Label { Text = "Eternia" });

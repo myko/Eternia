@@ -368,11 +368,11 @@
         <Actions>
           <Item Type="Actions:SpawnActor">
             <ActorId>shadowbeast</ActorId>
-            <Position>10 -2</Position>
+            <Position>10 -5</Position>
           </Item>
           <Item Type="Actions:SpawnActor">
             <ActorId>shadowbeast</ActorId>
-            <Position>10 2</Position>
+            <Position>10 5</Position>
           </Item>
         </Actions>
       </Item>

@@ -33,6 +33,9 @@
           <Item Type="Stats:Dodge">
             <Rating>29</Rating>
           </Item>
+          <Item Type="Stats:Precision">
+            <Rating>750</Rating>
+          </Item>
         </BaseStatistics>
         <Abilities>
           <Item>
@@ -133,10 +136,10 @@
             <CastingAnimations />
             <ImpactAnimations />
             <Damage>
-              <Value>50</Value>
+              <Value>250</Value>
               <AttackPowerScale>0</AttackPowerScale>
               <SpellPowerScale>1</SpellPowerScale>
-              <School>Physical</School>
+              <School>Nature</School>
             </Damage>
             <Healing>
               <Value>0</Value>
@@ -150,12 +153,12 @@
               <Duration>15</Duration>
               <Current>0</Current>
             </Cooldown>
-            <Duration>1.5</Duration>
+            <Duration>2</Duration>
             <Range>
               <Minimum>0</Minimum>
               <Maximum>8</Maximum>
             </Range>
-            <Area>8</Area>
+            <Area>6</Area>
             <DamageType>PointBlankArea</DamageType>
             <TargettingType>Hostile</TargettingType>
             <ThreatModifier>1</ThreatModifier>

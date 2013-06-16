@@ -15,7 +15,7 @@ namespace Myko.Xna.Ui
 
         public SoundEffect Sound { get; set; }
 
-        public event Action Click;
+        public Action Click;
 
         public Button()
         {

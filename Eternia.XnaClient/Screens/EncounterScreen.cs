@@ -54,50 +54,7 @@ namespace EterniaXna.Screens
             //targettingStrategyButtons = new List<Button>();
             orderQueueButtons = new List<Button>();
             selectedActors = new List<Actor>();
-        }
 
-        void abilityButton_Click(Button button)
-        {
-            if (button != null)
-            {
-                var abilityButton = button.Content as AbilityButton;
-                if (abilityButton != null)
-                {
-                    var ability = abilityButton.Ability;
-                    var actor = abilityButton.Actor;
-
-                    if (ability.TargettingType == TargettingTypes.Self)
-                        IssueOrder(actor, new Order(ability, actor, actor));
-                    else
-                        isTargetting = abilityButton;
-                }
-            }
-        }
-
-        void orderQueueButton_Click(Button button)
-        {
-            if (button != null)
-            {
-                var abilityButton = button.Content as OrderButton;
-                if (abilityButton != null)
-                {
-                    var order = abilityButton.Order;
-                    abilityButton.Actor.Orders.Remove(order);
-                }
-            }
-        }
-
-        void targettingStrategyButton_Click(Button button)
-        {
-            if (button != null)
-            {
-                var strategyButton = button.Content as TargetingStrategyButton;
-                if (strategyButton != null)
-                {
-                    var actor = strategyButton.Actor;
-                    actor.TargettingStrategy = strategyButton.TargetingStrategy.Value;
-                }
-            }
         }
 
         public override void LoadContent()
@@ -136,18 +93,18 @@ namespace EterniaXna.Screens
             healthBarTexture = ContentManager.Load<Texture2D>(@"Interface\healthbar");
             defaultAbilityTexture = ContentManager.Load<Texture2D>(@"Icons\INV_Misc_QuestionMark");
 
-            var buttonTexture = ContentManager.Load<Texture2D>(@"Interface\button1");
-            var buttonMouseOverTexture = ContentManager.Load<Texture2D>(@"Interface\button1-mouseover");
+            var buttonTexture = ContentManager.Load<Texture2D>(@"Interface\button3");
+            var buttonMouseOverTexture = ContentManager.Load<Texture2D>(@"Interface\button3-mouseover");
 
             var pauseButton = new Button
             {
                 Content = "Unpause",
-                Position = new Vector2(Width / 2 - 220, 4),
+                Position = new Vector2(ActualWidth / 2 - 220, 4),
                 Background = new Color(230, 140, 60),
                 BackgroundTexture = buttonTexture,
                 MouseOverTexture = buttonMouseOverTexture,
-                Width = 150,
-                Height = 40,
+                Width = 200,
+                Height = 60,
                 ZIndex = 0.1f,
             };
             pauseButton.Click += () => pauseButton_Click(pauseButton);
@@ -156,21 +113,35 @@ namespace EterniaXna.Screens
             var benchButton = new Button
             {
                 Content = "Benchmark",
-                Position = new Vector2(Width / 2 + 20, 4),
+                Position = new Vector2(ActualWidth / 2 + 20, 4),
                 Background = new Color(230, 140, 60),
                 BackgroundTexture = buttonTexture,
                 MouseOverTexture = buttonMouseOverTexture,
-                Width = 150,
-                Height = 40,
+                Width = 200,
+                Height = 60,
                 ZIndex = 0.1f,
             };
             benchButton.Click += () => isBenchmarking = !isBenchmarking;
             //Controls.Add(benchButton);
 
+            var priorityQueueButton = new Button
+            {
+                Content = "Priority",
+                Position = new Vector2(ActualWidth / 4 - 20, ActualHeight - 85),
+                Background = new Color(230, 140, 60),
+                BackgroundTexture = buttonTexture,
+                MouseOverTexture = buttonMouseOverTexture,
+                Width = 200,
+                Height = 60,
+                ZIndex = 0.1f,
+            };
+            priorityQueueButton.Click += priorityButton_Click;
+            Controls.Add(priorityQueueButton);
+
             for (int i = 0; i < 10; i++)
             {
                 var abilityButton = new Button();
-                abilityButton.Position = new Vector2((Width / 2) - 300 + i * 40, Height - 80);
+                abilityButton.Position = new Vector2((ActualWidth / 2) - 300 + i * 40, ActualHeight - 80);
                 abilityButton.Width = 32;
                 abilityButton.Height = 32;
                 abilityButton.Background = Color.Transparent;
@@ -182,7 +153,7 @@ namespace EterniaXna.Screens
             for (int i = 0; i < 10; i++)
             {
                 var orderQueueButton = new Button();
-                orderQueueButton.Position = new Vector2((Width / 2) - 300 + i * 65, Height - 125);
+                orderQueueButton.Position = new Vector2((ActualWidth / 2) - 300 + i * 65, ActualHeight - 125);
                 orderQueueButton.Width = 32;
                 orderQueueButton.Height = 32;
                 orderQueueButton.Background = Color.Transparent;
@@ -204,6 +175,51 @@ namespace EterniaXna.Screens
             //}
 
             base.LoadContent();
+        }
+
+
+        private void abilityButton_Click(Button button)
+        {
+            if (button != null)
+            {
+                var abilityButton = button.Content as AbilityButton;
+                if (abilityButton != null)
+                {
+                    var ability = abilityButton.Ability;
+                    var actor = abilityButton.Actor;
+
+                    if (ability.TargettingType == TargettingTypes.Self)
+                        IssueOrder(actor, new Order(ability, actor, actor));
+                    else
+                        isTargetting = abilityButton;
+                }
+            }
+        }
+
+        private void orderQueueButton_Click(Button button)
+        {
+            if (button != null)
+            {
+                var abilityButton = button.Content as OrderButton;
+                if (abilityButton != null)
+                {
+                    var order = abilityButton.Order;
+                    abilityButton.Actor.Orders.Remove(order);
+                }
+            }
+        }
+
+        private void targettingStrategyButton_Click(Button button)
+        {
+            if (button != null)
+            {
+                var strategyButton = button.Content as TargetingStrategyButton;
+                if (strategyButton != null)
+                {
+                    var actor = strategyButton.Actor;
+                    actor.TargettingStrategy = strategyButton.TargetingStrategy.Value;
+                }
+            }
         }
 
         // TODO: This is map specific
@@ -603,8 +619,8 @@ namespace EterniaXna.Screens
                 scene.DrawBillboard(new Vector3(position.X, 0.05f, position.Y), ContentManager.Load<Texture2D>(@"Interface\circlearea"), isTargetting.Ability.Area);
             }
 
-            SpriteBatch.DrawString(Font, scene.CountNodes().ToString(), new Vector2(Width - 50, Height - Font.LineSpacing * 2), Color.White);
-            SpriteBatch.DrawString(Font, fps.ToString("0"), new Vector2(Width - 50, Height - Font.LineSpacing), Color.White);
+            SpriteBatch.DrawString(Font, scene.CountNodes().ToString(), new Vector2(ActualWidth - 50, ActualHeight - Font.LineSpacing * 2), Color.White);
+            SpriteBatch.DrawString(Font, fps.ToString("0"), new Vector2(ActualWidth - 50, ActualHeight - Font.LineSpacing), Color.White);
             fps = (float)((fps + (1000.0 / gameTime.ElapsedGameTime.TotalMilliseconds)) / 2.0);
         }
 
@@ -683,7 +699,7 @@ namespace EterniaXna.Screens
                 for (int i = 0; i < selectedActor.ThreatList.Count; i++)
                 {
                     var threat = selectedActor.ThreatList[i];
-                    SpriteBatch.DrawString(kootenaySmallFont, threat.Value.ToString() + " " + threat.Actor.Name, new Vector2(Width - 300, Height - 200 + i * 15), Color.White);
+                    SpriteBatch.DrawString(kootenaySmallFont, threat.Value.ToString() + " " + threat.Actor.Name, new Vector2(ActualWidth - 300, ActualHeight - 200 + i * 15), Color.White);
                 }
             }
         }
@@ -696,14 +712,14 @@ namespace EterniaXna.Screens
                 for (int i = 0; i < selectedActor.Auras.Count; i++)
                 {
                     var aura = selectedActor.Auras[i];
-                    SpriteBatch.DrawString(kootenaySmallFont, string.Format("{0} {1:0}", aura.Name, aura.Duration), new Vector2(Width - 450, Height - 200 + i * 15), Color.White);
+                    SpriteBatch.DrawString(kootenaySmallFont, string.Format("{0} {1:0}", aura.Name, aura.Duration), new Vector2(ActualWidth - 450, ActualHeight - 200 + i * 15), Color.White);
                 }
             }
         }
 
         private void DrawCombatLog()
         {
-            float y = Height - 15;
+            float y = ActualHeight - 15;
             foreach (var ev in turns.SelectMany(t => t.Events).Reverse().Take(10))
             {
                 SpriteBatch.DrawString(kootenaySmallFont, ev.ToString(), new Vector2(0, y), Color.White);
@@ -758,8 +774,8 @@ namespace EterniaXna.Screens
                     {
                         var abilityTextureFileName = @"Icons\" + actor.CurrentOrder.Ability.TextureName;
                         var abilityTexture = ContentManager.SafeLoad<Texture2D>(abilityTextureFileName, defaultAbilityTexture);
-                        SpriteBatch.Draw(abilityTexture, new Rectangle((int)Width / 2 - 25, (int)Height - 200, 50, 50), Color.White);
-                        DrawHealthBar((int)Width / 2 - 100, (int)Height - 140, 200, 10, (actor.CastingProgress.Duration - actor.CastingProgress.Current) / actor.CastingProgress.Duration, Color.Goldenrod);
+                        SpriteBatch.Draw(abilityTexture, new Rectangle((int)ActualWidth / 2 - 25, (int)ActualHeight - 200, 50, 50), Color.White);
+                        DrawHealthBar((int)ActualWidth / 2 - 100, (int)ActualHeight - 140, 200, 10, (actor.CastingProgress.Duration - actor.CastingProgress.Current) / actor.CastingProgress.Duration, Color.Goldenrod);
                     }
                 }
                 SpriteBatch.DrawString(kootenaySmallFont, actor.CurrentHealth.ToString("0") + "/" + actor.MaximumHealth.ToString("0"), new Vector2(55, 25 + i * 50), Color.White, ZIndex + 0.003f);
@@ -780,6 +796,25 @@ namespace EterniaXna.Screens
         {
             isPaused = !isPaused;
             pauseButton.Content = isPaused ? "Unpause" : "Pause";
+        }
+
+        private void priorityButton_Click()
+        {
+            var window = new Window
+            {
+                Background = Color.Blue,
+                Position = new Vector2(100, 100),
+                Width = 400,
+                Height = 300,
+                Title = "Priority Queue",
+            };
+            window.Controls.Add(new Button
+            {
+                Content = "Close",
+                Click = () => Controls.Remove(window),
+            });
+
+            Controls.Add(window);
         }
     }
 }

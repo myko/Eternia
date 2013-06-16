@@ -43,11 +43,11 @@ namespace EterniaXna.Screens
             var grid = new Grid(); 
             grid.Width = Width;
             grid.Height = Height;
-            grid.Rows.Add(GridSize.Fixed(80));
-            grid.Rows.Add(GridSize.Fill(2));
-            grid.Rows.Add(GridSize.Fill());
-            grid.Rows.Add(GridSize.Fixed(80));
-            grid.Columns.Add(GridSize.Fill());
+            grid.Rows.Add(Size.Fixed(80));
+            grid.Rows.Add(Size.Fill(2));
+            grid.Rows.Add(Size.Fill());
+            grid.Rows.Add(Size.Fixed(80));
+            grid.Columns.Add(Size.Fill());
             Controls.Add(grid);
 
             grid.Cells[0, 0].Add(new Label { Text = "Victory!" });
@@ -79,7 +79,7 @@ namespace EterniaXna.Screens
             {
                 var duration = events.Last().TimeStamp - events.First().TimeStamp;
 
-                float y = Height - 200;
+                float y = ActualHeight - 200;
                 foreach (var actorEvents in events.GroupBy(x => x.Actor))
                 {
                     var abilitySwings = actorEvents.Where(x => x.Type == EventTypes.Ability);
@@ -148,7 +148,7 @@ namespace EterniaXna.Screens
             var writer = new StreamWriter(stream);
 
             // Convert the object to XML data and put it in the stream
-            var json = Newtonsoft.Json.JsonConvert.SerializeObject(player, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(player, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All, PreserveReferencesHandling = PreserveReferencesHandling.All });
             writer.Write(json);
 
             // Close the file
